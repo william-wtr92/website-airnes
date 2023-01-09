@@ -3,15 +3,15 @@ import { Carousel } from 'react-responsive-carousel';
 
 const CarouselMain = () => {
   return (
-    <Carousel className="mx-20 my-10" showThumbs={false} showArrows={false} showStatus={false} centerMode centerSlidePercentage={100} >
+    <Carousel className="Carousel mx-20 my-10" showThumbs={false} showArrows={false} showStatus={false} centerMode centerSlidePercentage={100} >
       <div>
-        <img src="/images/meuble2.jpg" alt="meuble" style={{ height: "500px"}}/>
+        <img src="/images/meuble2.jpg" alt="meuble"/>
       </div>
       <div>
-        <img src="/images/meuble2.jpg" alt="meuble" style={{ height: "500px"}}/>
+        <img src="/images/meuble2.jpg" alt="meuble"/>
       </div>
       <div>
-        <img src="/images/meuble2.jpg" alt="meuble" style={{ height: "500px"}}/>
+        <img src="/images/meuble2.jpg" alt="meuble"/>
       </div>
     </Carousel>
   )

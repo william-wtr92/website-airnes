@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.Carousel img{
+  height: 500px;
+}
+
+@media (max-width: 850px) {
+  .Carousel {
+    margin-left:10px;
+    margin-right: 10px;
+    margin-top: 50px;
+    height: 100px;
+  }
+
+  .Carousel img {
+    width: 100%;
+    height: 250px;
+  }
+}
