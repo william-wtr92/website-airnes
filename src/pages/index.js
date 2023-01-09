@@ -1,12 +1,14 @@
 import NavMenu from "@/components/NavMenu"
 import FooterMenu from "@/components/FooterMenu"
-import Carousel from "@/components/Carousel"
+import CarouselMain from "@/components/Carousel"
 
 const Main = () => {
   return (
     <>
       <NavMenu />
-      <Carousel />
+      <main>
+        <CarouselMain />
+      </main>
       <FooterMenu />
     </>
   )
