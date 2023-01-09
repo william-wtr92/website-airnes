@@ -9,7 +9,7 @@ const NavMenu = () => {
           <NavLink href="/"><img src="/images/logo.png" alt="My logo" className="h-6 ml-4"/></NavLink>
         </div>
         <div className="flex mt-2 gap-6">
-          <NavLink href="/"><UserIcon className="h-6 hover:scale-110 hover:text-[#97c186]" color={"#fff"} /></NavLink>
+          <NavLink href="/user/login"><UserIcon className="h-6 hover:scale-110 hover:text-[#97c186]" color={"#fff"} /></NavLink>
           <NavLink href="/"><MagnifyingGlassIcon className="h-6 hover:scale-110 hover:text-[#97c186]" color={"#fff"}/></NavLink>
           <NavLink href="/"><ShoppingCartIcon className="h-6 hover:scale-110 hover:text-[#97c186]" color={"#fff"} /></NavLink>
         </div>

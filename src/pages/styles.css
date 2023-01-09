@@ -37,5 +37,26 @@ body {
     font-size: 14px;
   }
 
+  .LoginForm {
+    position: absolute;
+    left: 15%;
+    right: 55%;
+  }
+
+  .LoginInput {
+    width: 220%;
+  }
+
+  .LoginButton{
+    position: relative;
+    left: 30px;
+    white-space: nowrap;
+  }
+
+  .LoginText {
+    position: relative;
+    right: 58px;
+    white-space: nowrap;
+  }
 }
 
