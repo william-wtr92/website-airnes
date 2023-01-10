@@ -32,29 +32,29 @@ const LoginForm = (props) => {
       <Formik onSubmit={onSubmit} initialValues={initialValues} validationSchema={validationSchema}>
         {({ values }) => (
 
-      <div className="LoginForm absolute right-[50%] top-[30%]">
-          <Form className="flex flex-col">
-            <Formfield type="email"name="mail" placeholder="Entrez votre e-mail" label="E-mail" className="LoginInput w-[160%]"/>
-            <Formfield type="password" name="pwd" placeholder="Entrez votre mot de passe" label="Mot de passe" className="LoginInput w-[160%]" />
-            <div className="flex flex-row gap-6 relative left-16 my-4">
-              <div className="LoginText hover:text-[#709861]">
-                <NavLink href="/user/lostpwd">Mot de passe oublié?</NavLink>
+        <div className="Login flex justify-center items-center">
+          <div className="LoginForm w-1/3">
+            <Form className="flex flex-col">
+              <Formfield type="email" name="mail" placeholder="Entrez votre e-mail" label="E-mail" className="LoginInput mb-2"/>
+              <Formfield type="password" name="pwd" placeholder="Entrez votre mot de passe" label="Mot de passe" className="LoginInput mb-2" />
+              <div className="flex justify-center gap-4 my-4">
+                <div className="LoginText hover:text-[#64cb3f]">
+                  <NavLink href="/user/lostpwd">Mot de passe oublié?</NavLink>
+                </div>
+                <div className="LoginText hover:text-[#64cb3f]">
+                  <NavLink href="/user/sigin">Inscrivez vous</NavLink>
+                </div>
               </div>
-              <div className="LoginText hover:text-[#709861]">
-                <NavLink href="/user/sigin">Inscrivez vous</NavLink>
-              </div>
-            </div>
-            <div>
-              <button type="submit" className={`LoginButton relative left-20 mt-4 py-3 px-10 bg-[#709861] rounded-sm text-white font-semibold ${values.pwd === '' ? 'bg-gray-400 cursor-not-allowed' : ''}`} disabled={values.pwd === ''}>
+              <div className="LoginButton text-center mt-2">
+                <button type="submit" className={`bg-[#709861] text-white py-2 px-4 rounded ${values.pwd === '' ? 'bg-gray-400 cursor-not-allowed' : ''}`} disabled={values.pwd === ''}>
                   SE CONNECTER
-              </button>
-            </div>
-          </Form>    
-       </div>  
-  
+                </button>
+              </div>
+            </Form>
+          </div>
+        </div>
       )}
       </Formik>
-
       <FooterMenu />
     </>
    

@@ -18,7 +18,7 @@ const Main = () => {
       <NavMenu />
       <main>
         <CarouselMain />
-        <div className="MainText flex flex-col text-xl font-bold items-center justify-center cursor-pointer">
+        <div className="MainText flex flex-col text-xl font-bold items-center justify-center cursor-pointer py-6">
           <p>VENANT DES HAUTES TERRES D’ECOSSE NOS</p>
           <p>MEUBLES SONT IMMORTELS</p>
         </div>

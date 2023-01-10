@@ -18,7 +18,7 @@ const FormField = (props) => {
           />
           {meta.touched && meta.error ? (
             <span className="text-sm text-red-600 flex gap-2 items-center">
-              <ExclamationTriangleIcon className="w-6" /> {meta.error}
+              <ExclamationTriangleIcon className="w-6" /> Ce champ est requis
             </span>
           ) : null}
         </label>

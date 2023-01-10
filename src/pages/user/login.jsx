@@ -2,7 +2,11 @@ import LoginForm from "@/components/LoginForm"
 
 const OnLoginForm = () => {
   return (
-    <LoginForm />
+    <>
+      <main>
+        <LoginForm />
+      </main>
+    </>
   )
 }
 
