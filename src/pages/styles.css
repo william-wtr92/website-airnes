@@ -83,3 +83,9 @@ body {
   }
 }
 
+@media only screen and (max-width: 600px) {
+  .Hide {
+    display: none;
+  }
+}
+
