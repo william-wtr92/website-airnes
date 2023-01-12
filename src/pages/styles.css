@@ -20,39 +20,13 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
-.Carousel img{
-  height: 500px;
-}
-
 .Login{
   height: 89.3vh;
 }
 
-/* Responsive */ 
+/* To Tailwind Breakpoints */ 
 
 @media (max-width: 600px) {
-
-  .Footermenu{
-    position: absolute;
-    bottom: 0;
-  }
-
-  .FooterText {
-    padding-right: 10px;
-  }
-  
-  .FooterLink {
-    margin-right: 10px;
-  }
-
-  .MainText {
-    margin-top: 170px;
-    font-size: 14px;
-  }
-
-  .Login {
-    height: 90.6vh;
-  }
 
   .LoginForm {
     position: absolute;
