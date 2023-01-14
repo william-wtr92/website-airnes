@@ -4,6 +4,7 @@ import Formfield from "./FormField";
 import { NavLink } from "./NavLink";
 import NavMenu from "./NavMenu";
 import FooterMenu from "./FooterMenu";
+import Button from "@/components/Button";
 
 
 const defaultValidationSchema = yup.object().shape({
@@ -46,9 +47,9 @@ const LoginForm = (props) => {
                 </div>
               </div>
               <div className="LoginButton text-center mt-2">
-                <button type="submit" className={`bg-[#709861] text-white py-2 px-4 rounded ${values.pwd === '' ? 'bg-gray-400 cursor-not-allowed' : ''}`} disabled={values.pwd === ''}>
+                <Button type="submit" className={`bg-[#709861] text-white py-2 px-4 rounded ${values.pwd === '' ? 'bg-gray-400 cursor-not-allowed' : ''}`} disabled={values.pwd === ''}>
                   SE CONNECTER
-                </button>
+                </Button>
               </div>
             </Form>
           </div>
