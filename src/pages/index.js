@@ -12,10 +12,7 @@ const Main = () => {
           href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
           rel="stylesheet"
         />
-        <title>Airnes</title>
       </Head>
-      <NavMenu />
-      <FooterMenu />
     </>
   )
 }
