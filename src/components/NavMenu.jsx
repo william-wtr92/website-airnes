@@ -12,6 +12,7 @@ const NavMenu = () => {
   const [showSearch, setShowSearch] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const isMobile = useMediaQuery({ query: "(max-width: 600px)" })
+  const [burgerMenu, setBurgerMenu] = useState(false)
 
   const handleSearch = () => {
     !showSearch ? setShowSearch(true) : setShowSearch(false)
@@ -19,6 +20,10 @@ const NavMenu = () => {
 
   const handleChange = (e) => {
     setSearchTerm(e.target.value)
+  }
+
+  const showBurgerMenu = () => {
+    !burgerMenu ? setBurgerMenu(true) : setBurgerMenu(false)
   }
 
   return (
@@ -73,7 +78,6 @@ const NavMenu = () => {
               />
             </div>
           )}
-
           <NavLink href="/">
             <ShoppingCartIcon
               className={`${
@@ -84,13 +88,24 @@ const NavMenu = () => {
           </NavLink>
         </div>
         <div className="mt-2 ml-10 mr-4">
-          <NavLink href="/">
             <Bars3Icon
+              onClick={showBurgerMenu}
               className={`${
                 showSearch && isMobile ? `Hide` : ``
               }h-6 hover:scale-110 hover:text-[#97c186]`}
               color={"#fff"}
             />
+        </div>
+        <div className={`${burgerMenu ? `block ` : `hidden `}w-1/6 h-screen bg-[#646E4E] absolute inset-y-0 right-0 -z-50`}>
+          <NavLink href="/user/login">
+            <div className="hover:text-[#97c186] p-10 h-10 hover:scale-110">
+              Login
+            </div>
+          </NavLink>
+          <NavLink href="/">
+            <div className="hover:text-[#97c186] p-10 h-10 hover:scale-110">
+              Home
+            </div>
           </NavLink>
         </div>
       </div>
