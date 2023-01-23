@@ -1,3 +1,4 @@
+import FooterMenu from "@/components/FooterMenu"
 import LoginForm from "@/components/LoginForm"
 
 const OnLoginForm = () => {
@@ -6,6 +7,7 @@ const OnLoginForm = () => {
       <main>
         <LoginForm />
       </main>
+      <FooterMenu position="absolute" />
     </>
   )
 }

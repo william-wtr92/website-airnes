@@ -28,48 +28,36 @@ const LoginForm = (props) => {
         initialValues={initialValues}
         validationSchema={validationSchema}
       >
-        {({ values }) => (
-          <div className="flex justify-center items-center">
-            <div className="w-1/3">
-              <Form className="flex flex-col">
-                <Formfield
-                  type="email"
-                  name="mail"
-                  placeholder="Entrez votre e-mail"
-                  label="E-mail"
-                  className="mb-2"
-                />
-                <Formfield
-                  type="password"
-                  name="pwd"
-                  placeholder="Entrez votre mot de passe"
-                  label="Mot de passe"
-                  className="mb-2"
-                />
-                <div className="flex justify-center gap-4 my-4">
-                  <div className="hover:text-[#64cb3f]">
-                    <NavLink href="/user/lostpwd">Mot de passe oublié?</NavLink>
-                  </div>
-                  <div className="hover:text-[#64cb3f]">
-                    <NavLink href="/user/sigin">Inscrivez vous</NavLink>
-                  </div>
-                </div>
-
-                <div className="text-center mt-2">
-                  <Button
-                    type="submit"
-                    className={`bg-[#709861] text-white py-2 px-4 rounded ${
-                      values.pwd === "" ? "bg-gray-400 cursor-not-allowed" : ""
-                    }`}
-                    disabled={values.pwd === ""}
-                  >
-                    SE CONNECTER
-                  </Button>
-                </div>
-              </Form>
+        <div className="flex justify-center py-16 px-10 shadow-2xl shadow-[#615043] lg:w-[600px] lg:mx-auto lg:rounded-md lg:mt-32">
+          <Form className="flex flex-col">
+            <Formfield
+              type="email"
+              name="mail"
+              placeholder="Entrez votre e-mail"
+              label="E-mail"
+              className="mb-2"
+            />
+            <Formfield
+              type="password"
+              name="pwd"
+              placeholder="Entrez votre mot de passe"
+              label="Mot de passe"
+              className="mb-2"
+            />
+            <div className="flex justify-center gap-4 my-4">
+              <div className="hover:text-[#615043]">
+                <NavLink href="/user/lostpwd">Mot de passe oublié?</NavLink>
+              </div>
+              <div className="hover:text-[#615043]">
+                <NavLink href="/user/sigin">Inscrivez vous</NavLink>
+              </div>
             </div>
-          </div>
-        )}
+
+            <div className="mt-2">
+              <Button>SE CONNECTER</Button>
+            </div>
+          </Form>
+        </div>
       </Formik>
     </>
   )

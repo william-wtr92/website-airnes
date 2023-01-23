@@ -1,4 +1,3 @@
-import FooterMenu from "@/components/FooterMenu"
 import NavMenu from "@/components/NavMenu"
 import Head from "next/head"
 import "./styles.css"
@@ -11,7 +10,6 @@ const App = ({ Component, pageProps }) => {
       </Head>
       <NavMenu />
       <Component {...pageProps} />
-      <FooterMenu />
     </>
   )
 }

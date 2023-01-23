@@ -1,9 +1,9 @@
-import classNames from "classnames";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
-import { Field } from "formik";
+import classNames from "classnames"
+import { ExclamationTriangleIcon } from "@heroicons/react/24/solid"
+import { Field } from "formik"
 
 const FormField = (props) => {
-  const { name, label, className, placeholder, ...otherProps } = props;
+  const { name, label, className, placeholder, ...otherProps } = props
 
   return (
     <Field name={name}>
@@ -12,8 +12,8 @@ const FormField = (props) => {
           <span className="text-md font-semibold">{label}</span>
           <input
             {...field}
-            {... otherProps}
-            className="border-2 rounded-sm border-gray-400 px-2 py-1 cursor-pointer"
+            {...otherProps}
+            className="border-2 rounded-md border-gray-400 px-10 py-1 cursor-pointer"
             placeholder={placeholder ?? label}
           />
           {meta.touched && meta.error ? (
@@ -24,7 +24,7 @@ const FormField = (props) => {
         </label>
       )}
     </Field>
-  );
-};
+  )
+}
 
-export default FormField;
+export default FormField
