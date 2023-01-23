@@ -4,7 +4,7 @@ import { Carousel } from "react-responsive-carousel"
 const CarouselMain = () => {
   return (
     <Carousel
-      className="mx-20 my-10 hover:cursor-pointer"
+      className="mx-5 my-10 hover:cursor-pointer lg:mx-20"
       showThumbs={false}
       showArrows={false}
       showStatus={false}

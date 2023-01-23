@@ -10,9 +10,11 @@ const FooterMenu = () => {
   return (
     <footer>
       <div className="flex bg-[#ffffff] text-[#615043] h-14 border-t-2 border-[#615043] shadow-2xl relative bottom-0 w-full">
-        <div className="flex ml-10 items-center gap-10 font-semibold">
+        <div className="flex ml-2 items-center gap-2 font-semibold lg:ml-10 lg:gap-10">
           <NavLink href="/">
-            <div className="hover:text-[#b3825c] hover:scale-110">CGU</div>
+            <div className="text-sm hover:text-[#b3825c] hover:scale-110">
+              CGU
+            </div>
           </NavLink>
           <NavLink href="/">
             <div className="hover:text-[#b3825c] hover:scale-110">
@@ -24,7 +26,7 @@ const FooterMenu = () => {
           </NavLink>
         </div>
 
-        <div className="flex items-center ml-auto mr-16 gap-10">
+        <div className="flex items-center gap-4 ml-auto mr-5 lg:mr-16 lg:gap-10">
           <NavLink href="/">
             <FontAwesomeIcon
               icon={faLinkedin}

@@ -29,7 +29,7 @@ const NavMenu = () => {
   return (
     <header>
       <div className="flex bg-[#ffffff] h-14 border-b-2 items-center">
-        <div className="flex mr-auto ml-10">
+        <div className="flex mr-auto ml-2 lg:ml-10">
           <NavLink href="/">
             {/* <img
               src="/images/logo.png"
@@ -39,7 +39,7 @@ const NavMenu = () => {
             NEW AIRNES LOGO !!
           </NavLink>
         </div>
-        <div className="flex gap-6">
+        <div className="flex gap-2 lg:gap-6">
           <NavLink href="/user/login">
             <UserIcon
               className={`${
@@ -54,14 +54,12 @@ const NavMenu = () => {
               <div className="flex items-center">
                 <MagnifyingGlassIcon
                   onClick={handleSearch}
-                  className={`h-4 hover:scale-110 text-[#443021] relative left-1 top-px cursor-pointer ${
-                    isMobile ? `left-[20px]` : ``
-                  }`}
+                  className="h-4 hover:scale-110 text-[#443021] relative top-px cursor-pointer left-12 z-20 lg:left-1"
                   color={"#615043"}
                 />
                 <input
                   className={`px-6 rounded-lg border bg-transparent focus:outline-none focus:shadow-outline-blue text-white placeholder-[#443021] -ml-4 focus:border-white ${
-                    isMobile ? `-ml-10 relative left-16` : ``
+                    isMobile ? `relative left-10 z-10` : ``
                   }`}
                   type="search"
                   placeholder="Rechercher"
@@ -88,7 +86,7 @@ const NavMenu = () => {
             />
           </NavLink>
         </div>
-        <div className="ml-10 mr-4">
+        <div className="ml-6 mr-4 lg:ml-10">
           <Bars3Icon
             onClick={showBurgerMenu}
             className={`${

@@ -11,4 +11,6 @@
   height: 0;
 }
 
-
+::-webkit-search-cancel-button {
+  display: none;
+}

@@ -16,7 +16,7 @@ const Main = () => {
       <main>
         <Carousel />
 
-        <div className="MainText flex flex-col text-xl font-bold items-center cursor-pointer py-6">
+        <div className="MainText flex flex-col text-sm font-bold items-center cursor-pointer py-6 lg:text-xl">
           <p>VENANT DES HAUTES TERRES D’ECOSSE NOS</p>
           <p>MEUBLES SONT IMMORTELS</p>
         </div>
