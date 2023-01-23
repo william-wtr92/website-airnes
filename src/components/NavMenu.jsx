@@ -27,7 +27,7 @@ const NavMenu = () => {
   }
 
   return (
-    <header>
+    <header className="bg-[#ffffff] sticky top-0 z-20">
       <div className="flex bg-[#ffffff] h-14 border-b-2 items-center">
         <div className="flex mr-auto ml-2 lg:ml-10">
           <NavLink href="/">
