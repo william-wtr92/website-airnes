@@ -9,21 +9,22 @@ import {
 const FooterMenu = () => {
   return (
     <footer>
-      <div className="flex bg-[#709861] h-10 justify-start absolute bottom-0 w-full sm:absolute sm:bottom-0">
-        <div className="flex mr-auto ml-4 mt-2 gap-4 text-white font-ligth">
+      <div className="flex bg-[#ffffff] text-[#615043] h-14 border-t-2 border-[#615043] shadow-2xl relative bottom-0 w-full">
+        <div className="flex ml-10 items-center gap-10 font-semibold">
           <NavLink href="/">
-            <div className="hover:text-[#97c186] hover:scale-110">CGU</div>
+            <div className="hover:text-[#b3825c] hover:scale-110">CGU</div>
           </NavLink>
           <NavLink href="/">
-            <div className="hover:text-[#97c186] hover:scale-110">
+            <div className="hover:text-[#b3825c] hover:scale-110">
               Mentions légales
             </div>
           </NavLink>
           <NavLink href="/">
-            <div className="hover:text-[#97c186] hover:scale-110">Contact</div>
+            <div className="hover:text-[#b3825c] hover:scale-110">Contact</div>
           </NavLink>
         </div>
-        <div className="flex gap-6 mr-10 mt-2">
+
+        <div className="flex items-center ml-auto mr-16 gap-10">
           <NavLink href="/">
             <FontAwesomeIcon
               icon={faLinkedin}

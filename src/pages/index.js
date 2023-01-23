@@ -1,6 +1,6 @@
-import NavMenu from "@/components/NavMenu"
-import FooterMenu from "@/components/FooterMenu"
 import Head from "next/head"
+import Carousel from "@/components/Carousel"
+import Categories from "@/components/Categories"
 
 const Main = () => {
   return (
@@ -12,10 +12,17 @@ const Main = () => {
           href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
           rel="stylesheet"
         />
-        <title>Airnes</title>
       </Head>
-      <NavMenu />
-      <FooterMenu />
+      <main>
+        <Carousel />
+
+        <div className="MainText flex flex-col text-xl font-bold items-center cursor-pointer py-6">
+          <p>VENANT DES HAUTES TERRES D’ECOSSE NOS</p>
+          <p>MEUBLES SONT IMMORTELS</p>
+        </div>
+
+        <Categories />
+      </main>
     </>
   )
 }
