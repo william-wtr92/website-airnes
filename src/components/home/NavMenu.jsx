@@ -1,4 +1,4 @@
-import { NavLink } from "./NavLink"
+import { NavLink } from "../utils/NavLink"
 import {
   ShoppingCartIcon,
   UserIcon,
@@ -28,7 +28,7 @@ const NavMenu = () => {
 
   return (
     <header className="bg-[#ffffff] sticky top-0 z-20">
-      <div className="flex bg-[#ffffff] h-14 border-b-2 items-center shadow-xl shadow-[#615043]">
+      <div className="flex h-14 border-b-2 items-center shadow-xl shadow-[#615043]">
         <div className="flex mr-auto ml-2 lg:ml-10">
           <NavLink href="/">
             {/* <img
