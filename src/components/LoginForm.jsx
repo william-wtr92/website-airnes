@@ -28,7 +28,7 @@ const LoginForm = (props) => {
         initialValues={initialValues}
         validationSchema={validationSchema}
       >
-        <div className="flex justify-center py-16 px-10 shadow-2xl shadow-[#615043] lg:w-[600px] lg:mx-auto lg:rounded-md lg:mt-32">
+        <div className="flex justify-center mx-6 mt-20 py-10 px-10 shadow-2xl shadow-[#615043] lg:w-[600px] lg:py-16 lg:mx-auto lg:rounded-md lg:mt-32">
           <Form className="flex flex-col">
             <Formfield
               type="email"
