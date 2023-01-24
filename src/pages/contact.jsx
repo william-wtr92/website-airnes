@@ -1,5 +1,5 @@
-import Button from "@/components/Button"
-import FormField from "@/components/FormField"
+import Button from "@/components/home/Button"
+import FormField from "@/components/home/FormField"
 import {
   contactInitialValues,
   contactValidationSchema,

@@ -1,5 +1,5 @@
-import FooterMenu from "@/components/FooterMenu"
-import LoginForm from "@/components/LoginForm"
+import FooterMenu from "@/components/home/FooterMenu"
+import LoginForm from "@/components/utils/LoginForm"
 
 const OnLoginForm = () => {
   return (

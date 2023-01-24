@@ -1,8 +1,8 @@
 import * as yup from "yup"
 import { Form, Formik } from "formik"
-import Formfield from "./FormField"
-import { NavLink } from "./NavLink"
-import Button from "@/components/Button"
+import Formfield from "../home/FormField"
+import { NavLink } from "../home/NavLink"
+import Button from "@/components/home/Button"
 
 const defaultValidationSchema = yup.object().shape({
   mail: yup.string().required().label("mail"),
