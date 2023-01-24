@@ -1,5 +1,5 @@
 import FooterMenu from "@/components/home/FooterMenu"
-import OrderView from "@/components/user/OrderView"
+import OrderView from "@/components/user/OrdersView"
 
 const UserOrderView = () => {
   return (
