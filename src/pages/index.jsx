@@ -1,4 +1,3 @@
-import Head from "next/head"
 import Carousel from "@/components/utils/Carousel"
 import Categories from "@/components/home/Categories"
 import FooterMenu from "@/components/home/FooterMenu"
@@ -6,14 +5,6 @@ import FooterMenu from "@/components/home/FooterMenu"
 const Main = () => {
   return (
     <>
-      <Head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
       <main>
         <Carousel />
 
