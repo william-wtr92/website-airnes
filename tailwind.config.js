@@ -1,4 +1,6 @@
-/** @type {import('tailwindcss').Config} */
+/** @type {DefaultColors} */
+const colors = require("tailwindcss/colors")
+
 module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
@@ -14,11 +16,16 @@ module.exports = {
       sans: ["Roboto", "sans-serif"],
     },
     colors: {
-      primary: "#709861",
-      lightGreen: "#C8DBBE",
-      darkGreen: "#646E4E",
-      lightBrown: "#EDE4E0",
-      darkBrown: "#615043",
+      // Importing useful default colors
+      black: colors.black,
+      white: colors.white,
+      gray: colors.gray,
+      blue: colors.blue,
+      // Custom colors
+      primary: {
+        DEFAULT: "#615043",
+        light: "#927864"
+      },
     },
   },
   plugins: [],
