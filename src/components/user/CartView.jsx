@@ -11,7 +11,7 @@ const CartView = () => {
         </h1>
       </div>
 
-      <div className="flex shadow-xl shadow-[#dad0c9] mx-auto w-[300px] justify-start px-4 py-2 lg:w-[550px] lg:mx-36">
+      <div className="flex shadow-xl bg-[#fff] shadow-[#dad0c9] mx-auto w-[300px] justify-start px-4 py-2 lg:w-[550px] lg:mx-36">
         <div className="flex mt-2 lg:items-center lg:mt-0">
           <img
             src="/images/meuble3.png"
@@ -41,7 +41,7 @@ const CartView = () => {
         </div>
       </div>
 
-      <div className="flex flex-col items-center mt-10 lg:absolute lg:justify-end lg:top-60 lg:right-40 lg:mt-0">
+      <div className="flex flex-col items-center mt-10 z-[-1] lg:absolute lg:justify-end lg:top-60 lg:right-40 lg:mt-0">
         <div className="grid grid-cols-2 w-64 lg:w-96">
           <p className="font-bold text-md lg:text-xl">TOTAL</p>
           <p className="font-bold text-md flex justify-end lg:text-xl ">
