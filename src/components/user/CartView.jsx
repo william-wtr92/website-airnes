@@ -11,124 +11,42 @@ const CartView = () => {
         </h1>
       </div>
 
-      <div className="flex shadow-xl shadow-[#dad0c9] w-[550px] mx-20 my-8 p-4">
-        <div className="flex items-center">
-          <img src="/images/meuble3.png" alt="meuble" className="h-24 w-30" />
+      <div className="flex shadow-xl shadow-[#dad0c9] mx-auto w-[300px] justify-start px-4 py-2 lg:w-[550px] lg:mx-36">
+        <div className="flex mt-2 lg:items-center lg:mt-0">
+          <img
+            src="/images/meuble3.png"
+            alt="meuble"
+            className="w-20 h-20 lg:h-24 lg:w-28 hover:cursor-pointer"
+          />
         </div>
 
-        <div className="w-1/2 ml-10">
+        <div className="w-32 lg:w-1/2 lg:ml-10">
           <NavLink href="/">
-            <p className="font-bold">Table en marbre d'Afganisthan</p>
+            <p className="text-sm mt-2 ml-4 font-bold hover:text-[#b3825c] lg:mt-0 lg:ml-0 lg:text-md">
+              Table en marbre d'Afganisthan
+            </p>
           </NavLink>
-          <p className="text-sm mt-2">
+          <p className="hidden text-sm mt-2 lg:block">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus,
             eaque enim. Tenetur, aut in laudantium mollitia id veniam eaque
             vero.
           </p>
         </div>
-        <div className="flex justify-center">
-          <div className="grid ml-10 grid-cols-1 grid-rows-3 gap-2">
-            <p className="font-bold relative left-6">1200 €</p>
-            <input
-              type="number"
-              className="w-10 h-6 border-2 relative left-8"
-            />
-            <div className="w-10 relative left-12">
-              <TrashIcon className="h-6 hover:cursor-pointer" />
-            </div>
+        <div className="flex flex-col relative left-5 lg:left-12">
+          <p className="font-bold mb-2 lg:mb-2">1200 €</p>
+          <input type="number" className="w-10 h-6 border-2 mb-2 lg:mb-4" />
+          <div className="w-10 relative left-4">
+            <TrashIcon className="h-6 hover:cursor-pointer" />
           </div>
         </div>
       </div>
-      <div className="flex shadow-xl shadow-[#dad0c9] w-[550px] mx-20 my-8 p-4">
-        <div className="flex items-center">
-          <img src="/images/meuble3.png" alt="meuble" className="h-24 w-30" />
-        </div>
 
-        <div className="w-1/2 ml-10">
-          <NavLink href="/">
-            <p className="font-bold">Table en marbre d'Afganisthan</p>
-          </NavLink>
-          <p className="text-sm mt-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus,
-            eaque enim. Tenetur, aut in laudantium mollitia id veniam eaque
-            vero.
+      <div className="flex flex-col items-center mt-10 lg:absolute lg:justify-end lg:top-60 lg:right-40 lg:mt-0">
+        <div className="grid grid-cols-2 w-64 lg:w-96">
+          <p className="font-bold text-md lg:text-xl">TOTAL</p>
+          <p className="font-bold text-md flex justify-end lg:text-xl ">
+            4800 €
           </p>
-        </div>
-        <div className="flex justify-center">
-          <div className="grid ml-10 grid-cols-1 grid-rows-3 gap-2">
-            <p className="font-bold relative left-6">1200 €</p>
-            <input
-              type="number"
-              className="w-10 h-6 border-2 relative left-8"
-            />
-            <div className="w-10 relative left-12">
-              <TrashIcon className="h-6 hover:cursor-pointer" />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="flex shadow-xl shadow-[#dad0c9] w-[550px] mx-20 my-8 p-4">
-        <div className="flex items-center">
-          <img src="/images/meuble3.png" alt="meuble" className="h-24 w-30" />
-        </div>
-
-        <div className="w-1/2 ml-10">
-          <NavLink href="/">
-            <p className="font-bold">Table en marbre d'Afganisthan</p>
-          </NavLink>
-          <p className="text-sm mt-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus,
-            eaque enim. Tenetur, aut in laudantium mollitia id veniam eaque
-            vero.
-          </p>
-        </div>
-        <div className="flex justify-center">
-          <div className="grid ml-10 grid-cols-1 grid-rows-3 gap-2">
-            <p className="font-bold relative left-6">1200 €</p>
-            <input
-              type="number"
-              className="w-10 h-6 border-2 relative left-8"
-            />
-            <div className="w-10 relative left-12">
-              <TrashIcon className="h-6 hover:cursor-pointer" />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="flex shadow-xl shadow-[#dad0c9] w-[550px] mx-20 my-8 p-4">
-        <div className="flex items-center">
-          <img src="/images/meuble3.png" alt="meuble" className="h-24 w-30" />
-        </div>
-
-        <div className="w-1/2 ml-10">
-          <NavLink href="/">
-            <p className="font-bold">Table en marbre d'Afganisthan</p>
-          </NavLink>
-          <p className="text-sm mt-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus,
-            eaque enim. Tenetur, aut in laudantium mollitia id veniam eaque
-            vero.
-          </p>
-        </div>
-        <div className="flex justify-center">
-          <div className="grid ml-10 grid-cols-1 grid-rows-3 gap-2">
-            <p className="font-bold relative left-6">1200 €</p>
-            <input
-              type="number"
-              className="w-10 h-6 border-2 relative left-8"
-              value={1}
-            />
-            <div className="w-10 relative left-12">
-              <TrashIcon className="h-6 hover:cursor-pointer" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="absolute top-60 right-40">
-        <div className="grid grid-cols-2 w-96">
-          <p className="font-bold text-xl">TOTAL</p>
-          <p className="font-bold text-xl flex justify-end">4800 €</p>
           <p className="ml-2">TVA</p>
           <p className="flex justify-end mr-2">800 €</p>
         </div>
