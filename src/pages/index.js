@@ -1,15 +1,10 @@
-import Head from "next/head"
-import Carousel from "@/components/Carousel"
-import Categories from "@/components/Categories"
-import FooterMenu from "@/components/FooterMenu"
+import Carousel from "@/components/utils/Carousel"
+import Categories from "@/components/home/Categories"
+import FooterMenu from "@/components/home/FooterMenu"
 
 const Main = () => {
   return (
     <>
-      <Head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
-      </Head>
       <main>
         <Carousel />
 
