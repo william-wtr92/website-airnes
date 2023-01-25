@@ -1,8 +1,8 @@
 import * as yup from "yup"
 import { Form, Formik } from "formik"
-import Formfield from "../home/FormField"
-import { NavLink } from "../home/NavLink"
-import Button from "@/components/home/Button"
+import Formfield from "../utils/FormField"
+import { NavLink } from "../utils/NavLink"
+import Button from "@/components/utils/Button"
 
 const defaultValidationSchema = yup.object().shape({
   mail: yup.string().required().label("mail"),
@@ -49,7 +49,7 @@ const LoginForm = (props) => {
                 <NavLink href="/user/lostpwd">Mot de passe oublié?</NavLink>
               </div>
               <div className="hover:text-[#615043]">
-                <NavLink href="/user/sigin">Inscrivez vous</NavLink>
+                <NavLink href="/signin">Inscrivez vous</NavLink>
               </div>
             </div>
 

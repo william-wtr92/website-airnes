@@ -1,4 +1,4 @@
-import { NavLink } from "@/components/home/NavLink"
+import { NavLink } from "@/components/utils/NavLink"
 
 const OrderView = () => {
   return (
