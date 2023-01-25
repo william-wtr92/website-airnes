@@ -6,6 +6,10 @@ const App = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+          rel="stylesheet"
+        ></link>
         <title>Airnes</title>
       </Head>
       <NavMenu />
