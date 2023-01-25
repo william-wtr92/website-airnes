@@ -11,25 +11,3 @@ export const contactInitialValues = {
   sujet: "",
   textarea: "",
 }
-
-export const inscriptionValidationSchema = yup.object().shape({
-  name: yup.string().required("Name required"),
-  mail: yup.string().email().required("Email required"),
-  password: yup
-    .string()
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-    )
-    .required("Password is required"),
-  passwordConfirmation: yup
-    .string()
-    .oneOf([yup.ref("password"), null], "Mot de passe différent"),
-})
-
-export const inscriptionInitialValues = {
-  name: "",
-  mail: "",
-  password: "",
-  passwordConfirmation: "",
-}

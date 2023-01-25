@@ -5,7 +5,7 @@ import { NavLink } from "@/components/utils/NavLink"
 import {
   inscriptionInitialValues,
   inscriptionValidationSchema,
-} from "@/components/validation/contact"
+} from "@/components/validation/validationyup"
 import { Form, Formik } from "formik"
 import { useRouter } from "next/router"
 import { useCallback } from "react"
