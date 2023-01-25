@@ -49,7 +49,7 @@ const LoginForm = (props) => {
                 <NavLink href="/user/lostpwd">Mot de passe oublié?</NavLink>
               </div>
               <div className="hover:text-[#615043]">
-                <NavLink href="/signin">Inscrivez vous</NavLink>
+                <NavLink href="/user/sigin">Inscrivez vous</NavLink>
               </div>
             </div>
 
