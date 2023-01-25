@@ -7,7 +7,7 @@ const UserCart = () => {
       <main>
         <CartView />
       </main>
-      <FooterMenu position="absolute" />
+      <FooterMenu position="relative" />
     </>
   )
 }
