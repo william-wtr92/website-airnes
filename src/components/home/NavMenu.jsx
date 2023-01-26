@@ -28,7 +28,7 @@ const NavMenu = () => {
 
   return (
     <header className="bg-[#ffffff] sticky top-0 z-20">
-      <div className="flex h-14 border-b-2 items-center shadow-xl shadow-[#615043]">
+      <div className="flex h-14 items-center shadow-sm shadow-[#615043]">
         <div className="flex mr-auto ml-2 lg:ml-10">
           <NavLink href="/">
             <img
@@ -76,7 +76,7 @@ const NavMenu = () => {
               />
             </div>
           )}
-          <NavLink href="/user/userId/cart/cart">
+          <NavLink href="/user/userId/cart">
             <ShoppingCartIcon
               className={`${
                 showSearch && isMobile ? `Hide` : ``
