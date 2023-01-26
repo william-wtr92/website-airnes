@@ -12,3 +12,9 @@
 ::-webkit-search-cancel-button {
   display: none;
 }
+
+/* font */
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}

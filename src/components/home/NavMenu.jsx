@@ -76,7 +76,7 @@ const NavMenu = () => {
               />
             </div>
           )}
-          <NavLink href="/">
+          <NavLink href="/user/userId/cart/cart">
             <ShoppingCartIcon
               className={`${
                 showSearch && isMobile ? `Hide` : ``
