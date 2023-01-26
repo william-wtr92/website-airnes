@@ -2,7 +2,7 @@ import * as yup from "yup"
 import {Form, Formik} from "formik"
 import FormField from "@/components/utils/FormField"
 import Button from "@/components/utils/Button"
-import {NavLink} from "@/components/utils/NavLink";
+import {NavLink} from "@/components/utils/NavLink"
 
 const exampleCards = [
     {

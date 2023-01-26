@@ -1,5 +1,5 @@
 import Button from "@/components/utils/Button"
-import {NavLink} from "@/components/utils/NavLink";
+import {NavLink} from "@/components/utils/NavLink"
 
 const Confirmation = () => {
     return <>
