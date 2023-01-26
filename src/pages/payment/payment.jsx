@@ -77,7 +77,7 @@ const Payment = (props) => {
                                 <div className="md:col-span-2 lg:col-span-4 md:w-1/2">
                                     <select id="countries"
                                             className="bg-white border-2 border-gray-400 rounded-lg block w-full px-5 py-2">
-                                        <option disabled selected>Choisir une carte déjà enregistrée</option>
+                                        <option disabled defaultValue>Choisir une carte déjà enregistrée</option>
                                         {
                                             exampleCards.map(card =>
                                                 // eslint-disable-next-line react/jsx-key
