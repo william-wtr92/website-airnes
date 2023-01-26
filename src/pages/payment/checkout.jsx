@@ -2,6 +2,7 @@ import * as yup from "yup"
 import {Form, Formik} from "formik"
 import FormField from "@/components/utils/FormField"
 import Button from "@/components/utils/Button"
+import {NavLink} from "@/components/utils/NavLink";
 
 const exampleAddresses = [
     {
@@ -119,7 +120,9 @@ const Payment = (props) => {
                                     className="lg:col-span-2"
                                 />
                             </div>
-                            <Button>Passer au paiement</Button>
+                            <NavLink href="/payment/payment">
+                                <Button>Payer</Button>
+                            </NavLink>
                         </div>
                     </Form>
                 </div>

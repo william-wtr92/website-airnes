@@ -2,6 +2,7 @@ import * as yup from "yup"
 import {Form, Formik} from "formik"
 import FormField from "@/components/utils/FormField"
 import Button from "@/components/utils/Button"
+import {NavLink} from "@/components/utils/NavLink";
 
 const exampleCards = [
     {
@@ -71,13 +72,13 @@ const Payment = (props) => {
                 <div>
                     <Form>
                         <div className="flex flex-col items-center my-10 space-y-5">
-                            <h1 className="font-bold text-xl">Livraison</h1>
+                            <h1 className="font-bold text-xl">Paiement</h1>
                             <div
                                 className="grid gap-2 grid-cols-1 grid-rows-1 md:grid-cols-2 md:grid-rows-2 lg:grid-cols-4 lg:grid-rows-3 w-4/5 lg:w-1/2">
                                 <div className="md:col-span-2 lg:col-span-4 md:w-1/2">
                                     <select id="countries"
                                             className="bg-white border-2 border-gray-400 rounded-lg block w-full px-5 py-2">
-                                        <option disabled defaultValue>Choisir une carte déjà enregistrée</option>
+                                        <option defaultValue>Choisir une carte déjà enregistrée</option>
                                         {
                                             exampleCards.map(card =>
                                                 // eslint-disable-next-line react/jsx-key
@@ -111,7 +112,9 @@ const Payment = (props) => {
                                     className="lg:col-span-2"
                                 />
                             </div>
-                            <Button className="w-1/4">Payer</Button>
+                            <NavLink href="/payment/confirmation">
+                                <Button>Payer</Button>
+                            </NavLink>
                         </div>
                     </Form>
                 </div>
