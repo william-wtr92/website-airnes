@@ -13,7 +13,7 @@ const FormField = (props) => {
           <input
             {...field}
             {...otherProps}
-            className="border-2 rounded-md border-gray-400 px-10 py-1 cursor-pointer"
+            className="border-2 rounded-md border-gray-400 px-5 py-1 cursor-pointer"
             placeholder={placeholder ?? label}
           />
           {meta.touched && meta.error ? (
