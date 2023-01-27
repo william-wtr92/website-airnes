@@ -34,7 +34,7 @@ const LoginForm = (props) => {
               Connexion
             </h1>
           </div>
-          <div className="flex justify-center mx-6 mt-6 py-10 px-10 border-2 lg:w-[600px] lg:py-16 lg:mx-auto lg:rounded-md lg:mt-0">
+          <div className="flex justify-center mx-6 mt-6 py-10 px-6 border-2 lg:w-[600px] lg:px-10 lg:py-16 lg:mx-auto lg:rounded-md lg:mt-0">
             <Form className="flex flex-col">
               <Formfield
                 type="email"
@@ -50,17 +50,22 @@ const LoginForm = (props) => {
                 label="Mot de passe"
                 className="mb-2"
               />
-              <div className="flex justify-center gap-4 my-4">
-                <div className="font-bold hover:text-[#927864]">
+              <div className="flex justify-center gap-2 my-4">
+                <div className="font-bold hover:text-[#927864] text-xs lg:text-sm">
                   <NavLink href="/user/lostpwd">Mot de passe oublié?</NavLink>
                 </div>
-                <div className="font-bold hover:text-[#927864]">
+                <div className="font-bold hover:text-[#927864] text-xs lg:text-sm">
                   <NavLink href="/signin">Inscrivez vous</NavLink>
                 </div>
               </div>
 
-              <div className="mt-2">
-                <Button>SE CONNECTER</Button>
+              <div className="flex items-center justify-center mt-2">
+                <Button
+                  className="bg-[#615043] hover:bg-[#927864] hover:cursor-pointer
+             active:bg-[#615043] border border-black p-3.5 font-semibold rounded-md px-10 text-xs lg:text-sm"
+                >
+                  SE CONNECTER
+                </Button>
               </div>
             </Form>
           </div>

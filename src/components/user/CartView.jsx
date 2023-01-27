@@ -29,13 +29,15 @@ const CartView = () => {
             </NavLink>
             <p className="hidden text-sm mt-2 lg:block">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus,
-              eaque enim. Tenetur, aut in laudantium mollitia id veniam eaque
-              vero.
+              eaque enim.
             </p>
           </div>
           <div className="flex flex-col relative left-5 lg:left-12">
             <p className="font-bold mb-2 lg:mb-2">1200 €</p>
-            <input type="number" className="w-10 h-6 border-2 mb-2 lg:mb-4" />
+            <input
+              type="number"
+              className="w-12 h-6 border-2 rounded-md pl-2 mb-2 lg:mb-4"
+            />
             <div className="w-10 relative left-4">
               <TrashIcon className="h-6 hover:cursor-pointer hover:text-[#927864]" />
             </div>
@@ -56,7 +58,7 @@ const CartView = () => {
               className="bg-[#615043] hover:bg-[#927864] hover:cursor-pointer
              active:bg-[#615043] border border-black px-10 py-4 font-semibold rounded-md text-[#fff]"
             >
-              Passer la Commande
+              <NavLink href="/payment/checkout">Passer la Commande</NavLink>
             </Button>
           </div>
         </div>

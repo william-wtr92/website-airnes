@@ -35,7 +35,7 @@ const NavMenu = () => {
             <img
               src="/images/logo.png"
               alt="My logo"
-              className="h-20 hover:scale-110 lg:h-[120px]"
+              className="h-20 hover:scale-110 lg:h-24"
             />
           </NavLink>
         </div>
@@ -58,7 +58,7 @@ const NavMenu = () => {
                   color={"#615043"}
                 />
                 <input
-                  className={`px-6 rounded-lg border bg-transparent focus:outline-none focus:shadow-outline-blue text-white placeholder-[#443021] -ml-4 focus:border-white ${
+                  className={`px-6 rounded-lg border bg-transparent focus:outline-none focus:shadow-outline-blue text-white placeholder-[#443021] focus:border-white ${
                     isMobile ? `z-10` : ``
                   }`}
                   type="search"
@@ -98,7 +98,7 @@ const NavMenu = () => {
         <div
           className={`${
             burgerMenu ? `block ` : `hidden `
-          }w-1/6 h-screen bg-[#ffffffe7] absolute inset-y-0 right-0 z-50`}
+          }w-1/6 h-screen bg-[#ffffffde] absolute inset-y-0 right-0 z-50`}
         >
           <div>
             <XMarkIcon
