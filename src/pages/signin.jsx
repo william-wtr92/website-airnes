@@ -24,9 +24,9 @@ const Signin = () => {
         initialValues={inscriptionInitialValues}
         validationSchema={inscriptionValidationSchema}
       >
-        <div className="flex justify-center mt-12 lg:mt-26 ">
+        <div className="flex justify-center mt-12 lg:-mt-6">
           <div className=" w-2/3 lg:w-1/3 ">
-            <h1 className="text-center mb-8 lg:mt-16 text-3xl font-bold">
+            <h1 className="text-center mb-8 lg:mt-16 text-3xl font-bold hover:cursor-pointer hover:text-[#615043]">
               Inscription
             </h1>
             <Form className="flex flex-col">
