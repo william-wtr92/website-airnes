@@ -1,4 +1,5 @@
 import Button from "@/components/utils/Button"
+import {NavLink} from "@/components/utils/NavLink"
 
 const Confirmation = () => {
     return <>
@@ -11,7 +12,9 @@ const Confirmation = () => {
                     className="text-blue-500 underline">XXXXXX</span></a>. Vous pouvez suivre son état depuis votre
                     espace client.
                 </p>
-                <Button>Continuer mes achats</Button>
+                <NavLink href="/">
+                    <Button>Continuer mes achats</Button>
+                </NavLink>
             </div>
         </div>
     </>
