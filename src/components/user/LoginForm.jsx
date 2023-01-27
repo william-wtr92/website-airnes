@@ -34,7 +34,7 @@ const LoginForm = (props) => {
               Connexion
             </h1>
           </div>
-          <div className="flex justify-center mx-6 mt-6 py-10 px-10 shadow-2xl shadow-[#615043] lg:w-[600px] lg:py-16 lg:mx-auto lg:rounded-md lg:mt-0">
+          <div className="flex justify-center mx-6 mt-6 py-10 px-10 border-2 lg:w-[600px] lg:py-16 lg:mx-auto lg:rounded-md lg:mt-0">
             <Form className="flex flex-col">
               <Formfield
                 type="email"
@@ -55,7 +55,7 @@ const LoginForm = (props) => {
                   <NavLink href="/user/lostpwd">Mot de passe oublié?</NavLink>
                 </div>
                 <div className="font-bold hover:text-[#927864]">
-                  <NavLink href="/user/sigin">Inscrivez vous</NavLink>
+                  <NavLink href="/signin">Inscrivez vous</NavLink>
                 </div>
               </div>
 

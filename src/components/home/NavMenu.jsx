@@ -4,6 +4,7 @@ import {
   UserIcon,
   MagnifyingGlassIcon,
   Bars3Icon,
+  XMarkIcon,
 } from "@heroicons/react/24/solid"
 import { useState } from "react"
 import { useMediaQuery } from "react-responsive"
@@ -29,12 +30,12 @@ const NavMenu = () => {
   return (
     <header className="bg-[#ffffff] sticky top-0 z-20">
       <div className="flex h-14 items-center shadow-sm shadow-[#615043]">
-        <div className="flex mr-auto ml-2 lg:ml-10">
+        <div className="flex mr-auto ml-2 mt-2 lg:ml-10">
           <NavLink href="/">
             <img
               src="/images/logo.png"
               alt="My logo"
-              className="h-20 ml-2 hover:scale-110 lg:ml-0 lg:h-24"
+              className="h-20 hover:scale-110 lg:h-[120px]"
             />
           </NavLink>
         </div>
@@ -97,18 +98,24 @@ const NavMenu = () => {
         <div
           className={`${
             burgerMenu ? `block ` : `hidden `
-          }w-1/6 h-screen bg-[#646E4E] absolute inset-y-0 right-0 -z-50`}
+          }w-1/6 h-screen bg-[#ffffffe7] absolute inset-y-0 right-0 z-50`}
         >
-          <NavLink href="/user/login">
-            <div className="hover:text-[#97c186] p-10 h-10 hover:scale-110">
-              Login
-            </div>
-          </NavLink>
-          <NavLink href="/">
-            <div className="hover:text-[#97c186] p-10 h-10 hover:scale-110">
-              Home
-            </div>
-          </NavLink>
+          <div>
+            <XMarkIcon
+              className="h-6 hover:cursor-pointer relative top-4 left-3 hover:scale-105"
+              onClick={showBurgerMenu}
+            />
+          </div>
+          <div className="flex flex-col mx-16 my-10">
+            <NavLink href="/user/login">
+              <div className="hover:text-[#615043] mb-10 hover:scale-105">
+                Login
+              </div>
+            </NavLink>
+            <NavLink href="/">
+              <div className="hover:text-[#615043] hover:scale-105">Home</div>
+            </NavLink>
+          </div>
         </div>
       </div>
     </header>
