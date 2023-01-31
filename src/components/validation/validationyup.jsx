@@ -33,3 +33,13 @@ export const inscriptionInitialValues = {
   password: "",
   passwordConfirmation: "",
 }
+
+export const accountSettingsValidationSchema = yup.object().shape({
+  name: yup.string().required("Name required"),
+  mail: yup.string().email().required("Email required"),
+})
+
+export const accountSettingsInitialValues = {
+  name: "",
+  mail: "",
+}
