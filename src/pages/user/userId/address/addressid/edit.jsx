@@ -12,7 +12,7 @@ const defaultValidationSchema = yup.object().shape({
   address: yup.string().required().label("Adresse"),
   complete: yup.number().label("Complément d'adresse"),
   city: yup.string().required().label("Ville"),
-  Postalcode: yup.number().required().label("Code Postal"),
+  postalCode: yup.number().required().label("Code Postal"),
 })
 const defaultInitialValues = {
   name: "",
@@ -21,7 +21,7 @@ const defaultInitialValues = {
   address: "",
   complete: "",
   city: "",
-  Postalcode: "",
+  postalCode: "",
 }
 
 const EditAddress = (props) => {
@@ -84,7 +84,7 @@ const EditAddress = (props) => {
               </div>
               <div className="flex flex-col lg:flex-row mb-4 lg:mb-12 gap-4 lg:gap-12">
                 <FormField
-                  name="Postalcode"
+                  name="postalCode"
                   placeholder="00000"
                   label="Code Postal"
                   className="lg:w-2/5"
