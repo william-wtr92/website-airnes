@@ -20,15 +20,15 @@ import {
 const stateAdd = [
   {
     city: "Paris",
-    postal_Code: 99932,
+    postalCode: 99932,
     street: "Rue Totu",
-    building_type: "House",
+    buildingType: "House",
   },
   {
     city: "London",
-    postal_Code: 12345,
+    postalCode: 12345,
     street: "Avenue Tofu",
-    building_type: "House",
+    buildingType: "House",
   },
 ]
 const statePay = [
@@ -124,10 +124,10 @@ const AccountSettings = () => {
                   >
                     <div className="flex flex-col ">
                       <span className="font-semibold">
-                        {data.postal_Code}, {data.city}
+                        {data.postalCode}, {data.city}
                       </span>
                       <span>{data.street}</span>
-                      <span>Complément d'adresse: {data.building_type}</span>
+                      <span>Complément d'adresse: {data.buildingType}</span>
                     </div>
                     <div className="flex flex-col gap-2 ml-auto group/edit invisible  group-hover/item:visible">
                       <NavLink href="#">
@@ -171,10 +171,10 @@ const AccountSettings = () => {
                   >
                     <div className="flex flex-col ">
                       <span className="font-semibold">
-                        {data.postal_Code}, {data.city}
+                        {data.postalCode}, {data.city}
                       </span>
                       <span>{data.street}</span>
-                      <span>Complément d'adresse: {data.building_type}</span>
+                      <span>Complément d'adresse: {data.buildingType}</span>
                     </div>
                     <div className="flex flex-col ml-auto group/edit invisible  group-hover/item:visible">
                       <NavLink href="#">
