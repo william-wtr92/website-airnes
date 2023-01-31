@@ -7,8 +7,8 @@ import { useCallback } from "react"
 
 const defaultValidationSchema = yup.object().shape({
   name: yup.string().required().label("Prénom"),
-  lastname: yup.string().required().label("Nom"),
-  addressname: yup.string().required().label("Nom de l'adresse"),
+  lastName: yup.string().required().label("Nom"),
+  addressName: yup.string().required().label("Nom de l'adresse"),
   address: yup.string().required().label("Adresse"),
   complete: yup.number().label("Complément d'adresse"),
   city: yup.string().required().label("Ville"),
@@ -16,8 +16,8 @@ const defaultValidationSchema = yup.object().shape({
 })
 const defaultInitialValues = {
   name: "",
-  lastname: "",
-  addressname: "",
+  lastName: "",
+  addressName: "",
   address: "",
   complete: "",
   city: "",
@@ -56,14 +56,14 @@ const EditAddress = (props) => {
                   className="lg:w-2/5"
                 />
                 <FormField
-                  name="lastname"
+                  name="lastName"
                   placeholder="Michel"
                   label="Nom"
                   className="lg:w-2/5"
                 />
               </div>
               <FormField
-                name="addressname"
+                name="addressName"
                 placeholder="Domicile"
                 label="Nom de l'adresse"
                 className="w-3/5 mb-4"

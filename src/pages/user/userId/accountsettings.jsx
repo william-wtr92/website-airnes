@@ -44,13 +44,13 @@ const AccountSettings = () => {
   const [viewAddressF, setViewAddressF] = useState(false)
 
   const handleAddL = () => {
-    setViewAddressL((viewAddressL) => !viewAddressL)
+    setViewAddressL(!viewAddressL)
   }
   const handleAddF = () => {
-    setViewAddressF((viewAddressF) => !viewAddressF)
+    setViewAddressF(!viewAddressF)
   }
   const router = useRouter()
-  const handlPost = useCallback(() => {
+  const handlePost = useCallback(() => {
     router.push("/")
   }, [router])
 
@@ -62,7 +62,7 @@ const AccountSettings = () => {
           <div className="flex flex-col lg:flex-row gap-2 lg:gap-16 mt-4 lg:mt-20">
             <h2 className="text-2xl font-bold">Mes Informations</h2>
             <Formik
-              onSubmit={handlPost}
+              onSubmit={handlePost}
               initialValues={accountSettingsInitialValues}
               validationSchema={accountSettingsValidationSchema}
             >

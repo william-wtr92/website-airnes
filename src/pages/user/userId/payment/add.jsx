@@ -5,7 +5,7 @@ import Button from "@/components/utils/Button"
 import { useRouter } from "next/router"
 import { useCallback } from "react"
 
-const optionstate = [
+const optionState = [
   {
     name: "VISA",
     value: "visa",
@@ -21,7 +21,7 @@ const optionstate = [
 ]
 const defaultValidationSchema = yup.object().shape({
   /* Ajouter les règles du select */
-  type: yup.string().required().label("Tpype de carte"),
+  type: yup.string().required().label("Type de carte"),
   fullName: yup.string().required().label("Nom complet"),
   cardNumber: yup
     .number()
@@ -83,7 +83,7 @@ const AddPayment = (props) => {
                   name="type"
                   className="border-2 rounded-md border-gray-400 px-10 py-1 cursor-pointer w-full"
                 >
-                  {optionstate.map((option, i) => (
+                  {optionState.map((option, i) => (
                     <option key={i} value={option.value}>
                       {option.value}
                     </option>
