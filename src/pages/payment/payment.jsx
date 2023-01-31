@@ -121,7 +121,7 @@ const Payment = (props) => {
               </div>
               <NavLink href="/payment/confirmation">
                 <Button
-                  className="my-6 bg-[#615043] hover:bg-[#927864] hover:cursor-pointer
+                  className="bg-[#615043] hover:bg-[#927864] hover:cursor-pointer
              active:bg-[#615043] border border-black p-3.5 font-semibold rounded-md px-20"
                 >
                   Payer

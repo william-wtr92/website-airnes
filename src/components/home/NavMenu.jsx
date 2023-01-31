@@ -54,7 +54,7 @@ const NavMenu = () => {
               <div className="flex items-center">
                 <MagnifyingGlassIcon
                   onClick={handleSearch}
-                  className="h-4 hover:scale-110 text-[#443021] relative top-px cursor-pointer left-2 z-20 lg:left-1"
+                  className="h-4 hover:scale-110 text-[#443021] relative top-px cursor-pointer left-5 z-20"
                   color={"#615043"}
                 />
                 <input

@@ -50,7 +50,7 @@ const LoginForm = (props) => {
                 label="Mot de passe"
                 className="mb-2"
               />
-              <div className="flex justify-center gap-2 my-4">
+              <div className="flex justify-center gap-2 my-4 lg:gap-4">
                 <div className="font-bold hover:text-[#927864] text-xs lg:text-sm">
                   <NavLink href="/user/lostpwd">Mot de passe oublié?</NavLink>
                 </div>
