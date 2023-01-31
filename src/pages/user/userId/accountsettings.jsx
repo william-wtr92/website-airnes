@@ -2,11 +2,20 @@ import Button from "@/components/utils/Button"
 import FormField from "@/components/utils/FormField"
 import { Form, Formik } from "formik"
 import { useCallback, useState } from "react"
-import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/24/solid"
+import {
+  ChevronDownIcon,
+  ChevronRightIcon,
+  TrashIcon,
+  PencilIcon,
+  PlusIcon,
+} from "@heroicons/react/24/solid"
 import { NavLink } from "@/components/utils/NavLink"
 import classNames from "classnames"
 import { useRouter } from "next/router"
-import { accountSettingsValidationSchema } from "@/components/validation/validationyup"
+import {
+  accountSettingsValidationSchema,
+  accountSettingsInitialValues,
+} from "@/components/validation/validationyup"
 
 const stateAdd = [
   {
@@ -41,11 +50,9 @@ const AccountSettings = () => {
     setViewAddressF((viewAddressF) => !viewAddressF)
   }
   const router = useRouter()
-  const handlpost = useCallback(() => {
+  const handlPost = useCallback(() => {
     router.push("/")
   }, [router])
-
-  const initialValues = "" // A recupere avec un req
 
   return (
     <>
@@ -55,8 +62,8 @@ const AccountSettings = () => {
           <div className="flex flex-col lg:flex-row gap-2 lg:gap-16 mt-4 lg:mt-20">
             <h2 className="text-2xl font-bold">Mes Informations</h2>
             <Formik
-              onSubmit={handlpost}
-              initialValues={initialValues}
+              onSubmit={handlPost}
+              initialValues={accountSettingsInitialValues}
               validationSchema={accountSettingsValidationSchema}
             >
               <Form className="flex flex-col lg:w-3/5">
@@ -84,54 +91,99 @@ const AccountSettings = () => {
           </div>
           <div className="flex flex-col lg:flex-row gap-2 lg:gap-16 mt-4 lg:mt-12">
             <h2 className="text-2xl font-bold">Mes adresses</h2>
-            <div>
+            <div className="w-4/5">
               <div>
-                <span onClick={handleAddL} className="flex cursor-pointer">
-                  {viewAddressL ? (
-                    <ChevronDownIcon className="w-6" />
-                  ) : (
-                    <ChevronRightIcon className="w-6" />
-                  )}
-                  Adresse de livraison
+                <span className="flex justify-between">
+                  <span onClick={handleAddL} className="flex cursor-pointer">
+                    {viewAddressL ? (
+                      <ChevronDownIcon className="w-6" />
+                    ) : (
+                      <ChevronRightIcon className="w-6" />
+                    )}
+                    Adresse de livraison
+                  </span>
+                  <span
+                    className={classNames(
+                      "mr-40",
+                      viewAddressL ? "block" : "hidden"
+                    )}
+                  >
+                    <NavLink href="/user/userId/address/add">
+                      <PlusIcon className="w-6 " />
+                    </NavLink>
+                  </span>
                 </span>
+
                 {stateAdd.map((data, i) => (
                   <div
                     key={i}
                     className={classNames(
-                      "flex flex-col p-1 ml-8 my-1 border border-black rounded-md",
+                      "w-4/5 p-1 ml-8 my-1 border border-black rounded-md flex group/item ",
                       viewAddressL ? "block" : "hidden"
                     )}
                   >
-                    <span className="font-semibold">
-                      {data.postal_Code}, {data.city}
-                    </span>
-                    <span>{data.street}</span>
-                    <span>type: {data.building_type}</span>
+                    <div className="flex flex-col ">
+                      <span className="font-semibold">
+                        {data.postal_Code}, {data.city}
+                      </span>
+                      <span>{data.street}</span>
+                      <span>Complément d'adresse: {data.building_type}</span>
+                    </div>
+                    <div className="flex flex-col gap-2 ml-auto group/edit invisible  group-hover/item:visible">
+                      <NavLink href="#">
+                        <TrashIcon className="w-4" />
+                      </NavLink>
+                      <NavLink href="/user/userId/address/addressid/edit">
+                        <PencilIcon className="w-4" />
+                      </NavLink>
+                    </div>
                   </div>
                 ))}
               </div>
               <div>
-                <span onClick={handleAddF} className="flex cursor-pointer ">
-                  {viewAddressF ? (
-                    <ChevronDownIcon className="w-6" />
-                  ) : (
-                    <ChevronRightIcon className="w-6" />
-                  )}
-                  Adresse de facturation
+                <span className="flex justify-between">
+                  <span onClick={handleAddF} className="flex cursor-pointer">
+                    {viewAddressF ? (
+                      <ChevronDownIcon className="w-6" />
+                    ) : (
+                      <ChevronRightIcon className="w-6" />
+                    )}
+                    Adresse de facturation
+                  </span>
+                  <span
+                    className={classNames(
+                      "mr-40",
+                      viewAddressF ? "block" : "hidden"
+                    )}
+                  >
+                    <NavLink href="/user/userId/payment/add">
+                      <PlusIcon className="w-6" />
+                    </NavLink>
+                  </span>
                 </span>
                 {stateAdd.map((data, i) => (
                   <div
                     key={i}
                     className={classNames(
-                      "flex flex-col p-1 ml-8 my-1 border border-black rounded-md",
+                      "w-4/5 p-1 ml-8 my-1 border border-black rounded-md flex group/item",
                       viewAddressF ? "block" : "hidden"
                     )}
                   >
-                    <span className="font-semibold">
-                      {data.postal_Code}, {data.city}
-                    </span>
-                    <span>{data.street}</span>
-                    <span>type: {data.building_type}</span>
+                    <div className="flex flex-col ">
+                      <span className="font-semibold">
+                        {data.postal_Code}, {data.city}
+                      </span>
+                      <span>{data.street}</span>
+                      <span>Complément d'adresse: {data.building_type}</span>
+                    </div>
+                    <div className="flex flex-col ml-auto group/edit invisible  group-hover/item:visible">
+                      <NavLink href="#">
+                        <TrashIcon className="w-4" />
+                      </NavLink>
+                      <NavLink href="/user/userId/address/addressid/edit">
+                        <PencilIcon className="w-4" />
+                      </NavLink>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -139,15 +191,30 @@ const AccountSettings = () => {
           </div>
           <div className="flex flex-col lg:flex-row gap-2 lg:gap-16 mt-4 lg:mt-20">
             <h2 className="text-2xl font-bold">Mes Paiements</h2>
-            <div>
-              {statePay.map((data, i) => (
-                <div key={i} className="flex flex-col">
-                  <span className="font-semibold">{data.bank}</span>
-                  <span>{data.name}</span>
-                  <span>{data.num}</span>
-                  <span>{data.date}</span>
-                </div>
-              ))}
+            <div className="flex flex-col gap-3">
+              <NavLink href="/user/userId/payment/add">
+                <PlusIcon className="w-6" />
+              </NavLink>
+              <div>
+                {statePay.map((data, i) => (
+                  <div key={i} className="flex group/item ml-4 lg:ml-0">
+                    <div className="flex flex-col">
+                      <span className="font-semibold">{data.bank}</span>
+                      <span>{data.name}</span>
+                      <span>{data.num}</span>
+                      <span>{data.date}</span>
+                    </div>
+                    <div className="flex flex-col gap-2 group/edit invisible  group-hover/item:visible">
+                      <NavLink href="#">
+                        <TrashIcon className="w-4" />
+                      </NavLink>
+                      <NavLink href="/user/userId/payment/paymentid/edit">
+                        <PencilIcon className="w-4" />
+                      </NavLink>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
