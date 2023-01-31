@@ -3,10 +3,11 @@ import {Form, Formik} from "formik"
 import FormField from "@/components/utils/FormField"
 import Button from "@/components/utils/Button"
 import {NavLink} from "@/components/utils/NavLink"
+import React, {useState} from "react"
 
 const exampleCards = [
     {
-        id: 1,
+        id: 0,
         type: "Mastercard 3456",
         number: "1234567890123456",
         name: "John Doe",
@@ -15,7 +16,7 @@ const exampleCards = [
     }
     ,
     {
-        id: 2,
+        id: 1,
         type: "Mastercard 4321",
         number: "6543210987654321",
         name: "John Doe",
@@ -25,7 +26,6 @@ const exampleCards = [
 ]
 
 const defaultValidationSchema = yup.object().shape({
-    /* Ajouter les règles du select */
     fullName: yup.string()
         .required()
         .label("Nom complet"),
@@ -44,18 +44,19 @@ const defaultValidationSchema = yup.object().shape({
 })
 
 const defaultInitialValues = {
-    /* Ajouter les values du select */
     fullName: "",
     cardNumber: "",
     expDate: "",
     ccv: "",
 }
 
-/*const handleSelect = () = {
-    //
-}*/
-
 const Payment = (props) => {
+    const [selectedId, setSelectedId] = useState(0)
+
+    const handleInput = (event) => {
+        setSelectedId(event.target.options[event.target.selectedIndex].id)
+    }
+
     const {
         onSubmit,
         initialValues = defaultInitialValues,
@@ -76,9 +77,10 @@ const Payment = (props) => {
                             <div
                                 className="grid gap-2 grid-cols-1 grid-rows-1 md:grid-cols-2 md:grid-rows-2 lg:grid-cols-4 lg:grid-rows-3 w-4/5 lg:w-1/2">
                                 <div className="md:col-span-2 lg:col-span-4 md:w-1/2">
-                                    <select id="countries"
+                                    <label htmlFor="cards"></label>
+                                    <select id="cards"
+                                            onChange={handleInput}
                                             className="bg-white border-2 border-gray-400 rounded-lg block w-full px-5 py-2">
-                                        <option defaultValue>Choisir une carte déjà enregistrée</option>
                                         {
                                             exampleCards.map(card =>
                                                 // eslint-disable-next-line react/jsx-key
@@ -89,27 +91,27 @@ const Payment = (props) => {
                                 </div>
                                 <FormField
                                     name="cardNumber"
-                                    placeholder="1234 5678 9012 3456"
                                     label="Numéro de carte"
                                     className="lg:col-span-2"
+                                    value={exampleCards[selectedId].number}
                                 />
                                 <FormField
                                     name="fullName"
-                                    placeholder="John Doe"
                                     label="Nom complet"
                                     className="lg:col-span-2"
+                                    value={exampleCards[selectedId].name}
                                 />
                                 <FormField
                                     name="expDate"
-                                    placeholder="02/25"
                                     label="Date d'expiration"
                                     className="lg:col-span-2"
+                                    value={exampleCards[selectedId].expDate}
                                 />
                                 <FormField
                                     name="ccv"
-                                    placeholder="000"
                                     label="CCV"
                                     className="lg:col-span-2"
+                                    value={exampleCards[selectedId].ccv}
                                 />
                             </div>
                             <NavLink href="/payment/confirmation">
