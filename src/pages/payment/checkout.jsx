@@ -3,6 +3,7 @@ import {Form, Formik} from "formik"
 import FormField from "@/components/utils/FormField"
 import Button from "@/components/utils/Button"
 import {NavLink} from "@/components/utils/NavLink"
+import React, {useState} from "react"
 
 const exampleAddresses = [
     {
@@ -43,7 +44,6 @@ const defaultValidationSchema = yup.object().shape({
 })
 
 const defaultInitialValues = {
-    /* Ajouter les values du select */
     firstName: "",
     name: "",
     address: "",
@@ -51,11 +51,13 @@ const defaultInitialValues = {
     city: "",
 }
 
-/*const handleSelect = () = {
-    //
-}*/
-
 const Payment = (props) => {
+    const [selectedId, setSelectedId] = useState(0)
+
+    const handleInput = (event) => {
+        setSelectedId(event.target.options[event.target.selectedIndex].id)
+    }
+
     const {
         onSubmit,
         initialValues = defaultInitialValues,
@@ -77,21 +79,21 @@ const Payment = (props) => {
                                 className="grid gap-2 grid-cols-1 grid-rows-1 md:grid-cols-2 md:grid-rows-2 lg:grid-cols-4 lg:grid-rows-3 space-y-3 w-4/5 lg:w-1/2">
                                 <FormField
                                     name="firstName"
-                                    placeholder="John"
                                     label="Prénom"
                                     className="lg:col-span-2"
+                                    value="John"
                                 />
                                 <FormField
                                     name="name"
-                                    placeholder="Nom"
-                                    label="Doe"
+                                    label="Nom"
                                     className="lg:col-span-2"
+                                    value="Doe"
                                 />
                                 <div className="md:col-span-2 lg:col-span-4 md:w-1/2">
                                     <label htmlFor="addresses"></label>
                                     <select id="addresses"
+                                            onChange={handleInput}
                                             className="bg-white border-2 border-gray-400 rounded-lg block w-full px-5 py-2">
-                                        <option defaultValue>Choisir une adresse déjà enregistrée</option>
                                         {
                                             exampleAddresses
                                                 .map(address =>
@@ -103,21 +105,22 @@ const Payment = (props) => {
                                 </div>
                                 <FormField
                                     name="address"
-                                    placeholder="01 rue de ..."
                                     label="Adresse"
                                     className="lg:col-span-2"
+                                    value={exampleAddresses[selectedId].address}
+
                                 />
                                 <FormField
                                     name="complete"
-                                    placeholder="bâtiment, rue..."
                                     label="Complément d'adresse"
                                     className="lg:col-span-2"
+                                    value={exampleAddresses[selectedId].complete}
                                 />
                                 <FormField
                                     name="city"
-                                    placeholder="Paris"
                                     label="Ville"
                                     className="lg:col-span-2"
+                                    value={exampleAddresses[selectedId].city}
                                 />
                             </div>
                             <NavLink href="/payment/payment">
