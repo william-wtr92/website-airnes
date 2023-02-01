@@ -2,8 +2,8 @@ import * as yup from "yup"
 import {Form, Formik} from "formik"
 import FormField from "@/components/utils/FormField"
 import Button from "@/components/utils/Button"
-import {NavLink} from "@/components/utils/NavLink"
-import React, {useState} from "react"
+import React, {useCallback, useState} from "react"
+import {useRouter} from "next/router"
 
 const exampleCards = [
     {
@@ -29,7 +29,7 @@ const defaultValidationSchema = yup.object().shape({
     fullName: yup.string()
         .required()
         .label("Nom complet"),
-    cardNumber: yup.number()
+    cardNumber: yup.string()
         .required()
         .label("Numéro de carte")
         .test("len", "Le numéro est invalide.", val => val && val.toString().length === 16),
@@ -37,37 +37,48 @@ const defaultValidationSchema = yup.object().shape({
         .length(5)
         .required()
         .label("Date d'expiration"),
-    ccv: yup.number()
+    ccv: yup.string()
         .required()
         .label("CCV")
         .test("len", "Le ccv est invalide.", val => val && val.toString().length === 3),
 })
 
-const defaultInitialValues = {
-    fullName: "",
-    cardNumber: "",
-    expDate: "",
-    ccv: "",
-}
-
 const Payment = (props) => {
-    const [selectedId, setSelectedId] = useState(0)
-
-    const handleInput = (event) => {
-        setSelectedId(event.target.options[event.target.selectedIndex].id)
-    }
+    const [selectedCard, setSelectedCard] = useState("")
 
     const {
-        onSubmit,
-        initialValues = defaultInitialValues,
         validationSchema = defaultValidationSchema,
     } = props
+
+    const defaultInitialValues = {
+        fullName: "",
+        cardNumber: "",
+        expDate: "",
+        ccv: "",
+    }
+
+    const handleSelect = useCallback(
+        (event) => {
+            const selectedId = Number.parseInt(
+                event.currentTarget.getAttribute("data-card-id"),
+                10
+            )
+
+            setSelectedCard(exampleCards.find(({id}) => id === selectedId))
+        },
+        []
+    )
+
+    const router = useRouter()
+    const handleSubmit = useCallback(() => {
+        router.push("/")
+    }, [router])
 
     return (
         <>
             <Formik
-                onSubmit={onSubmit}
-                initialValues={initialValues}
+                onSubmit={handleSubmit}
+                initialValues={defaultInitialValues}
                 validationSchema={validationSchema}
             >
                 <div>
@@ -79,12 +90,12 @@ const Payment = (props) => {
                                 <div className="md:col-span-2 lg:col-span-4 md:w-1/2">
                                     <label htmlFor="cards"></label>
                                     <select id="cards"
-                                            onChange={handleInput}
                                             className="bg-white border-2 border-gray-400 rounded-lg block w-full px-5 py-2">
+                                        <option data-card-id={null} defaultValue>Choisir une carte</option>
                                         {
                                             exampleCards.map(card =>
-                                                // eslint-disable-next-line react/jsx-key
-                                                <option value={card.number} id={card.id}>{card.type}</option>
+                                                <option value={card.number} data-card-id={card.id} key={card.id}
+                                                        onClick={handleSelect}>{card.type}</option>
                                             )
                                         }
                                     </select>
@@ -93,30 +104,28 @@ const Payment = (props) => {
                                     name="cardNumber"
                                     label="Numéro de carte"
                                     className="lg:col-span-2"
-                                    value={exampleCards[selectedId].number}
+                                    value={selectedCard.number}
                                 />
                                 <FormField
                                     name="fullName"
                                     label="Nom complet"
                                     className="lg:col-span-2"
-                                    value={exampleCards[selectedId].name}
+                                    value={selectedCard.name}
                                 />
                                 <FormField
                                     name="expDate"
                                     label="Date d'expiration"
                                     className="lg:col-span-2"
-                                    value={exampleCards[selectedId].expDate}
+                                    value={selectedCard.expDate}
                                 />
                                 <FormField
                                     name="ccv"
                                     label="CCV"
                                     className="lg:col-span-2"
-                                    value={exampleCards[selectedId].ccv}
+                                    value={selectedCard.ccv}
                                 />
                             </div>
-                            <NavLink href="/payment/confirmation">
-                                <Button>Payer</Button>
-                            </NavLink>
+                            <Button type="submit">Payer</Button>
                         </div>
                     </Form>
                 </div>
