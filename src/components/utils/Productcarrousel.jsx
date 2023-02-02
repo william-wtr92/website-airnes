@@ -1,4 +1,3 @@
-import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid"
 import classNames from "classnames"
 import { useCallback, useState } from "react"
