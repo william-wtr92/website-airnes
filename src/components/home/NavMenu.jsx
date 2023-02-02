@@ -9,6 +9,7 @@ import {
 import { useState } from "react"
 import { useMediaQuery } from "react-responsive"
 import { useRouter } from "next/router"
+import NavMenuAdmin from "./NavMenuAdmin"
 import Image from "next/image"
 
 const NavMenu = () => {
@@ -124,7 +125,9 @@ const NavMenu = () => {
         </div>
       </div>
     </header>
-  ) : null
+  ) : (
+    <NavMenuAdmin />
+  )
 }
 
 export default NavMenu
