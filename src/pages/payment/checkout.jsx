@@ -3,6 +3,7 @@ import { Form, Formik } from "formik"
 import FormField from "@/components/utils/FormField"
 import Button from "@/components/utils/Button"
 import { NavLink } from "@/components/utils/NavLink"
+import React, { useState } from "react"
 
 const exampleAddresses = [
   {
@@ -32,7 +33,6 @@ const defaultValidationSchema = yup.object().shape({
 })
 
 const defaultInitialValues = {
-  /* Ajouter les values du select */
   firstName: "",
   name: "",
   address: "",
@@ -40,11 +40,13 @@ const defaultInitialValues = {
   city: "",
 }
 
-/*const handleSelect = () = {
-    //
-}*/
+const Checkout = (props) => {
+  const [selectedId, setSelectedId] = useState(0)
 
-const Payment = (props) => {
+  const handleInput = (event) => {
+    setSelectedId(event.target.options[event.target.selectedIndex].id)
+  }
+
   const {
     onSubmit,
     initialValues = defaultInitialValues,
@@ -62,28 +64,26 @@ const Payment = (props) => {
           <Form>
             <div className="flex flex-col items-center my-10 space-y-5">
               <h1 className="font-bold text-xl">Livraison</h1>
-              <div className="grid gap-2 grid-cols-1 grid-rows-1 md:grid-cols-2 md:grid-rows-2 lg:grid-cols-4 lg:grid-rows-3 w-4/5 lg:w-1/2">
+              <div className="grid gap-2 grid-cols-1 grid-rows-1 md:grid-cols-2 md:grid-rows-2 lg:grid-cols-4 lg:grid-rows-3 space-y-3 w-4/5 lg:w-1/2">
                 <FormField
                   name="firstName"
-                  placeholder="John"
                   label="Prénom"
                   className="lg:col-span-2"
+                  value="John"
                 />
                 <FormField
                   name="name"
-                  placeholder="Doe"
                   label="Nom"
                   className="lg:col-span-2"
+                  value="Doe"
                 />
                 <div className="md:col-span-2 lg:col-span-4 md:w-1/2">
                   <label htmlFor="addresses"></label>
                   <select
                     id="addresses"
+                    onChange={handleInput}
                     className="bg-white border-2 border-gray-400 rounded-lg block w-full px-5 py-2"
                   >
-                    <option defaultValue>
-                      Choisir une adresse déjà enregistrée
-                    </option>
                     {exampleAddresses.map((address) => (
                       // eslint-disable-next-line react/jsx-key
                       <option value={address.name} id={address.id}>
@@ -92,32 +92,28 @@ const Payment = (props) => {
                     ))}
                   </select>
                 </div>
+
                 <FormField
                   name="address"
-                  placeholder="01 rue de ..."
                   label="Adresse"
                   className="lg:col-span-2"
+                  value={exampleAddresses[selectedId].address}
                 />
                 <FormField
                   name="complete"
-                  placeholder="bâtiment, rue..."
                   label="Complément d'adresse"
                   className="lg:col-span-2"
+                  value={exampleAddresses[selectedId].complete}
                 />
                 <FormField
                   name="city"
-                  placeholder="Paris"
                   label="Ville"
                   className="lg:col-span-2"
+                  value={exampleAddresses[selectedId].city}
                 />
               </div>
               <NavLink href="/payment/payment">
-                <Button
-                  className="bg-[#615043] hover:bg-[#927864] hover:cursor-pointer
-             active:bg-[#615043] border border-black p-3.5 font-semibold rounded-md px-20"
-                >
-                  Payer
-                </Button>
+                <Button>Passer au paiement</Button>
               </NavLink>
             </div>
           </Form>
@@ -127,4 +123,4 @@ const Payment = (props) => {
   )
 }
 
-export default Payment
+export default Checkout

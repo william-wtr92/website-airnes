@@ -5,19 +5,19 @@ import {
   ShoppingBagIcon,
   FolderOpenIcon,
 } from "@heroicons/react/24/solid"
-import { useRouter } from "next/router"
 import { NavLink } from "../utils/NavLink"
+import Image from "next/image"
 
 const NavMenuAdmin = () => {
-  const router = useRouter()
-
-  return router.pathname.startsWith("/admin") ? (
+  return (
     <header className="w-1/6 bg-gray-200 h-screen">
       <div className="flex justify-center">
-        <img
+        <Image
           src="/images/logo_admin.png"
-          alt="logo"
-          className="h-24 hover:scale-105"
+          alt="Admin Logo"
+          width={100}
+          height={1}
+          className="h-24 w-24 hover:scale-110"
         />
       </div>
       <div className="flex flex-col gap-4 mx-14 mt-10 absolute top-[10%]">
@@ -43,7 +43,7 @@ const NavMenuAdmin = () => {
         </div>
       </div>
     </header>
-  ) : null
+  )
 }
 
 export default NavMenuAdmin
