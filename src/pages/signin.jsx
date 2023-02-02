@@ -24,9 +24,9 @@ const Signin = () => {
         initialValues={inscriptionInitialValues}
         validationSchema={inscriptionValidationSchema}
       >
-        <div className="flex justify-center mt-12 lg:-mt-6 ">
+        <div className="flex justify-center mt-12 lg:mt-26 ">
           <div className=" w-2/3 lg:w-1/3 ">
-            <h1 className="text-center mb-6 lg:mt-16 text-3xl font-bold hover:cursor-pointer hover:text-[#615043]">
+            <h1 className="text-center mb-8 lg:mt-16 text-3xl font-bold">
               Inscription
             </h1>
             <Form className="flex flex-col">
@@ -61,7 +61,7 @@ const Signin = () => {
               />
               <div className="flex justify-center gap-4 my-4 text-bold whitespace-nowrap">
                 Deja un compte ?
-                <div className="font-bold hover:text-primary-light">
+                <div className="hover:text-[#615043]">
                   <NavLink href="/user/login">connectez-vous</NavLink>
                 </div>
               </div>
