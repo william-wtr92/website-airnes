@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/24/solid"
 import { useState } from "react"
 import { useMediaQuery } from "react-responsive"
+import Image from "next/image"
 
 const NavMenu = () => {
   const [showSearch, setShowSearch] = useState(false)
@@ -31,10 +32,12 @@ const NavMenu = () => {
       <div className="flex h-14 border-b-2 items-center shadow-xl shadow-[#615043]">
         <div className="flex mr-auto ml-2 lg:ml-10">
           <NavLink href="/">
-            <img
+            <Image
               src="/images/logo.png"
-              alt="My logo"
-              className="h-20 ml-2 hover:scale-110 lg:ml-0 lg:h-24"
+              alt="Logo"
+              width={100}
+              height={1}
+              className="h-24 w-24 hover:scale-110 lg:w-24"
             />
           </NavLink>
         </div>
