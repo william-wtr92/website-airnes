@@ -8,9 +8,12 @@ import {
 } from "@heroicons/react/24/solid"
 import { useState } from "react"
 import { useMediaQuery } from "react-responsive"
+import { useRouter } from "next/router"
+import NavMenuAdmin from "./NavMenuAdmin"
 import Image from "next/image"
 
 const NavMenu = () => {
+  const router = useRouter()
   const [showSearch, setShowSearch] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const isMobile = useMediaQuery({ query: "(max-width: 600px)" })
@@ -28,7 +31,7 @@ const NavMenu = () => {
     !burgerMenu ? setBurgerMenu(true) : setBurgerMenu(false)
   }
 
-  return (
+  return !router.pathname.startsWith("/admin") ? (
     <header className="bg-[#ffffff] sticky top-0 z-20">
       <div className="flex h-14 items-center shadow-sm shadow-[#615043]">
         <div className="flex mr-auto ml-2 mt-2 lg:ml-10">
@@ -122,6 +125,8 @@ const NavMenu = () => {
         </div>
       </div>
     </header>
+  ) : (
+    <NavMenuAdmin />
   )
 }
 
