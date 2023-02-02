@@ -15,7 +15,7 @@ const ProductCarousel = (props) => {
   }, [maxId])
 
   return (
-    <div
+    /*<div
       className={classNames(
         " flex bg-cover",
         imageState.find(({ id }) => id === idImage).sens === "h"
@@ -28,7 +28,21 @@ const ProductCarousel = (props) => {
           imageState.find(({ id }) => id === idImage).src
         })`,
       }}
-    >
+    >*/
+      <div
+          className={classNames(
+              " flex bg-cover",
+              imageState.find(({id}) => id === idImage).sens === "h"
+                  ? " w-full h-64"
+                  : " w-2/3 h-96",
+              className
+          )}
+          style={{
+            backgroundImage: `url(${
+                imageState.find(({id}) => id === idImage).src
+            })`,
+          }}
+      >
       <div className="flex justify-between w-full">
         <bouton
           className="h-full  flex flex-col justify-center"

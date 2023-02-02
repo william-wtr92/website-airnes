@@ -58,7 +58,7 @@ const ProductPage = () => {
     return (
         <>
             <div className="flex justify-center ">
-                <div className=" w-full lg:w-3/5 ">
+                <div className="w-full lg:w-3/5 ">
                     <div className="flex flex-col lg:flex-row lg:justify-between items-center">
                         <div className="w-full lg:w-1/2 flex justify-center">
                             <ProductCarousel imageState={imageState}/>
@@ -85,7 +85,7 @@ const ProductPage = () => {
                     </div>
                     <div className="flex flex-col items-center space-y-3">
                         <h3 className="uppercase font-extrabold text-xl">Produits similaires</h3>
-                        <div className="overflow-x-auto flex bg-slate-300 w-full space-x-10">
+                        <div className="overflow-x-auto flex bg-slate-300 w-full space-x-10 px-5 lg:px-0">
                             {exampleState.map((product) => (
                                 <div key={product.id} className="flex-none w-3/5 lg:w-2/5">
                                     <Product
