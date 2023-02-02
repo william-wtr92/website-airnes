@@ -61,7 +61,7 @@ const Signin = () => {
               />
               <div className="flex justify-center gap-4 my-4 text-bold whitespace-nowrap">
                 Deja un compte ?
-                <div className="font-bold hover:text-[#927864]">
+                <div className="font-bold hover:text-primary-light">
                   <NavLink href="/user/login">connectez-vous</NavLink>
                 </div>
               </div>
