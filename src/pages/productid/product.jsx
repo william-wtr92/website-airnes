@@ -80,7 +80,7 @@ const ProductPage = () => {
                                 aliquam dicta eos quas optio non iste voluptatibus nesciunt odio
                                 ab molestiae harum? Ipsam ab neque iure expedita.
                             </p>
-                            <Button className="w-1/2 ml-[25%]">Ajouter au panier</Button>
+                            <Button>Ajouter au panier</Button>
                         </div>
                     </div>
                     <div className="flex flex-col items-center space-y-3">

@@ -1,5 +1,3 @@
-// import classNames from "classnames"
-
 const Product = (props) => {
     const { image, alt, productName, productPrice } = props
 
