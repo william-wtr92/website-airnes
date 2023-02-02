@@ -57,7 +57,7 @@ const Signin = () => {
                 placeholder="Entrez votre message"
                 rows="4"
                 label="Comfirmation du mot de passe*"
-                className="mb-2 lg:mb-8 "
+                className="mb-2 lg:mb-8"
               />
               <div className="flex justify-center gap-4 my-4 text-bold whitespace-nowrap">
                 Deja un compte ?
