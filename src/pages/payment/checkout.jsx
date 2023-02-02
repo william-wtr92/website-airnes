@@ -40,7 +40,7 @@ const defaultInitialValues = {
   city: "",
 }
 
-const Payment = (props) => {
+const Checkout = (props) => {
   const [selectedId, setSelectedId] = useState(0)
 
   const handleInput = (event) => {
@@ -92,6 +92,7 @@ const Payment = (props) => {
                     ))}
                   </select>
                 </div>
+
                 <FormField
                   name="address"
                   label="Adresse"
@@ -112,7 +113,7 @@ const Payment = (props) => {
                 />
               </div>
               <NavLink href="/payment/payment">
-                <Button>Payer</Button>
+                <Button>Passer au paiement</Button>
               </NavLink>
             </div>
           </Form>
@@ -122,4 +123,4 @@ const Payment = (props) => {
   )
 }
 
-export default Payment
+export default Checkout
