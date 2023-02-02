@@ -23,9 +23,9 @@ const Contact = () => {
         initialValues={contactInitialValues}
         validationSchema={contactValidationSchema}
       >
-        <div className="flex justify-center mt-20 lg:mt-20 ">
-          <div className=" w-2/3 lg:w-1/3 p-6 rounded-lg">
-            <h1 className="text-center mb-16 text-3xl font-bold hover:text-[#615043] hover:cursor-pointer">
+        <div className="flex justify-center mt-20 lg:mt-32 ">
+          <div className=" w-2/3 lg:w-1/3 shadow-2xl shadow-[#615043] p-6 rounded-lg">
+            <h1 className="text-center mb-16 text-3xl font-bold">
               Nous contacter
             </h1>
             <Form className="flex flex-col">
