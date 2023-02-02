@@ -34,19 +34,19 @@ const FooterMenu = (props) => {
           <NavLink href="/">
             <FontAwesomeIcon
               icon={faLinkedin}
-              className="h-6 text-white hover:scale-110"
+              className="h-6 text-primary hover:scale-110"
             />
           </NavLink>
           <NavLink href="/">
             <FontAwesomeIcon
               icon={faInstagram}
-              className="h-6 text-white hover:scale-110"
+              className="h-6 text-primary hover:scale-110"
             />
           </NavLink>
           <NavLink href="/">
             <FontAwesomeIcon
               icon={faFacebookF}
-              className="h-6 text-white hover:scale-110"
+              className="h-6 text-primary hover:scale-110"
             />
           </NavLink>
         </div>
