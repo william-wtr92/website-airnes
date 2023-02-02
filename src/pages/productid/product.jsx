@@ -1,6 +1,6 @@
 import Product from "@/components/category/Product"
 import Button from "@/components/utils/Button"
-import ProductCarousel from "@/components/utils/productcarrousel"
+import ProductCarousel from "@/components/utils/Productcarrousel"
 
 const imageState = [
   { id: 0, src: "/images/meuble2.jpg", alt: "totu", sens: "h" },
