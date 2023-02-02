@@ -24,9 +24,9 @@ const Signin = () => {
         initialValues={inscriptionInitialValues}
         validationSchema={inscriptionValidationSchema}
       >
-        <div className="flex justify-center mt-12 lg:mt-26 ">
+        <div className="flex justify-center mt-12 lg:-mt-6">
           <div className=" w-2/3 lg:w-1/3 ">
-            <h1 className="text-center mb-8 lg:mt-16 text-3xl font-bold">
+            <h1 className="text-center mb-8 lg:mt-16 text-3xl font-bold hover:cursor-pointer hover:text-[#615043]">
               Inscription
             </h1>
             <Form className="flex flex-col">
@@ -57,11 +57,11 @@ const Signin = () => {
                 placeholder="Entrez votre message"
                 rows="4"
                 label="Comfirmation du mot de passe*"
-                className="mb-2 lg:mb-8 "
+                className="mb-2 lg:mb-8"
               />
               <div className="flex justify-center gap-4 my-4 text-bold whitespace-nowrap">
                 Deja un compte ?
-                <div className="hover:text-[#615043]">
+                <div className="font-bold hover:text-primary-light">
                   <NavLink href="/user/login">connectez-vous</NavLink>
                 </div>
               </div>
