@@ -1,4 +1,3 @@
-import NavMenuAdmin from "@/components/home/NavMenuAdmin"
 import { NavLink } from "@/components/utils/NavLink"
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid"
 
@@ -14,7 +13,7 @@ const UsersView = () => {
           />
         </div>
         <div className="flex justify-center w-5/6 absolute top-[25%] left-[15%]">
-          <div className="relative h-[500px] overflow-x-auto shadow-md rounded-lg">
+          <div className="relative h-[500px] overflow-x-auto rounded-lg">
             <table className="w-full text-sm text-left text-gray-700 dark:text-gray-400">
               <thead className="text-xs sticky top-0 uppercase bg-gray-50 dark:bg-gray-200 dark:text-gray-400">
                 <tr>
@@ -47,7 +46,6 @@ const UsersView = () => {
           </div>
         </div>
       </div>
-      <NavMenuAdmin />
     </>
   )
 }
