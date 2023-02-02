@@ -34,7 +34,6 @@ export const inscriptionInitialValues = {
   passwordConfirmation: "",
 }
 
-<<<<<<< HEAD
 export const loginValidationSchema = yup.object().shape({
   mail: yup.string().required().label("mail"),
   pwd: yup.string().required().label("pwd"),
@@ -43,7 +42,8 @@ export const loginValidationSchema = yup.object().shape({
 export const loginInitialValues = {
   mail: "",
   pwd: "",
-=======
+}
+
 export const accountSettingsValidationSchema = yup.object().shape({
   name: yup.string().required("Name required"),
   mail: yup.string().email().required("Email required"),
@@ -52,5 +52,4 @@ export const accountSettingsValidationSchema = yup.object().shape({
 export const accountSettingsInitialValues = {
   name: "",
   mail: "",
->>>>>>> 8009e37d1d412a1cb2ac3e95dedd0a4c09068ad9
 }
