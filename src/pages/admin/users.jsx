@@ -1,11 +1,11 @@
-// import { NavLink } from "@/components/utils/NavLink"
-// import { MagnifyingGlassIcon } from "@heroicons/react/24/solid"
+import { NavLink } from "@/components/utils/NavLink"
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid"
 
 const UsersView = () => {
   return (
     <>
       <div>
-        {/* <div className="flex justify-center w-5/6 absolute top-[12%] left-[15%]">
+        <div className="flex justify-center w-5/6 absolute top-[12%] left-[15%]">
           <MagnifyingGlassIcon className="h-6 absolute left-[35%] top-[20%] text-gray-400" />
           <input
             type="search"
@@ -44,7 +44,7 @@ const UsersView = () => {
               </tbody>
             </table>
           </div>
-        </div> */}
+        </div>
       </div>
     </>
   )
