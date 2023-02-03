@@ -25,7 +25,7 @@ const NavMenuAdmin = () => {
   }
 
   return (
-    <header className="w-full bg-gray-200 h-14 lg:border-r-2 lg:shadow-2xl lg:h-screen lg:flex lg:justify-center lg:w-1/6">
+    <header className="z-10 sticky top-0 w-full bg-gray-200 h-14 lg:border-r-2 lg:shadow-2xl lg:h-screen lg:flex lg:justify-center lg:w-1/6">
       <div className="flex lg:justify-center">
         <div className="flex items-center ml-4 lg:items-start lg:ml-0">
           <Image
@@ -46,7 +46,7 @@ const NavMenuAdmin = () => {
       <div className="text-gray-600 lg:flex lg:flex-col lg:gap-6 lg:mx-10 lg:mt-10 lg:absolute lg:top-[10%]">
         {showBurger && isMobile && (
           <>
-            <div className="h-[90vh] flex flex-col items-center py-20 gap-8 bg-[#ffffffde]">
+            <div className="h-[90vh] flex flex-col items-center py-20 gap-8 bg-[#ffffffd7]">
               <div className="flex w-28 gap-2">
                 <HomeIcon className="h-6" />
                 <NavLink href="/admin/home">Home</NavLink>
@@ -66,6 +66,16 @@ const NavMenuAdmin = () => {
               <div className="flex w-28 gap-2">
                 <PresentationChartBarIcon className="h-6" />
                 <NavLink href="/admin/statistics">Statistics</NavLink>
+              </div>
+            </div>
+            <div className="flex justify-center">
+              <div className="flex justify-center pt-3 fixed bottom-2 border-t-2 border-gray-300 w-full">
+                <p className="text-sm font-bold text-gray-600 hover:cursor-pointer">
+                  Fabrice Admin
+                </p>
+                <NavLink href="/">
+                  <AdjustmentsHorizontalIcon className="h-6 ml-4 text-gray-600" />
+                </NavLink>
               </div>
             </div>
           </>
@@ -95,7 +105,7 @@ const NavMenuAdmin = () => {
           </div>
         )}
       </div>
-      <div className="hidden justify-center absolute bottom-0 border-t-2 border-gray-300 w-1/6 py-4 hover:bg-gray-300 lg:flex">
+      <div className="hidden justify-center w-full absolute bottom-0 border-t-2 border-gray-300 py-4 hover:bg-gray-300 lg:flex">
         <p className="text-sm font-bold text-gray-600 hover:cursor-pointer">
           Fabrice Admin
         </p>
