@@ -22,10 +22,11 @@ module.exports = {
       white: colors.white,
       gray: colors.gray,
       blue: colors.blue,
+      red: colors.red,
       // Custom colors
       primary: {
         DEFAULT: "#615043",
-        light: "#927864"
+        light: "#927864",
       },
     },
   },

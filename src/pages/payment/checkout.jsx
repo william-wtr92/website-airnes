@@ -38,7 +38,7 @@ const defaultInitialValues = {
     city: "",
 }
 
-const Payment = (props) => {
+const Checkout = (props) => {
     const [selectedId, setSelectedId] = useState(0)
     const [formValues, setFormValues] = useState(defaultInitialValues)
 
@@ -128,4 +128,4 @@ const Payment = (props) => {
     )
 }
 
-export default Payment
+export default Checkout
