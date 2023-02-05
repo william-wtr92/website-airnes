@@ -6,7 +6,7 @@ const UsersView = () => {
     <>
       <div>
         <div className="flex justify-center w-5/6 absolute top-[12%] left-[15%]">
-          <MagnifyingGlassIcon className="h-6 absolute left-[35%] top-[20%]" />
+          <MagnifyingGlassIcon className="h-6 absolute left-[35%] top-[20%] text-gray-400" />
           <input
             type="search"
             className="py-2 pl-12 pr-40 rounded-md border-2 focus:border-black bg-gray-100 focus:outline-none"
@@ -16,7 +16,7 @@ const UsersView = () => {
           <div className="relative h-[500px] overflow-x-auto rounded-lg">
             <table className="w-full text-sm text-left text-gray-700 dark:text-gray-400">
               <thead className="text-xs sticky top-0 uppercase bg-gray-50 dark:bg-gray-200 dark:text-gray-400">
-                <tr>
+                <tr className="hover:cursor-pointer">
                   <th className="px-6 py-3">Id</th>
                   <th className="px-6 py-3">Nom</th>
                   <th className="px-6 py-3">Date de création</th>
@@ -25,7 +25,7 @@ const UsersView = () => {
                 </tr>
               </thead>
               <tbody className="overflow-y-auto">
-                <tr className="text-black border-b bg-gray-100 hover:bg-gray-200">
+                <tr className="text-black border-b bg-gray-100 hover:bg-gray-200 hover:cursor-pointer">
                   <td className="px-6 py-4">_156516156</td>
                   <td className="px-6 py-4">Louis Jean</td>
                   <td className="flex justify-center px-6 py-4">12/12/2022</td>
