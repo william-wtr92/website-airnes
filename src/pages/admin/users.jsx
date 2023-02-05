@@ -12,7 +12,7 @@ const UsersView = () => {
         />
       </div>
       <div className="flex w-screen justify-center lg:w-5/6 lg:absolute lg:top-[25%] lg:left-[15%]">
-        <div className=" relative h-[500px] overflow-x-auto rounded-lg">
+        <div className="relative h-[420px] lg:h-[500px] overflow-x-auto rounded-lg">
           <table className="w-60 text-sm text-left text-gray-700 dark:text-gray-400 lg:w-full">
             <thead className="text-xs sticky top-0 uppercase bg-gray-50 dark:bg-gray-200 dark:text-gray-400">
               <tr className="hover:cursor-pointer">
@@ -26,7 +26,7 @@ const UsersView = () => {
             <tbody className="overflow-y-auto">
               <tr className="text-black border-b bg-gray-100 hover:bg-gray-200 hover:cursor-pointer">
                 <td className="px-6 py-4">_156516156</td>
-                <td className="px-6 py-4">Louis Jean</td>
+                <td className="px-6 py-4 whitespace-nowrap">Louis Jean</td>
                 <td className="flex justify-center px-6 py-4">12/12/2022</td>
                 <td className="px-6 py-4">Admin</td>
                 <td className="flex items-center px-6 py-4 space-x-3">
