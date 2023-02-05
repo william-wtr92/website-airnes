@@ -77,18 +77,16 @@ const Checkout = (props) => {
 
                             <div
                                 className="flex flex-col flex-wrap md:flex-row w-4/5 lg:w-1/2 gap-y-5">
-                                <div className="basis-full md:basis-1/2">
-                                    <FormField
-                                        name="firstName"
-                                        label="Prénom"
-                                    />
-                                </div>
-                                <div className="basis-full md:basis-1/2">
-                                    <FormField
-                                        name="name"
-                                        label="Nom"
-                                    />
-                                </div>
+                                <FormField
+                                    name="firstName"
+                                    label="Prénom"
+                                    className="basis-full md:basis-1/2"
+                                />
+                                <FormField
+                                    name="name"
+                                    label="Nom"
+                                    className="basis-full md:basis-1/2"
+                                />
                                 <div className="basis-full">
                                     <label htmlFor="addresses"></label>
                                     <select id="addresses"
