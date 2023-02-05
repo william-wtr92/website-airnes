@@ -25,7 +25,6 @@ const exampleAddresses = [
 const defaultValidationSchema = yup.object().shape({
     firstName: yup.string().required().label("Prénom"),
     name: yup.string().required().label("Nom"),
-    /* Faire les règles du select */
     address: yup.string().required().label("Adresse"),
     complete: yup.string().label("Complément d'adresse"),
     city: yup.string().required().label("Ville"),
@@ -70,6 +69,7 @@ const Payment = (props) => {
     return (
         <>
             <Formik
+                enableReinitialize
                 onSubmit={onSubmit}
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -123,7 +123,7 @@ const Payment = (props) => {
                                     className="lg:col-span-2"
                                 />
                             </div>
-                            <Button type="submit">Passer au paiement</Button>
+                            <Button>Passer au paiement</Button>
                         </div>
                     </Form>
                 </div>
