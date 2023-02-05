@@ -74,7 +74,6 @@ const Checkout = (props) => {
                     <Form>
                         <div className="flex flex-col items-center my-10 gap-y-5">
                             <h1 className="font-bold text-xl">Livraison</h1>
-
                             <div
                                 className="flex flex-col flex-wrap md:flex-row w-4/5 lg:w-1/2 gap-y-5">
                                 <FormField
