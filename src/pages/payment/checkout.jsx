@@ -33,11 +33,9 @@ const defaultValidationSchema = yup.object().shape({
 const defaultInitialValues = {
     firstName: "John",
     name: "Doe",
-    chosen: {
-        address: "",
-        complete: "",
-        city: "",
-    }
+    address: "",
+    complete: "",
+    city: "",
 }
 
 const Payment = (props) => {
@@ -55,14 +53,12 @@ const Payment = (props) => {
     }
 
     useEffect(() => {
+        const chosen = selectedId ? exampleAddresses.find(({id}) => id === selectedId) : defaultInitialValues
         setFormValues(prevValues => ({
             ...prevValues,
-            chosen: selectedId ?
-                exampleAddresses.find(({id}) => id === selectedId) : {
-                    address: "",
-                    complete: "",
-                    city: "",
-                },
+            address: chosen.address,
+            complete: chosen.complete,
+            city: chosen.city
         }))
     }, [selectedId])
 
@@ -108,17 +104,17 @@ const Payment = (props) => {
                                     </select>
                                 </div>
                                 <FormField
-                                    name="chosen.address"
+                                    name="address"
                                     label="Adresse"
                                     className="lg:col-span-2"
                                 />
                                 <FormField
-                                    name="chosen.complete"
+                                    name="complete"
                                     label="Complément d'adresse"
                                     className="lg:col-span-2"
                                 />
                                 <FormField
-                                    name="chosen.city"
+                                    name="city"
                                     label="Ville"
                                     className="lg:col-span-2"
                                 />
