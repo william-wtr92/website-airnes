@@ -1,20 +1,16 @@
-import NavMenu from "@/components/home/NavMenu"
 import Head from "next/head"
+import Layout from "@/components/utils/Layout"
 import "./styles.css"
 
 const App = ({ Component, pageProps }) => {
   return (
-    <>
+    <Layout>
       <Head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
-          rel="stylesheet"
-        />
         <title>Airnes</title>
       </Head>
-      <NavMenu />
+
       <Component {...pageProps} />
-    </>
+    </Layout>
   )
 }
 
