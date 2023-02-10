@@ -2,6 +2,7 @@ import Button from "@/components/utils/Button"
 import { TrashIcon } from "@heroicons/react/24/solid"
 import { NavLink } from "@/components/utils/NavLink"
 import FooterMenu from "@/components/home/FooterMenu"
+import Image from "next/image"
 
 const UserCart = () => {
   return (
@@ -17,9 +18,11 @@ const UserCart = () => {
           <div className="grid lg:grid-cols-2">
             <div className="flex shadow-xl bg-[#fff] shadow-[#dad0c9] mx-auto w-[300px] justify-start px-4 py-2 lg:w-[550px] lg:mx-36">
               <div className="flex mt-2 lg:items-center lg:mt-0">
-                <img
+                <Image
                   src="/images/meuble3.png"
                   alt="meuble"
+                  width={100}
+                  height={1}
                   className="w-20 h-20 lg:h-24 lg:w-28 hover:cursor-pointer"
                 />
               </div>

@@ -15,6 +15,8 @@ import {
 } from "chart.js"
 import { Doughnut, Bar } from "react-chartjs-2"
 import { faker } from "@faker-js/faker"
+import Image from "next/image"
+import { NavLink } from "@/components/utils/NavLink"
 
 Chart.register(
   ArcElement,
@@ -77,41 +79,39 @@ const options = {
 const statisticsView = () => {
   return (
     <>
-      <div className="overflox-y-auto">
-        <div className="absolute top-8 left-[30%]">
-          <div className="text-gray-600 grid grid-cols-3 grid-rows-1 gap-10">
-            <div className="bg-gray-200 h-40 w-64 rounded-xl p-4">
-              <div className="flex gap-3">
-                <BanknotesIcon className="h-6" />
-                <p>Ventes</p>
-              </div>
-              <div className="font-black text-5xl flex justify-center relative top-[20%]">
-                4521
-              </div>
+      <div className="overflow-y-auto">
+        <div className="text-gray-600 flex justify-center mt-10 gap-2 lg:gap-4 lg:absolute lg:top-0 lg:left-[15%] lg:w-5/6">
+          <div className="bg-gray-200 h-20 w-24 lg:h-40 lg:w-64 rounded-xl p-2 lg:p-4">
+            <div className="flex lg:gap-3">
+              <BanknotesIcon className="h-4 lg:h-6" />
+              <p className="text-xs lg:text-md">Ventes</p>
             </div>
-            <div className="bg-gray-200 h-40 w-64 rounded-xl p-4">
-              <div className="flex gap-3">
-                <ShoppingBagIcon className="h-6" />
-                <p>Produits</p>
-              </div>
-              <div className="font-black text-5xl flex justify-center relative top-[20%]">
-                35
-              </div>
+            <div className="font-black text-md flex justify-center relative top-[20%] lg:text-5xl">
+              4521
             </div>
-            <div className="bg-gray-200 h-40 w-64 rounded-xl p-4">
-              <div className="flex gap-3">
-                <UsersIcon className="h-6" />
-                <p>Utilisateurs</p>
-              </div>
-              <div className="font-black text-5xl flex justify-center relative top-[20%]">
-                1898
-              </div>
+          </div>
+          <div className="bg-gray-200 h-20 w-24 lg:h-40 lg:w-64 rounded-xl p-2 lg:p-4">
+            <div className="flex lg:gap-3">
+              <ShoppingBagIcon className="h-4 lg:h-6" />
+              <p className="text-xs lg:text-md">Produits</p>
+            </div>
+            <div className="font-black text-md flex justify-center relative top-[20%] lg:text-5xl">
+              35
+            </div>
+          </div>
+          <div className="bg-gray-200 h-20 w-24 lg:h-40 lg:w-64 rounded-xl p-2 lg:p-4">
+            <div className="flex lg:gap-3">
+              <UsersIcon className="h-4 lg:h-6" />
+              <p className="text-xs lg:text-md">Utilisateurs</p>
+            </div>
+            <div className="font-black text-md flex justify-center relative top-[20%] lg:text-5xl">
+              1898
             </div>
           </div>
         </div>
 
-        <div className="my-10 absolute right-[10%] top-[30%]">
-          <h1 className="text-gray-600 font-black mb-6">
+        <div className="my-10 lg:absolute lg:right-[10%] lg:top-[30%]">
+          <h1 className="flex justify-center text-gray-600 font-black mb-6">
             Répartition des ventes par catégorie
           </h1>
           <div className="flex justify-center">
@@ -121,7 +121,7 @@ const statisticsView = () => {
           </div>
         </div>
 
-        <div className="my-10 absolute left-[21%] top-[30%] w-[40%]">
+        <div className="my-10 w-full lg:absolute lg:left-[21%] lg:top-[30%] lg:w-[40%]">
           <div className="flex justify-center">
             <h2 className="text-gray-600 font-black mb-10">
               Ventes des 7 derniers jours
@@ -132,15 +132,17 @@ const statisticsView = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 w-screen justify-center lg:w-3/6 lg:relative lg:-mt-10 lg:pb-10 lg:left-[35%]">
-          <h3 className="flex justify-center font-black text-gray-600">
-            Meilleurs Ventes
-          </h3>
+        <div className="flex flex-col gap-4 w-screen lg:w-[60%] lg:relative lg:pb-10 lg:left-[27%]">
+          <div>
+            <h3 className="flex justify-center text-md font-black text-gray-600 pb-6 lg:text-2xl lg:relative lg:right-[35%]">
+              Meilleurs Ventes
+            </h3>
+          </div>
           <div className="bg-gray-100 relative h-[420px] lg:h-[300px] overflow-x-auto rounded-lg">
-            <table className="w-60 text-sm text-left text-gray-700 dark:text-gray-400 lg:w-full">
+            <table className="w-screen text-sm text-left text-gray-700 dark:text-gray-400 lg:w-full">
               <thead className="text-xs sticky top-0 uppercase bg-gray-50 dark:bg-gray-200 dark:text-gray-400">
                 <tr className="hover:cursor-pointer">
-                  <th className="px-4 py-3">Id</th>
+                  <th className="px-4 py-3">Image</th>
                   <th className="px-6 py-3">Nom de l'article</th>
                   <th className="flex justify-center px-6 py-3">
                     Nombres de ventes
@@ -149,11 +151,23 @@ const statisticsView = () => {
               </thead>
               <tbody className="overflow-y-auto">
                 <tr className="text-black border-b bg-gray-100 hover:bg-gray-200 hover:cursor-pointer">
-                  <td className="px-4 py-4">_156516156</td>
+                  <td className="px-4 py-4">
+                    <NavLink href="/productid/product">
+                      <Image
+                        src="/images/meuble3.png"
+                        alt="meuble"
+                        width={100}
+                        height={1}
+                        className="w-12 h-12 lg:h-16 lg:w-16 hover:cursor-pointer"
+                      />
+                    </NavLink>
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     Armoire en liège
                   </td>
-                  <td className="flex justify-center px-6 py-4">12</td>
+                  <td className="flex justify-center items-center px-6 py-12">
+                    12
+                  </td>
                 </tr>
               </tbody>
             </table>
