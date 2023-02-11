@@ -3,12 +3,53 @@ import Image from "next/image"
 import {Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, XMarkIcon} from "@heroicons/react/24/solid"
 import {useMediaQuery} from "react-responsive"
 import {useState} from "react"
+import {Collapse} from "@/components/utils/Collapse"
 
 const NavMenuUsers = () => {
     const [showSearch, setShowSearch] = useState(false)
     const [searchTerm, setSearchTerm] = useState("")
     const isMobile = useMediaQuery({query: "(max-width: 600px)"})
     const [burgerMenu, setBurgerMenu] = useState(false)
+    const categoryOptions = [
+        {
+            name: "Toutes les categories",
+            redirection: "",
+        },
+        {
+            name: "Salon",
+            redirection: ""
+        }
+        ,
+        {
+            name: "Chambre",
+            redirection: ""
+        }
+        ,
+        {
+            name: "Salle à manger",
+            redirection: ""
+        }
+    ]
+    const productOptions = [
+        {
+            name: "Tous les produits",
+            redirection: "",
+        },
+        {
+            name: "Tables",
+            redirection: ""
+        }
+        ,
+        {
+            name: "Lits",
+            redirection: ""
+        }
+        ,
+        {
+            name: "Bureaux",
+            redirection: ""
+        }
+    ]
 
     const handleSearch = () => {
         !showSearch ? setShowSearch(true) : setShowSearch(false)
@@ -24,7 +65,7 @@ const NavMenuUsers = () => {
 
 
     return <>
-        <header className="bg-[#ffffff] sticky top-0 z-20">
+        <header className="bg-white sticky top-0 z-20">
             <div className="flex h-14 items-center shadow-sm shadow-[#615043]">
                 <div className="flex mr-auto ml-2 mt-2 lg:ml-10">
                     <NavLink href="/">
@@ -96,7 +137,7 @@ const NavMenuUsers = () => {
                 <div
                     className={`${
                         burgerMenu ? `block ` : `hidden `
-                    }w-1/6 h-screen bg-[#ffffffde] absolute inset-y-0 right-0 z-50`}
+                    }w-full md:w-[300px] h-screen bg-[#ffffff] absolute inset-y-0 right-0 z-50 opacity-95`}
                 >
                     <div>
                         <XMarkIcon
@@ -104,23 +145,23 @@ const NavMenuUsers = () => {
                             onClick={showBurgerMenu}
                         />
                     </div>
-                    <div className="flex flex-col mx-16 my-10
-                    gap-10">
-
+                    <div className="flex flex-col mx-16 my-10 gap-10">
                         <div className="hover:text-[#615043] hover:scale-105">
                             <NavLink href="/user/login">
                                 Connexion
                             </NavLink>
                         </div>
                         <div className="hover:text-[#615043] hover:scale-105">
-                            <NavLink href="/category/allCategories">
-                                Catégories
-                            </NavLink>
+                            <Collapse
+                                title="Catégories"
+                                content={categoryOptions}
+                            />
                         </div>
                         <div className="hover:text-[#615043] hover:scale-105">
-                            <NavLink href="/category/allProducts">
-                                Produits
-                            </NavLink>
+                            <Collapse
+                                title="Produits"
+                                content={productOptions}
+                            />
                         </div>
                         <div className="hover:text-[#615043] hover:scale-105">
                             <NavLink href="/">
