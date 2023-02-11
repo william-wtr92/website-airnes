@@ -2,10 +2,26 @@ import Categories from "@/components/home/Categories"
 
 const allCategories = () => {
     const categories = [
-        "Chambre",
-        "Salle à manger",
-        "Salon",
-        "Salle de bain",
+        {
+            id: 0,
+            name: "Salle de bain"
+        },
+        {
+            id: 1,
+            name: "Chambre"
+        },
+        {
+            id: 2,
+            name: "Salle à manger"
+        },
+        {
+            id: 3,
+            name: "Véranda"
+        },
+        {
+            id: 3,
+            name: "Salon"
+        },
     ]
 
     return (
@@ -18,10 +34,11 @@ const allCategories = () => {
             <div className="flex flex-wrap justify-center gap-10">
                 {
                     categories.map(
-                        (category, index) => (
+                        (category) => (
                             <Categories
-                                key={index}
-                                catName={category}
+                                key={category.id}
+                                id={category.id}
+                                catName={category.name}
                             />
                         )
                     )
