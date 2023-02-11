@@ -1,7 +1,6 @@
 import {
   UserGroupIcon,
   HomeIcon,
-  PresentationChartBarIcon,
   ShoppingBagIcon,
   FolderOpenIcon,
   AdjustmentsHorizontalIcon,
@@ -63,10 +62,6 @@ const NavMenuAdmin = () => {
                 <ShoppingBagIcon className="h-6" />
                 <NavLink href="/admin/products">Produits</NavLink>
               </div>
-              <div className="flex w-28 gap-2">
-                <PresentationChartBarIcon className="h-6" />
-                <NavLink href="/admin/statistics">Statistics</NavLink>
-              </div>
             </div>
             <div className="flex justify-center">
               <div className="flex justify-center pt-3 fixed bottom-2 border-t-2 border-gray-300 w-full">
@@ -97,10 +92,6 @@ const NavMenuAdmin = () => {
             <div className="flex py-2 px-4 gap-2 rounded-lg hover:bg-gray-300">
               <ShoppingBagIcon className="h-6" />
               <NavLink href="/admin/products">Produits</NavLink>
-            </div>
-            <div className="flex py-2 px-4 gap-2 rounded-lg hover:bg-gray-300">
-              <PresentationChartBarIcon className="h-6" />
-              <NavLink href="/admin/statistics">Statistics</NavLink>
             </div>
           </div>
         )}

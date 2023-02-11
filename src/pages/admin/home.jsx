@@ -110,7 +110,7 @@ const statisticsView = () => {
           </div>
         </div>
 
-        <div className="my-10 lg:absolute lg:right-[10%] lg:top-[30%]">
+        <div className="mt-10 lg:absolute lg:right-[10%] lg:top-[30%]">
           <h1 className="flex justify-center text-gray-600 font-black mb-6">
             Répartition des ventes par catégorie
           </h1>
@@ -121,9 +121,9 @@ const statisticsView = () => {
           </div>
         </div>
 
-        <div className="my-10 w-full lg:absolute lg:left-[21%] lg:top-[30%] lg:w-[40%]">
+        <div className="mt-10 w-full lg:absolute lg:left-[21%] lg:top-[30%] lg:w-[40%]">
           <div className="flex justify-center">
-            <h2 className="text-gray-600 font-black mb-10">
+            <h2 className="text-gray-600 font-black">
               Ventes des 7 derniers jours
             </h2>
           </div>
@@ -138,7 +138,7 @@ const statisticsView = () => {
               Meilleurs Ventes
             </h3>
           </div>
-          <div className="bg-gray-100 relative h-[420px] lg:h-[300px] overflow-x-auto rounded-lg">
+          <div className="bg-gray-100 relative h-[300px] overflow-x-auto rounded-lg">
             <table className="w-screen text-sm text-left text-gray-700 dark:text-gray-400 lg:w-full">
               <thead className="text-xs sticky top-0 uppercase bg-gray-50 dark:bg-gray-200 dark:text-gray-400">
                 <tr className="hover:cursor-pointer">
@@ -151,7 +151,7 @@ const statisticsView = () => {
               </thead>
               <tbody className="overflow-y-auto">
                 <tr className="text-black border-b bg-gray-100 hover:bg-gray-200 hover:cursor-pointer">
-                  <td className="px-4 py-4">
+                  <td className="px-4 py-2">
                     <NavLink href="/productid/product">
                       <Image
                         src="/images/meuble3.png"
@@ -162,12 +162,8 @@ const statisticsView = () => {
                       />
                     </NavLink>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    Armoire en liège
-                  </td>
-                  <td className="flex justify-center items-center px-6 py-12">
-                    12
-                  </td>
+                  <td className="px-6 whitespace-nowrap">Armoire en liège</td>
+                  <td className="flex justify-center px-6 pt-8">12</td>
                 </tr>
               </tbody>
             </table>
