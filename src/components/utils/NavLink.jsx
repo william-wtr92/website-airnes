@@ -8,7 +8,7 @@ export const NavLink = (props) => {
   return (
     <Link
       {...props}
-      className={classNames("text-sm font-ligth", {
+      className={classNames( {
         underline: asPath === props.href,
       })}
     />

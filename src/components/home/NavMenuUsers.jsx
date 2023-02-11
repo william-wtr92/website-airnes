@@ -104,15 +104,25 @@ const NavMenuUsers = () => {
                             onClick={showBurgerMenu}
                         />
                     </div>
-                    <div className="flex flex-col mx-16 my-10">
-                        <NavLink href="/user/login">
-                            <div className="hover:text-[#615043] mb-10 hover:scale-105">
-                                Login
-                            </div>
-                        </NavLink>
-                        <NavLink href="/">
-                            <div className="hover:text-[#615043] hover:scale-105">Home</div>
-                        </NavLink>
+                    <div className="flex flex-col mx-16 my-10
+                    gap-10">
+
+                        <div className="hover:text-[#615043] hover:scale-105">
+                            <NavLink href="/user/login">
+                                Connexion
+                            </NavLink>
+                        </div>
+                        <div className="hover:text-[#615043] hover:scale-105">
+                            Catégories
+                        </div>
+                        <div className="hover:text-[#615043] hover:scale-105">
+                            Produits
+                        </div>
+                        <div className="hover:text-[#615043] hover:scale-105">
+                            <NavLink href="/">
+                                Promotions
+                            </NavLink>
+                        </div>
                     </div>
                 </div>
             </div>
