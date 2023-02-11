@@ -9,32 +9,33 @@ const Main = () => {
         "Salle de bain"
     ]
 
-  return (
-    <>
-      <main>
-        <Carousel />
+    return (
+        <>
+            <main>
+                <Carousel/>
 
-        <div className="MainText flex flex-col text-[13px] font-bold items-center py-6 hover:cursor-pointer hover:text-[#615043] lg:text-xl">
-          <p>VENANT DES HAUTES TERRES D’ECOSSE NOS</p>
-          <p>MEUBLES SONT IMMORTELS</p>
-        </div>
+                <div
+                    className="MainText flex flex-col text-[13px] font-bold items-center py-6 hover:cursor-pointer hover:text-[#615043] lg:text-xl">
+                    <p>VENANT DES HAUTES TERRES D’ECOSSE NOS</p>
+                    <p>MEUBLES SONT IMMORTELS</p>
+                </div>
 
-          <div className="flex flex-wrap justify-center gap-10">
-              {
-                  categories.map(
-                      (category, index) => (
-                          <Categories
-                              key={index}
-                              catName={category}
-                          />
-                      )
-                  )
-              }
-          </div>
-      </main>
-      <FooterMenu position="relative" />
-    </>
-  )
+                <div className="flex flex-wrap justify-center gap-10">
+                    {
+                        categories.map(
+                            (category, index) => (
+                                <Categories
+                                    key={index}
+                                    catName={category}
+                                />
+                            )
+                        )
+                    }
+                </div>
+            </main>
+            <FooterMenu position="relative"/>
+        </>
+    )
 }
 
 export default Main
