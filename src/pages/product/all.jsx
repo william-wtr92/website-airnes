@@ -23,7 +23,7 @@ const example = [
 ]
 
 
-const Category = () => {
+const allProducts = () => {
     return (
         <>
             <h1
@@ -50,4 +50,4 @@ const Category = () => {
     )
 }
 
-export default Category
+export default allProducts

@@ -13,7 +13,7 @@ const NavMenuUsers = () => {
     const categoryOptions = [
         {
             name: "Toutes les categories",
-            redirection: "/category/allCategories",
+            redirection: "/category/all",
         },
         {
             name: "Salon",
@@ -33,7 +33,7 @@ const NavMenuUsers = () => {
     const productOptions = [
         {
             name: "Tous les produits",
-            redirection: "/products/allProducts",
+            redirection: "/product/all",
         },
         {
             name: "Tables",
