@@ -1,4 +1,4 @@
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import {NavLink} from "@/components/utils/NavLink"
 
 export const Collapse = (props) => {
@@ -8,6 +8,10 @@ export const Collapse = (props) => {
     const handleCollapse = () => {
         setCollapse(!isCollapsed)
     }
+
+    useEffect(() => {
+        setCollapse(false)
+    }, [window.location.pathname])
 
     return (
         <div>

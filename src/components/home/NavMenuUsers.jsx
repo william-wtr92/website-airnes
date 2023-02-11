@@ -2,14 +2,14 @@ import {NavLink} from "@/components/utils/NavLink"
 import Image from "next/image"
 import {Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, XMarkIcon} from "@heroicons/react/24/solid"
 import {useMediaQuery} from "react-responsive"
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import {Collapse} from "@/components/utils/Collapse"
+
 const NavMenuUsers = () => {
     const [showSearch, setShowSearch] = useState(false)
     const [searchTerm, setSearchTerm] = useState("")
     const isMobile = useMediaQuery({query: "(max-width: 600px)"})
     const [burgerMenu, setBurgerMenu] = useState(false)
-
     const categoryOptions = [
         {
             name: "Toutes les categories",
@@ -30,7 +30,6 @@ const NavMenuUsers = () => {
             redirection: "/category/3/category"
         }
     ]
-
     const productOptions = [
         {
             name: "Tous les produits",
@@ -60,7 +59,11 @@ const NavMenuUsers = () => {
         setSearchTerm(e.target.value)
     }
 
-    const handleBurgerMenu = () => {
+    useEffect(() => {
+        setBurgerMenu(false)
+    }, [window.location.pathname])
+
+    const toggleBurgerMenu = () => {
         setBurgerMenu(!burgerMenu)
     }
 
@@ -127,7 +130,7 @@ const NavMenuUsers = () => {
                 </div>
                 <div className="ml-6 mr-4 lg:ml-10">
                     <Bars3Icon
-                        onClick={handleBurgerMenu}
+                        onClick={toggleBurgerMenu}
                         className={`${
                             showSearch && isMobile ? `Hide` : ``
                         }h-6 hover:scale-110 hover:cursor-pointer hover:text-[#b3825c]`}
@@ -142,7 +145,7 @@ const NavMenuUsers = () => {
                     <div>
                         <XMarkIcon
                             className="h-6 hover:cursor-pointer relative top-4 left-3 hover:scale-105"
-                            onClick={handleBurgerMenu}
+                            onClick={toggleBurgerMenu}
                         />
                     </div>
                     <div className="flex flex-col mx-16 my-10 gap-10">
