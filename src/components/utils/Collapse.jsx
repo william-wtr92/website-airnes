@@ -3,32 +3,11 @@ import {NavLink} from "@/components/utils/NavLink"
 
 export const Collapse = (props) => {
     const [isCollapsed, setCollapse] = useState(false)
-    const {title} = props
+    const {title, content} = props
 
     const handleCollapse = () => {
         setCollapse(!isCollapsed)
     }
-
-    const content = [
-        {
-            name: "Table",
-            redirection: ""
-        },
-        {
-            name: "Table",
-            redirection: ""
-        }
-        ,
-        {
-            name: "Table",
-            redirection: ""
-        }
-        ,
-        {
-            name: "Table",
-            redirection: ""
-        }
-    ]
 
     return (
         <div>
