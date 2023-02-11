@@ -2,7 +2,7 @@ import {NavLink} from "@/components/utils/NavLink"
 import Image from "next/image"
 import {Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, XMarkIcon} from "@heroicons/react/24/solid"
 import {useMediaQuery} from "react-responsive"
-import {useEffect, useState} from "react"
+import {useState} from "react"
 import {Collapse} from "@/components/utils/Collapse"
 
 const NavMenuUsers = () => {
@@ -58,10 +58,6 @@ const NavMenuUsers = () => {
     const handleChange = (e) => {
         setSearchTerm(e.target.value)
     }
-
-    useEffect(() => {
-        setBurgerMenu(false)
-    }, [window.location.pathname])
 
     const toggleBurgerMenu = () => {
         setBurgerMenu(!burgerMenu)
