@@ -64,7 +64,7 @@ const NavMenu = () => {
                   color={"#615043"}
                 />
                 <input
-                  className={`px-6 rounded-lg border bg-transparent focus:outline-none focus:shadow-outline-blue text-white placeholder-[#443021] focus:border-white ${
+                  className={`px-6 rounded-lg border bg-transparent focus:outline-none focus:shadow-outline-blue text-primary placeholder-[#443021] focus:border-white ${
                     isMobile ? `z-10` : ``
                   }`}
                   type="search"
@@ -104,7 +104,7 @@ const NavMenu = () => {
         <div
           className={`${
             burgerMenu ? `block ` : `hidden `
-          }w-1/6 h-screen bg-[#ffffffde] absolute inset-y-0 right-0 z-50`}
+          }w-3/5 h-screen bg-[#ffffffde] absolute inset-y-0 right-0 lg:w-1/6 lg:z-50`}
         >
           <div>
             <XMarkIcon
