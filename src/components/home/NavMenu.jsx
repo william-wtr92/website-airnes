@@ -7,7 +7,7 @@ const NavMenu = () => {
 
   return !router.pathname.startsWith("/admin") ? (
     <NavMenuUsers/>
-  ) : (
+    ) : (
     <NavMenuAdmin />
   )
 }
