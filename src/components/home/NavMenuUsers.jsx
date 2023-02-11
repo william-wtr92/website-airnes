@@ -113,7 +113,9 @@ const NavMenuUsers = () => {
                             </NavLink>
                         </div>
                         <div className="hover:text-[#615043] hover:scale-105">
-                            Catégories
+                            <NavLink href="/category/allCategories">
+                                Catégories
+                            </NavLink>
                         </div>
                         <div className="hover:text-[#615043] hover:scale-105">
                             Produits
