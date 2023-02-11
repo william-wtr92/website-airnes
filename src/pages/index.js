@@ -20,7 +20,7 @@ const Main = () => {
                     <p>MEUBLES SONT IMMORTELS</p>
                 </div>
 
-                <div className="flex flex-wrap justify-center gap-10">
+                <div className="flex flex-wrap justify-center gap-5">
                     {
                         categories.map(
                             (category, index) => (
