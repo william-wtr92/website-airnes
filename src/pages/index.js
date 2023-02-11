@@ -3,6 +3,12 @@ import Categories from "@/components/home/Categories"
 import FooterMenu from "@/components/home/FooterMenu"
 
 const Main = () => {
+    const categories = [
+        "Chambre",
+        "Salon",
+        "Salle de bain"
+    ]
+
   return (
     <>
       <main>
@@ -13,7 +19,18 @@ const Main = () => {
           <p>MEUBLES SONT IMMORTELS</p>
         </div>
 
-        <Categories />
+          <div className="flex flex-wrap justify-center gap-10">
+              {
+                  categories.map(
+                      (category, index) => (
+                          <Categories
+                              key={index}
+                              catName={category}
+                          />
+                      )
+                  )
+              }
+          </div>
       </main>
       <FooterMenu position="relative" />
     </>
