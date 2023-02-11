@@ -4,7 +4,7 @@ const Categories = (props) => {
     const {catName, id} = props
 
     return (
-        <NavLink href="/category/`${id}`/category">
+        <NavLink href={`/category/${id}/category`}>
             <div className="h-64 w-80">
                 <p className="flex justify-center relative top-1/2 font-bold tracking-widest text-lg">
                     {catName}

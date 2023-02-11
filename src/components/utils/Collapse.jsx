@@ -18,7 +18,7 @@ export const Collapse = (props) => {
                         content.map(
                             (list, index) => (
                                 <li className="indent-4" key={index}>
-                                    <NavLink href={"/products/`${id}`/product"}>
+                                    <NavLink href={list.redirection}>
                                         {list.name}
                                     </NavLink>
                                 </li>
