@@ -68,9 +68,8 @@ const Main = () => {
             <main>
                 <Carousel/>
                 <div
-                    className="flex flex-col text-[13px] font-bold items-center lg:py-6 hover:cursor-pointer lg:text-xl">
-                    <p>VENANT DES HAUTES TERRES D’ECOSSE NOS</p>
-                    <p>MEUBLES SONT IMMORTELS</p>
+                    className="text-center text-[13px] font-bold lg:py-6 lg:text-xl">
+                    <p>VENANT DES HAUTES TERRES D’ECOSSE<br/>NOS MEUBLES SONT IMMORTELS</p>
                 </div>
                 <div className="flex flex-wrap justify-center">
                     <div className="flex flex-wrap justify-center lg:justify-between lg:w-4/5">
