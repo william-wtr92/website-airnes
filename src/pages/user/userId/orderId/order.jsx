@@ -79,14 +79,14 @@ export const example = [
         id: 0,
         name: "Chaise en érable",
         price: 1200,
-        image: "/images/chair.png",
+        image: "/images/meuble3.png",
         quantity: 1,
     },
     {
         id: 1,
         name: "Lit en légende",
         price: 1200,
-        image: "/images/chair.png",
+        image: "/images/meuble3.png",
         quantity: 1,
 
     },
@@ -94,7 +94,7 @@ export const example = [
         id: 2,
         name: "Table en rhino",
         price: 1200,
-        image: "/images/chair.png",
+        image: "/images/meuble3.png",
         quantity: 1,
 
     },
@@ -102,7 +102,7 @@ export const example = [
         id: 3,
         name: "Entrecôte Boeuf",
         price: 1200,
-        image: "/images/chair.png",
+        image: "/images/meuble3.png",
         quantity: 1,
 
     }
