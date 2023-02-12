@@ -1,5 +1,5 @@
 const Product = (props) => {
-    const { image, alt, productName, productPrice } = props
+    const { image, alt, productName, productPrice, promotion } = props
 
     return <>
         <div>
@@ -10,7 +10,7 @@ const Product = (props) => {
             />
             <div className="flex justify-between font-extrabold uppercase p-1">
                 <h1>{productName}</h1>
-                <p>{productPrice} €</p>
+                <p className={promotion? "text-red-600":"text-black"}>{productPrice} €</p>
             </div>
         </div>
     </>
