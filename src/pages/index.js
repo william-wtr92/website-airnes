@@ -15,42 +15,49 @@ const Main = () => {
             id: 0,
             name: "Chaise",
             price: 123,
+            promotion: 100,
             image: "/images/meuble2.jpg",
         },
         {
             id: 1,
             name: "Chaise 2",
             price: 456,
+            promotion: 400,
             image: "/images/meuble2.jpg",
         },
         {
             id: 2,
             name: "Chaise 3",
             price: 789,
+            promotion: 700,
             image: "/images/meuble2.jpg",
         },
         {
             id: 3,
             name: "Chaise 4",
             price: 987,
+            promotion: 900,
             image: "/images/meuble2.jpg",
         },
         {
             id: 4,
             name: "Chaise 5",
             price: 654,
+            promotion: 600,
             image: "/images/meuble2.jpg",
         },
         {
             id: 5,
             name: "Chaise 5",
             price: 654,
+            promotion: 600,
             image: "/images/meuble2.jpg",
         },
         {
             id: 6,
             name: "Chaise 5",
             price: 654,
+            promotion: 600,
             image: "/images/meuble2.jpg",
         },
     ]
@@ -58,14 +65,31 @@ const Main = () => {
 
     return (
         <>
-            <main className="space-y-12">
+            <main>
                 <Carousel/>
-
-                <div className="flex justify-center">
-                    <div className="w-full lg:w-3/5 ">
-                        <div className="flex flex-col items-center space-y-10">
-                            <h3 className="uppercase font-extrabold text-xl tracking-widest">Promotions</h3>
-                            <div className="overflow-x-auto flex bg-slate-300 w-full space-x-10 px-5 lg:px-0">
+                <div
+                    className="flex flex-col text-[13px] font-bold items-center lg:py-6 hover:cursor-pointer lg:text-xl">
+                    <p>VENANT DES HAUTES TERRES D’ECOSSE NOS</p>
+                    <p>MEUBLES SONT IMMORTELS</p>
+                </div>
+                <div className="flex flex-wrap justify-center">
+                    <div className="flex flex-wrap justify-center lg:justify-between lg:w-4/5">
+                        {
+                            categories.map(
+                                (category, index) => (
+                                    <Categories
+                                        key={index}
+                                        catName={category}
+                                    />
+                                )
+                            )
+                        }
+                    </div>
+                </div>
+                <div className="flex justify-center py-10">
+                        <div className="flex flex-col items-center gap-10 w-[90%] lg:w-4/5">
+                            <h3 className="uppercase font-bold text-xl tracking-widest">Promotions</h3>
+                            <div className="overflow-x-auto scrollbar flex w-full gap-10 bg-gray-100 p-8">
                                 {exampleState.map((product) => (
                                     <div key={product.id} className="flex-none w-3/5 lg:w-2/5">
                                         <Product
@@ -73,32 +97,12 @@ const Main = () => {
                                             image={product.image}
                                             productName={product.name}
                                             productPrice={product.price}
-                                            promotion={true}
+                                            promotion={product.promotion}
                                         />
                                     </div>
                                 ))}
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div
-                    className="MainText flex flex-col text-[13px] font-bold items-center py-6 hover:cursor-pointer hover:text-[#615043] lg:text-xl">
-                    <p>VENANT DES HAUTES TERRES D’ECOSSE NOS</p>
-                    <p>MEUBLES SONT IMMORTELS</p>
-                </div>
-
-                <div className="flex flex-wrap justify-center gap-5">
-                    {
-                        categories.map(
-                            (category, index) => (
-                                <Categories
-                                    key={index}
-                                    catName={category}
-                                />
-                            )
-                        )
-                    }
                 </div>
             </main>
             <FooterMenu position="relative"/>
