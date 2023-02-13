@@ -1,7 +1,7 @@
-import Carousel from "@/components/utils/Carousel"
-import Categories from "@/components/home/Categories"
-import FooterMenu from "@/components/home/FooterMenu"
-import Product from "@/components/category/Product"
+import Carousel from "@/components/app/ui/Carousel"
+import Categories from "@/components/app/content/Categories"
+import FooterMenu from "@/components/layouts/FooterMenu"
+import Product from "@/components/app/content/Product"
 
 const Main = () => {
     const categories = [
