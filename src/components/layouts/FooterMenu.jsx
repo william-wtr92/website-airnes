@@ -14,7 +14,7 @@ const FooterMenu = (props) => {
       >
         <div className="hidden lg:block">
           <div className="flex items-center my-4 font-semibold ml-10 gap-10">
-            <NavLink href="/">
+            <NavLink href="/help/cgu">
               <div className="text-[12px] hover:text-[#b3825c] hover:scale-110 text-sm">
                 CGU
               </div>
