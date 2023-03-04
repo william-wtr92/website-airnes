@@ -19,12 +19,12 @@ const FooterMenu = (props) => {
                 CGU
               </div>
             </NavLink>
-            <NavLink href="/">
+            <NavLink href="/help/legal">
               <div className="text-[12px] hover:text-[#b3825c] hover:scale-110 text-sm">
                 Mentions légales
               </div>
             </NavLink>
-            <NavLink href="/support/contact">
+            <NavLink href="/products/support/contact">
               <div className="text-[12px] hover:text-[#b3825c] hover:scale-110 text-sm">
                 Contact
               </div>
