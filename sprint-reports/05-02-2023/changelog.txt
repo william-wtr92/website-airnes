@@ -11,11 +11,11 @@
 [Charlotte] e60aa4d 2023-02-05 | onSubmit function needs to be done once the back-end is set. done for now
 [Charlotte] 958e635 2023-02-05 | enableReinitiliaze missing fixed
 [Charlotte] 0b5f291 2023-02-04 | Updated the initial values using useEffect but the initialValues are not re-rendering... - needs to be fixed
-[William] d36cb8c 2023-02-03 | Fix NavMenuAdmin / userView responsive / burger menu
+[William] d36cb8c 2023-02-03 | Fix Admin / userView responsive / burger menu
 [William] af04b0a 2023-02-03 | Fix's font linter warning
 [William] eae083a 2023-02-03 | Merge branch 'main' of https://github.com/william-wtr92/website-airnes into SDV-82-correction-font-linter
 [William] 4cd24b1 2023-02-03 | Fix backoffice view
-[William] 47e9769 2023-02-03 | NavMenuAdmin Responsive
+[William] 47e9769 2023-02-03 | Admin Responsive
 [Charlotte] 619016e 2023-02-03 | Merge pull request #31 from william-wtr92/SDV-47-page-mot-de-passe-oublie
 [Tom OLLIVIER] a45cf82 2023-02-03 | SDV 47 setting Page Mots de passe Oublié
 [Hugo] 2663a65 2023-02-02 | Merge pull request #30 from william-wtr92/SDV-74-admin-page-users
@@ -23,7 +23,7 @@
 [William] 019916d 2023-02-02 | Merge branch 'main' of https://github.com/william-wtr92/website-airnes into SDV-74-admin-page-users
 [Hugo] a93194d 2023-02-02 | Merge pull request #29 from william-wtr92/SDV-73-connexion-bdd
 [william] fcf1e08 2023-02-02 | Merge pull request #21 from william-wtr92/SDV-58-page-produit
-[William] 13760ab 2023-02-02 | NavMenuAdmin fix's
+[William] 13760ab 2023-02-02 | Admin fix's
 [William] 2db21ff 2023-02-02 | Change db connection
 [vaillanh] c26a9ba 2023-02-02 | Correction review
 [William] 38f53ac 2023-02-02 | Resolve conflict's
@@ -62,7 +62,7 @@
 [William] 7b67524 2023-02-02 | Fix conflict's
 [William] ae188b2 2023-02-02 | Fixed by Charlotte
 [William] fc52461 2023-02-02 | Resolve conflict's
-[William] db9220e 2023-02-02 | Fix Carousel / NavMenu / Delete component's
+[William] db9220e 2023-02-02 | Fix Carousel / Main / Delete component's
 [Hugo] 8009e37 2023-02-02 | Merge pull request #19 from william-wtr92/SDV-59-page-categories
 [Charlotte] 878bda6 2023-02-02 | error
 [Charlotte] b6885e3 2023-02-01 | Categories page
