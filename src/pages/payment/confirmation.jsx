@@ -1,4 +1,4 @@
-import Button from "@/components/utils/Button"
+import Button from "@/components/app/ui/Button"
 import { NavLink } from "@/components/utils/NavLink"
 
 const Confirmation = () => {

@@ -1,8 +1,8 @@
 import { Form, Formik } from "formik"
 import Formfield from "@/components/utils/FormField"
 import { NavLink } from "@/components/utils/NavLink"
-import Button from "@/components/utils/Button"
-import FooterMenu from "@/components/home/FooterMenu"
+import Button from "@/components/app/ui/Button"
+import FooterMenu from "@/components/layouts/FooterMenu"
 import { useRouter } from "next/router"
 import { useCallback } from "react"
 import {
@@ -49,10 +49,10 @@ const OnLoginForm = () => {
                 />
                 <div className="flex justify-center gap-2 my-4 lg:gap-4">
                   <div className="font-bold hover:text-[#927864] text-xs lg:text-sm">
-                    <NavLink href="/user/lostpwd">Mot de passe oublié?</NavLink>
+                    <NavLink href="/user/#">Mot de passe oublié?</NavLink>
                   </div>
                   <div className="font-bold hover:text-[#927864] text-xs lg:text-sm">
-                    <NavLink href="/signin">Inscrivez vous</NavLink>
+                    <NavLink href="/user/signin">Inscrivez vous</NavLink>
                   </div>
                 </div>
 

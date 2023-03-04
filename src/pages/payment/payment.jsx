@@ -1,7 +1,7 @@
 import * as yup from "yup"
 import {Form, Formik} from "formik"
 import FormField from "@/components/utils/FormField"
-import Button from "@/components/utils/Button"
+import Button from "@/components/app/ui/Button"
 import React, {useCallback} from "react"
 import {useRouter} from "next/router"
 

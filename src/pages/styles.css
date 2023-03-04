@@ -5,12 +5,35 @@
 /* webkit */
 
 ::-webkit-scrollbar {
-  width: 0;
-  height: 0;
+  width: 10px;
+  height: 15px;
 }
 
 ::-webkit-search-cancel-button {
   display: none;
+}
+
+/* Scrollbars style */
+
+@layer components {
+  .scrollbar::-webkit-scrollbar {
+    width: 10px;
+    height: 15px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: white;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: black;
+    border-radius: 100vh;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: gray;
+  }
 }
 
 /* font */
