@@ -7,14 +7,10 @@ import {
   UserIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid"
-import { useMediaQuery } from "react-responsive"
 import { useState } from "react"
 import { Collapse } from "@/components/app/ui/Collapse"
 
 const Users = () => {
-  const [showSearch, setShowSearch] = useState(false)
-  const [searchTerm, setSearchTerm] = useState("")
-  const isMobile = useMediaQuery({ query: "(max-width: 600px)" })
   const [burgerMenu, setBurgerMenu] = useState(false)
   const categoryOptions = [
     {
@@ -53,14 +49,6 @@ const Users = () => {
     },
   ]
 
-  const handleSearch = () => {
-    setShowSearch(!showSearch)
-  }
-
-  const handleChange = (e) => {
-    setSearchTerm(e.target.value)
-  }
-
   const toggleBurgerMenu = () => {
     setBurgerMenu(!burgerMenu)
   }
@@ -76,54 +64,26 @@ const Users = () => {
                 alt="Logo"
                 width={100}
                 height={1}
-                className={`${
-                  showSearch && isMobile ? `Hide` : ``
-                }h-24 w-24 hover:scale-110 lg:w-24 `}
+                className={`h-24 w-24 hover:scale-110 lg:w-24 `}
               />
             </NavLink>
           </div>
           <div className="flex gap-2 lg:gap-6">
             <NavLink href="/user/login">
               <UserIcon
-                className={`${
-                  showSearch && isMobile ? `Hide` : ``
-                }h-6 hover:scale-110 hover:text-[#b3825c]`}
+                className={`h-6 hover:scale-110 hover:text-[#b3825c]`}
                 color={"#615043"}
               />
             </NavLink>
-
-            {showSearch ? (
-              <div className="search-open">
-                <div className="flex items-center">
-                  <MagnifyingGlassIcon
-                    onClick={handleSearch}
-                    className="h-4 hover:scale-110 text-[#443021] relative top-px cursor-pointer left-5 z-20"
-                    color={"#615043"}
-                  />
-                  <input
-                    className={`px-6 rounded-lg border bg-transparent focus:outline-none focus:shadow-outline-blue text-primary text-sm placeholder-[#443021] focus:border-white ${
-                      isMobile ? `z-10` : ``
-                    }`}
-                    type="search"
-                    value={searchTerm}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-            ) : (
-              <div>
-                <MagnifyingGlassIcon
-                  onClick={handleSearch}
-                  className="h-6 hover:scale-110 hover:text-[#b3825c] cursor-pointer"
-                  color={"#615043"}
-                />
-              </div>
-            )}
+            <NavLink href="/categories/search">
+              <MagnifyingGlassIcon
+                className={`h-6 hover:scale-110 hover:text-[#b3825c]`}
+                color={"#615043"}
+              />
+            </NavLink>
             <NavLink href="/user/userId/cart">
               <ShoppingCartIcon
-                className={`${
-                  showSearch && isMobile ? `Hide` : ``
-                }h-6 hover:scale-110 hover:text-[#b3825c]`}
+                className={`h-6 hover:scale-110 hover:text-[#b3825c]`}
                 color={"#615043"}
               />
             </NavLink>
@@ -131,9 +91,7 @@ const Users = () => {
           <div className="ml-6 mr-4 lg:ml-10">
             <Bars3Icon
               onClick={toggleBurgerMenu}
-              className={`${
-                showSearch && isMobile ? `Hide` : ``
-              }h-6 hover:scale-110 hover:cursor-pointer hover:text-[#b3825c]`}
+              className={`h-6 hover:scale-110 hover:cursor-pointer hover:text-[#b3825c]`}
               color={"#615043"}
             />
           </div>
