@@ -5,7 +5,7 @@ import mw from "@/api/mw"
 import {
     mailValidator,
     topicValidator,
-    subjectValidator, contentValidator,
+    contentValidator,
 } from "@/components/validation/contact"
 
 const handler = mw({

@@ -2,14 +2,14 @@ import * as yup from "yup"
 
 export const contactValidationSchema = yup.object().shape({
   mail: yup.string().email().required("Email required").label("email"),
-  subject: yup.string().required("Sujet required").label("sujet"),
-  topic: yup.string().required("Message required").label("message"),
+  topic: yup.string().required("Sujet required").label("sujet"),
+  content: yup.string().required("Message required").label("message"),
 })
 
 export const contactInitialValues = {
   mail: "",
-  subject: "",
   topic: "",
+  content: "",
 }
 
 export const inscriptionValidationSchema = yup.object().shape({

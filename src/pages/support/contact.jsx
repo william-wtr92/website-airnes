@@ -38,9 +38,9 @@ const Contact = () => {
   return (
     <>
       <Formik
-        onSubmit={handlePost}
         initialValues={contactInitialValues}
         validationSchema={contactValidationSchema}
+        onSubmit={handlePost}
         error={error}
       >
         <div className="flex justify-center mt-20 lg:mt-20 ">
