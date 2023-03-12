@@ -6,23 +6,40 @@ import {
   inscriptionInitialValues,
   inscriptionValidationSchema,
 } from "@/components/validation/validationyup"
-import { Form, Formik } from "formik"
+import { Form, Formik, Field } from "formik"
 import { useRouter } from "next/router"
-import { useCallback } from "react"
+import { useCallback, useState } from "react"
+import useAppContext from "@/web/hooks/useAppContext"
 
-const Signin = () => {
+const SignUp = () => {
+  const {
+    actions: { signUp },
+  } = useAppContext()
+  const [error, setError] = useState(null)
   const router = useRouter()
 
-  const handlpost = useCallback(() => {
-    router.push("/")
-  }, [router])
+  const handlpost = useCallback(
+    async (values) => {
+      const [err] = await signUp(values)
+
+      if (err) {
+        setError(err)
+
+        return
+      }
+
+      router.push("/user/login")
+    },
+    [signUp, router]
+  )
 
   return (
     <>
       <Formik
-        onSubmit={handlpost}
         initialValues={inscriptionInitialValues}
         validationSchema={inscriptionValidationSchema}
+        onSubmit={handlpost}
+        error={error}
       >
         <div className="flex justify-center mt-12 lg:-mt-6">
           <div className=" w-2/3 lg:w-1/3 ">
@@ -38,7 +55,7 @@ const Signin = () => {
               />
               <FormField
                 type="email"
-                name="mail"
+                name="email"
                 placeholder="Entrez votre e-mail"
                 label="E-mail*"
                 className=" mb-2"
@@ -59,9 +76,17 @@ const Signin = () => {
                 label="Comfirmation du mot de passe*"
                 className="mb-2 lg:mb-8"
               />
-              <div className="flex justify-center gap-4 my-4 text-bold whitespace-nowrap">
+              <div className="flex justify-center gap-1 my-4  whitespace-nowrap">
+                <Field type="checkbox" name="cgu" className="mr-4" />
+                J'accepte les
+                <div className="font-bold  text-primary-linkorange">
+                  <NavLink href="/help/cgu">condition d'utilisation</NavLink>
+                </div>
+              </div>
+
+              <div className="flex justify-center font-bold gap-1 my-4  whitespace-nowrap">
                 Deja un compte ?
-                <div className="font-bold hover:text-primary-light">
+                <div className=" text-primary-link">
                   <NavLink href="/user/login">connectez-vous</NavLink>
                 </div>
               </div>
@@ -76,4 +101,4 @@ const Signin = () => {
   )
 }
 
-export default Signin
+export default SignUp
