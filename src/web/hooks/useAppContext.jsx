@@ -1,13 +1,32 @@
-import { createContext, useContext } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import createAPIClient from "../createAPIClient"
-import signUpService from "@/web/services/signUp.js"
+import signUpService from "../services/signUp"
+import signInService from "../services/signIn"
+import parseSession from "../parseSession"
+import config from "../config"
 
 const AppContext = createContext()
 
 export const AppContextProvider = (props) => {
-  const api = createAPIClient()
+  const [session, setSession] = useState(null)
+  const [jwt, setJWT] = useState(null)
+  const api = createAPIClient({ jwt })
 
   const signUp = signUpService({ api })
+  const signIn = signInService({ api, setSession, setJWT })
+
+  useEffect(() => {
+    const jwt = localStorage.getItem(config.session.localStorageKey)
+
+    if (!jwt) {
+      return
+    }
+
+    const session = parseSession(jwt)
+
+    setSession(session)
+    setJWT({ jwt })
+  }, [])
 
   return (
     <AppContext.Provider
@@ -15,6 +34,10 @@ export const AppContextProvider = (props) => {
       value={{
         actions: {
           signUp,
+          signIn,
+        },
+        state: {
+          session,
         },
       }}
     />

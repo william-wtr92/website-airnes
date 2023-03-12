@@ -8,6 +8,10 @@ const config = {
   port: 3000,
   db: knexfile,
   security: {
+    jwt: {
+      secret: process.env.SECURITY_JWT_SECRET,
+      expiresIn: "1 day",
+    },
     password: {
       saltlen: 512,
       keylen: 512,
