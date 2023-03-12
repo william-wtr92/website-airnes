@@ -12,7 +12,7 @@ const UserHome = () => {
         <NavLink href="/user/userId/orders">
           <Button className="w-full rounded-2xl">MES COMMANDES</Button>
         </NavLink>
-        <NavLink href="/">
+        <NavLink href="//user/userId/settings">
           <Button className="w-full rounded-2xl">
             MES INFORMATIONS PERSONELLES
           </Button>
