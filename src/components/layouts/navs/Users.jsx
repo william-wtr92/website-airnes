@@ -12,6 +12,7 @@ import { Collapse } from "@/components/app/ui/Collapse"
 
 const Users = () => {
   const [burgerMenu, setBurgerMenu] = useState(false)
+
   const categoryOptions = [
     {
       name: "Toutes les categories",
@@ -53,6 +54,9 @@ const Users = () => {
     setBurgerMenu(!burgerMenu)
   }
 
+  let cartNumber = 0
+  cartNumber = cartNumber === 0 ? null : cartNumber > 9 ? "9+" : cartNumber
+
   return (
     <>
       <header className="bg-white sticky top-0 z-20">
@@ -64,7 +68,7 @@ const Users = () => {
                 alt="Logo"
                 width={100}
                 height={1}
-                className={`h-24 w-24 hover:scale-110 lg:w-24 `}
+                className="h-24 w-24 hover:scale-110 lg:w-24"
               />
             </NavLink>
           </div>
@@ -86,6 +90,18 @@ const Users = () => {
                 className={`h-6 hover:scale-110 hover:text-[#b3825c]`}
                 color={"#615043"}
               />
+
+              {cartNumber !== null && (
+                <div
+                  className={`absolute top-7 px-2 ${
+                    cartNumber < 9
+                      ? "right-12 lg:right-16"
+                      : "right-[43px] lg:right-[58px]"
+                  } -z-10 bg-[#EDE4E0] text-primary font-bold text-xs rounded-full lg:px-2`}
+                >
+                  {cartNumber}
+                </div>
+              )}
             </NavLink>
           </div>
           <div className="ml-6 mr-4 lg:ml-10">
