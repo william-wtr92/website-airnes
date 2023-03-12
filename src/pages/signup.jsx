@@ -18,7 +18,7 @@ const SignUp = () => {
   const [error, setError] = useState(null)
   const router = useRouter()
 
-  const handlpost = useCallback(
+  const handlePost = useCallback(
     async (values) => {
       const [err] = await signUp(values)
 
@@ -38,7 +38,7 @@ const SignUp = () => {
       <Formik
         initialValues={inscriptionInitialValues}
         validationSchema={inscriptionValidationSchema}
-        onSubmit={handlpost}
+        onSubmit={handlePost}
         error={error}
       >
         <div className="flex justify-center mt-12 lg:-mt-6">
