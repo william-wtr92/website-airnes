@@ -22,7 +22,6 @@ const Contact = () => {
 
     const handlePost = useCallback(
         async (values) => {
-            console.log(values)
             const [error] = await contact(values)
 
             if (error) {
