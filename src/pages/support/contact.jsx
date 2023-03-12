@@ -7,21 +7,41 @@ import {
 } from "@/components/validation/validationyup"
 import { Form, Formik } from "formik"
 import { useRouter } from "next/router"
-import { useCallback } from "react"
+import { useCallback, useState } from "react"
+import useAppContext from "@/web/hooks/useAppContext"
+
 
 const Contact = () => {
+  const {
+    actions: { contact },
+  } = useAppContext()
+
+  const [error, setError] = useState(null)
+
   const router = useRouter()
 
-  const handlpost = useCallback(() => {
-    router.push("/")
-  }, [router])
+  const handlePost = useCallback(
+      async (values) => {
+        const [err] = await contact(values)
+
+        if (err) {
+          setError(err)
+
+          return
+        }
+
+        await router.push("/")
+      },
+      [contact, router]
+  )
 
   return (
     <>
       <Formik
-        onSubmit={handlpost}
+        onSubmit={handlePost}
         initialValues={contactInitialValues}
         validationSchema={contactValidationSchema}
+        error={error}
       >
         <div className="flex justify-center mt-20 lg:mt-20 ">
           <div className=" w-2/3 lg:w-1/3 p-6 rounded-lg">
@@ -38,13 +58,13 @@ const Contact = () => {
               />
               <FormField
                 type="text"
-                name="sujet"
+                name="subject"
                 label="Sujet*"
                 className=" mb-2"
               />
               <FormField
                 type="text"
-                name="textarea"
+                name="content"
                 placeholder="Entrez votre message"
                 rows="4"
                 label="Message*"
