@@ -1,7 +1,7 @@
 export const up = async (knex) => {
     await knex.schema.createTable("contact", (table) => {
         table.increments("id")
-        table.text("email").notNullable()
+        table.text("mail").notNullable()
         table.text("topic").notNullable()
         table.text("content").notNullable()
         table.timestamps(true, true, true)
