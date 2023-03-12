@@ -4,18 +4,38 @@ import { NavLink } from "@/components/utils/NavLink"
 import Button from "@/components/app/ui/Button"
 import FooterMenu from "@/components/layouts/FooterMenu"
 import { useRouter } from "next/router"
-import { useCallback } from "react"
+import { useCallback, useState } from "react"
 import {
   loginInitialValues,
   loginValidationSchema,
 } from "@/components/validation/validationyup"
+import useAppContext from "@/web/hooks/useAppContext"
 
 const OnLoginForm = () => {
   const router = useRouter()
 
-  const handleLogin = useCallback(() => {
-    router.push("/")
-  }, [router])
+  const {
+    actions: { signIn },
+  } = useAppContext()
+
+  const [error, setError] = useState(null)
+
+  const handleLogin = useCallback(
+    async (values) => {
+      setError(null)
+
+      const [err] = await signIn(values)
+
+      if (err) {
+        setError(err)
+
+        return
+      }
+
+      router.push("/")
+    },
+    [signIn, router]
+  )
 
   return (
     <>
@@ -24,6 +44,7 @@ const OnLoginForm = () => {
           onSubmit={handleLogin}
           initialValues={loginInitialValues}
           validationSchema={loginValidationSchema}
+          error={error}
         >
           <div>
             <div className="flex justify-center mt-14 lg:my-12">
@@ -35,14 +56,14 @@ const OnLoginForm = () => {
               <Form className="flex flex-col">
                 <Formfield
                   type="email"
-                  name="mail"
+                  name="email"
                   placeholder="E-mail"
                   label="E-mail"
                   className="mb-2"
                 />
                 <Formfield
                   type="password"
-                  name="pwd"
+                  name="password"
                   placeholder="Mot de passe"
                   label="Mot de passe"
                   className="mb-2"
@@ -52,7 +73,7 @@ const OnLoginForm = () => {
                     <NavLink href="/user/#">Mot de passe oublié?</NavLink>
                   </div>
                   <div className="font-bold hover:text-[#927864] text-xs lg:text-sm">
-                    <NavLink href="/user/signin">Inscrivez vous</NavLink>
+                    <NavLink href="/signup">Inscrivez vous</NavLink>
                   </div>
                 </div>
 
