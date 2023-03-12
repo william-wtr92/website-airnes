@@ -13,25 +13,27 @@ export const contactInitialValues = {
 }
 
 export const inscriptionValidationSchema = yup.object().shape({
-  name: yup.string().required("Name required"),
-  mail: yup.string().email().required("Email required"),
+  name: yup.string().required("Name required").label("name"),
+  email: yup.string().email().required("Email required").label("email"),
   password: yup
     .string()
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+      /^(?=.*[\p{Ll}])(?=.*[\p{Lu}])(?=.*[0-9])(?=.*[^0-9\p{Lu}\p{Ll}]).*$/gu,
+      "Password must contain at least 1 upper & 1 lower case letters, 1 digit, 1 spe. character"
     )
     .required("Password is required"),
   passwordConfirmation: yup
     .string()
     .oneOf([yup.ref("password"), null], "Mot de passe différent"),
+  cgu: yup.bool().oneOf([true], "Les CGU sont obligatoires"),
 })
 
 export const inscriptionInitialValues = {
   name: "",
-  mail: "",
+  email: "",
   password: "",
   passwordConfirmation: "",
+  cgu: false,
 }
 
 export const loginValidationSchema = yup.object().shape({

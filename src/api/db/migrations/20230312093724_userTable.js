@@ -11,11 +11,11 @@ export const up = async (knex) => {
     table.text("passwordHash").notNullable()
     table.text("passwordSalt").notNullable()
     table.timestamps(true, true, true)
-    table.integer("roleid").references("id").inTable("role").notNullable()
+    table.integer("roleid").references("id").inTable("role").defaultTo(1)
   })
 }
 
 export const down = async (knex) => {
-  await knex.schema.dropTable("users")
+  await knex.schema.dropTable("user")
   await knex.schema.dropTable("role")
 }

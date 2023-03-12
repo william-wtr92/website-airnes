@@ -1,6 +1,7 @@
 import Head from "next/head"
 import Layout from "@/components/layouts/Layout"
 import "./styles.css"
+import { AppContextProvider } from "@/web/hooks/useAppContext"
 
 const App = ({ Component, pageProps }) => {
   return (
@@ -8,8 +9,9 @@ const App = ({ Component, pageProps }) => {
       <Head>
         <title>Airnes</title>
       </Head>
-
-      <Component {...pageProps} />
+      <AppContextProvider>
+        <Component {...pageProps} />
+      </AppContextProvider>
     </Layout>
   )
 }

@@ -27,6 +27,8 @@ module.exports = {
       primary: {
         DEFAULT: "#615043",
         light: "#927864",
+        link: "#0EA5E9",
+        linkorange: "#FF8300",
       },
     },
   },
