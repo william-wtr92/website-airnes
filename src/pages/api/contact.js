@@ -5,7 +5,7 @@ import mw from "@/api/mw"
 import {
     mailValidator,
     topicValidator,
-    subjectValidator,
+    subjectValidator, contentValidator,
 } from "@/components/validation/contact"
 
 const handler = mw({
@@ -14,19 +14,19 @@ const handler = mw({
             body: {
                 mail: mailValidator.required(),
                 topic: topicValidator.required(),
-                subject: subjectValidator.required(),
+                content: contentValidator.required(),
             },
         }),
         async ({
                    locals: {
-                       body: {mail, topic, subject},
+                       body: {mail, topic, content},
                    },
                    res,
                }) => {
             await ContactModel.query().insertAndFetch({
                 mail,
-                subject,
                 topic,
+                content,
             })
 
             res.send({result: true})

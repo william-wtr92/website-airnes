@@ -16,21 +16,21 @@ const Contact = () => {
     actions: { contact },
   } = useAppContext()
 
-  const [error, setError] = useState(null)
+  const [error, setError] = useState("")
 
   const router = useRouter()
 
   const handlePost = useCallback(
       async (values) => {
-        const [err] = await contact(values)
+        const [error] = await contact(values)
 
-        if (err) {
-          setError(err)
+        if (error) {
+          setError(error)
 
           return
         }
 
-        await router.push("/")
+        router.push("/")
       },
       [contact, router]
   )
@@ -58,7 +58,7 @@ const Contact = () => {
               />
               <FormField
                 type="text"
-                name="subject"
+                name="topic"
                 label="Sujet*"
                 className=" mb-2"
               />

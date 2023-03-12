@@ -34,6 +34,8 @@ const validate = ({ body, params, query }) => {
         return
       }
 
+      console.log(err)
+
       res.status(500).send({ error: "Oops. Something went wrong." })
     }
   }

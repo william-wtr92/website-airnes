@@ -2,11 +2,11 @@ import routes from "../routes"
 
 const contact =
     ({ api }) =>
-        async ({ topic, mail, content }) => {
+        async ({ mail, topic, content }) => {
             try {
                 const { data } = await api.post(routes.api.contact(), {
-                    topic,
                     mail,
+                    topic,
                     content,
                 })
 
