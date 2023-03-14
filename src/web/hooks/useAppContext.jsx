@@ -3,6 +3,7 @@ import createAPIClient from "../createAPIClient"
 import signUpService from "../services/signUp"
 import signInService from "../services/signIn"
 import contactService from "@/web/services/contact.js"
+import createCategoryService from "@/web/services/admin/addCategory"
 import parseSession from "../parseSession"
 import config from "../config"
 
@@ -30,6 +31,8 @@ export const AppContextProvider = (props) => {
     setJWT({ jwt })
   }, [])
 
+    const addCategory = createCategoryService({ api, jwt })
+
   return (
     <AppContext.Provider
       {...props}
@@ -37,7 +40,8 @@ export const AppContextProvider = (props) => {
         actions: {
           signUp,
           signIn,
-          contact
+          contact,
+          addCategory,
         },
         state: {
           session,

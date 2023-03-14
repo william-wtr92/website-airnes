@@ -3,6 +3,7 @@ import * as yup from "yup"
 // generic
 export const boolValidator = yup.bool()
 export const stringValidator = yup.string()
+export const linkValidator = yup.string().url()
 
 // users
 export const NameValidator = yup.string().min(1).label("name")
