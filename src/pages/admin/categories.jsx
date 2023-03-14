@@ -1,47 +1,44 @@
-import { NavLink } from "@/components/utils/NavLink"
-import { MagnifyingGlassIcon } from "@heroicons/react/24/solid"
+import SearchBar from "@/components/app/ui/SearchBar"
+import {PlusCircleIcon, TrashIcon} from "@heroicons/react/24/outline"
+import {PencilSquareIcon} from "@heroicons/react/24/outline"
 
-const UsersView = () => {
-  return (
-    <>
-      <div className="flex justify-center my-5 lg:absolute lg:top-[12%] lg:left-[15%] lg:w-5/6">
-        <MagnifyingGlassIcon className="h-6 relative left-8 top-2 text-gray-400" />
-        <input
-          type="search"
-          className="w-2/3 py-2 pl-8 rounded-md border-2 focus:border-black bg-gray-100 focus:outline-none lg:w-2/5 lg:pl-10"
-        />
-      </div>
-      <div className="flex w-screen justify-center lg:w-full lg:absolute lg:top-[25%] lg:left-[7%]">
-        <div className="relative h-[420px] lg:h-[500px] overflow-x-auto rounded-lg">
-          <table className="w-60 text-sm text-left text-gray-700 dark:text-gray-400 lg:w-[600px]">
-            <thead className="text-xs sticky top-0 uppercase bg-gray-50 dark:bg-gray-200 dark:text-gray-400">
-              <tr className="hover:cursor-pointer">
-                <th className="px-6 py-3">Id</th>
-                <th className="px-6 py-3">Nom</th>
-                <th className="px-6 py-3 flex justify-center">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="overflow-y-auto">
-              <tr className="text-black border-b bg-gray-100 hover:bg-gray-200 hover:cursor-pointer">
-                <td className="px-6 py-4">_156516156</td>
-                <td className="px-6 py-4 whitespace-nowrap">Armoire</td>
-                <td className="flex justify-center items-center px-6 py-4 space-x-8">
-                  <NavLink href="#">
-                    <p className="text-blue-600 hover:text-blue-500">
-                      Modifier
-                    </p>
-                  </NavLink>
-                  <NavLink href="#">
-                    <p className="text-red-600 hover:text-red-500">Supprimer</p>
-                  </NavLink>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+const Categories = () => {
+    return (
+        <div className="p-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
+            <div className="flex flex-col justify-center gap-10">
+                <SearchBar section="category"/>
+                <div className="flex flex-row gap-2 items-center">
+                    <PlusCircleIcon className="h-8 w-8"/>
+                    <p>Add a new category</p>
+                </div>
+                <div
+                    className="flex flex-col overflow-x-auto overflow-hidden py-2 inline-block min-w-full sm:-mx-6 lg:-mx-8 sm:px-6 lg:px-8">
+                    <table className="table-auto">
+                        <thead className="bg-white border-b">
+                        <tr>
+                            <th className="text-sm font-medium text-gray-900 p-4 text-left">
+                                Name
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr className="bg-gray-100 border-b">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                Category
+                            </td>
+                            <td className="flex flex-row gap-5 text-sm text-gray-900 font-light px-6 py-4">
+                                <PencilSquareIcon className="h-6 w-6"/>
+                                <TrashIcon className="h-6 w-6"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
-    </>
-  )
+    )
 }
 
-export default UsersView
+export default Categories

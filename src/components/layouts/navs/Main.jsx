@@ -1,15 +1,15 @@
-import { useRouter } from "next/router"
-import Admin from "./Admin"
+import {useRouter} from "next/router"
+import Admin from "@/components/layouts/navs/admin/Admin"
 import Users from "@/components/layouts/navs/Users"
 
 const Main = () => {
-  const router = useRouter()
+    const router = useRouter()
 
-  return !router.pathname.startsWith("/admin") ? (
-    <Users/>
+    return !router.pathname.startsWith("/admin") ? (
+        <Users/>
     ) : (
-    <Admin />
-  )
+        <Admin/>
+    )
 }
 
 export default Main
