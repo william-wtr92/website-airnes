@@ -3,6 +3,7 @@ import createAPIClient from "../createAPIClient"
 import signUpService from "../services/signUp"
 import signInService from "../services/signIn"
 import contactService from "@/web/services/contact.js"
+import addAddressService from "../services/addAddress"
 import parseSession from "../parseSession"
 import config from "../config"
 
@@ -15,7 +16,7 @@ export const AppContextProvider = (props) => {
 
   const signUp = signUpService({ api })
   const signIn = signInService({ api, setSession, setJWT })
-  const contact = contactService({api})
+  const contact = contactService({ api })
 
   useEffect(() => {
     const jwt = localStorage.getItem(config.session.localStorageKey)
@@ -30,6 +31,8 @@ export const AppContextProvider = (props) => {
     setJWT({ jwt })
   }, [])
 
+  const AddAddress = addAddressService({ api, jwt })
+
   return (
     <AppContext.Provider
       {...props}
@@ -37,7 +40,8 @@ export const AppContextProvider = (props) => {
         actions: {
           signUp,
           signIn,
-          contact
+          contact,
+          AddAddress,
         },
         state: {
           session,
