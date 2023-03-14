@@ -20,15 +20,15 @@ const Users = () => {
     },
     {
       name: "Salon",
-      redirection: "/categories/1/category",
+      redirection: "/categories/1/categories",
     },
     {
       name: "Chambre",
-      redirection: "/categories/2/category",
+      redirection: "/categories/2/categories",
     },
     {
       name: "Salle à manger",
-      redirection: "/categories/3/category",
+      redirection: "/categories/3/categories",
     },
   ]
   const productOptions = [

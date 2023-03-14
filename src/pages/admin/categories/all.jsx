@@ -2,7 +2,7 @@ import SearchBar from "@/components/app/ui/SearchBar"
 import {PlusCircleIcon, TrashIcon} from "@heroicons/react/24/outline"
 import {PencilSquareIcon} from "@heroicons/react/24/outline"
 
-const Categories = () => {
+const All = () => {
     return (
         <div className="p-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
             <div className="flex flex-col justify-center gap-10">
@@ -41,4 +41,4 @@ const Categories = () => {
     )
 }
 
-export default Categories
+export default All

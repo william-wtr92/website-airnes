@@ -65,7 +65,7 @@
 [William] db9220e 2023-02-02 | Fix Carousel / Main / Delete component's
 [Hugo] 8009e37 2023-02-02 | Merge pull request #19 from william-wtr92/SDV-59-page-categories
 [Charlotte] 878bda6 2023-02-02 | error
-[Charlotte] b6885e3 2023-02-01 | Categories page
+[Charlotte] b6885e3 2023-02-01 | All page
 [Hugo] ac87885 2023-02-01 | Merge pull request #18 from william-wtr92/SDV-70-handle-select-page-paiement
 [William] 2d0f38f 2023-02-01 | Add bdd variable in env
 [Charlotte] c48e9f0 2023-02-01 | Fixed tailwind + removed the select div since it's not relevant for this page
