@@ -8,6 +8,7 @@ const routes = {
     signIn: () => "/sign-in",
     contact: () => "/contact",
     createCategory: () => "/admin/category/create",
+    addAdress: () => "/create/address",
   },
 }
 
