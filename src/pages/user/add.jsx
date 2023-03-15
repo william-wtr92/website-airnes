@@ -3,16 +3,17 @@ import { Form, Formik } from "formik"
 import FormField from "@/components/utils/FormField"
 import Button from "@/components/app/ui/Button"
 import { useRouter } from "next/router"
-import { useCallback } from "react"
+import { useCallback, useState } from "react"
+import useAppContext from "@/web/hooks/useAppContext"
 
 const defaultValidationSchema = yup.object().shape({
   name: yup.string().required().label("Prénom"),
   lastName: yup.string().required().label("Nom"),
   addressName: yup.string().required().label("Nom de l'adresse"),
   address: yup.string().required().label("Adresse"),
-  complete: yup.number().label("Complément d'adresse"),
+  complete: yup.string().label("Complément d'adresse"),
   city: yup.string().required().label("Ville"),
-  Postalcode: yup.number().required().label("Code Postal"),
+  postal_code: yup.string().required().label("Code Postal"),
 })
 const defaultInitialValues = {
   name: "",
@@ -21,7 +22,7 @@ const defaultInitialValues = {
   address: "",
   complete: "",
   city: "",
-  Postalcode: "",
+  postal_code: "",
 }
 
 const AddAddress = (props) => {
@@ -30,10 +31,29 @@ const AddAddress = (props) => {
     initialValues = defaultInitialValues,
   } = props
 
+  const {
+    actions: { AddAddress },
+  } = useAppContext()
+
   const router = useRouter()
-  const handleSelect = useCallback(() => {
-    router.push("/user/[userId]/accountsettings")
-  }, [router])
+  const [error, setError] = useState(null)
+
+  const handleSelect = useCallback(
+    async (values) => {
+      setError(null)
+      const [err] = await AddAddress(values)
+
+      if (err) {
+        setError(err)
+
+        return
+      }
+      //router modfier quand la page user settings sera prete
+
+      router.push("/")
+    },
+    [AddAddress, router]
+  )
 
   return (
     <>
@@ -41,6 +61,7 @@ const AddAddress = (props) => {
         onSubmit={handleSelect}
         initialValues={initialValues}
         validationSchema={validationSchema}
+        error={error}
       >
         <Form>
           <div className="flex flex-col my-10 items-center ">
@@ -84,7 +105,7 @@ const AddAddress = (props) => {
               </div>
               <div className="flex flex-col lg:flex-row mb-4 lg:mb-12 gap-4 lg:gap-12">
                 <FormField
-                  name="Postalcode"
+                  name="postal_code"
                   placeholder="00000"
                   label="Code Postal"
                   className="lg:w-2/5"
