@@ -1,7 +1,7 @@
 import SearchBar from "@/components/app/ui/SearchBar"
 import {PlusCircleIcon, TrashIcon} from "@heroicons/react/24/outline"
 import {PencilSquareIcon} from "@heroicons/react/24/outline"
-import {NavLink} from "@/components/utils/NavLink";
+import {NavLink} from "@/components/utils/NavLink"
 
 const All = () => {
     return (
