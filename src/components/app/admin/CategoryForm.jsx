@@ -4,15 +4,15 @@ import FormField from "@/components/utils/FormField"
 import Button from "@/components/app/ui/Button"
 
 const CategoryForm = (props) => {
-    const {categoryInitialValues, categoryValidationSchema, handlePost} = props
+    const {initialValues, validationSchema, onSubmit} = props
 
     return (
         <div className="p-10 flex flex-col gap-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
             <Return name="categories" back={"/admin/categories/all"}/>
             <Formik
-                initialValues={categoryInitialValues}
-                validationSchema={categoryValidationSchema}
-                onSubmit={handlePost}
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
             >
                 <Form className="flex flex-col gap-5">
                     <FormField

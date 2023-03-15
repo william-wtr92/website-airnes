@@ -7,6 +7,7 @@ const routes = {
     signUp: () => "/sign-up",
     signIn: () => "/sign-in",
     contact: () => "/contact",
+    createCategory: () => "/admin/category/create",
   },
 }
 
