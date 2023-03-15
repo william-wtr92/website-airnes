@@ -25,10 +25,12 @@ const handler = mw({
                }) => {
             const session = parseSession(jwt.jwt)
             const id = session.user.id
-            const user = await UserModel.query().findOne({ id })
+            const user = await UserModel.query().findOne({id})
 
-            if (user.roleid !== 0) {
-                res.status(403).send({ error: "You are not admin" })
+            if (user.roleid !== 1) {
+                res.status(403).send(
+                    {error: "You are not admin"}
+                )
 
                 return
             }
@@ -38,7 +40,6 @@ const handler = mw({
                 name,
                 description,
             })
-
             res.send({ result: true })
         },
     ],
