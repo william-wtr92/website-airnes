@@ -1,7 +1,7 @@
 import { NavLink } from "@/components/utils/NavLink"
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid"
 
-const UsersView = () => {
+const Users = () => {
   return (
     <>
       <div className="flex justify-center my-5 lg:absolute lg:top-[12%] lg:left-[15%] lg:w-5/6">
@@ -48,4 +48,4 @@ const UsersView = () => {
   )
 }
 
-export default UsersView
+export default Users

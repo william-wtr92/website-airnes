@@ -3,6 +3,7 @@ import createAPIClient from "../createAPIClient"
 import signUpService from "../services/signUp"
 import signInService from "../services/signIn"
 import contactService from "@/web/services/contact.js"
+import createCategoryService from "@/web/services/admin/addCategory"
 import addAddressService from "../services/addAddress"
 import parseSession from "../parseSession"
 import config from "../config"
@@ -31,6 +32,7 @@ export const AppContextProvider = (props) => {
     setJWT({ jwt })
   }, [])
 
+    const addCategory = createCategoryService({ api, jwt })
   const AddAddress = addAddressService({ api, jwt })
 
   return (
@@ -41,6 +43,7 @@ export const AppContextProvider = (props) => {
           signUp,
           signIn,
           contact,
+          addCategory,
           AddAddress,
         },
         state: {
