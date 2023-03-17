@@ -1,7 +1,7 @@
 import Button from "@/components/app/ui/Button"
 import FormField from "@/components/utils/FormField"
 import { Form, Formik } from "formik"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import {
   ChevronDownIcon,
   ChevronRightIcon,
@@ -12,44 +12,51 @@ import {
 import { NavLink } from "@/components/utils/NavLink"
 import classNames from "classnames"
 import { useRouter } from "next/router"
-import {
-  accountSettingsValidationSchema,
-  accountSettingsInitialValues,
-} from "@/components/validation/validationyup"
+import { accountSettingsValidationSchema } from "@/components/validation/validationyup"
+import axios from "axios"
+import routes from "@/web/routes"
+import config from "@/web/config"
+import parseSession from "@/web/parseSession"
 
-const stateAdd = [
-  {
-    city: "Paris",
-    postalCode: 99932,
-    street: "Rue Totu",
-    buildingType: "House",
-  },
-  {
-    city: "London",
-    postalCode: 12345,
-    street: "Avenue Tofu",
-    buildingType: "House",
-  },
-]
-const statePay = [
-  {
-    bank: "MasterCard",
-    num: "000 0000 9632",
-    name: "Jhon Totu",
-    date: "01/29",
-  },
-]
-const Settings = () => {
+export const getServerSideProps = async (context) => {
+  const { query } = context
+
+  const { data } = await axios.get(
+    `http://localhost:3000/api${routes.api.userInfo.userData(query)}`
+  )
+
+  return {
+    props: {
+      data: data,
+      userId: query.userId,
+    },
+  }
+}
+
+const Settings = (props) => {
+  const { data, userId } = props
+
+  const router = useRouter()
+  useEffect(() => {
+    const jwt = localStorage.getItem(config.session.localStorageKey)
+    const session = parseSession(jwt)
+
+    if (session.user.id != userId) {
+      router.push("/")
+    }
+  }, [userId, router])
+
   const [viewAddressL, setViewAddressL] = useState(false)
-  const [viewAddressF, setViewAddressF] = useState(false)
+
+  const accountSettingsInitialValues = {
+    name: data.result.name,
+    mail: data.result.email,
+  }
 
   const handleAddL = () => {
     setViewAddressL(!viewAddressL)
   }
-  const handleAddF = () => {
-    setViewAddressF(!viewAddressF)
-  }
-  const router = useRouter()
+
   const handlePost = useCallback(() => {
     router.push("/")
   }, [router])
@@ -108,107 +115,33 @@ const Settings = () => {
                       viewAddressL ? "block" : "hidden"
                     )}
                   >
-                    <NavLink href="/user/userId/address/add">
+                    <NavLink href="/user/add">
                       <PlusIcon className="w-6 " />
                     </NavLink>
                   </span>
                 </span>
 
-                {stateAdd.map((data, i) => (
+                {data.result.alldata.map((data) => (
                   <div
-                    key={i}
+                    key={data.id}
                     className={classNames(
                       "w-4/5 p-1 ml-8 my-1 border border-black rounded-md flex group/item ",
                       viewAddressL ? "block" : "hidden"
                     )}
                   >
                     <div className="flex flex-col ">
+                      <span className="font-bold">{data.addressName}:</span>
                       <span className="font-semibold">
-                        {data.postalCode}, {data.city}
+                        {data.postal_code}, {data.city}
                       </span>
-                      <span>{data.street}</span>
-                      <span>Complément d'adresse: {data.buildingType}</span>
+                      <span>{data.address}</span>
+                      <span>Complément d'adresse: {data.complete}</span>
                     </div>
                     <div className="flex flex-col gap-2 ml-auto group/edit invisible  group-hover/item:visible">
                       <NavLink href="#">
                         <TrashIcon className="w-4" />
                       </NavLink>
                       <NavLink href="/user/userId/address/addressid/edit">
-                        <PencilIcon className="w-4" />
-                      </NavLink>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div>
-                <span className="flex justify-between">
-                  <span onClick={handleAddF} className="flex cursor-pointer">
-                    {viewAddressF ? (
-                      <ChevronDownIcon className="w-6" />
-                    ) : (
-                      <ChevronRightIcon className="w-6" />
-                    )}
-                    Adresse de facturation
-                  </span>
-                  <span
-                    className={classNames(
-                      "mr-40",
-                      viewAddressF ? "block" : "hidden"
-                    )}
-                  >
-                    <NavLink href="/user/userId/payment/add">
-                      <PlusIcon className="w-6" />
-                    </NavLink>
-                  </span>
-                </span>
-                {stateAdd.map((data, i) => (
-                  <div
-                    key={i}
-                    className={classNames(
-                      "w-4/5 p-1 ml-8 my-1 border border-black rounded-md flex group/item",
-                      viewAddressF ? "block" : "hidden"
-                    )}
-                  >
-                    <div className="flex flex-col ">
-                      <span className="font-semibold">
-                        {data.postalCode}, {data.city}
-                      </span>
-                      <span>{data.street}</span>
-                      <span>Complément d'adresse: {data.buildingType}</span>
-                    </div>
-                    <div className="flex flex-col ml-auto group/edit invisible  group-hover/item:visible">
-                      <NavLink href="#">
-                        <TrashIcon className="w-4" />
-                      </NavLink>
-                      <NavLink href="/user/userId/address/addressid/edit">
-                        <PencilIcon className="w-4" />
-                      </NavLink>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col lg:flex-row gap-2 lg:gap-16 mt-4 lg:mt-20">
-            <h2 className="text-2xl font-bold">Mes Paiements</h2>
-            <div className="flex flex-col gap-3">
-              <NavLink href="/user/userId/payment/add">
-                <PlusIcon className="w-6" />
-              </NavLink>
-              <div>
-                {statePay.map((data, i) => (
-                  <div key={i} className="flex group/item ml-4 lg:ml-0">
-                    <div className="flex flex-col">
-                      <span className="font-semibold">{data.bank}</span>
-                      <span>{data.name}</span>
-                      <span>{data.num}</span>
-                      <span>{data.date}</span>
-                    </div>
-                    <div className="flex flex-col gap-2 group/edit invisible  group-hover/item:visible">
-                      <NavLink href="#">
-                        <TrashIcon className="w-4" />
-                      </NavLink>
-                      <NavLink href="/user/userId/payment/paymentid/edit">
                         <PencilIcon className="w-4" />
                       </NavLink>
                     </div>
