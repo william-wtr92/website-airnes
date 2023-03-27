@@ -19,8 +19,8 @@ const routes = {
     contact: () => "/contact",
     createCategory: () => "/admin/category",
     getCategories: () => "/admin/category",
+    categoryData: (categoryId) => `/api/admin/${categoryId}?categoryId=${categoryId}`,
     addAdress: () => "/create/address",
-    userData: () => "/userInfo",
     userInfo: {
       userData: (query) => createRouteWithQueryParams("/userInfo", query),
     },
