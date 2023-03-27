@@ -2,7 +2,6 @@ import Return from "@/components/app/ui/Return"
 import axios from "axios"
 import routes from "@/web/routes"
 import {NavLink} from "@/components/utils/NavLink"
-import {router} from "next/client"
 
 export const getServerSideProps = async (context) => {
   const {categoryId} = context.params
@@ -12,7 +11,12 @@ export const getServerSideProps = async (context) => {
   )
 
   if (!data.result) {
-    await router.push("/admin/categories/all")
+    return {
+      redirect: {
+        destination: "/admin/categories/all",
+        permanent: false,
+      },
+    }
   }
 
   return {

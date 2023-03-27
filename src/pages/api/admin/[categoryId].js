@@ -27,7 +27,7 @@ const handler = mw({
           result: category,
         })
       } else {
-        throw new NotFoundError()
+        res.send({result: null})
       }
     },
   ],
