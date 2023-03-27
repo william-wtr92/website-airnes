@@ -32,7 +32,7 @@ export const AppContextProvider = (props) => {
     setJWT({ jwt })
   }, [])
 
-    const addCategory = createCategoryService({ api, jwt })
+  const addCategory = createCategoryService({ api, jwt })
   const AddAddress = addAddressService({ api, jwt })
 
   return (
