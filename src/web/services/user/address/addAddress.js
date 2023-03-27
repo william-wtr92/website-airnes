@@ -1,6 +1,6 @@
-import routes from "../routes"
+import routes from "../../../routes"
 
-const addAdress =
+const addAddress =
   ({ api, jwt }) =>
   async ({
     name,
@@ -12,7 +12,7 @@ const addAdress =
     postal_code,
   }) => {
     try {
-      const { data } = await api.post(routes.api.addAdress(), {
+      const { data } = await api.post(routes.api.user.addAddress(), {
         name,
         lastName,
         addressName,
@@ -31,4 +31,4 @@ const addAdress =
     }
   }
 
-export default addAdress
+export default addAddress

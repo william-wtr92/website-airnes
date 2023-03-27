@@ -32,7 +32,8 @@ const AddAddress = (props) => {
   } = props
 
   const {
-    actions: { AddAddress },
+    actions: { addAddress },
+    state: { session },
   } = useAppContext()
 
   const router = useRouter()
@@ -41,18 +42,17 @@ const AddAddress = (props) => {
   const handleSelect = useCallback(
     async (values) => {
       setError(null)
-      const [err] = await AddAddress(values)
+      const [err] = await addAddress(values)
 
       if (err) {
         setError(err)
 
         return
       }
-      //router modfier quand la page user settings sera prete
 
-      router.push("/")
+      router.push(`/user/${session.user.id}/settings`)
     },
-    [AddAddress, router]
+    [addAddress, router, session]
   )
 
   return (
