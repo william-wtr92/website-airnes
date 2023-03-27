@@ -4,7 +4,6 @@ import signUpService from "../services/signUp"
 import signInService from "../services/signIn"
 import contactService from "@/web/services/contact.js"
 import createCategoryService from "@/web/services/admin/addCategory"
-import getCategoriesService from "@/web/services/admin/getCategories"
 import addAddressService from "../services/addAddress"
 import parseSession from "../parseSession"
 import config from "../config"
@@ -34,7 +33,6 @@ export const AppContextProvider = (props) => {
   }, [])
 
   const addCategory = createCategoryService({api, jwt})
-  const getCategories = getCategoriesService({api, jwt})
   const AddAddress = addAddressService({api, jwt})
 
   return (
@@ -46,7 +44,6 @@ export const AppContextProvider = (props) => {
           signIn,
           contact,
           addCategory,
-          getCategories,
           AddAddress,
         },
         state: {
