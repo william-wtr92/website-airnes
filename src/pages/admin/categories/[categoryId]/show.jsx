@@ -10,6 +10,15 @@ export const getServerSideProps = async (context) => {
     `http://localhost:3000${routes.api.categoryData(categoryId)}`
   )
 
+  if (!data.result) {
+    return {
+      redirect: {
+        destination: "/admin/categories/all",
+        permanent: false,
+      },
+    }
+  }
+
   return {
     props: {
       category: data.result,
