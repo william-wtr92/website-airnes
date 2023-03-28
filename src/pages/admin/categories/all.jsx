@@ -48,7 +48,9 @@ const All = (props) => {
                 return <tr className="bg-gray-100 border-b"
                            key={category.id}>
                   <td className="p-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {category.name}
+                    <NavLink href={`/admin/categories/${category.id}/show`}>
+                      {category.name}
+                    </NavLink>
                   </td>
                   <td className="flex flex-row gap-5 text-sm text-gray-900 font-light p-4">
                     <NavLink href={`/admin/categories/${category.id}/edit`}>
