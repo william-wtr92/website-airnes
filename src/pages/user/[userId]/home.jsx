@@ -1,10 +1,6 @@
 import FooterMenu from "@/components/layouts/FooterMenu"
 import Button from "@/components/app/ui/Button"
 import { NavLink } from "@/components/utils/NavLink"
-import {useRouter} from "next/router"
-import {useEffect} from "react"
-import config from "@/web/config"
-import parseSession from "@/web/parseSession"
 import axios from "axios"
 import routes from "@/web/routes"
 
@@ -15,26 +11,23 @@ export const getServerSideProps = async (context) => {
       `http://localhost:3000/api${routes.api.user.userData(query.userId)}`
   )
 
+  if (!data.result) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    }
+  }
+
   return {
     props: {
       data: data,
-      userId: query.userId,
     },
   }
 }
 const UserHome = (props) => {
-  const { data, userId } = props
-
-  const router = useRouter()
-  useEffect(() => {
-    const jwt = localStorage.getItem(config.session.localStorageKey)
-
-    const session = parseSession(jwt)
-
-    if (session.user.id != userId) {
-      router.push("/")
-    }
-  }, [userId, router])
+  const { data } = props
 
 
   return (
