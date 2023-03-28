@@ -54,7 +54,7 @@ const AllContacts = (props) => {
                 </td>
                 <td className="p-4 whitespace-nowrap text-sm font-medium text-gray-900">
                   {
-                    contact.status ? "Unread" : "Read"
+                    contact.status ? "Read" : "New"
                   }
                 </td>
                 <td className="flex flex-row gap-5 text-sm text-gray-900 font-light p-4">
