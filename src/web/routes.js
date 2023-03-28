@@ -17,6 +17,7 @@ const routes = {
     signUp: () => "/sign-up",
     signIn: () => "/sign-in",
     contact: () => "/contact",
+    getContacts: () => "/admin/contacts",
     createCategory: () => "/admin/category",
     getCategories: () => "/admin/category",
     categoryData: (categoryId) => `/api/admin/${categoryId}?categoryId=${categoryId}`,

@@ -45,15 +45,12 @@ const All = (props) => {
             <tbody>
             {
               categories.map((category) => {
-                // eslint-disable-next-line react/jsx-key
                 return <tr className="bg-gray-100 border-b"
-                key={category.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    <NavLink href={`/admin/categories/${category.id}/show`}>
-                      {category.name}
-                    </NavLink>
+                           key={category.id}>
+                  <td className="p-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {category.name}
                   </td>
-                  <td className="flex flex-row gap-5 text-sm text-gray-900 font-light px-6 py-4">
+                  <td className="flex flex-row gap-5 text-sm text-gray-900 font-light p-4">
                     <NavLink href={`/admin/categories/${category.id}/edit`}>
                       <PencilSquareIcon className="h-6 w-6"/>
                     </NavLink>
