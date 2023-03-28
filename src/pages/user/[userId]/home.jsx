@@ -20,15 +20,19 @@ export const getServerSideProps = async (context) => {
     }
   }
 
+  const userId = query.userId
+
   return {
     props: {
-      data: data,
+      data,
+      userId,
     },
   }
 }
 const UserHome = (props) => {
   const { data } = props
 
+  const { userId } = props
 
   return (
       <>
@@ -36,10 +40,10 @@ const UserHome = (props) => {
           <div className="text-center text-3xl text-black">
             Bonjour {data.result.name}
           </div>
-          <NavLink href="/user/userId/orders">
+          <NavLink href={`/user/${userId}/orders`}>
             <Button className="w-full rounded-2xl">MES COMMANDES</Button>
           </NavLink>
-          <NavLink href="/user/userId/settings">
+          <NavLink href={`/user/${userId}/settings`}>
             <Button className="w-full rounded-2xl">
               MES INFORMATIONS PERSONELLES
             </Button>
