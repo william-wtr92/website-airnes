@@ -6,6 +6,7 @@ import {NotFoundError} from "@/api/errors"
 
 const handler = mw({
   GET: [
+    //rajouter auth
     validate({
       query: {
         userId: numberValidator.required(),
@@ -29,7 +30,7 @@ const handler = mw({
           result: query,
         })
       } else {
-        res.send({ result: { email: "", name: "", alldata: [] } })
+        res.send({ result: null })
 
         throw new NotFoundError()
       }
