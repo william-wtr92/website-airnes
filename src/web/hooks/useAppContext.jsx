@@ -6,6 +6,7 @@ import contactService from "@/web/services/contact.js"
 import createCategoryService from "@/web/services/admin/addCategory"
 import addAddressService from "../services/user/address/addAddress"
 import patchUserService from "../services/user/patchUser"
+import patchAddressService from "../services/user/address/patchAddress"
 import parseSession from "../parseSession"
 import config from "../config"
 
@@ -36,6 +37,7 @@ export const AppContextProvider = (props) => {
   const addCategory = createCategoryService({ api, jwt })
   const addAddress = addAddressService({ api, jwt })
   const patchUser = patchUserService({ api, jwt })
+  const patchAddress = patchAddressService({ api, jwt })
 
   return (
     <AppContext.Provider
@@ -48,6 +50,7 @@ export const AppContextProvider = (props) => {
           addCategory,
           addAddress,
           patchUser,
+          patchAddress,
         },
         state: {
           session,

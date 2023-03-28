@@ -35,12 +35,13 @@ export const getServerSideProps = async (context) => {
   return {
     props: {
       data: data,
+      uId: query.userId,
     },
   }
 }
 
 const Settings = (props) => {
-  const { data } = props
+  const { data, uId } = props
   const {
     actions: { patchUser },
   } = useAppContext()
@@ -49,9 +50,8 @@ const Settings = (props) => {
 
   const accountSettingsInitialValues = {
     name: data.result.name,
-    email: data.result.email,
+    mail: data.result.mail,
   }
-
   const handleAddL = () => {
     setViewAddressL(!viewAddressL)
   }
@@ -92,7 +92,7 @@ const Settings = (props) => {
                 />
                 <FormField
                   type="email"
-                  name="email"
+                  name="mail"
                   placeholder="Entrez votre e-mail"
                   label="E-mail*"
                   className=" mb-2"
@@ -135,24 +135,24 @@ const Settings = (props) => {
                   <div
                     key={data.id}
                     className={classNames(
-                      "w-4/5 p-1 ml-8 my-1 border border-black rounded-md flex group/item ",
+                      "w-4/5 p-1 ml-8 my-1  flex group/item ",
                       viewAddressL ? "block" : "hidden"
                     )}
                   >
                     <div className="flex flex-col ">
                       <span className="font-bold">{data.addressName}:</span>
-                      <span className="font-semibold">
-                        {data.postal_code}, {data.city}
-                      </span>
                       <span>{data.address}</span>
                       <span>Complément d'adresse: {data.complete}</span>
+                      <span>
+                        {data.postal_code}, {data.city}
+                      </span>
                     </div>
                     <div className="flex flex-col gap-2 ml-auto group/edit invisible  group-hover/item:visible">
-                      <NavLink href="#">
-                        <TrashIcon className="w-4" />
-                      </NavLink>
-                      <NavLink href="/user/userId/address/addressid/edit">
+                      <NavLink href={`/user/${uId}/address/${data.id}/edit`}>
                         <PencilIcon className="w-4" />
+                      </NavLink>
+                      <NavLink href="#" className="text-red-600 ">
+                        <TrashIcon className="w-4" />
                       </NavLink>
                     </div>
                   </div>

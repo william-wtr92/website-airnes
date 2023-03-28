@@ -3,7 +3,7 @@ import UserModel from "@/api/db/models/UserModel"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import {
-  emailValidator,
+  mailValidator,
   stringValidator,
 } from "@/components/validation/validation"
 import jsonwebtoken from "jsonwebtoken"
@@ -13,17 +13,17 @@ const handler = mw({
   POST: [
     validate({
       body: {
-        email: emailValidator.required(),
+        mail: mailValidator.required(),
         password: stringValidator.required(),
       },
     }),
     async ({
       locals: {
-        body: { email, password },
+        body: { mail, password },
       },
       res,
     }) => {
-      const user = await UserModel.query().findOne({ email })
+      const user = await UserModel.query().findOne({ mail })
 
       const validity = await user.checkPassword(password)
 

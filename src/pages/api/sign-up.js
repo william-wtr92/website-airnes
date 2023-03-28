@@ -4,7 +4,7 @@ import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import {
   boolValidator,
-  emailValidator,
+  mailValidator,
   NameValidator,
   passwordValidator,
 } from "@/components/validation/validation"
@@ -14,7 +14,7 @@ const handler = mw({
     validate({
       body: {
         name: NameValidator.required(),
-        email: emailValidator.required(),
+        mail: mailValidator.required(),
         password: passwordValidator.required(),
         passwordConfirmation: passwordValidator.required(),
         cgu: boolValidator.required(),
@@ -38,7 +38,7 @@ const handler = mw({
 
       await UserModel.query().insertAndFetch({
         name,
-        email,
+        mail,
         passwordHash,
         passwordSalt,
       })

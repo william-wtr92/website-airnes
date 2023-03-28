@@ -1,46 +1,84 @@
-import * as yup from "yup"
-import { Form, Formik } from "formik"
+import {Form, Formik} from "formik"
 import FormField from "@/components/utils/FormField"
 import Button from "@/components/app/ui/Button"
-import { useRouter } from "next/router"
-import { useCallback } from "react"
+import {useRouter} from "next/router"
+import {useCallback, useState} from "react"
+import {addressValidationSchema} from "@/components/validation/validationyup"
+import axios from "axios"
+import routes from "@/web/routes"
+import useAppContext from "@/web/hooks/useAppContext"
 
-const defaultValidationSchema = yup.object().shape({
-  name: yup.string().required().label("Prénom"),
-  lastName: yup.string().required().label("Nom"),
-  addressName: yup.string().required().label("Nom de l'adresse"),
-  address: yup.string().required().label("Adresse"),
-  complete: yup.number().label("Complément d'adresse"),
-  city: yup.string().required().label("Ville"),
-  postalCode: yup.number().required().label("Code Postal"),
-})
-const defaultInitialValues = {
-  name: "",
-  lastName: "",
-  addressName: "",
-  address: "",
-  complete: "",
-  city: "",
-  postalCode: "",
+export const getServerSideProps = async (context) => {
+  const {query} = context
+
+  const {data} = await axios.get(
+    `http://localhost:3000/api${routes.api.user.address.addressData(
+      query.userId,
+      query.addressId
+    )}`
+  )
+
+  if (!data.result) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: {
+      data: data,
+      userId: query.userId,
+      addressId: query.addressId,
+    },
+  }
 }
 
 const EditAddress = (props) => {
+  const {data, userId, addressId} = props
   const {
-    validationSchema = defaultValidationSchema,
-    initialValues = defaultInitialValues,
-  } = props
+    actions: {patchAddress},
+  } = useAppContext()
+
+  const [error, setError] = useState(null)
+
+  const addressInitialVAlue = {
+    name: data.result.name,
+    lastName: data.result.lastName,
+    addressName: data.result.addressName,
+    address: data.result.address,
+    complete: data.result.complete,
+    city: data.result.city,
+    postal_code: data.result.postal_code,
+  }
 
   const router = useRouter()
-  const handleSelect = useCallback(() => {
-    router.push("/user/[userId]/accountsettings")
-  }, [router])
+
+  const handleModify = useCallback(
+    async (values) => {
+      setError(null)
+      const [err] = await patchAddress(values, userId, addressId)
+
+      if (err) {
+        setError(err)
+
+        return
+      }
+
+      router.push(`/user/${userId}/settings`)
+    },
+    [patchAddress, router, userId, addressId]
+  )
 
   return (
     <>
       <Formik
-        onSubmit={handleSelect}
-        initialValues={initialValues}
-        validationSchema={validationSchema}
+        onSubmit={handleModify}
+        initialValues={addressInitialVAlue}
+        validationSchema={addressValidationSchema}
+        error={error}
       >
         <Form>
           <div className="flex flex-col my-10 items-center ">
@@ -84,7 +122,7 @@ const EditAddress = (props) => {
               </div>
               <div className="flex flex-col lg:flex-row mb-4 lg:mb-12 gap-4 lg:gap-12">
                 <FormField
-                  name="postalCode"
+                  name="postal_code"
                   placeholder="00000"
                   label="Code Postal"
                   className="lg:w-2/5"
