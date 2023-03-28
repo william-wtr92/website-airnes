@@ -7,7 +7,6 @@ import { addressValidationSchema } from "@/components/validation/validationyup"
 import axios from "axios"
 import routes from "@/web/routes"
 import useAppContext from "@/web/hooks/useAppContext"
-import { val } from "objection"
 
 export const getServerSideProps = async (context) => {
   const { query } = context
@@ -52,7 +51,7 @@ const EditAddress = (props) => {
     address: data.result.address,
     complete: data.result.complete,
     city: data.result.city,
-    postalCode: data.result.postal_code,
+    postal_code: data.result.postal_code,
   }
 
   const router = useRouter()
@@ -60,7 +59,6 @@ const EditAddress = (props) => {
   const handleModify = useCallback(
     async (values) => {
       setError(null)
-      console.log(values, userId, addressId)
       const [err] = await patchAddress(values, userId, addressId)
 
       if (err) {
@@ -124,7 +122,7 @@ const EditAddress = (props) => {
               </div>
               <div className="flex flex-col lg:flex-row mb-4 lg:mb-12 gap-4 lg:gap-12">
                 <FormField
-                  name="postalCode"
+                  name="postal_code"
                   placeholder="00000"
                   label="Code Postal"
                   className="lg:w-2/5"
