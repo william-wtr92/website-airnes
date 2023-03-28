@@ -12,7 +12,7 @@ export const getServerSideProps = async (context) => {
   const { query } = context
 
   const { data } = await axios.get(
-      `http://localhost:3000/api${routes.api.userInfo.usesrData(query)}`
+      `http://localhost:3000/api${routes.api.user.userData(query.userId)}`
   )
 
   return {
