@@ -11,7 +11,7 @@ export const getServerSideProps = async (context) => {
       `http://localhost:3000/api${routes.api.user.userData(query.userId)}`
   )
 
-  if (!data) {
+  if (!data.result) {
     return {
       redirect: {
         destination: "/",
