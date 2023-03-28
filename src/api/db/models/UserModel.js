@@ -18,6 +18,7 @@ class UserModel extends BaseModel {
       },
     }
   }
+
   checkPassword = async (password) => {
     const [passwordHash] = await hashPassword(password, this.passwordSalt)
 
