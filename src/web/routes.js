@@ -1,13 +1,3 @@
-const createRouteWithQueryParams = (route, query) => {
-  if (!query) {
-    return route
-  }
-
-  const qs = new URLSearchParams(query).toString()
-
-  return `${route}?${qs}`
-}
-
 const routes = {
   home: () => "/",
   signUp: () => "/sign-up",
@@ -19,10 +9,12 @@ const routes = {
     contact: () => "/contact",
     createCategory: () => "/admin/category",
     getCategories: () => "/admin/category",
-    categoryData: (categoryId) => `/api/admin/${categoryId}?categoryId=${categoryId}`,
-    addAdress: () => "/create/address",
-    userInfo: {
-      userData: (query) => createRouteWithQueryParams("/userInfo", query),
+    categoryData: (categoryId) =>
+      `/api/admin/${categoryId}?categoryId=${categoryId}`,
+    user: {
+      addAddress: () => "/user/create/address",
+      userData: (userId) => `/user/${userId}`,
+      patchUser: () => "/user/modify",
     },
   },
 }

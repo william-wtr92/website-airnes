@@ -1,7 +1,7 @@
 import Button from "@/components/app/ui/Button"
 import FormField from "@/components/utils/FormField"
 import { Form, Formik } from "formik"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import {
   ChevronDownIcon,
   ChevronRightIcon,
@@ -11,55 +11,64 @@ import {
 } from "@heroicons/react/24/solid"
 import { NavLink } from "@/components/utils/NavLink"
 import classNames from "classnames"
-import { useRouter } from "next/router"
 import { accountSettingsValidationSchema } from "@/components/validation/validationyup"
 import axios from "axios"
 import routes from "@/web/routes"
-import config from "@/web/config"
-import parseSession from "@/web/parseSession"
+import useAppContext from "@/web/hooks/useAppContext"
 
 export const getServerSideProps = async (context) => {
   const { query } = context
 
   const { data } = await axios.get(
-    `http://localhost:3000/api${routes.api.userInfo.userData(query)}`
+    `http://localhost:3000/api${routes.api.user.userData(query.userId)}`
   )
+
+  if (!data.result) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    }
+  }
 
   return {
     props: {
       data: data,
-      userId: query.userId,
     },
   }
 }
 
 const Settings = (props) => {
-  const { data, userId } = props
-
-  const router = useRouter()
-  useEffect(() => {
-    const jwt = localStorage.getItem(config.session.localStorageKey)
-    const session = parseSession(jwt)
-
-    if (session.user.id != userId) {
-      router.push("/")
-    }
-  }, [userId, router])
-
+  const { data } = props
+  const {
+    actions: { patchUser },
+  } = useAppContext()
   const [viewAddressL, setViewAddressL] = useState(false)
+  const [error, setError] = useState(null)
 
   const accountSettingsInitialValues = {
     name: data.result.name,
-    mail: data.result.email,
+    email: data.result.email,
   }
 
   const handleAddL = () => {
     setViewAddressL(!viewAddressL)
   }
 
-  const handlePost = useCallback(() => {
-    router.push("/")
-  }, [router])
+  const handleModify = useCallback(
+    async (values) => {
+      setError(null)
+      const [err] = await patchUser(values)
+
+      if (err) {
+        setError(err)
+
+        return
+      }
+    },
+    [patchUser]
+  )
 
   return (
     <>
@@ -69,9 +78,10 @@ const Settings = (props) => {
           <div className="flex flex-col lg:flex-row gap-2 lg:gap-16 mt-4 lg:mt-20">
             <h2 className="text-2xl font-bold">Mes Informations</h2>
             <Formik
-              onSubmit={handlePost}
+              onSubmit={handleModify}
               initialValues={accountSettingsInitialValues}
               validationSchema={accountSettingsValidationSchema}
+              error={error}
             >
               <Form className="flex flex-col lg:w-3/5">
                 <FormField
@@ -82,7 +92,7 @@ const Settings = (props) => {
                 />
                 <FormField
                   type="email"
-                  name="mail"
+                  name="email"
                   placeholder="Entrez votre e-mail"
                   label="E-mail*"
                   className=" mb-2"

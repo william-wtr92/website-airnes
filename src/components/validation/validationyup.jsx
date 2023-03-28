@@ -48,5 +48,5 @@ export const loginInitialValues = {
 
 export const accountSettingsValidationSchema = yup.object().shape({
   name: yup.string().required("Name required"),
-  mail: yup.string().email().required("Email required"),
+  email: yup.string().email().required("Email required"),
 })

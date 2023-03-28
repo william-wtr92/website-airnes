@@ -1,10 +1,11 @@
-import {createContext, useContext, useEffect, useState} from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import createAPIClient from "../createAPIClient"
 import signUpService from "../services/signUp"
 import signInService from "../services/signIn"
 import contactService from "@/web/services/contact.js"
 import createCategoryService from "@/web/services/admin/addCategory"
-import addAddressService from "../services/addAddress"
+import addAddressService from "../services/user/address/addAddress"
+import patchUserService from "../services/user/patchUser"
 import parseSession from "../parseSession"
 import config from "../config"
 
@@ -13,11 +14,11 @@ const AppContext = createContext()
 export const AppContextProvider = (props) => {
   const [session, setSession] = useState(null)
   const [jwt, setJWT] = useState(null)
-  const api = createAPIClient({jwt})
+  const api = createAPIClient({ jwt })
 
-  const signUp = signUpService({api})
-  const signIn = signInService({api, setSession, setJWT})
-  const contact = contactService({api})
+  const signUp = signUpService({ api })
+  const signIn = signInService({ api, setSession, setJWT })
+  const contact = contactService({ api })
 
   useEffect(() => {
     const jwt = localStorage.getItem(config.session.localStorageKey)
@@ -29,11 +30,12 @@ export const AppContextProvider = (props) => {
     const session = parseSession(jwt)
 
     setSession(session)
-    setJWT({jwt})
+    setJWT({ jwt })
   }, [])
 
-  const addCategory = createCategoryService({api, jwt})
-  const AddAddress = addAddressService({api, jwt})
+  const addCategory = createCategoryService({ api, jwt })
+  const addAddress = addAddressService({ api, jwt })
+  const patchUser = patchUserService({ api, jwt })
 
   return (
     <AppContext.Provider
@@ -44,7 +46,8 @@ export const AppContextProvider = (props) => {
           signIn,
           contact,
           addCategory,
-          AddAddress,
+          addAddress,
+          patchUser,
         },
         state: {
           session,
