@@ -22,15 +22,15 @@ const handler = mw({
       const category = await CategoryModel.query()
         .findOne({id})
 
-      if (category) {
-        res.send({
-          result: category,
-        })
-      } else {
+      if (!category) {
         res.send({result: null})
 
         throw new NotFoundError()
       }
+
+      res.send({
+        result: category,
+      })
     },
   ],
 })

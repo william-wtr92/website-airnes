@@ -45,7 +45,7 @@ const AllContacts = (props) => {
               return <tr className="bg-gray-100 border-b"
                          key={contact.id}>
                 <td className="p-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  <NavLink href={`/admin/categories/${contact.id}/show`}>
+                  <NavLink href={`/admin/contacts/${contact.id}/show`}>
                     {contact.mail}
                   </NavLink>
                 </td>
@@ -58,10 +58,10 @@ const AllContacts = (props) => {
                   }
                 </td>
                 <td className="flex flex-row gap-5 text-sm text-gray-900 font-light p-4">
-                  <NavLink href={`/admin/categories/${contacts.id}/edit`}>
+                  <NavLink href={`/admin/contacts/${contacts.id}/edit`}>
                     <PencilSquareIcon className="h-6 w-6"/>
                   </NavLink>
-                  <NavLink href={`/admin/categories/${contacts.id}/delete`}>
+                  <NavLink href={`/admin/contacts/${contacts.id}/delete`}>
                     <TrashIcon className="h-6 w-6"/>
                   </NavLink>
                 </td>
