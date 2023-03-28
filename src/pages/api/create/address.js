@@ -4,6 +4,7 @@ import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import { stringValidator } from "@/components/validation/validation"
 import parseSession from "@/web/parseSession"
+import {NotFoundError} from "@/api/errors"
 
 const handler = mw({
   POST: [
@@ -38,9 +39,7 @@ const handler = mw({
       const user = await UserModel.query().findOne({ id })
 
       if (!user) {
-        res.status(401).send({ error: "Invalid users" })
-
-        return
+        throw new NotFoundError()
       }
 
       await AddressModel.query().insertAndFetch({

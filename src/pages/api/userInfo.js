@@ -2,6 +2,7 @@ import UserModel from "@/api/db/models/UserModel"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import { numberValidator } from "@/components/validation/validation"
+import {NotFoundError} from "@/api/errors"
 
 const handler = mw({
   GET: [
@@ -29,6 +30,8 @@ const handler = mw({
         })
       } else {
         res.send({ result: { email: "", name: "", alldata: [] } })
+
+        throw new NotFoundError()
       }
     },
   ],

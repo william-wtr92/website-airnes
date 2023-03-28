@@ -1,5 +1,6 @@
 import ContactModel from "@/api/db/models/ContactModel"
 import mw from "@/api/mw"
+import {NotFoundError} from "@/api/errors"
 
 const handler = mw({
   GET: [
@@ -14,6 +15,8 @@ const handler = mw({
         })
       } else {
         res.send({result: ""})
+
+        throw new NotFoundError()
       }
     },
   ],

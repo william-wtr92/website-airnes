@@ -7,6 +7,7 @@ import {
   stringValidator,
 } from "@/components/validation/validation"
 import jsonwebtoken from "jsonwebtoken"
+import {InvalidCredentialsError} from "@/api/errors"
 
 const handler = mw({
   POST: [
@@ -24,10 +25,10 @@ const handler = mw({
     }) => {
       const user = await UserModel.query().findOne({ email })
 
-      if (!user || !(await user.checkPassword(password))) {
-        res.status(401).send({ error: "Invalid credentials" })
+      const validity = await user.checkPassword(password)
 
-        return
+      if (!user || !validity) {
+        throw new InvalidCredentialsError()
       }
 
       const jwt = jsonwebtoken.sign(

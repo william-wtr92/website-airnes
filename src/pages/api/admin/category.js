@@ -6,6 +6,7 @@ import {
 } from "@/components/validation/validation"
 import parseSession from "@/web/parseSession"
 import UserModel from "@/api/db/models/UserModel"
+import {NotFoundError} from "@/api/errors"
 
 const handler = mw({
   POST: [
@@ -54,6 +55,8 @@ const handler = mw({
         })
       } else {
         res.send({result: ""})
+
+        throw new NotFoundError()
       }
     },
   ],

@@ -28,6 +28,8 @@ const handler = mw({
         })
       } else {
         res.send({result: null})
+
+        throw new NotFoundError()
       }
     },
   ],
