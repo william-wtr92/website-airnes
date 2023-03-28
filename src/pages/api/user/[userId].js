@@ -21,7 +21,7 @@ const handler = mw({
 
       const query = await UserModel.query()
         .findOne({ id })
-        .select("email", "name")
+        .select("mail", "name")
         .withGraphFetched("alldata")
 
       if (query) {

@@ -2,11 +2,11 @@ import routes from "@/web/routes"
 
 const patchUser =
   ({ api, jwt }) =>
-  async ({ name, email }) => {
+  async ({ name, mail }) => {
     try {
       const { data } = await api.patch(routes.api.user.patchUser(), {
         name,
-        email,
+        mail,
         jwt,
       })
 

@@ -50,7 +50,7 @@ const Settings = (props) => {
 
   const accountSettingsInitialValues = {
     name: data.result.name,
-    email: data.result.email,
+    mail: data.result.mail,
   }
   const handleAddL = () => {
     setViewAddressL(!viewAddressL)
@@ -92,7 +92,7 @@ const Settings = (props) => {
                 />
                 <FormField
                   type="email"
-                  name="email"
+                  name="mail"
                   placeholder="Entrez votre e-mail"
                   label="E-mail*"
                   className=" mb-2"

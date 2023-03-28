@@ -2,11 +2,11 @@ import routes from "../routes"
 
 const signUp =
   ({ api }) =>
-  async ({ name, email, password, passwordConfirmation, cgu }) => {
+  async ({ name, mail, password, passwordConfirmation, cgu }) => {
     try {
       const { data } = await api.post(routes.api.signUp(), {
         name,
-        email,
+        mail,
         password,
         passwordConfirmation,
         cgu,

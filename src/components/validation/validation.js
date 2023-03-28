@@ -9,7 +9,7 @@ export const numberValidator = yup.number()
 // users
 export const NameValidator = yup.string().min(1).label("name")
 
-export const emailValidator = yup.string().email().label("email")
+export const mailValidator = yup.string().email().label("mail")
 
 export const passwordValidator = yup
   .string()

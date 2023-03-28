@@ -2,7 +2,7 @@ import UserModel from "@/api/db/models/UserModel"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import {
-  emailValidator,
+  mailValidator,
   NameValidator,
 } from "@/components/validation/validation"
 import parseSession from "@/web/parseSession"
@@ -13,12 +13,12 @@ const handler = mw({
     validate({
       body: {
         name: NameValidator.required(),
-        email: emailValidator.required(),
+        mail: mailValidator.required(),
       },
     }),
     async ({
       locals: {
-        body: { name, email, jwt },
+        body: { name, mail, jwt },
       },
       res,
     }) => {
@@ -26,13 +26,13 @@ const handler = mw({
       const id = session.user.id
 
       const user = await UserModel.query().findOne({ id })
-      const emailverif = await UserModel.query().findOne({ email })
+      const emailverif = await UserModel.query().findOne({ mail })
 
       try {
         if (!emailverif || user.id === emailverif.id) {
           await UserModel.query().updateAndFetchById(id, {
             ...(user.name != name ? { name } : {}),
-            ...(user.email != email ? { email } : {}),
+            ...(user.mail != mail ? { mail } : {}),
           })
         }
       } catch {

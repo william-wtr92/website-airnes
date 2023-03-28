@@ -56,7 +56,7 @@ const OnLoginForm = () => {
               <Form className="flex flex-col">
                 <Formfield
                   type="email"
-                  name="email"
+                  name="mail"
                   placeholder="E-mail"
                   label="E-mail"
                   className="mb-2"

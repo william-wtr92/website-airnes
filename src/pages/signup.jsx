@@ -55,7 +55,7 @@ const SignUp = () => {
               />
               <FormField
                 type="email"
-                name="email"
+                name="mail"
                 placeholder="Entrez votre e-mail"
                 label="E-mail*"
                 className=" mb-2"

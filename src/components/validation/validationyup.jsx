@@ -1,7 +1,7 @@
 import * as yup from "yup"
 
 export const contactValidationSchema = yup.object().shape({
-  mail: yup.string().email().required("Email required").label("email"),
+  mail: yup.string().email().required("Email required").label("mail"),
   topic: yup.string().required("Sujet required").label("sujet"),
   content: yup.string().required("Message required").label("message"),
 })
@@ -14,7 +14,7 @@ export const contactInitialValues = {
 
 export const inscriptionValidationSchema = yup.object().shape({
   name: yup.string().required("Name required").label("name"),
-  email: yup.string().email().required("Email required").label("email"),
+  mail: yup.string().email().required("Email required").label("mail"),
   password: yup
     .string()
     .matches(
@@ -30,25 +30,25 @@ export const inscriptionValidationSchema = yup.object().shape({
 
 export const inscriptionInitialValues = {
   name: "",
-  email: "",
+  mail: "",
   password: "",
   passwordConfirmation: "",
   cgu: false,
 }
 
 export const loginValidationSchema = yup.object().shape({
-  email: yup.string().required(),
+  mail: yup.string().email().required(),
   password: yup.string().required(),
 })
 
 export const loginInitialValues = {
-  email: "",
+  mail: "",
   password: "",
 }
 
 export const accountSettingsValidationSchema = yup.object().shape({
   name: yup.string().required("Name required"),
-  email: yup.string().email().required("Email required"),
+  mail: yup.string().email().required("Email required"),
 })
 
 export const addressValidationSchema = yup.object().shape({
