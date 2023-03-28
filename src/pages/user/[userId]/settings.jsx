@@ -35,12 +35,13 @@ export const getServerSideProps = async (context) => {
   return {
     props: {
       data: data,
+      uId: query.userId,
     },
   }
 }
 
 const Settings = (props) => {
-  const { data } = props
+  const { data, uId } = props
   const {
     actions: { patchUser },
   } = useAppContext()
@@ -51,7 +52,6 @@ const Settings = (props) => {
     name: data.result.name,
     email: data.result.email,
   }
-
   const handleAddL = () => {
     setViewAddressL(!viewAddressL)
   }
@@ -151,7 +151,7 @@ const Settings = (props) => {
                       <NavLink href="#">
                         <TrashIcon className="w-4" />
                       </NavLink>
-                      <NavLink href="/user/userId/address/addressid/edit">
+                      <NavLink href={`/user/${uId}/address/${data.id}/edit`}>
                         <PencilIcon className="w-4" />
                       </NavLink>
                     </div>
