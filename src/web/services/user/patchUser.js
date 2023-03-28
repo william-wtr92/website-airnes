@@ -4,7 +4,7 @@ const patchUser =
   ({ api, jwt }) =>
   async ({ name, email }) => {
     try {
-      const { data } = await api.post(routes.api.user.patchUser(), {
+      const { data } = await api.patch(routes.api.user.patchUser(), {
         name,
         email,
         jwt,

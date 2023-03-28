@@ -8,7 +8,7 @@ import {
 import parseSession from "@/web/parseSession"
 
 const handler = mw({
-  POST: [
+  PATCH: [
     //rajouter auth
     validate({
       body: {
