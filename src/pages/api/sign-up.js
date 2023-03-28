@@ -22,11 +22,11 @@ const handler = mw({
     }),
     async ({
       locals: {
-        body: { name, email, password },
+        body: { name, mail, password },
       },
       res,
     }) => {
-      const user = await UserModel.query().findOne({ email })
+      const user = await UserModel.query().findOne({ mail })
 
       if (user) {
         res.send({ result: true })
