@@ -58,5 +58,5 @@ export const addressValidationSchema = yup.object().shape({
   address: yup.string().required().label("Adresse"),
   complete: yup.string().label("Complément d'adresse"),
   city: yup.string().required().label("Ville"),
-  postalCode: yup.string().required().label("Code Postal"),
+  postal_code: yup.string().required().label("Code Postal"),
 })
