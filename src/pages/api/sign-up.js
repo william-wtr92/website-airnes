@@ -22,22 +22,10 @@ const handler = mw({
     }),
     async ({
       locals: {
-        body: { name, email, password, passwordConfirmation, cgu },
+        body: { name, email, password },
       },
       res,
     }) => {
-      if (password != passwordConfirmation) {
-        res.status(404).send({ error: "mdp différent" })
-
-        return
-      }
-
-      if (!cgu) {
-        res.status(404).send({ error: "CGU non accepté" })
-
-        return
-      }
-
       const user = await UserModel.query().findOne({ email })
 
       if (user) {

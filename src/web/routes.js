@@ -6,11 +6,14 @@ const routes = {
   api: {
     signUp: () => "/sign-up",
     signIn: () => "/sign-in",
+    //contacts: probably needs to get cleaned up
     contact: () => "/contact",
-    createCategory: () => "/admin/category",
-    getCategories: () => "/admin/category",
-    categoryData: (categoryId) =>
-      `/api/admin/${categoryId}?categoryId=${categoryId}`,
+    getContacts: () => "/admin/contacts/contacts",
+    contactData: (contactId) =>`/api/admin/contacts/${contactId}`,
+    //categories: probably needs to get cleaned up as well
+    createCategory: () => "/admin/categories/category",
+    getCategories: () => "/admin/categories/category",
+    categoryData: (categoryId) => `/api/admin/${categoryId}`,
     user: {
       addAddress: () => "/user/create/address",
       userData: (userId) => `/user/${userId}`,
