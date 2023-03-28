@@ -1,17 +1,17 @@
-import { Form, Formik } from "formik"
+import {Form, Formik} from "formik"
 import FormField from "@/components/utils/FormField"
 import Button from "@/components/app/ui/Button"
-import { useRouter } from "next/router"
-import { useCallback, useState } from "react"
-import { addressValidationSchema } from "@/components/validation/validationyup"
+import {useRouter} from "next/router"
+import {useCallback, useState} from "react"
+import {addressValidationSchema} from "@/components/validation/validationyup"
 import axios from "axios"
 import routes from "@/web/routes"
 import useAppContext from "@/web/hooks/useAppContext"
 
 export const getServerSideProps = async (context) => {
-  const { query } = context
+  const {query} = context
 
-  const { data } = await axios.get(
+  const {data} = await axios.get(
     `http://localhost:3000/api${routes.api.user.address.addressData(
       query.userId,
       query.addressId
@@ -37,9 +37,9 @@ export const getServerSideProps = async (context) => {
 }
 
 const EditAddress = (props) => {
-  const { data, userId, addressId } = props
+  const {data, userId, addressId} = props
   const {
-    actions: { patchAddress },
+    actions: {patchAddress},
   } = useAppContext()
 
   const [error, setError] = useState(null)
@@ -67,7 +67,7 @@ const EditAddress = (props) => {
         return
       }
 
-      router.push("/user/[userId]/accountsettings")
+      router.push(`/user/${userId}/settings`)
     },
     [patchAddress, router, userId, addressId]
   )

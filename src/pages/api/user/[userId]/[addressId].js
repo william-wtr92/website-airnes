@@ -1,5 +1,4 @@
 import AddressModel from "@/api/db/models/AddressModel"
-import UserModel from "@/api/db/models/UserModel"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import {
@@ -68,14 +67,14 @@ const handler = mw({
       const id = addressId
       const addAddress = await AddressModel.query().findOne({ id })
 
-      await UserModel.query().updateAndFetchById(id, {
-        ...(addAddress.name != name ? { name } : {}),
-        ...(addAddress.lastName != lastName ? { lastName } : {}),
-        ...(addAddress.addressName != addressName ? { addressName } : {}),
-        ...(addAddress.address != address ? { address } : {}),
-        ...(addAddress.complete != complete ? { complete } : {}),
-        ...(addAddress.city != city ? { city } : {}),
-        ...(addAddress.postal_code != postal_code ? { postal_code } : {}),
+      await AddressModel.query().updateAndFetchById(id, {
+        ...(addAddress.name !== name ? { name } : {}),
+        ...(addAddress.lastName !== lastName ? { lastName } : {}),
+        ...(addAddress.addressName !== addressName ? { addressName } : {}),
+        ...(addAddress.address !== address ? { address } : {}),
+        ...(addAddress.complete !== complete ? { complete } : {}),
+        ...(addAddress.city !== city ? { city } : {}),
+        ...(addAddress.postal_code !== postal_code ? { postal_code } : {}),
       })
 
       res.send({ result: true })
