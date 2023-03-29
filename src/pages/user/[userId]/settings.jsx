@@ -15,6 +15,8 @@ import { accountSettingsValidationSchema } from "@/components/validation/validat
 import axios from "axios"
 import routes from "@/web/routes"
 import useAppContext from "@/web/hooks/useAppContext"
+import Comfirm from "@/components/app/ui/Comfirm"
+import { useRouter } from "next/router"
 
 export const getServerSideProps = async (context) => {
   const { query } = context
@@ -46,7 +48,11 @@ const Settings = (props) => {
     actions: { patchUser, deleteAddress, deleteUser },
   } = useAppContext()
   const [viewAddressL, setViewAddressL] = useState(false)
+  const [comfirmeDelUser, setComfirmeDelUser] = useState(false)
+  const [comfirmeDelAddress, setComfirmeDelAddress] = useState(false)
+
   const [error, setError] = useState(null)
+  const router = useRouter()
 
   const accountSettingsInitialValues = {
     name: data.result.name,
@@ -84,21 +90,27 @@ const Settings = (props) => {
     },
     [deleteAddress, userId]
   )
-  const handledeleteUser = useCallback(
-    async (addressId) => {
-      setError(null)
-      const [err] = await deleteUser(userId, addressId)
+  const handledeleteUser = useCallback(async () => {
+    setError(null)
+    const [err] = await deleteUser(userId)
 
-      if (err) {
-        setError(err)
+    if (err) {
+      setError(err)
 
-        return
-      }
+      return
+    }
 
-      window.location.reload()
-    },
-    [deleteUser, userId]
-  )
+    localStorage.clear()
+    router.push("/")
+  }, [deleteUser, userId, router])
+
+  const handleComfirmAddress = useCallback(async () => {
+    setComfirmeDelAddress(true)
+  }, [setComfirmeDelAddress])
+
+  const handleComfirmUser = useCallback(async () => {
+    setComfirmeDelUser(true)
+  }, [setComfirmeDelUser])
 
   return (
     <>
@@ -184,10 +196,19 @@ const Settings = (props) => {
                       <button
                         key={data.id}
                         className="text-red-600 "
-                        onClick={() => handledeleteAddress(data.id)}
+                        onClick={() => handleComfirmAddress()}
                       >
                         <TrashIcon className="w-4" />
                       </button>
+                      <Comfirm
+                        className={classNames(
+                          comfirmeDelAddress ? "block" : "hidden"
+                        )}
+                        affichage={setComfirmeDelAddress}
+                        action={handledeleteAddress}
+                        textValue="l'adresse'"
+                        params={data.id}
+                      />
                     </div>
                   </div>
                 ))}
@@ -198,10 +219,16 @@ const Settings = (props) => {
             <Button
               variant="suppr"
               className="mt-16"
-              onClick={() => handledeleteUser(userId)}
+              onClick={() => handleComfirmUser()}
             >
               Supprimer le compte
             </Button>
+            <Comfirm
+              className={classNames(comfirmeDelUser ? "block" : "hidden")}
+              affichage={setComfirmeDelUser}
+              action={handledeleteUser}
+              textValue="l'utilisateur connecté"
+            />
           </div>
         </div>
       </div>
