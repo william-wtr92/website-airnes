@@ -1,8 +1,12 @@
 import UserModel from "@/api/db/models/UserModel"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
-import { numberValidator } from "@/components/validation/validation"
-import {NotFoundError} from "@/api/errors"
+import {
+  mailValidator,
+  NameValidator,
+  numberValidator,
+} from "@/components/validation/validation"
+import { NotFoundError } from "@/api/errors"
 
 const handler = mw({
   GET: [
@@ -34,6 +38,63 @@ const handler = mw({
 
         throw new NotFoundError()
       }
+    },
+  ],
+  PATCH: [
+    //rajouter auth
+    validate({
+      query: {
+        userId: numberValidator.required(),
+      },
+      body: {
+        name: NameValidator.required(),
+        mail: mailValidator.required(),
+      },
+    }),
+    async ({
+      locals: {
+        query: { userId },
+        body: { name, mail },
+      },
+      res,
+    }) => {
+      const id = userId
+
+      const user = await UserModel.query().findOne({ id })
+      const emailverif = await UserModel.query().findOne({ mail })
+
+      try {
+        if (!emailverif || user.id === emailverif.id) {
+          await UserModel.query().updateAndFetchById(id, {
+            ...(user.name != name ? { name } : {}),
+            ...(user.mail != mail ? { mail } : {}),
+          })
+        }
+      } catch {
+        res.status(500).send({ error: "Oops. Something went wrong." })
+      }
+
+      res.send({ result: true })
+    },
+  ],
+  DELETE: [
+    //rajouter auth check query.useriD
+    validate({
+      query: {
+        userId: numberValidator.required(),
+      },
+    }),
+    async ({
+      locals: {
+        query: { userId },
+      },
+      res,
+    }) => {
+      const id = userId
+
+      await UserModel.query().deleteById(id)
+
+      res.send({ result: true })
     },
   ],
 })
