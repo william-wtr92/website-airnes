@@ -3,6 +3,7 @@ import createAPIClient from "../createAPIClient"
 import signUpService from "../services/signUp"
 import signInService from "../services/signIn"
 import contactService from "@/web/services/contact.js"
+import updateContactService from "@/web/services/admin/updateContact"
 import createCategoryService from "@/web/services/admin/addCategory"
 import addAddressService from "../services/user/address/addAddress"
 import patchUserService from "../services/user/patchUser"
@@ -36,6 +37,7 @@ export const AppContextProvider = (props) => {
   }, [])
 
   const addCategory = createCategoryService({ api, jwt })
+  const updateContact = updateContactService({ api })
   const addAddress = addAddressService({ api, jwt })
   const patchUser = patchUserService({ api, jwt })
   const patchAddress = patchAddressService({ api })
@@ -49,6 +51,7 @@ export const AppContextProvider = (props) => {
           signUp,
           signIn,
           contact,
+          updateContact,
           addCategory,
           addAddress,
           patchUser,

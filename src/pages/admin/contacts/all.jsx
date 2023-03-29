@@ -1,7 +1,8 @@
 import {NavLink} from "@/components/utils/NavLink"
-import {PencilSquareIcon, TrashIcon} from "@heroicons/react/24/outline"
+import {TrashIcon} from "@heroicons/react/24/outline"
 import axios from "axios"
 import routes from "@/web/routes"
+import SearchBar from "@/components/app/ui/SearchBar"
 
 export const getServerSideProps = async () => {
   const {data} = await axios.get(
@@ -20,7 +21,7 @@ const AllContacts = (props) => {
 
   return (
     <div className="p-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
-      <h1>Contacts</h1>
+      <SearchBar section="contact request"/>
       <div
         className="flex flex-col overflow-x-auto overflow-hidden py-2 inline-block min-w-full sm:-mx-6 lg:-mx-8 sm:px-6 lg:px-8">
         <table className="table-auto">
@@ -54,13 +55,10 @@ const AllContacts = (props) => {
                 </td>
                 <td className="p-4 whitespace-nowrap text-sm font-medium text-gray-900">
                   {
-                    contact.status ? "Read" : "New"
+                    contact.read ? "Read" : "New"
                   }
                 </td>
-                <td className="flex flex-row gap-5 text-sm text-gray-900 font-light p-4">
-                  <NavLink href={`/admin/contacts/${contacts.id}/edit`}>
-                    <PencilSquareIcon className="h-6 w-6"/>
-                  </NavLink>
+                <td className="text-sm text-gray-900 font-light p-4">
                   <NavLink href={`/admin/contacts/${contacts.id}/delete`}>
                     <TrashIcon className="h-6 w-6"/>
                   </NavLink>

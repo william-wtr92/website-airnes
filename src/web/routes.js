@@ -9,11 +9,12 @@ const routes = {
     //contacts: probably needs to get cleaned up
     contact: () => "/contact",
     getContacts: () => "/admin/contacts/contacts",
-    contactData: (contactId) => `/api/admin/contacts/${contactId}`,
+    contactData: (contactId) =>`/api/admin/contacts/${contactId}`,
+    updateContact: (contactId) => `/admin/contacts/${contactId}`,
     //categories: probably needs to get cleaned up as well
     createCategory: () => "/admin/categories/category",
     getCategories: () => "/admin/categories/category",
-    categoryData: (categoryId) => `/api/admin/${categoryId}`,
+    categoryData: (categoryId) => `/api/admin/categories/${categoryId}`,
     user: {
       addAddress: () => "/user/create/address",
       userData: (userId) => `/user/${userId}`,
