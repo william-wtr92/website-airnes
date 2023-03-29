@@ -22,6 +22,7 @@ const routes = {
       address: {
         addressData: (userId, addressId) => `/user/${userId}/${addressId}`,
         patchAddress: (userId, addressId) => `/user/${userId}/${addressId}`,
+        deleteAddress: (userId, addressId) => `/user/${userId}/${addressId}`,
       },
     },
   },
