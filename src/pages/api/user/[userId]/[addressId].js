@@ -80,6 +80,31 @@ const handler = mw({
       res.send({ result: true })
     },
   ],
+  DELETE: [
+    //rajouter auth check query.useriD
+    validate({
+      query: {
+        addressId: numberValidator.required(),
+      },
+    }),
+    async ({
+      locals: {
+        query: { addressId },
+      },
+      res,
+    }) => {
+      const id = addressId
+
+      try {
+        await AddressModel.query().deleteById(id)
+        console.log("good", id)
+      } catch {
+        console.log("fail")
+      }
+
+      res.send({ result: true })
+    },
+  ],
 })
 
 export default handler

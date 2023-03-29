@@ -9,7 +9,7 @@ const routes = {
     //contacts: probably needs to get cleaned up
     contact: () => "/contact",
     getContacts: () => "/admin/contacts/contacts",
-    contactData: (contactId) =>`/api/admin/contacts/${contactId}`,
+    contactData: (contactId) => `/api/admin/contacts/${contactId}`,
     //categories: probably needs to get cleaned up as well
     createCategory: () => "/admin/categories/category",
     getCategories: () => "/admin/categories/category",
@@ -21,6 +21,7 @@ const routes = {
       address: {
         addressData: (userId, addressId) => `/user/${userId}/${addressId}`,
         patchAddress: (userId, addressId) => `/user/${userId}/${addressId}`,
+        deleteAddress: (userId, addressId) => `/user/${userId}/${addressId}`,
       },
     },
   },
