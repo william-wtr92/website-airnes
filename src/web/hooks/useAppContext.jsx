@@ -9,6 +9,7 @@ import updateCategoryService from "@/web/services/admin/updateCategory"
 import addAddressService from "../services/user/address/addAddress"
 import patchUserService from "../services/user/patchUser"
 import patchAddressService from "../services/user/address/patchAddress"
+import deleteAddressService from "../services/user/address/deleteAddress"
 import parseSession from "../parseSession"
 import config from "../config"
 
@@ -36,12 +37,13 @@ export const AppContextProvider = (props) => {
     setJWT({jwt})
   }, [])
 
-  const addCategory = createCategoryService({api, jwt})
+  const addCategory = createCategoryService({ api, jwt })
   const updateCategory = updateCategoryService({api, jwt})
-  const updateContact = updateContactService({api})
-  const addAddress = addAddressService({api, jwt})
-  const patchUser = patchUserService({api, jwt})
-  const patchAddress = patchAddressService({api, jwt})
+  const updateContact = updateContactService({ api })
+  const addAddress = addAddressService({ api, jwt })
+  const patchUser = patchUserService({ api, jwt })
+  const patchAddress = patchAddressService({ api })
+  const deleteAddress = deleteAddressService({ api })
 
   return (
     <AppContext.Provider
@@ -57,6 +59,7 @@ export const AppContextProvider = (props) => {
           addAddress,
           patchUser,
           patchAddress,
+          deleteAddress,
         },
         state: {
           session,

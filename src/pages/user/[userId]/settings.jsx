@@ -35,15 +35,15 @@ export const getServerSideProps = async (context) => {
   return {
     props: {
       data: data,
-      uId: query.userId,
+      userId: query.userId,
     },
   }
 }
 
 const Settings = (props) => {
-  const { data, uId } = props
+  const { data, userId } = props
   const {
-    actions: { patchUser },
+    actions: { patchUser, deleteAddress },
   } = useAppContext()
   const [viewAddressL, setViewAddressL] = useState(false)
   const [error, setError] = useState(null)
@@ -68,6 +68,21 @@ const Settings = (props) => {
       }
     },
     [patchUser]
+  )
+  const handledelete = useCallback(
+    async (addressId) => {
+      setError(null)
+      const [err] = await deleteAddress(userId, addressId)
+
+      if (err) {
+        setError(err)
+
+        return
+      }
+
+      window.location.reload()
+    },
+    [deleteAddress, userId]
   )
 
   return (
@@ -148,12 +163,16 @@ const Settings = (props) => {
                       </span>
                     </div>
                     <div className="flex flex-col gap-2 ml-auto group/edit invisible  group-hover/item:visible">
-                      <NavLink href={`/user/${uId}/address/${data.id}/edit`}>
+                      <NavLink href={`/user/${userId}/address/${data.id}/edit`}>
                         <PencilIcon className="w-4" />
                       </NavLink>
-                      <NavLink href="#" className="text-red-600 ">
+                      <button
+                        key={data.id}
+                        className="text-red-600 "
+                        onClick={() => handledelete(data.id)}
+                      >
                         <TrashIcon className="w-4" />
-                      </NavLink>
+                      </button>
                     </div>
                   </div>
                 ))}
