@@ -95,12 +95,7 @@ const handler = mw({
     }) => {
       const id = addressId
 
-      try {
-        await AddressModel.query().deleteById(id)
-        console.log("good", id)
-      } catch {
-        console.log("fail")
-      }
+      await AddressModel.query().deleteById(id)
 
       res.send({ result: true })
     },
