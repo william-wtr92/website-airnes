@@ -1,13 +1,10 @@
 import routes from "@/web/routes"
 
-const patchUser =
+const deleteUser =
   ({ api }) =>
-  async ({ name, mail }, userId) => {
+  async (userId) => {
     try {
-      const { data } = await api.patch(routes.api.user.patchUser(userId), {
-        name,
-        mail,
-      })
+      const { data } = await api.delete(routes.api.user.deleteUser(userId))
 
       return [null, data]
     } catch (err) {
@@ -17,4 +14,4 @@ const patchUser =
     }
   }
 
-export default patchUser
+export default deleteUser

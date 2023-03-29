@@ -43,7 +43,7 @@ export const getServerSideProps = async (context) => {
 const Settings = (props) => {
   const { data, userId } = props
   const {
-    actions: { patchUser, deleteAddress },
+    actions: { patchUser, deleteAddress, deleteUser },
   } = useAppContext()
   const [viewAddressL, setViewAddressL] = useState(false)
   const [error, setError] = useState(null)
@@ -59,7 +59,7 @@ const Settings = (props) => {
   const handleModify = useCallback(
     async (values) => {
       setError(null)
-      const [err] = await patchUser(values)
+      const [err] = await patchUser(values, userId)
 
       if (err) {
         setError(err)
@@ -67,9 +67,9 @@ const Settings = (props) => {
         return
       }
     },
-    [patchUser]
+    [patchUser, userId]
   )
-  const handledelete = useCallback(
+  const handledeleteAddress = useCallback(
     async (addressId) => {
       setError(null)
       const [err] = await deleteAddress(userId, addressId)
@@ -83,6 +83,21 @@ const Settings = (props) => {
       window.location.reload()
     },
     [deleteAddress, userId]
+  )
+  const handledeleteUser = useCallback(
+    async (addressId) => {
+      setError(null)
+      const [err] = await deleteUser(userId, addressId)
+
+      if (err) {
+        setError(err)
+
+        return
+      }
+
+      window.location.reload()
+    },
+    [deleteUser, userId]
   )
 
   return (
@@ -169,7 +184,7 @@ const Settings = (props) => {
                       <button
                         key={data.id}
                         className="text-red-600 "
-                        onClick={() => handledelete(data.id)}
+                        onClick={() => handledeleteAddress(data.id)}
                       >
                         <TrashIcon className="w-4" />
                       </button>
@@ -178,6 +193,15 @@ const Settings = (props) => {
                 ))}
               </div>
             </div>
+          </div>
+          <div className="flex flex-row-reverse">
+            <Button
+              variant="suppr"
+              className="mt-16"
+              onClick={() => handledeleteUser(userId)}
+            >
+              Supprimer le compte
+            </Button>
           </div>
         </div>
       </div>
