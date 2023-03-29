@@ -44,17 +44,28 @@ const handler = mw({
     },
   ],
   GET: [
-    async ({
-             res,
-           }) => {
-      const query = await CategoryModel.query()
+    async ({ req, res }) => {
+      const page = parseInt(req.query.page, 10) || 1
+      const limit = parseInt(req.query.limit, 10) || 5
+      const offset = (page - 1) * limit
 
-      if (query) {
+      const [categories, totalCount] = await Promise.all([
+        CategoryModel.query().orderBy("id", "asc").limit(limit).offset(offset),
+        CategoryModel.query().count().first(),
+      ])
+
+      if (categories) {
         res.send({
-          result: query,
+          result: categories,
+          pagination: {
+            page,
+            limit,
+            totalItems: parseInt(totalCount.count, 10),
+            totalPages: Math.ceil(totalCount.count / limit),
+          },
         })
       } else {
-        res.send({result: ""})
+        res.send({ result: "" })
 
         throw new NotFoundError()
       }
