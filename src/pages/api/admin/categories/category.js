@@ -27,7 +27,7 @@ const handler = mw({
       const id = session.user.id
       const user = await UserModel.query().findOne({id})
 
-      if (user.roleid !== 0) {
+      if (user.roleid !== 1) {
         res.status(403).send(
           {error: "You are not admin"}
         )
