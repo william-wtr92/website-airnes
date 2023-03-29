@@ -24,7 +24,7 @@ const FooterMenu = (props) => {
                 Mentions légales
               </div>
             </NavLink>
-            <NavLink href="/products/support/contact">
+            <NavLink href="/support/contact">
               <div className="text-[12px] hover:text-[#b3825c] hover:scale-110 text-sm">
                 Contact
               </div>

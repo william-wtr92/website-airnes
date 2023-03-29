@@ -38,7 +38,7 @@ const ShowCategory = (props) => {
         {category.description}
       </div>
       <div className="flex gap-5">
-        <NavLink href={"/"}>
+        <NavLink href={`/admin/categories/${category.id}/edit`}>
           <button className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
             Edit
           </button>
