@@ -10,6 +10,7 @@ const validate = ({ body, params, query }) => {
   return async (ctx) => {
     const { req, res, next } = ctx
 
+
     try {
       const { body, params, query } = await validator.validate(
         {
@@ -34,7 +35,7 @@ const validate = ({ body, params, query }) => {
         return
       }
 
-      res.status(500).send({ error: "Oops. Something went wrong." })
+      res.status(500).send({ error: "Oopsa. Something went wrong." })
     }
   }
 }
