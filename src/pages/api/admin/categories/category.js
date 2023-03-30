@@ -7,6 +7,7 @@ import {
 import parseSession from "@/web/parseSession"
 import UserModel from "@/api/db/models/UserModel"
 import {NotFoundError} from "@/api/errors"
+import MaterialModel from "@/api/db/models/MaterialModel"
 
 const handler = mw({
   POST: [
@@ -47,11 +48,15 @@ const handler = mw({
     async ({
              res,
            }) => {
-      const query = await CategoryModel.query()
+      const [categories, materials] = await Promise.all([
+          CategoryModel.query().orderBy("id"),
+          MaterialModel.query().orderBy("id"),
+      ])
 
-      if (query) {
+      if (categories && materials) {
         res.send({
-          result: query,
+          categories,
+          materials,
         })
       } else {
         res.send({result: ""})

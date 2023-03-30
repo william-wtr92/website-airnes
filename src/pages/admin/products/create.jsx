@@ -12,16 +12,14 @@ export const getServerSideProps = async () => {
 
     return {
         props: {
-            categories: data.result,
+            categories: data.categories,
+            materials: data.materials
         },
     }
 }
 const CreateProduct = (props) => {
-    const {categories} = props
-
-
+    const {categories, materials} = props
     const [error, setError] = useState(null)
-
     const router = useRouter()
 
     const {
@@ -31,6 +29,7 @@ const CreateProduct = (props) => {
     const handlePost = useCallback(
         async (values) => {
             setError(null)
+            console.log(values, "handlePost")
 
             const [err] = await addProduct(values)
 
@@ -50,6 +49,7 @@ const CreateProduct = (props) => {
             validationSchema={productValidationSchema}
             onSubmit={handlePost}
             categories={categories}
+            materials={materials}
             error={error}
         />
     )

@@ -10,6 +10,8 @@ const addProduct =
                    price,
                    promotion,
                    material,
+                    material2,
+                    material3,
                    quantity,
                }) => {
             try {
@@ -21,6 +23,8 @@ const addProduct =
                     price,
                     promotion,
                     material,
+                    material2,
+                    material3,
                     quantity,
                     jwt,
                 })

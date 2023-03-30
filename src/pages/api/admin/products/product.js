@@ -1,4 +1,4 @@
-import ProductModel from "@/api/db/models/CategoryModel"
+import ProductModel from "@/api/db/models/ProductModel"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import {
@@ -32,6 +32,9 @@ const handler = mw({
             const id = session.user.id
             const user = await UserModel.query().findOne({id})
 
+            const categoryId = parseInt(category)
+            const materialId = parseInt(material)
+
             if (user.roleid !== 1) {
                 res.status(403).send(
                     {error: "You are not admin"}
@@ -42,13 +45,13 @@ const handler = mw({
 
             await ProductModel.query().insertAndFetch({
                 image,
-                category,
+                categoryId,
                 price,
                 promotion,
                 quantity,
                 name,
                 description,
-                material,
+                materialId,
             })
             res.send({result: true})
         },

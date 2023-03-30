@@ -1,9 +1,4 @@
 export const up = async (knex) => {
-    await knex.schema.createTable("material", (table) => {
-        table.increments("id")
-        table.text("name").notNullable()
-    })
-
     await knex.schema.createTable("product", (table) => {
         table.increments("id")
         table.text("name").notNullable()
@@ -19,5 +14,4 @@ export const up = async (knex) => {
 
 export const down = async (knex) => {
     await knex.schema.dropTable("product")
-    await knex.schema.dropTable("material")
 }
