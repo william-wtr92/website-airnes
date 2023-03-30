@@ -16,6 +16,8 @@ const routes = {
     getCategories: () => "/admin/categories/category",
     categoryData: (categoryId) => `/api/admin/categories/${categoryId}`,
     updateCategory: (categoryId) => `/admin/categories/${categoryId}`,
+    // azure upload
+    uploadFile: () => "/api/upload-file",
     user: {
       addAddress: () => "/user/create/address",
       userData: (userId) => `/user/${userId}`,

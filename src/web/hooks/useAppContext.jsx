@@ -6,6 +6,7 @@ import contactService from "@/web/services/contact.js"
 import updateContactService from "@/web/services/admin/updateContact"
 import createCategoryService from "@/web/services/admin/addCategory"
 import updateCategoryService from "@/web/services/admin/updateCategory"
+import uploadFileService from "@/web/services/admin/uploadFile"
 import addAddressService from "../services/user/address/addAddress"
 import patchUserService from "../services/user/patchUser"
 import deleteUserService from "../services/user/deleteUser"
@@ -48,6 +49,8 @@ export const AppContextProvider = (props) => {
   const deleteUser = deleteUserService({ api })
   const deleteAddress = deleteAddressService({ api })
 
+  const uploadFile = uploadFileService({ api })
+
   return (
     <AppContext.Provider
       {...props}
@@ -64,6 +67,7 @@ export const AppContextProvider = (props) => {
           patchAddress,
           deleteUser,
           deleteAddress,
+          uploadFile,
         },
         state: {
           session,
