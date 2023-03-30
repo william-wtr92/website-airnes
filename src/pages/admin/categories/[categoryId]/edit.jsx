@@ -46,7 +46,7 @@ const EditCategory = (props) => {
 
       await router.push("/admin/categories/all")
     },
-    [updateCategory]
+    [updateCategory, category.id, router]
   )
 
   return (

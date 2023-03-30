@@ -2,7 +2,7 @@ import { uploadFile } from "./azure_utils"
 import AzureModel from "@/api/db/models/AzureModel"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
-import { fileNameValidator } from "@/components/validation/contact"
+import { fileNameValidator } from "@/components/validation/admin/azure"
 import { InvalidUploadError } from "@/api/errors"
 
 const handler = mw({

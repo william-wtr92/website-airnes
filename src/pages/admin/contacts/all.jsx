@@ -22,7 +22,7 @@ const AllContacts = (props) => {
   return (
     <div className="p-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
       <SearchBar section="contact request" />
-      <div className="flex flex-col overflow-x-auto overflow-hidden py-2 inline-block min-w-full sm:-mx-6 lg:-mx-8 sm:px-6 lg:px-8">
+      <div className="flex flex-col overflow-x-auto overflow-hidden py-2 min-w-full sm:-mx-6 lg:-mx-8 sm:px-6 lg:px-8">
         <table className="table-auto">
           <thead className="bg-white border-b">
             <tr>
