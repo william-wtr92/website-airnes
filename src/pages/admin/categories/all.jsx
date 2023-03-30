@@ -32,7 +32,7 @@ export const getServerSideProps = async (context) => {
       },
     }
   } catch (error) {
-    redirectToInitial()
+    return redirectToInitial()
   }
 }
 
