@@ -4,12 +4,12 @@ import routes from "../routes"
 
 const signIn =
   ({ api, setSession, setJWT }) =>
-  async ({ email, password }) => {
+  async ({ mail, password }) => {
     try {
       const {
         data: { result: jwt },
       } = await api.post(routes.api.signIn(), {
-        email,
+        mail,
         password,
       })
 

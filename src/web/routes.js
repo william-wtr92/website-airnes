@@ -6,15 +6,26 @@ const routes = {
   api: {
     signUp: () => "/sign-up",
     signIn: () => "/sign-in",
+    //contacts: probably needs to get cleaned up
     contact: () => "/contact",
-    createCategory: () => "/admin/category",
-    getCategories: () => "/admin/category",
-    categoryData: (categoryId) =>
-      `/api/admin/${categoryId}?categoryId=${categoryId}`,
+    getContacts: () => "/admin/contacts/contacts",
+    contactData: (contactId) => `/api/admin/contacts/${contactId}`,
+    updateContact: (contactId) => `/admin/contacts/${contactId}`,
+    //categories: probably needs to get cleaned up as well
+    createCategory: () => "/admin/categories/category",
+    getCategories: () => "/admin/categories/category",
+    categoryData: (categoryId) => `/api/admin/categories/${categoryId}`,
+    updateCategory: (categoryId) => `/admin/categories/${categoryId}`,
     user: {
       addAddress: () => "/user/create/address",
       userData: (userId) => `/user/${userId}`,
-      patchUser: () => "/user/modify",
+      patchUser: (userId) => `/user/${userId}`,
+      deleteUser: (userId) => `/user/${userId}`,
+      address: {
+        addressData: (userId, addressId) => `/user/${userId}/${addressId}`,
+        patchAddress: (userId, addressId) => `/user/${userId}/${addressId}`,
+        deleteAddress: (userId, addressId) => `/user/${userId}/${addressId}`,
+      },
     },
   },
 }

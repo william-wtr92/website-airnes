@@ -3,31 +3,32 @@ import UserModel from "@/api/db/models/UserModel"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import {
-  emailValidator,
+  mailValidator,
   stringValidator,
 } from "@/components/validation/validation"
 import jsonwebtoken from "jsonwebtoken"
+import { InvalidCredentialsError } from "@/api/errors"
 
 const handler = mw({
   POST: [
     validate({
       body: {
-        email: emailValidator.required(),
+        mail: mailValidator.required(),
         password: stringValidator.required(),
       },
     }),
     async ({
       locals: {
-        body: { email, password },
+        body: { mail, password },
       },
       res,
     }) => {
-      const user = await UserModel.query().findOne({ email })
+      const user = await UserModel.query().findOne({ mail })
 
-      if (!user || !(await user.checkPassword(password))) {
-        res.status(401).send({ error: "Invalid credentials" })
+      const validity = await user.checkPassword(password)
 
-        return
+      if (!user || !validity) {
+        throw new InvalidCredentialsError()
       }
 
       const jwt = jsonwebtoken.sign(

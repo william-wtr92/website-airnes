@@ -3,8 +3,14 @@ import createAPIClient from "../createAPIClient"
 import signUpService from "../services/signUp"
 import signInService from "../services/signIn"
 import contactService from "@/web/services/contact.js"
+import updateContactService from "@/web/services/admin/updateContact"
 import createCategoryService from "@/web/services/admin/addCategory"
-import addAddressService from "../services/addAddress"
+import updateCategoryService from "@/web/services/admin/updateCategory"
+import addAddressService from "../services/user/address/addAddress"
+import patchUserService from "../services/user/patchUser"
+import deleteUserService from "../services/user/deleteUser"
+import patchAddressService from "../services/user/address/patchAddress"
+import deleteAddressService from "../services/user/address/deleteAddress"
 import parseSession from "../parseSession"
 import config from "../config"
 
@@ -33,7 +39,14 @@ export const AppContextProvider = (props) => {
   }, [])
 
   const addCategory = createCategoryService({ api, jwt })
-  const AddAddress = addAddressService({ api, jwt })
+  const updateCategory = updateCategoryService({ api, jwt })
+  const updateContact = updateContactService({ api })
+  const addAddress = addAddressService({ api, jwt })
+  const patchUser = patchUserService({ api })
+  const patchAddress = patchAddressService({ api })
+
+  const deleteUser = deleteUserService({ api })
+  const deleteAddress = deleteAddressService({ api })
 
   return (
     <AppContext.Provider
@@ -43,8 +56,14 @@ export const AppContextProvider = (props) => {
           signUp,
           signIn,
           contact,
+          updateContact,
           addCategory,
-          AddAddress,
+          updateCategory,
+          addAddress,
+          patchUser,
+          patchAddress,
+          deleteUser,
+          deleteAddress,
         },
         state: {
           session,

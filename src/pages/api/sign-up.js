@@ -4,7 +4,7 @@ import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import {
   boolValidator,
-  emailValidator,
+  mailValidator,
   NameValidator,
   passwordValidator,
 } from "@/components/validation/validation"
@@ -14,7 +14,7 @@ const handler = mw({
     validate({
       body: {
         name: NameValidator.required(),
-        email: emailValidator.required(),
+        mail: mailValidator.required(),
         password: passwordValidator.required(),
         passwordConfirmation: passwordValidator.required(),
         cgu: boolValidator.required(),
@@ -22,23 +22,11 @@ const handler = mw({
     }),
     async ({
       locals: {
-        body: { name, email, password, passwordConfirmation, cgu },
+        body: { name, mail, password },
       },
       res,
     }) => {
-      if (password != passwordConfirmation) {
-        res.status(404).send({ error: "mdp différent" })
-
-        return
-      }
-
-      if (!cgu) {
-        res.status(404).send({ error: "CGU non accepté" })
-
-        return
-      }
-
-      const user = await UserModel.query().findOne({ email })
+      const user = await UserModel.query().findOne({ mail })
 
       if (user) {
         res.send({ result: true })
@@ -50,7 +38,7 @@ const handler = mw({
 
       await UserModel.query().insertAndFetch({
         name,
-        email,
+        mail,
         passwordHash,
         passwordSalt,
       })

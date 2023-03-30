@@ -7,11 +7,22 @@ import {
   UserIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Collapse } from "@/components/app/ui/Collapse"
+import config from "@/web/config"
+import parseSession from "@/web/parseSession"
 
 const Users = () => {
   const [burgerMenu, setBurgerMenu] = useState(false)
+  const [token, setToken] = useState(false)
+
+  useEffect(() => {
+    const jwt = localStorage.getItem(config.session.localStorageKey)
+
+    if (jwt) {
+      setToken(parseSession(jwt))
+    }
+  }, [])
 
   const categoryOptions = [
     {
@@ -73,7 +84,9 @@ const Users = () => {
             </NavLink>
           </div>
           <div className="flex gap-2 lg:gap-6">
-            <NavLink href="/user/login">
+            <NavLink
+              href={token ? `/user/${token.user.id}/home` : `/user/login`}
+            >
               <UserIcon
                 className={`h-6 hover:scale-110 hover:text-[#b3825c]`}
                 color={"#615043"}
