@@ -50,8 +50,11 @@ const handler = mw({
         page: queryPageValidator,
       }
     }),
-    async ({req, res}) => {
-      const page = parseInt(req.query.page, 10) || config.pagination.page.default
+    async ({
+             locals: {
+               query: {page},
+             }, res
+           }) => {
       const limit = config.pagination.limit.default
       const offset = (page - 1) * limit
 
