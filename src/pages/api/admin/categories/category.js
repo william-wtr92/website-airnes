@@ -2,11 +2,12 @@ import CategoryModel from "@/api/db/models/CategoryModel"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import {
-  linkValidator, stringValidator,
+  linkValidator, queryPageValidator, stringValidator,
 } from "@/components/validation/validation"
 import parseSession from "@/web/parseSession"
 import UserModel from "@/api/db/models/UserModel"
 import {NotFoundError} from "@/api/errors"
+import config from "@/api/config"
 
 const handler = mw({
   POST: [
@@ -44,14 +45,31 @@ const handler = mw({
     },
   ],
   GET: [
+    validate({
+      query: {
+        page: queryPageValidator,
+      }
+    }),
     async ({
-             res,
+             locals: {
+               query: {page},
+             }, res
            }) => {
-      const query = await CategoryModel.query()
+      const limit = config.pagination.limit.default
+      const offset = (page - 1) * limit
 
-      if (query) {
+      const categories = await CategoryModel.query().orderBy("id", "asc").limit(limit).offset(offset)
+      const totalCount = await CategoryModel.query().count().first()
+
+      if (categories) {
         res.send({
-          result: query,
+          result: categories,
+          pagination: {
+            page,
+            limit,
+            totalItems: parseInt(totalCount.count, 10),
+            totalPages: Math.ceil(totalCount.count / limit),
+          },
         })
       } else {
         res.send({result: ""})

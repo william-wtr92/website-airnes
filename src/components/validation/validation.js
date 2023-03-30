@@ -1,4 +1,12 @@
 import * as yup from "yup"
+import config from "@/api/config.js"
+
+// pagination
+export const queryPageValidator = yup
+  .number()
+  .integer()
+  .default(0)
+  .label("Page")
 
 // generic
 export const boolValidator = yup.bool()
