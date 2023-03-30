@@ -1,4 +1,4 @@
-export const up = async (knex) => {
+const up = async (knex) => {
   await knex.schema.createTable("category", (table) => {
     table.increments("id")
     table.text("name").notNullable()
@@ -7,6 +7,8 @@ export const up = async (knex) => {
   })
 }
 
-export const down = async (knex) => {
+const down = async (knex) => {
   await knex.schema.dropTable("category")
 }
+
+module.exports = { up, down }

@@ -1,12 +1,26 @@
-import knexfile from "@@/knexfile.js"
-import dotenv from "dotenv"
-import { resolve } from "node:path"
+const { config } = require("dotenv")
+const { resolve } = require("path")
 
-dotenv.config({ path: resolve(".env.local") })
+config()
 
-const config = {
+const conf = {
   port: 3000,
-  db: knexfile,
+  db: {
+    client: "cockroachdb",
+    connection: {
+      host: process.env.DB_CONNECTION_HOST,
+      port: process.env.DB_CONNECTION_PORT,
+      user: process.env.DB_CONNECTION_USER,
+      password: process.env.DB_CONNECTION_PWD,
+      database: process.env.DB_CONNECTION_DB,
+      ssl: true,
+      sslmode: "verify-full",
+    },
+    migrations: {
+      directory: resolve("src/api/db/migrations"),
+      stub: resolve("src/api/db/migration.stub"),
+    },
+  },
   security: {
     jwt: {
       secret: process.env.SECURITY_JWT_SECRET,
@@ -20,6 +34,12 @@ const config = {
       pepper: process.env.SECURITY_PASSWORD_PEPPER,
     },
   },
+  azure: {
+    security: {
+      connection: process.env.AZURE_STORAGE_CONNECTION_STRING,
+      container: process.env.AZURE_STORAGE_CONTAINER_NAME,
+    },
+  },
 }
 
-export default config
+module.exports = conf
