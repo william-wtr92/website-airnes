@@ -31,7 +31,8 @@ const Table = (props) => {
                 key={content.id}>
               {fields.map((field) => {
                 return (
-                  <td className="p-4 whitespace-nowrap text-sm font-medium text-gray-900" key={`${content.id}-${field}`}>
+                  <td className="p-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                      key={`${content.id}-${field}`}>
                     {field === "name" ? (
                       <NavLink href={`/admin/${section}/${content.id}/show`}>{content[field]}</NavLink>
                     ) : (
@@ -50,9 +51,9 @@ const Table = (props) => {
                 }
                 {
                   canDelete ? (
-                    <NavLink href={`/admin/${section}/${content.id}/delete`}>
+                    <button>
                       <TrashIcon className="h-6 w-6"/>
-                    </NavLink>
+                    </button>
                   ) : null
                 }
               </td>

@@ -1,4 +1,28 @@
 import * as yup from "yup"
+import config from "@/api/config.js"
+
+// pagination
+export const queryPageValidator = yup
+  .number()
+  .integer()
+  .default(0)
+  .label("Page")
+
+export const queryLimitValidator = yup
+  .number()
+  .integer()
+  .min(config.pagination.limit.min)
+  .max(config.pagination.limit.max)
+  .default(config.pagination.limit.default)
+  .label("Query Limit")
+
+export const queryOffsetValidator = yup
+  .number()
+  .integer()
+  .min(config.pagination.offset.min)
+  .max(config.pagination.offset.max)
+  .default(config.pagination.offset.default)
+  .label("Query Offset")
 
 // generic
 export const boolValidator = yup.bool()

@@ -2,11 +2,12 @@ import CategoryModel from "@/api/db/models/CategoryModel"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import {
-  linkValidator, stringValidator,
+  linkValidator, queryPageValidator, stringValidator,
 } from "@/components/validation/validation"
 import parseSession from "@/web/parseSession"
 import UserModel from "@/api/db/models/UserModel"
 import {NotFoundError} from "@/api/errors"
+import config from "@/api/config"
 
 const handler = mw({
   POST: [
@@ -44,15 +45,18 @@ const handler = mw({
     },
   ],
   GET: [
-    async ({ req, res }) => {
-      const page = parseInt(req.query.page, 10) || 1
-      const limit = parseInt(req.query.limit, 10) || 5
+    validate({
+      query: {
+        page: queryPageValidator,
+      }
+    }),
+    async ({req, res}) => {
+      const page = parseInt(req.query.page, 10) || config.pagination.page.default
+      const limit = config.pagination.limit.default
       const offset = (page - 1) * limit
 
-      const [categories, totalCount] = await Promise.all([
-        CategoryModel.query().orderBy("id", "asc").limit(limit).offset(offset),
-        CategoryModel.query().count().first(),
-      ])
+      const categories = await CategoryModel.query().orderBy("id", "asc").limit(limit).offset(offset)
+      const totalCount = await CategoryModel.query().count().first()
 
       if (categories) {
         res.send({
@@ -65,7 +69,7 @@ const handler = mw({
           },
         })
       } else {
-        res.send({ result: "" })
+        res.send({result: ""})
 
         throw new NotFoundError()
       }

@@ -21,6 +21,8 @@ const All = (props) => {
 
   return (
     <DisplayPage
+      sections={"categories"}
+      section={"category"}
       items={categories}
       pagination={pagination}
     />
