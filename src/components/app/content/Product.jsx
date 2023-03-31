@@ -10,6 +10,8 @@ const Product = (props) => {
           src={image}
           alt={alt}
           className="border-2 border-black w-full h-60 object-cover"
+          width={500}
+          height={500}
         />
         <div className="flex justify-between font-extrabold uppercase p-1">
           <h1>{productName}</h1>

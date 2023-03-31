@@ -1,9 +1,9 @@
-const { config } = require("dotenv")
+const { config: loadEnv } = require("dotenv")
 const { resolve } = require("path")
 
-config()
+loadEnv()
 
-const conf = {
+const config = {
   port: 3000,
   db: {
     client: "cockroachdb",
@@ -34,12 +34,6 @@ const conf = {
       pepper: process.env.SECURITY_PASSWORD_PEPPER,
     },
   },
-  azure: {
-    security: {
-      connection: process.env.AZURE_STORAGE_CONNECTION_STRING,
-      container: process.env.AZURE_STORAGE_CONTAINER_NAME,
-    },
-  },
 }
 
-module.exports = conf
+module.exports = config

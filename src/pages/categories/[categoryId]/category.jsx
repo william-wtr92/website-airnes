@@ -41,6 +41,8 @@ const Category = () => {
         src="/images/categories.png"
         alt=""
         className="w-full h-72 object-cover"
+        height={500}
+        width={500}
       />
       <div className="flex flex-col items-center">
         <div className="w-5/6 grid gap-16 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 my-20">

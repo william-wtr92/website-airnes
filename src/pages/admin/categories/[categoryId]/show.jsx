@@ -37,6 +37,8 @@ const ShowCategory = (props) => {
         src={category.image}
         alt={category.name}
         className="object-cover md:w-96 md:h-64"
+        width={500}
+        height={500}
       />
       <div className="font-bold">{category.name}</div>
       <div>{category.description}</div>

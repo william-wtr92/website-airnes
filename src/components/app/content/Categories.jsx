@@ -14,6 +14,8 @@ const Categories = (props) => {
           src="/images/categories.png"
           alt="cat1"
           className="object-cover"
+          width={500}
+          height={500}
         />
       </div>
     </NavLink>

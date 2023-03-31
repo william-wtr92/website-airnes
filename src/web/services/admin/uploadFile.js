@@ -1,11 +1,12 @@
-import routes from "../../routes"
+import routes from "@/web/routes"
 
 const uploadFile =
   ({ api }) =>
-  async ({ file }) => {
+  async (file) => {
     try {
       const formData = new FormData()
       formData.append("file", file)
+      formData.append("filename", file.name)
 
       await api.post(routes.api.uploadFile(), formData, {
         headers: {

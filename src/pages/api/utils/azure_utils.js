@@ -1,8 +1,11 @@
 import { BlobServiceClient } from "@azure/storage-blob"
 import config from "@/api/config"
 
-const blobServiceClient = BlobServiceClient.fromConnectionString(
-  config.azure.security.connection
+const sasToken = process.env.AZURE_STORAGE_SAS_TOKEN
+const storageAccountName = process.env.AZURE_STORAGE_RESOURCE_NAME
+
+const blobServiceClient = new BlobServiceClient(
+  `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
 )
 const containerClient = blobServiceClient.getContainerClient(
   config.azure.security.container
