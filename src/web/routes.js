@@ -18,6 +18,7 @@ const routes = {
     updateCategory: (categoryId) => `/admin/categories/${categoryId}`,
     carousel: {
       addImage: () => "/admin/carousel/add",
+      getImages: () => "/admin/carousel/images",
     },
     user: {
       addAddress: () => "/user/create/address",

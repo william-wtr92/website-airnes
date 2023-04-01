@@ -2,7 +2,15 @@ import { NavLink } from "@/components/utils/NavLink"
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline"
 
 const Table = (props) => {
-  const { section, columns, contents, canEdit, canDelete, fields } = props
+  const {
+    section,
+    columns,
+    contents,
+    canEdit,
+    canDelete,
+    fields,
+    labelField = false,
+  } = props
 
   return (
     <table className="table-auto">
@@ -31,7 +39,7 @@ const Table = (props) => {
                     className="p-4 whitespace-nowrap text-sm font-medium text-gray-900"
                     key={`${content.id}-${field}`}
                   >
-                    {field === "name" ? (
+                    {field === (labelField ? "label" : "name") ? (
                       <NavLink href={`/admin/${section}/${content.id}/show`}>
                         {content[field]}
                       </NavLink>
