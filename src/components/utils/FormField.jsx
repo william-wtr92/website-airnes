@@ -12,8 +12,6 @@ const FormField = (props) => {
     type,
     tag,
     divClassName,
-    onChange,
-    value,
     ...otherProps
   } = props
   const [show, setShow] = useState(type)
@@ -47,8 +45,6 @@ const FormField = (props) => {
                 {...otherProps}
                 type={show}
                 placeholder={placeholder ?? label}
-                onChange={type === "file" ? onChange : null}
-                value={type === "file" ? undefined : value}
                 className="w-full focus:outline-none"
               />
             )}

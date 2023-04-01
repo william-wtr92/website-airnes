@@ -1,3 +1,3 @@
-const conf = require("./src/api/config.js")
+const config = require("./src/api/config.js")
 
-module.exports = conf.db
+module.exports = config.db
