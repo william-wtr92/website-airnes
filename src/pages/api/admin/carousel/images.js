@@ -9,7 +9,7 @@ const handler = mw({
   GET: [
     validate({
       query: {
-        page: queryPageValidator,
+        page: queryPageValidator.optional(),
       },
     }),
     async ({
@@ -18,24 +18,33 @@ const handler = mw({
       },
       res,
     }) => {
-      const limit = config.pagination.limit.default
-      const offset = (page - 1) * limit
+      let carousels
+      let pagination
 
-      const carousels = await CarouselModel.query()
-        .orderBy("id", "asc")
-        .limit(limit)
-        .offset(offset)
-      const totalCount = await CarouselModel.query().count().first()
+      if (page) {
+        const limit = config.pagination.limit.default
+        const offset = (page - 1) * limit
+
+        carousels = await CarouselModel.query()
+          .orderBy("id", "asc")
+          .limit(limit)
+          .offset(offset)
+        const totalCount = await CarouselModel.query().count().first()
+
+        pagination = {
+          page,
+          limit,
+          totalItems: parseInt(totalCount.count, 10),
+          totalPages: Math.ceil(totalCount.count / limit),
+        }
+      } else {
+        carousels = await CarouselModel.query().orderBy("id", "asc")
+      }
 
       if (carousels) {
         res.send({
           result: carousels,
-          pagination: {
-            page,
-            limit,
-            totalItems: parseInt(totalCount.count, 10),
-            totalPages: Math.ceil(totalCount.count / limit),
-          },
+          pagination: pagination,
         })
       } else {
         res.send({ result: "" })
