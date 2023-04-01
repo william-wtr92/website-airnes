@@ -8,7 +8,7 @@ const CarouselForm = (props) => {
 
   return (
     <div className="p-10 flex flex-col gap-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
-      <Return name="carousel" back={"/admin/carousel/all"} />
+      <Return name="carousel" back={"/admin/homepage"} />
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

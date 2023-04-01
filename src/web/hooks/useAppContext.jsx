@@ -12,6 +12,7 @@ import deleteUserService from "../services/user/deleteUser"
 import patchAddressService from "../services/user/address/patchAddress"
 import deleteAddressService from "../services/user/address/deleteAddress"
 import addCarouselService from "../services/admin/addCarousel"
+import deleteCarouselService from "../services/admin/deleteCarousel"
 import parseSession from "../parseSession"
 import config from "../config"
 
@@ -50,6 +51,7 @@ export const AppContextProvider = (props) => {
   const deleteAddress = deleteAddressService({ api })
 
   const addCarousel = addCarouselService({ api, jwt })
+  const deleteCarousel = deleteCarouselService({ api })
 
   return (
     <AppContext.Provider
@@ -68,6 +70,7 @@ export const AppContextProvider = (props) => {
           deleteUser,
           deleteAddress,
           addCarousel,
+          deleteCarousel,
         },
         state: {
           session,

@@ -19,6 +19,7 @@ const routes = {
     carousel: {
       addImage: () => "/admin/carousel/add",
       getImages: () => "/admin/carousel/images",
+      deleteImage: (imageId) => `/admin/carousel/${imageId}`,
     },
     user: {
       addAddress: () => "/user/create/address",

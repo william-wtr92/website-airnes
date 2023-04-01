@@ -28,7 +28,7 @@ const CreateCarousel = () => {
         return
       }
 
-      router.push("/admin/carousel/all")
+      router.push("/admin/homepage")
     },
     [addCarousel, router]
   )
