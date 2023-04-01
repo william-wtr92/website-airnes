@@ -1,8 +1,12 @@
 import mw from "@/api/mw"
 import validate from "@/api/middlewares/validate"
-import {linkValidator, numberValidator, stringValidator} from "@/components/validation/validation"
+import {
+  linkValidator,
+  numberValidator,
+  stringValidator,
+} from "@/components/validation/validation"
 import CategoryModel from "@/api/db/models/CategoryModel"
-import {NotFoundError} from "@/api/errors"
+import { NotFoundError } from "@/api/errors"
 
 const handler = mw({
   GET: [
@@ -12,18 +16,17 @@ const handler = mw({
       },
     }),
     async ({
-             locals: {
-               query: {categoryId},
-             },
-             res,
-           }) => {
+      locals: {
+        query: { categoryId },
+      },
+      res,
+    }) => {
       const id = categoryId
 
-      const category = await CategoryModel.query()
-        .findOne({id})
+      const category = await CategoryModel.query().findOne({ id })
 
       if (!category) {
-        res.send({result: null})
+        res.send({ result: null })
 
         throw new NotFoundError()
       }
@@ -36,7 +39,7 @@ const handler = mw({
   PATCH: [
     validate({
       query: {
-        categoryId: numberValidator.required()
+        categoryId: numberValidator.required(),
       },
       body: {
         image: linkValidator,
@@ -45,27 +48,23 @@ const handler = mw({
       },
     }),
     async ({
-             locals: {
-               query: {categoryId},
-               body: {
-                 image,
-                 name,
-                 description
-               },
-             },
-             res,
-           }) => {
+      locals: {
+        query: { categoryId },
+        body: { image, name, description },
+      },
+      res,
+    }) => {
       const id = categoryId
-      const category = await CategoryModel.query().findOne({id})
+      const category = await CategoryModel.query().findOne({ id })
 
       await CategoryModel.query().updateAndFetchById(id, {
-        ...(category.image !== image ? {image} : {}),
-        ...(category.name !== name ? {name} : {}),
-        ...(category.description !== description ? {description} : {})
+        ...(category.image !== image ? { image } : {}),
+        ...(category.name !== name ? { name } : {}),
+        ...(category.description !== description ? { description } : {}),
       })
 
-      res.send({result: true})
-    }
+      res.send({ result: true })
+    },
   ],
 })
 

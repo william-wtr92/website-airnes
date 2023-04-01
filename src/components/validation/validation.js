@@ -1,5 +1,4 @@
 import * as yup from "yup"
-import config from "@/api/config.js"
 
 // pagination
 export const queryPageValidator = yup
@@ -26,3 +25,12 @@ export const passwordValidator = yup
     /^(?=.*[\p{Ll}])(?=.*[\p{Lu}])(?=.*[0-9])(?=.*[^0-9\p{Lu}\p{Ll}]).*$/gu,
     "Password must contain at least 1 upper & 1 lower case letters, 1 digit, 1 spe. character"
   )
+
+// carousel
+
+export const urlValidator = yup
+  .string()
+  .url("Must be a valid URL")
+  .required("URL is required")
+
+export const labelValidator = yup.string()

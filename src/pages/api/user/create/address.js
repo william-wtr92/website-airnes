@@ -4,7 +4,7 @@ import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import { stringValidator } from "@/components/validation/validation"
 import parseSession from "@/web/parseSession"
-import {NotFoundError} from "@/api/errors"
+import { NotFoundError } from "@/api/errors"
 
 const handler = mw({
   POST: [

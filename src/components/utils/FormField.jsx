@@ -4,7 +4,8 @@ import { Field } from "formik"
 import { useState } from "react"
 
 const FormField = (props) => {
-  const { name, label, className, placeholder, type, tag, ...otherProps } = props
+  const { name, label, className, placeholder, type, tag, ...otherProps } =
+    props
   const [show, setShow] = useState(type)
 
   const HandlePassword = () => {
@@ -17,25 +18,23 @@ const FormField = (props) => {
         <label className={classNames("flex flex-col gap-2", className)}>
           <span className="text-md font-semibold">{label}</span>
           <div className=" flex border-2 rounded-md border-gray-400 px-10 py-1 cursor-pointer">
-            {
-              tag === "textarea" ? (
-                  <textarea
-                      {...field}
-                      {...otherProps}
-                      type={show}
-                      placeholder={placeholder ?? label}
-                      className="w-full focus:outline-none"
-                  />
-              ) : (
-                  <input
-                      {...field}
-                      {...otherProps}
-                      type={show}
-                      placeholder={placeholder ?? label}
-                      className="w-full focus:outline-none"
-                  />
-              )
-            }
+            {tag === "textarea" ? (
+              <textarea
+                {...field}
+                {...otherProps}
+                type={show}
+                placeholder={placeholder ?? label}
+                className="w-full focus:outline-none"
+              />
+            ) : (
+              <input
+                {...field}
+                {...otherProps}
+                type={show}
+                placeholder={placeholder ?? label}
+                className="w-full focus:outline-none"
+              />
+            )}
 
             {type === "password" ? (
               <EyeIcon className="w-6 ml-4" onClick={HandlePassword} />

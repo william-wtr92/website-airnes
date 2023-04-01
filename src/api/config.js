@@ -30,7 +30,7 @@ const config = {
       min: 0,
       max: 100,
       default: 0,
-    }
+    },
   },
 }
 
