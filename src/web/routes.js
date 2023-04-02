@@ -16,6 +16,8 @@ const routes = {
     getCategories: () => "/admin/categories/category",
     categoryData: (categoryId) => `/api/admin/categories/${categoryId}`,
     updateCategory: (categoryId) => `/admin/categories/${categoryId}`,
+    //users: probably needs to get cleaned up as well
+    getUsers: () => "/admin/users/user",
     user: {
       addAddress: () => "/user/create/address",
       userData: (userId) => `/user/${userId}`,
