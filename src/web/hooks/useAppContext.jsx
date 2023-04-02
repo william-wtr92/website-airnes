@@ -15,6 +15,8 @@ import addCarouselService from "../services/admin/addCarousel"
 import deleteCarouselService from "../services/admin/deleteCarousel"
 import orderCarouselService from "../services/admin/orderCarousel"
 import parseSession from "../parseSession"
+import createProductService from "@/web/services/admin/addProduct"
+
 import config from "../config"
 
 const AppContext = createContext()
@@ -44,6 +46,7 @@ export const AppContextProvider = (props) => {
   const addCategory = createCategoryService({ api, jwt })
   const updateCategory = updateCategoryService({ api, jwt })
   const updateContact = updateContactService({ api })
+  const addProduct = createProductService({ api, jwt })
   const addAddress = addAddressService({ api, jwt })
   const patchUser = patchUserService({ api })
   const patchAddress = patchAddressService({ api })
@@ -74,6 +77,7 @@ export const AppContextProvider = (props) => {
           addCarousel,
           deleteCarousel,
           orderCarousel,
+          addProduct,
         },
         state: {
           session,
