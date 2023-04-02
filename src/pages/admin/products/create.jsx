@@ -7,7 +7,7 @@ import axios from "axios"
 import routes from "@/web/routes"
 export const getServerSideProps = async () => {
     const {data} = await axios.get(
-        `http://localhost:3000/api${routes.api.getCategories()}`
+        `http://localhost:3000/api${routes.api.getMaterialsAndCategory()}`
     )
 
     return {

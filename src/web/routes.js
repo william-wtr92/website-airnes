@@ -20,6 +20,8 @@ const routes = {
     createProduct: () => "/admin/products/product",
     getProducts: () => "/admin/products/product",
     productData: (productId) => `api/admin/${productId}`,
+    //materials:
+    getMaterialsAndCategory: () => "/admin/materials/material",
     user: {
       addAddress: () => "/user/create/address",
       userData: (userId) => `/user/${userId}`,
