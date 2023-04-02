@@ -1,6 +1,7 @@
 import BaseModel from "@/api/db/models/BaseModel.js"
 import hashPassword from "../hashPassword"
 import AddressModel from "./AddressModel"
+import RoleModel from "./RoleModel"
 
 class UserModel extends BaseModel {
   static tableName = "user"
@@ -15,6 +16,23 @@ class UserModel extends BaseModel {
           to: "address.userid",
           modify: (query) => query.select("id"),
         },
+      },
+      roledata: {
+        relation: BaseModel.BelongsToOneRelation,
+        modelClass: RoleModel,
+        filter: (query) => query.select("right"),
+        join: {
+          from: "user.roleid",
+          to: "role.id",
+        },
+      },
+    }
+  }
+
+  static get modifiers() {
+    return {
+      sanitize(builder) {
+        builder.select("id", "mail", "name")
       },
     }
   }

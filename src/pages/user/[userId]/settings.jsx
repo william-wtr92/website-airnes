@@ -200,16 +200,16 @@ const Settings = (props) => {
                       >
                         <TrashIcon className="w-4" />
                       </button>
-                      <Comfirm
-                        className={classNames(
-                          comfirmeDelAddress ? "block" : "hidden"
-                        )}
-                        affichage={setComfirmeDelAddress}
-                        action={handledeleteAddress}
-                        textValue="l'adresse'"
-                        params={data.id}
-                      />
                     </div>
+                    <Comfirm
+                      className={classNames(
+                        comfirmeDelAddress ? "block" : "hidden"
+                      )}
+                      affichage={setComfirmeDelAddress}
+                      action={handledeleteAddress}
+                      textValue="l'adresse'"
+                      params={data.id}
+                    />
                   </div>
                 ))}
               </div>
