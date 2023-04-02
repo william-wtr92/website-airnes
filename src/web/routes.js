@@ -24,6 +24,12 @@ const routes = {
     getMaterialsAndCategory: () => "/admin/materials/material",
     //users: probably needs to get cleaned up as well
     getUsers: () => "/admin/users/user",
+    carousel: {
+      addImage: () => "/admin/carousel/add",
+      getImages: () => "/admin/carousel/images",
+      deleteImage: (imageId) => `/admin/carousel/${imageId}`,
+      changeOrder: (imageId) => `/admin/carousel/${imageId}`,
+    },
     user: {
       addAddress: () => "/user/create/address",
       userData: (userId) => `/user/${userId}`,

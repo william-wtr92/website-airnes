@@ -1,15 +1,15 @@
 import CategoryForm from "@/components/app/admin/CategoryForm"
-import {categoryValidationSchema} from "@/components/validation/admin/category"
+import { categoryValidationSchema } from "@/components/validation/admin/category"
 import axios from "axios"
 import routes from "@/web/routes"
-import {useRouter} from "next/router";
-import useAppContext from "@/web/hooks/useAppContext";
-import {useCallback} from "react";
+import { useRouter } from "next/router"
+import useAppContext from "@/web/hooks/useAppContext"
+import { useCallback } from "react"
 
 export const getServerSideProps = async (context) => {
-  const {categoryId} = context.params
+  const { categoryId } = context.params
 
-  const {data} = await axios.get(
+  const { data } = await axios.get(
     `http://localhost:3000${routes.api.categoryData(categoryId)}`
   )
 
@@ -30,7 +30,7 @@ export const getServerSideProps = async (context) => {
 }
 
 const EditCategory = (props) => {
-  const {category} = props
+  const { category } = props
 
   const categoryInitialValues = category
 
@@ -45,16 +45,17 @@ const EditCategory = (props) => {
       await updateCategory({ ...values, categoryId: category.id })
 
       await router.push("/admin/categories/all")
-    }, [updateCategory]
+    },
+    [updateCategory, category.id, router]
   )
 
-
-    return (
-      <CategoryForm
-        initialValues={categoryInitialValues}
-        validationSchema={categoryValidationSchema}
-        onSubmit={handlePost}/>
-    )
+  return (
+    <CategoryForm
+      initialValues={categoryInitialValues}
+      validationSchema={categoryValidationSchema}
+      onSubmit={handlePost}
+    />
+  )
 }
 
 export default EditCategory

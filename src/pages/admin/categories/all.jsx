@@ -3,7 +3,7 @@ import routes from "@/web/routes"
 import DisplayPage from "@/components/app/admin/DisplayPage"
 
 export const getServerSideProps = async (context) => {
-  const {page} = context.query
+  const { page } = context.query
 
   const redirectToInitial = () => {
     return {
@@ -15,7 +15,7 @@ export const getServerSideProps = async (context) => {
   }
 
   try {
-    const {data} = await axios.get(
+    const { data } = await axios.get(
       `http://localhost:3000/api${routes.api.getCategories()}?page=${page || 1}`
     )
 
@@ -37,7 +37,7 @@ export const getServerSideProps = async (context) => {
 }
 
 const All = (props) => {
-  const {categories, pagination} = props
+  const { categories, pagination } = props
 
   return (
     <DisplayPage

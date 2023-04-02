@@ -1,26 +1,26 @@
 import {
-  categoryInitialValues,
-  categoryValidationSchema,
-} from "@/components/validation/admin/category"
+  carouselInitialValues,
+  carouselValidationSchema,
+} from "@/components/validation/admin/carousel"
 import { useRouter } from "next/router"
-import CategoryForm from "@/components/app/admin/CategoryForm"
+import CarouselForm from "@/components/app/admin/CarouselForm"
 import { useCallback, useState } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
 
-const CreateCategory = () => {
+const CreateCarousel = () => {
   const [error, setError] = useState(null)
 
   const router = useRouter()
 
   const {
-    actions: { addCategory },
+    actions: { addCarousel },
   } = useAppContext()
 
   const handlePost = useCallback(
     async (values) => {
       setError(null)
 
-      const [err] = await addCategory(values)
+      const [err] = await addCarousel(values)
 
       if (err) {
         setError(err)
@@ -28,21 +28,21 @@ const CreateCategory = () => {
         return
       }
 
-      router.push("/admin/categories/all")
+      router.push("/admin/homepage")
     },
-    [addCategory, router]
+    [addCarousel, router]
   )
 
   return (
     <>
       {error && <p>{error}</p>}
-      <CategoryForm
-        initialValues={categoryInitialValues}
-        validationSchema={categoryValidationSchema}
+      <CarouselForm
+        initialValues={carouselInitialValues}
+        validationSchema={carouselValidationSchema}
         onSubmit={handlePost}
       />
     </>
   )
 }
 
-export default CreateCategory
+export default CreateCarousel

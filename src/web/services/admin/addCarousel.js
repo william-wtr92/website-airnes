@@ -1,13 +1,12 @@
 import routes from "@/web/routes"
 
-const updateCategory =
+const addCarousel =
   ({ api, jwt }) =>
-  async ({ categoryId, image, name, description }) => {
+  async ({ url, label }) => {
     try {
-      const { data } = await api.patch(routes.api.updateCategory(categoryId), {
-        image,
-        name,
-        description,
+      const { data } = await api.post(routes.api.carousel.addImage(), {
+        url,
+        label,
         jwt,
       })
 
@@ -19,4 +18,4 @@ const updateCategory =
     }
   }
 
-export default updateCategory
+export default addCarousel

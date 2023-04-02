@@ -1,13 +1,16 @@
 import routes from "@/web/routes"
 
-const updateContact =
+const orderCarousel =
   ({ api, jwt }) =>
-  async ({ contactId, status }) => {
+  async (imageId, direction) => {
     try {
-      const { data } = await api.patch(routes.api.updateContact(contactId), {
-        status,
-        jwt,
-      })
+      const { data } = await api.patch(
+        `${routes.api.carousel.changeOrder(imageId)}`,
+        {
+          direction,
+          jwt,
+        }
+      )
 
       return [null, data]
     } catch (err) {
@@ -17,4 +20,4 @@ const updateContact =
     }
   }
 
-export default updateContact
+export default orderCarousel

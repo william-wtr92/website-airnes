@@ -11,6 +11,9 @@ import patchUserService from "../services/user/patchUser"
 import deleteUserService from "../services/user/deleteUser"
 import patchAddressService from "../services/user/address/patchAddress"
 import deleteAddressService from "../services/user/address/deleteAddress"
+import addCarouselService from "../services/admin/addCarousel"
+import deleteCarouselService from "../services/admin/deleteCarousel"
+import orderCarouselService from "../services/admin/orderCarousel"
 import parseSession from "../parseSession"
 import createProductService from "@/web/services/admin/addProduct"
 
@@ -51,6 +54,10 @@ export const AppContextProvider = (props) => {
   const deleteUser = deleteUserService({ api })
   const deleteAddress = deleteAddressService({ api })
 
+  const addCarousel = addCarouselService({ api, jwt })
+  const deleteCarousel = deleteCarouselService({ api })
+  const orderCarousel = orderCarouselService({ api })
+
   return (
     <AppContext.Provider
       {...props}
@@ -67,6 +74,9 @@ export const AppContextProvider = (props) => {
           patchAddress,
           deleteUser,
           deleteAddress,
+          addCarousel,
+          deleteCarousel,
+          orderCarousel,
           addProduct,
         },
         state: {

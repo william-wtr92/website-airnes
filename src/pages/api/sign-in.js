@@ -7,7 +7,7 @@ import {
   stringValidator,
 } from "@/components/validation/validation"
 import jsonwebtoken from "jsonwebtoken"
-import {InvalidCredentialsError} from "@/api/errors"
+import { InvalidCredentialsError } from "@/api/errors"
 
 const handler = mw({
   POST: [

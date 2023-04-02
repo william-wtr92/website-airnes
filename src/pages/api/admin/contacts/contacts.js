@@ -1,12 +1,10 @@
 import ContactModel from "@/api/db/models/ContactModel"
 import mw from "@/api/mw"
-import {NotFoundError} from "@/api/errors"
+import { NotFoundError } from "@/api/errors"
 
 const handler = mw({
   GET: [
-    async ({
-             res,
-           }) => {
+    async ({ res }) => {
       const query = await ContactModel.query()
 
       if (query) {
@@ -14,7 +12,7 @@ const handler = mw({
           result: query,
         })
       } else {
-        res.send({result: ""})
+        res.send({ result: "" })
 
         throw new NotFoundError()
       }

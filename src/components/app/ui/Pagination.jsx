@@ -1,15 +1,15 @@
-import {useRouter} from "next/router"
-import {ArrowLeftIcon, ArrowRightIcon} from "@heroicons/react/20/solid"
+import { useRouter } from "next/router"
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid"
 
 const Pagination = (props) => {
-  const {totalPages, currentPage, pathname} = props
+  const { totalPages, currentPage, pathname } = props
 
   const router = useRouter()
 
   const handlePageChange = (page) => {
     router.push({
       pathname: pathname,
-      query: {page},
+      query: { page },
     })
   }
 
@@ -40,7 +40,7 @@ const Pagination = (props) => {
           disabled={currentPage === 1}
           className="px-3 py-2 mx-1 bg-white border border-gray-300 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-50"
         >
-          <ArrowLeftIcon className="h-5 w-5"/>
+          <ArrowLeftIcon className="h-5 w-5" />
         </button>
       )}
       {pages.map((page, index) => (
@@ -63,7 +63,7 @@ const Pagination = (props) => {
           disabled={currentPage === totalPages}
           className="px-3 py-2 mx-1 bg-white border border-gray-300 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-50"
         >
-          <ArrowRightIcon className="h-5 w-5"/>
+          <ArrowRightIcon className="h-5 w-5" />
         </button>
       )}
     </div>
