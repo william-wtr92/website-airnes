@@ -22,10 +22,13 @@ const routes = {
     productData: (productId) => `api/admin/${productId}`,
     //materials:
     getMaterialsAndCategory: () => "/admin/materials/material",
+    //users: probably needs to get cleaned up as well
+    getUsers: () => "/admin/users/user",
     user: {
       addAddress: () => "/user/create/address",
       userData: (userId) => `/user/${userId}`,
-      patchUser: () => "/user/modify",
+      patchUser: (userId) => `/user/${userId}`,
+      deleteUser: (userId) => `/user/${userId}`,
       address: {
         addressData: (userId, addressId) => `/user/${userId}/${addressId}`,
         patchAddress: (userId, addressId) => `/user/${userId}/${addressId}`,

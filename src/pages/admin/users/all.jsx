@@ -1,22 +1,22 @@
 import axios from "axios"
 import routes from "@/web/routes"
-import DisplayPage from "@/components/app/admin/DisplayPage"
+import DisplayPageUser from "@/components/app/admin/DisplayPageUser"
 
 export const getServerSideProps = async (context) => {
-  const {page} = context.query
+  const { page } = context.query
 
   const redirectToInitial = () => {
     return {
       redirect: {
-        destination: "/admin/categories/all",
+        destination: "/admin/users/all",
         permanent: false,
       },
     }
   }
 
   try {
-    const {data} = await axios.get(
-      `http://localhost:3000/api${routes.api.getCategories()}?page=${page || 1}`
+    const { data } = await axios.get(
+      `http://localhost:3000/api${routes.api.getUsers()}?page=${page || 1}`
     )
 
     const isEmpty = data.result.length === 0
@@ -27,7 +27,7 @@ export const getServerSideProps = async (context) => {
 
     return {
       props: {
-        categories: data.result,
+        users: data.result,
         pagination: data.pagination,
       },
     }
@@ -37,15 +37,10 @@ export const getServerSideProps = async (context) => {
 }
 
 const All = (props) => {
-  const {categories, pagination} = props
+  const { users, pagination } = props
 
   return (
-    <DisplayPage
-      sections={"categories"}
-      section={"category"}
-      items={categories}
-      pagination={pagination}
-    />
+    <DisplayPageUser sections={"users"} items={users} pagination={pagination} />
   )
 }
 

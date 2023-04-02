@@ -20,6 +20,18 @@ const config = {
       pepper: process.env.SECURITY_PASSWORD_PEPPER,
     },
   },
+  pagination: {
+    limit: {
+      min: 1,
+      max: 100,
+      default: 6,
+    },
+    offset: {
+      min: 0,
+      max: 100,
+      default: 0,
+    }
+  },
 }
 
 export default config
