@@ -29,7 +29,6 @@ const CreateProduct = (props) => {
     const handlePost = useCallback(
         async (values) => {
             setError(null)
-            console.log(values, "handlePost")
 
             const [err] = await addProduct(values)
 
@@ -39,9 +38,11 @@ const CreateProduct = (props) => {
                 return
             }
 
-            router.push("/admin/products/create")
-        }, [addProduct, router]
+            router.push("/admin/products/all")
+        },
+        [addProduct, router]
     )
+
 
     return (
         <ProductForm
