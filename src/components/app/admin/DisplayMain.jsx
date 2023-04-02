@@ -6,12 +6,21 @@ import {
   ArrowDownIcon,
   ArrowUpIcon,
 } from "@heroicons/react/24/solid"
+import classNames from "classnames"
 
 const DisplayMain = (props) => {
-  const { sectionName, sectionLink, contents, onDelete, onMove } = props
+  const {
+    sectionName,
+    sectionLink,
+    contents,
+    onDelete,
+    onMove,
+    renderContent,
+    className,
+  } = props
 
   return (
-    <div className="relative left-[40%]">
+    <div className={classNames("relative left-[40%]", className)}>
       <div className="flex gap-32">
         <div>
           <h1 className="text-2xl font-bold">Home {sectionName}</h1>
@@ -22,7 +31,11 @@ const DisplayMain = (props) => {
               return (
                 <li key={content.id} className="flex gap-10 items-center">
                   <Bars3Icon className="h-6" />
-                  <p className="truncate w-24">{content.label}</p>
+                  <p className="truncate w-24">
+                    {renderContent === "carousel"
+                      ? content.label
+                      : content.name}
+                  </p>
                   <div className="ml-auto flex gap-6 items-center">
                     <div className="flex flex-row">
                       <ArrowUpIcon

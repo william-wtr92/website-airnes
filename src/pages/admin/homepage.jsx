@@ -18,13 +18,20 @@ export const getServerSideProps = async (context) => {
   }
 
   try {
-    const { data } = await axios.get(
-      `http://localhost:3000/api${routes.api.carousel.getImages()}?page=${
-        page || 1
-      }`
-    )
+    const [imagesRes, categoriesRes] = await Promise.all([
+      axios.get(
+        `http://localhost:3000/api${routes.api.carousel.getImages()}?page=${
+          page || 1
+        }`
+      ),
+      axios.get(
+        `http://localhost:3000/api${routes.api.getCategories()}?page=${
+          page || 1
+        }`
+      ),
+    ])
 
-    const isEmpty = data.result.length === 0
+    const isEmpty = imagesRes.data.result.length === 0
 
     if (isEmpty && page !== "1") {
       return redirectToInitial()
@@ -32,7 +39,8 @@ export const getServerSideProps = async (context) => {
 
     return {
       props: {
-        images: data.result,
+        images: imagesRes.data.result,
+        categories: categoriesRes.data.result,
         deletedImageId: deletedImageId || null,
       },
     }
@@ -42,7 +50,7 @@ export const getServerSideProps = async (context) => {
 }
 
 const Homepage = (props) => {
-  const { images } = props
+  const { images, categories } = props
 
   const [error, setError] = useState(null)
   const [sortedImages, setSortedImages] = useState(
@@ -114,6 +122,15 @@ const Homepage = (props) => {
         contents={sortedImages}
         onDelete={handleDelete}
         onMove={handleMove}
+        renderContent={"carousel"}
+        className={"mt-10"}
+      />
+      <DisplayMain
+        sectionName={"Categories"}
+        sectionLink={"categories"}
+        contents={categories}
+        renderContent={"category"}
+        className={"mt-28"}
       />
     </div>
   )
