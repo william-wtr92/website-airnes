@@ -14,8 +14,14 @@ const routes = {
     //categories: probably needs to get cleaned up as well
     createCategory: () => "/admin/categories/category",
     getCategories: () => "/admin/categories/category",
-    categoryData: (categoryId) => `/api/admin/categories/${categoryId}`,
     updateCategory: (categoryId) => `/admin/categories/${categoryId}`,
+    categoryData: (categoryId) => `/api/admin/${categoryId}`,
+    //products: probably needs to get cleaned up as well
+    createProduct: () => "/admin/products/product",
+    getProducts: () => "/admin/products/product",
+    productData: (productId) => `api/admin/${productId}`,
+    //materials:
+    getMaterialsAndCategory: () => "/admin/materials/material",
     //users: probably needs to get cleaned up as well
     getUsers: () => "/admin/users/user",
     user: {

@@ -12,6 +12,8 @@ import deleteUserService from "../services/user/deleteUser"
 import patchAddressService from "../services/user/address/patchAddress"
 import deleteAddressService from "../services/user/address/deleteAddress"
 import parseSession from "../parseSession"
+import createProductService from "@/web/services/admin/addProduct"
+
 import config from "../config"
 
 const AppContext = createContext()
@@ -41,6 +43,7 @@ export const AppContextProvider = (props) => {
   const addCategory = createCategoryService({ api, jwt })
   const updateCategory = updateCategoryService({ api, jwt })
   const updateContact = updateContactService({ api })
+  const addProduct = createProductService({ api, jwt })
   const addAddress = addAddressService({ api, jwt })
   const patchUser = patchUserService({ api })
   const patchAddress = patchAddressService({ api })
@@ -64,6 +67,7 @@ export const AppContextProvider = (props) => {
           patchAddress,
           deleteUser,
           deleteAddress,
+          addProduct,
         },
         state: {
           session,

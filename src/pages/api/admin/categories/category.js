@@ -55,6 +55,7 @@ const handler = mw({
                query: {page},
              }, res
            }) => {
+
       const limit = config.pagination.limit.default
       const offset = (page - 1) * limit
 
@@ -70,6 +71,7 @@ const handler = mw({
             totalItems: parseInt(totalCount.count, 10),
             totalPages: Math.ceil(totalCount.count / limit),
           },
+
         })
       } else {
         res.send({result: ""})
