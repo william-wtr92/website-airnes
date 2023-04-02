@@ -17,6 +17,9 @@ import { Doughnut, Bar } from "react-chartjs-2"
 import { faker } from "@faker-js/faker"
 import Image from "next/image"
 import { NavLink } from "@/components/utils/NavLink"
+import React, { useEffect, useState } from "react"
+import axios from "axios"
+import routes from "@/web/routes"
 
 Chart.register(
   ArcElement,
@@ -76,7 +79,23 @@ const options = {
   },
 }
 
-const statisticsView = () => {
+const StatisticsView = () => {
+  const [userCount, setUserCount] = useState(0)
+  const [productCount, setProductCount] = useState(0)
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      const { data } = await axios.get(
+        `http://localhost:3000/api${routes.api.dashboard.getStats()}`
+      )
+
+      setUserCount(data.user)
+      setProductCount(data.product)
+    }
+
+    fetchStats()
+  }, [])
+
   return (
     <>
       <div className="overflow-y-auto">
@@ -96,7 +115,7 @@ const statisticsView = () => {
               <p className="text-xs lg:text-md">Produits</p>
             </div>
             <div className="font-black text-md flex justify-center relative top-[20%] lg:text-5xl">
-              35
+              {productCount}
             </div>
           </div>
           <div className="bg-gray-200 h-20 w-24 lg:h-40 lg:w-64 rounded-xl p-2 lg:p-4">
@@ -105,7 +124,7 @@ const statisticsView = () => {
               <p className="text-xs lg:text-md">Utilisateurs</p>
             </div>
             <div className="font-black text-md flex justify-center relative top-[20%] lg:text-5xl">
-              1898
+              {userCount}
             </div>
           </div>
         </div>
@@ -174,4 +193,4 @@ const statisticsView = () => {
   )
 }
 
-export default statisticsView
+export default StatisticsView

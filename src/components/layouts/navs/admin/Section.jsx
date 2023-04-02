@@ -5,7 +5,11 @@ export const Section = (props) => {
 
   return (
     <NavLink
-      href={name === "homepage" ? `/admin/${name}` : `/admin/${name}/all`}
+      href={
+        name === "homepage" || name === "dashboard"
+          ? `/admin/${name}`
+          : `/admin/${name}/all`
+      }
       className="py-2 px-4 rounded hover:bg-gray-200"
     >
       {name}
