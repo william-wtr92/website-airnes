@@ -6,7 +6,6 @@ import {
 } from "@/components/validation/validation"
 import parseSession from "@/web/parseSession"
 import UserModel from "@/api/db/models/UserModel"
-import {NotFoundError} from "@/api/errors"
 
 const handler = mw({
     POST: [
@@ -54,23 +53,6 @@ const handler = mw({
                 materialId,
             })
             res.send({result: true})
-        },
-    ],
-    GET: [
-        async ({
-                   res,
-               }) => {
-            const query = await ProductModel.query()
-
-            if (query) {
-                res.send({
-                    result: query,
-                })
-            } else {
-                res.send({result: ""})
-
-                throw new NotFoundError()
-            }
         },
     ],
 })

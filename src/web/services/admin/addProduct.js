@@ -31,7 +31,7 @@ const addProduct =
 
                 return [null, data]
             } catch (err) {
-                const error = err.response?.data?.error || "Oopsyyyyyyy. Something went wrong"
+                const error = err.response?.data?.error || "Oops. Something went wrong"
 
                 return [Array.isArray(error) ? error : [error]]
             }

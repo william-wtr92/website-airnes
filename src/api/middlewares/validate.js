@@ -35,7 +35,7 @@ const validate = ({ body, params, query }) => {
         return
       }
 
-      res.status(500).send({ error: "Oopsa. Something went wrong." })
+      res.status(500).send({ error: "Oops. Something went wrong." })
     }
   }
 }
