@@ -1,8 +1,14 @@
 import { NavLink } from "@/components/utils/NavLink"
-import { TrashIcon, PlusIcon, Bars3Icon } from "@heroicons/react/24/solid"
+import {
+  TrashIcon,
+  PlusIcon,
+  Bars3Icon,
+  ArrowDownIcon,
+  ArrowUpIcon,
+} from "@heroicons/react/24/solid"
 
 const DisplayMain = (props) => {
-  const { sectionName, sectionLink, contents, onDelete } = props
+  const { sectionName, sectionLink, contents, onDelete, onMove } = props
 
   return (
     <div className="relative left-[40%]">
@@ -17,7 +23,17 @@ const DisplayMain = (props) => {
                 <li key={content.id} className="flex gap-10 items-center">
                   <Bars3Icon className="h-6" />
                   <p className="truncate w-24">{content.label}</p>
-                  <div className="ml-auto">
+                  <div className="ml-auto flex gap-6 items-center">
+                    <div className="flex flex-row">
+                      <ArrowUpIcon
+                        className="h-4 hover:cursor-pointer"
+                        onClick={() => onMove(content.id, "up")}
+                      />
+                      <ArrowDownIcon
+                        className="h-4 hover:cursor-pointer"
+                        onClick={() => onMove(content.id, "down")}
+                      />
+                    </div>
                     <TrashIcon
                       className="h-6 hover:cursor-pointer"
                       onClick={() => onDelete(content.id)}

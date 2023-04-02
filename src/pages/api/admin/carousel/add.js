@@ -32,7 +32,17 @@ const handler = mw({
         return
       }
 
-      await CarouselModel.query().insertAndFetch({ url, label })
+      const maxOrder = await CarouselModel.query()
+        .max("order as maxOrder")
+        .first()
+      const newOrder =
+        maxOrder && maxOrder.maxOrder !== null ? maxOrder.maxOrder + 1 : 1
+
+      await CarouselModel.query().insertAndFetch({
+        url,
+        label,
+        order: newOrder,
+      })
 
       res.send({ result: true })
     },

@@ -3,6 +3,7 @@ export const up = async (knex) => {
     table.increments("id")
     table.text("label").notNullable()
     table.string("url").notNullable()
+    table.integer("order").notNullable()
     table.timestamps(true, true)
   })
 }

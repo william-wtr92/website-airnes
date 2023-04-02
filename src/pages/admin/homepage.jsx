@@ -2,7 +2,7 @@ import axios from "axios"
 import routes from "@/web/routes"
 import DisplayMain from "@/components/app/admin/DisplayMain"
 import useAppContext from "@/web/hooks/useAppContext"
-import { useCallback, useState } from "react"
+import { useCallback, useState, useEffect } from "react"
 import { useRouter } from "next/router"
 
 export const getServerSideProps = async (context) => {
@@ -11,7 +11,7 @@ export const getServerSideProps = async (context) => {
   const redirectToInitial = () => {
     return {
       redirect: {
-        destination: "/admin/homepage",
+        destination: "/admin/homepage?page=1",
         permanent: false,
       },
     }
@@ -26,7 +26,7 @@ export const getServerSideProps = async (context) => {
 
     const isEmpty = data.result.length === 0
 
-    if (isEmpty) {
+    if (isEmpty && page !== "1") {
       return redirectToInitial()
     }
 
@@ -45,11 +45,18 @@ const Homepage = (props) => {
   const { images } = props
 
   const [error, setError] = useState(null)
+  const [sortedImages, setSortedImages] = useState(
+    [...images].sort((a, b) => a.order - b.order)
+  )
+
+  useEffect(() => {
+    setSortedImages([...images].sort((a, b) => a.order - b.order))
+  }, [images])
 
   const router = useRouter()
 
   const {
-    actions: { deleteCarousel },
+    actions: { deleteCarousel, orderCarousel },
   } = useAppContext()
 
   const handleDelete = useCallback(
@@ -69,6 +76,31 @@ const Homepage = (props) => {
     [deleteCarousel, router]
   )
 
+  const handleMove = useCallback(
+    async (imageId, direction) => {
+      const [err] = await orderCarousel(imageId, direction === "up" ? -1 : 1)
+
+      if (err) {
+        setError(err)
+
+        return
+      }
+
+      const updatedImages = [...sortedImages]
+      const currentIndex = updatedImages.findIndex((img) => img.id === imageId)
+      const newIndex = currentIndex + (direction === "up" ? -1 : 1)
+
+      if (newIndex >= 0 && newIndex < updatedImages.length) {
+        const temp = updatedImages[currentIndex].order
+        updatedImages[currentIndex].order = updatedImages[newIndex].order
+        updatedImages[newIndex].order = temp
+
+        setSortedImages(updatedImages.sort((a, b) => a.order - b.order))
+      }
+    },
+    [orderCarousel, sortedImages]
+  )
+
   return (
     <div className="p-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
       {error && (
@@ -79,8 +111,9 @@ const Homepage = (props) => {
       <DisplayMain
         sectionName={"Carousel"}
         sectionLink={"carousel"}
-        contents={images}
+        contents={sortedImages}
         onDelete={handleDelete}
+        onMove={handleMove}
       />
     </div>
   )

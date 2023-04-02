@@ -14,8 +14,9 @@ const Carousel = () => {
         `http://localhost:3000/api${routes.api.carousel.getImages()}`
       )
 
+      const sortedSlides = data.result.sort((a, b) => a.order - b.order)
       setIsLoading(false)
-      setSlides(data.result)
+      setSlides(sortedSlides)
     }
 
     fetchImages()

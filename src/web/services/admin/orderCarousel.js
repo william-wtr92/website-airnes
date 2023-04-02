@@ -1,14 +1,16 @@
 import routes from "@/web/routes"
 
-const addCarousel =
+const orderCarousel =
   ({ api, jwt }) =>
-  async ({ url, label }) => {
+  async (imageId, direction) => {
     try {
-      const { data } = await api.post(routes.api.carousel.addImage(), {
-        url,
-        label,
-        jwt,
-      })
+      const { data } = await api.patch(
+        `${routes.api.carousel.changeOrder(imageId)}`,
+        {
+          direction,
+          jwt,
+        }
+      )
 
       return [null, data]
     } catch (err) {
@@ -18,4 +20,4 @@ const addCarousel =
     }
   }
 
-export default addCarousel
+export default orderCarousel
