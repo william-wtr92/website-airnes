@@ -24,8 +24,9 @@ const ProductForm = (props) => {
                         label="Image"
                         className="w-96"
                     />
-                    <span className="text-md font-semibold">{"Catérogy"}</span>
-                    <Field as="select" name="category" className={"flex border-2 rounded-md border-gray-400 py-1 cursor-pointer"}>
+                    <span className="text-md font-semibold">Catérogy</span>
+                    <Field as="select" name="category" className="flex border-2 rounded-md border-gray-400 py-1 cursor-pointer">
+                        <option defaultChecked >Sélectionner une categorie</option>
                         {
                             categories
                                 .map(category =>
@@ -64,8 +65,9 @@ const ProductForm = (props) => {
                         placeholder="Enter the product's description"
                         label="Description"
                     />
-                    <span className="text-md font-semibold">{"Matérial"}</span>
-                    <Field as="select" name="material" className={"flex border-2 rounded-md border-gray-400 py-1 cursor-pointer"}>
+                    <span className="text-md font-semibold">Matérial</span>
+                    <Field as="select" name="material" className="flex border-2 rounded-md border-gray-400 py-1 cursor-pointer">
+                        <option defaultChecked >Selectionner un Matériau</option>
                         {
                             materials
                                 .map(material =>
