@@ -23,10 +23,12 @@ const DisplayMain = (props) => {
     <div className={classNames("relative left-[40%]", className)}>
       <div className="flex gap-32">
         <div>
-          <h1 className="text-2xl font-bold">Home {sectionName}</h1>
+          <h1 className="text-2xl font-bold w-36 whitespace-nowrap">
+            Home {sectionName}
+          </h1>
         </div>
         <div>
-          <ul className="flex flex-col gap-4">
+          <ul className="flex flex-col items-start gap-4 mt-2">
             {contents.map((content) => {
               return (
                 <li key={content.id} className="flex gap-10 items-center">
@@ -55,7 +57,7 @@ const DisplayMain = (props) => {
                 </li>
               )
             })}
-            <li className="flex gap-10 mt-4 items-center">
+            <li className="flex gap-10 mt-4">
               <NavLink href={`/admin/${sectionLink}/create`}>
                 <PlusIcon className="h-6 text-gray-500" />
               </NavLink>
