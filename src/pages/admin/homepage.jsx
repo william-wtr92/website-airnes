@@ -8,36 +8,17 @@ import { useRouter } from "next/router"
 export const getServerSideProps = async (context) => {
   const { page, deletedImageId } = context.query
 
-  const redirectToInitial = () => {
-    return {
-      redirect: {
-        destination: "/admin/homepage?page=1",
-        permanent: false,
-      },
-    }
-  }
+  const { data } = await axios.get(
+    `http://localhost:3000/api${routes.api.carousel.getImages()}?page=${
+      page || 1
+    }`
+  )
 
-  try {
-    const { data } = await axios.get(
-      `http://localhost:3000/api${routes.api.carousel.getImages()}?page=${
-        page || 1
-      }`
-    )
-
-    const isEmpty = data.result.length === 0
-
-    if (isEmpty && page !== "1") {
-      return redirectToInitial()
-    }
-
-    return {
-      props: {
-        images: data.result,
-        deletedImageId: deletedImageId || null,
-      },
-    }
-  } catch (error) {
-    return redirectToInitial()
+  return {
+    props: {
+      images: data.result,
+      deletedImageId: deletedImageId || null,
+    },
   }
 }
 

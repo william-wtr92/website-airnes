@@ -5,34 +5,15 @@ import DisplayPage from "@/components/app/admin/DisplayPage"
 export const getServerSideProps = async (context) => {
   const { page } = context.query
 
-  const redirectToInitial = () => {
-    return {
-      redirect: {
-        destination: "/admin/categories/all",
-        permanent: false,
-      },
-    }
-  }
+  const { data } = await axios.get(
+    `http://localhost:3000/api${routes.api.getCategories()}?page=${page || 1}`
+  )
 
-  try {
-    const { data } = await axios.get(
-      `http://localhost:3000/api${routes.api.getCategories()}?page=${page || 1}`
-    )
-
-    const isEmpty = data.result.length === 0
-
-    if (isEmpty) {
-      return redirectToInitial()
-    }
-
-    return {
-      props: {
-        categories: data.result,
-        pagination: data.pagination,
-      },
-    }
-  } catch (error) {
-    return redirectToInitial()
+  return {
+    props: {
+      categories: data.result,
+      pagination: data.pagination,
+    },
   }
 }
 
@@ -45,6 +26,10 @@ const All = (props) => {
       section={"category"}
       items={categories}
       pagination={pagination}
+      canAdd={true}
+      canEdit={true}
+      columns={["id", "name"]}
+      fields={["id", "name"]}
     />
   )
 }

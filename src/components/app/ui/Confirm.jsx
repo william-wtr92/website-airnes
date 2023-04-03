@@ -1,11 +1,11 @@
 import classNames from "classnames"
 import Button from "./Button"
 
-const Comfirm = (props) => {
-  const { className, affichage, action, params, textValue } = props
+const Confirm = (props) => {
+  const { className, display, action, params, textValue } = props
 
   const handleYes = () => {
-    affichage(false)
+    display(false)
 
     if (params) {
       action(params)
@@ -15,18 +15,20 @@ const Comfirm = (props) => {
   }
 
   const handleFalse = () => {
-    affichage(false)
+    display(false)
   }
 
   return (
     <div
       className={classNames(
-        "w-1/5 h-1/5  top-[40%] left-[40%] bg-white border border-black bord rounded-md absolute",
+        "md:w-1/2 w-full md:h-1/3 h-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white border border-gray-300 shadow-md rounded-md absolute",
         className
       )}
     >
-      <div className="p-2 h-full flex flex-col justify-around">
-        <h1>Voulez-vous vraiment supprimer {textValue}?</h1>
+      <div className="h-full flex flex-col justify-center gap-10 p-4">
+        <h1 className="text-xl font-semibold text-gray-700 text-center">
+          {textValue}
+        </h1>
         <div className="flex justify-around">
           <Button variant="reverse" className="w-2/5" onClick={handleFalse}>
             Non
@@ -40,4 +42,4 @@ const Comfirm = (props) => {
   )
 }
 
-export default Comfirm
+export default Confirm
