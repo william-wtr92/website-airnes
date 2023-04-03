@@ -16,9 +16,6 @@ const routes = {
     getCategories: () => "/admin/categories/category",
     updateCategory: (categoryId) => `/admin/categories/${categoryId}`,
     categoryData: (categoryId) => `/api/admin/${categoryId}`,
-    deleteCategory: (categoryId) => `/admin/categories/${categoryId}`,
-    changeCategoryOrder: (categoryId) =>
-      `/admin/categories/order/${categoryId}`,
     //products: probably needs to get cleaned up as well
     createProduct: () => "/admin/products/product",
     getProducts: () => "/admin/products/product",
@@ -32,6 +29,14 @@ const routes = {
       getImages: () => "/admin/carousel/images",
       deleteImage: (imageId) => `/admin/carousel/${imageId}`,
       changeOrder: (imageId) => `/admin/carousel/${imageId}`,
+    },
+    selectCategory: {
+      getSelectCategory: () => "/admin/categories/homepage/selected",
+      deleteSelectCategory: (categoryId) =>
+        `/admin/categories/homepage/${categoryId}`,
+      orderSelectedCategory: (categoryId) =>
+        `/admin/categories/homepage/${categoryId}`,
+      addSelectedCategory: () => "/admin/categories/homepage/selected",
     },
     user: {
       addAddress: () => "/user/create/address",

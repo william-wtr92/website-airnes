@@ -1,10 +1,12 @@
 import routes from "@/web/routes"
 
-const deleteCategory =
+const deleteSelectedCategory =
   ({ api }) =>
   async (categoryId) => {
     try {
-      const { data } = await api.delete(routes.api.deleteCategory(categoryId))
+      const { data } = await api.delete(
+        routes.api.selectCategory.deleteSelectCategory(categoryId)
+      )
 
       return [null, data]
     } catch (err) {
@@ -14,4 +16,4 @@ const deleteCategory =
     }
   }
 
-export default deleteCategory
+export default deleteSelectedCategory

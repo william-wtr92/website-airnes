@@ -36,17 +36,10 @@ const handler = mw({
         return
       }
 
-      const maxOrder = await CategoryModel.query()
-        .max("order as maxOrder")
-        .first()
-      const newOrder =
-        maxOrder && maxOrder.maxOrder !== null ? maxOrder.maxOrder + 1 : 1
-
       await CategoryModel.query().insertAndFetch({
         image,
         name,
         description,
-        order: newOrder,
       })
       res.send({ result: true })
     },

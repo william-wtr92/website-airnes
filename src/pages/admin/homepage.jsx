@@ -25,9 +25,7 @@ export const getServerSideProps = async (context) => {
         }`
       ),
       axios.get(
-        `http://localhost:3000/api${routes.api.getCategories()}?page=${
-          page || 1
-        }`
+        `http://localhost:3000/api${routes.api.selectCategory.getSelectCategory()}`
       ),
     ])
 
@@ -70,7 +68,12 @@ const Homepage = (props) => {
   const router = useRouter()
 
   const {
-    actions: { deleteCarousel, orderCarousel, deleteCategory, orderCategory },
+    actions: {
+      deleteCarousel,
+      orderCarousel,
+      deleteSelectedCategory,
+      orderSelectedCategory,
+    },
   } = useAppContext()
 
   const handleDeleteCarousel = useCallback(
@@ -94,7 +97,7 @@ const Homepage = (props) => {
     async (categoryId) => {
       setError(null)
 
-      const [err] = await deleteCategory(categoryId)
+      const [err] = await deleteSelectedCategory(categoryId)
 
       if (err) {
         setError(categoryId)
@@ -104,7 +107,7 @@ const Homepage = (props) => {
 
       router.push(`/admin/homepage?deletedCategoryId=${categoryId}`)
     },
-    [deleteCategory, router]
+    [deleteSelectedCategory, router]
   )
 
   const handleMoveCarousel = useCallback(
@@ -134,7 +137,10 @@ const Homepage = (props) => {
 
   const handleMoveCategory = useCallback(
     async (categoryId, direction) => {
-      const [err] = await orderCategory(categoryId, direction === "up" ? -1 : 1)
+      const [err] = await orderSelectedCategory(
+        categoryId,
+        direction === "up" ? -1 : 1
+      )
 
       if (err) {
         setError(err)
@@ -158,7 +164,7 @@ const Homepage = (props) => {
         setSortedCategories(updatedCategories.sort((a, b) => a.order - b.order))
       }
     },
-    [orderCategory, sortedCategories]
+    [orderSelectedCategory, sortedCategories]
   )
 
   return (

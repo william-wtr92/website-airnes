@@ -1,7 +1,7 @@
 import mw from "@/api/mw"
 import validate from "@/api/middlewares/validate"
 import { numberValidator } from "@/components/validation/validation"
-import CategoryModel from "@/api/db/models/CategoryModel"
+import SelectedCategoryModel from "@/api/db/models/SelectedCategoryModel"
 
 const handler = mw({
   PATCH: [
@@ -21,7 +21,7 @@ const handler = mw({
       res,
     }) => {
       const id = categoryId
-      const currentItem = await CategoryModel.query().findById(id)
+      const currentItem = await SelectedCategoryModel.query().findById(id)
 
       const newPosition = currentItem.order + direction
 
@@ -31,7 +31,7 @@ const handler = mw({
         return
       }
 
-      const totalCount = await CategoryModel.query().resultSize()
+      const totalCount = await SelectedCategoryModel.query().resultSize()
 
       if (newPosition > totalCount) {
         res.status(400).send({ error: "Cannot move item down" })
@@ -39,7 +39,7 @@ const handler = mw({
         return
       }
 
-      const targetItem = await CategoryModel.query().findOne({
+      const targetItem = await SelectedCategoryModel.query().findOne({
         order: newPosition,
       })
 
@@ -49,13 +49,32 @@ const handler = mw({
         return
       }
 
-      await CategoryModel.query()
+      await SelectedCategoryModel.query()
         .findById(currentItem.id)
         .patch({ order: targetItem.order })
 
-      await CategoryModel.query()
+      await SelectedCategoryModel.query()
         .findById(targetItem.id)
         .patch({ order: currentItem.order })
+
+      res.send({ result: true })
+    },
+  ],
+  DELETE: [
+    validate({
+      query: {
+        categoryId: numberValidator.required(),
+      },
+    }),
+    async ({
+      locals: {
+        query: { categoryId },
+      },
+      res,
+    }) => {
+      const id = categoryId
+
+      await SelectedCategoryModel.query().deleteById(id)
 
       res.send({ result: true })
     },
