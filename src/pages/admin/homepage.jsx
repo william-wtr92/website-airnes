@@ -64,10 +64,10 @@ const Homepage = (props) => {
   const router = useRouter()
 
   const {
-    actions: { deleteCarousel, orderCarousel },
+    actions: { deleteCarousel, orderCarousel, deleteCategory },
   } = useAppContext()
 
-  const handleDelete = useCallback(
+  const handleDeleteCarousel = useCallback(
     async (imageId) => {
       setError(null)
 
@@ -82,6 +82,23 @@ const Homepage = (props) => {
       router.push(`/admin/homepage?deletedImageId=${imageId}`)
     },
     [deleteCarousel, router]
+  )
+
+  const handleDeleteCategory = useCallback(
+    async (categoryId) => {
+      setError(null)
+
+      const [err] = await deleteCategory(categoryId)
+
+      if (err) {
+        setError(categoryId)
+
+        return
+      }
+
+      router.push(`/admin/homepage?deletedCategoryId=${categoryId}`)
+    },
+    [deleteCategory, router]
   )
 
   const handleMove = useCallback(
@@ -120,7 +137,7 @@ const Homepage = (props) => {
         sectionName={"Carousel"}
         sectionLink={"carousel"}
         contents={sortedImages}
-        onDelete={handleDelete}
+        onDelete={handleDeleteCarousel}
         onMove={handleMove}
         renderContent={"carousel"}
         className={"mt-10"}
@@ -129,6 +146,8 @@ const Homepage = (props) => {
         sectionName={"Categories"}
         sectionLink={"categories"}
         contents={categories}
+        onDelete={handleDeleteCategory}
+        // onMove={handleMove}
         renderContent={"category"}
         className={"mt-28"}
       />
