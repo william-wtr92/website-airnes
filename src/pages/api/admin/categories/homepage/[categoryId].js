@@ -74,7 +74,27 @@ const handler = mw({
     }) => {
       const id = categoryId
 
+      const itemToDelete = await SelectedCategoryModel.query().findById(id)
+
+      if (!itemToDelete) {
+        res.status(400).send({ error: "Invalid ID" })
+
+        return
+      }
+
       await SelectedCategoryModel.query().deleteById(id)
+
+      const itemsToReorder = await SelectedCategoryModel.query().where(
+        "order",
+        ">",
+        itemToDelete.order
+      )
+
+      for (const item of itemsToReorder) {
+        await SelectedCategoryModel.query()
+          .findById(item.id)
+          .patch({ order: item.order - 1 })
+      }
 
       res.send({ result: true })
     },
