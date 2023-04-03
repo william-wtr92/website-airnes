@@ -53,18 +53,24 @@ const Homepage = (props) => {
   const { images, categories } = props
 
   const [error, setError] = useState(null)
+
   const [sortedImages, setSortedImages] = useState(
     [...images].sort((a, b) => a.order - b.order)
   )
 
+  const [sortedCategories, setSortedCategories] = useState(
+    [...categories].sort((a, b) => a.order - b.order)
+  )
+
   useEffect(() => {
     setSortedImages([...images].sort((a, b) => a.order - b.order))
-  }, [images])
+    setSortedCategories([...categories].sort((a, b) => a.order - b.order))
+  }, [images, categories])
 
   const router = useRouter()
 
   const {
-    actions: { deleteCarousel, orderCarousel, deleteCategory },
+    actions: { deleteCarousel, orderCarousel, deleteCategory, orderCategory },
   } = useAppContext()
 
   const handleDeleteCarousel = useCallback(
@@ -101,7 +107,7 @@ const Homepage = (props) => {
     [deleteCategory, router]
   )
 
-  const handleMove = useCallback(
+  const handleMoveCarousel = useCallback(
     async (imageId, direction) => {
       const [err] = await orderCarousel(imageId, direction === "up" ? -1 : 1)
 
@@ -126,6 +132,35 @@ const Homepage = (props) => {
     [orderCarousel, sortedImages]
   )
 
+  const handleMoveCategory = useCallback(
+    async (categoryId, direction) => {
+      const [err] = await orderCategory(categoryId, direction === "up" ? -1 : 1)
+
+      if (err) {
+        setError(err)
+
+        return
+      }
+
+      const updatedCategories = [...sortedCategories]
+
+      const currentIndex = updatedCategories.findIndex(
+        (cat) => cat.id === categoryId
+      )
+      const newIndex = currentIndex + (direction === "up" ? -1 : 1)
+
+      if (newIndex >= 0 && newIndex < updatedCategories.length) {
+        const temp = updatedCategories[currentIndex].order
+        updatedCategories[currentIndex].order =
+          updatedCategories[newIndex].order
+        updatedCategories[newIndex].order = temp
+
+        setSortedCategories(updatedCategories.sort((a, b) => a.order - b.order))
+      }
+    },
+    [orderCategory, sortedCategories]
+  )
+
   return (
     <div className="p-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
       {error && (
@@ -138,16 +173,16 @@ const Homepage = (props) => {
         sectionLink={"carousel"}
         contents={sortedImages}
         onDelete={handleDeleteCarousel}
-        onMove={handleMove}
+        onMove={handleMoveCarousel}
         renderContent={"carousel"}
         className={"mt-10"}
       />
       <DisplayMain
         sectionName={"Categories"}
         sectionLink={"categories"}
-        contents={categories}
+        contents={sortedCategories}
         onDelete={handleDeleteCategory}
-        // onMove={handleMove}
+        onMove={handleMoveCategory}
         renderContent={"category"}
         className={"mt-28"}
       />

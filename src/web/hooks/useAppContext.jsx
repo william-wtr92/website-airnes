@@ -7,6 +7,7 @@ import updateContactService from "@/web/services/admin/updateContact"
 import createCategoryService from "@/web/services/admin/addCategory"
 import updateCategoryService from "@/web/services/admin/updateCategory"
 import deleteCategoryService from "../services/admin/deleteCategory"
+import orderCategoryService from "../services/admin/orderCategory"
 import addAddressService from "../services/user/address/addAddress"
 import patchUserService from "../services/user/patchUser"
 import deleteUserService from "../services/user/deleteUser"
@@ -47,6 +48,7 @@ export const AppContextProvider = (props) => {
   const addCategory = createCategoryService({ api, jwt })
   const updateCategory = updateCategoryService({ api, jwt })
   const deleteCategory = deleteCategoryService({ api })
+  const orderCategory = orderCategoryService({ api })
 
   const updateContact = updateContactService({ api })
   const addProduct = createProductService({ api, jwt })
@@ -73,6 +75,7 @@ export const AppContextProvider = (props) => {
           addCategory,
           updateCategory,
           deleteCategory,
+          orderCategory,
           addAddress,
           patchUser,
           patchAddress,

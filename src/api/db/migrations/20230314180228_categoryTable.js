@@ -4,6 +4,7 @@ export const up = async (knex) => {
     table.text("name").notNullable()
     table.text("description").notNullable()
     table.text("image").notNullable()
+    table.integer("order").notNullable()
   })
 }
 

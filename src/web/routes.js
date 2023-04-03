@@ -17,6 +17,8 @@ const routes = {
     updateCategory: (categoryId) => `/admin/categories/${categoryId}`,
     categoryData: (categoryId) => `/api/admin/${categoryId}`,
     deleteCategory: (categoryId) => `/admin/categories/${categoryId}`,
+    changeCategoryOrder: (categoryId) =>
+      `/admin/categories/order/${categoryId}`,
     //products: probably needs to get cleaned up as well
     createProduct: () => "/admin/products/product",
     getProducts: () => "/admin/products/product",
