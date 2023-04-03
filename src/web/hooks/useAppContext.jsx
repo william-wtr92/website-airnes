@@ -6,6 +6,7 @@ import contactService from "@/web/services/contact.js"
 import updateContactService from "@/web/services/admin/updateContact"
 import createCategoryService from "@/web/services/admin/addCategory"
 import updateCategoryService from "@/web/services/admin/updateCategory"
+import deleteContactService from "@/web/services/admin/deleteContact"
 import addAddressService from "../services/user/address/addAddress"
 import patchUserService from "../services/user/patchUser"
 import deleteUserService from "../services/user/deleteUser"
@@ -46,6 +47,7 @@ export const AppContextProvider = (props) => {
   const addCategory = createCategoryService({ api, jwt })
   const updateCategory = updateCategoryService({ api, jwt })
   const updateContact = updateContactService({ api })
+  const deleteContact = deleteContactService({ api })
   const addProduct = createProductService({ api, jwt })
   const addAddress = addAddressService({ api, jwt })
   const patchUser = patchUserService({ api })
@@ -69,6 +71,7 @@ export const AppContextProvider = (props) => {
           updateContact,
           addCategory,
           updateCategory,
+          deleteContact,
           addAddress,
           patchUser,
           patchAddress,

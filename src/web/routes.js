@@ -10,12 +10,12 @@ const routes = {
     contact: () => "/contact",
     getContacts: () => "/admin/contacts/contacts",
     contactData: (contactId) => `/api/admin/contacts/${contactId}`,
-    updateContact: (contactId) => `/admin/contacts/${contactId}`,
+    deleteContact: (contactId) => `/admin/contacts/${contactId}`,
     //categories: probably needs to get cleaned up as well
     createCategory: () => "/admin/categories/category",
     getCategories: () => "/admin/categories/category",
     updateCategory: (categoryId) => `/admin/categories/${categoryId}`,
-    categoryData: (categoryId) => `/api/admin/${categoryId}`,
+    categoryData: (categoryId) => `/api/admin/categories/${categoryId}`,
     //products: probably needs to get cleaned up as well
     createProduct: () => "/admin/products/product",
     getProducts: () => "/admin/products/product",
