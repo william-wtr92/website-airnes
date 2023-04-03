@@ -18,6 +18,8 @@ import deleteCarouselService from "../services/admin/deleteCarousel"
 import orderCarouselService from "../services/admin/orderCarousel"
 import parseSession from "../parseSession"
 import createProductService from "@/web/services/admin/addProduct"
+import deleteProductService from "@/web/services/admin/deleteProduct"
+import orderProductService from "@/web/services/admin/orderProduct"
 
 import config from "../config"
 
@@ -52,6 +54,9 @@ export const AppContextProvider = (props) => {
 
   const updateContact = updateContactService({ api })
   const addProduct = createProductService({ api, jwt })
+  const deleteProduct = deleteProductService({ api })
+  const orderProduct = orderProductService({ api, jwt })
+
   const addAddress = addAddressService({ api, jwt })
   const patchUser = patchUserService({ api })
   const patchAddress = patchAddressService({ api })
@@ -85,6 +90,8 @@ export const AppContextProvider = (props) => {
           deleteCarousel,
           orderCarousel,
           addProduct,
+          deleteProduct,
+          orderProduct,
         },
         state: {
           session,

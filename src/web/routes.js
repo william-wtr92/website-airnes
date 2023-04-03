@@ -23,6 +23,8 @@ const routes = {
     createProduct: () => "/admin/products/product",
     getProducts: () => "/admin/products/product",
     productData: (productId) => `api/admin/${productId}`,
+    deleteProduct: (productId) => `/admin/products/${productId}`,
+    changeProductOrder: (productId) => `/admin/products/${productId}`,
     //materials:
     getMaterialsAndCategory: () => "/admin/materials/material",
     //users: probably needs to get cleaned up as well
