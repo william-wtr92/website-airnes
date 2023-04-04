@@ -7,7 +7,7 @@ import { useCallback, useState } from "react"
 const Table = (props) => {
   const { section, columns, contents, canEdit, deleteRoute, fields } = props
 
-  const [itemToDelete, setItemToDelete] = useState(null)
+  const [itemToDelete, setItemToDelete] = useState(false)
 
   const onDeleteClick = (id) => {
     setItemToDelete(id)
@@ -16,7 +16,7 @@ const Table = (props) => {
   const handleDeletion = useCallback(
     async (id) => {
       await deleteRoute(id)
-      setItemToDelete(null)
+      setItemToDelete(false)
     },
     [deleteRoute]
   )
@@ -39,13 +39,6 @@ const Table = (props) => {
 
   return (
     <table className="table-auto">
-      <Confirm
-        className={classNames(itemToDelete ? "block" : "hidden")}
-        display={setItemToDelete}
-        action={handleDeletion}
-        textValue="Are you sure you want to delete this item?"
-        params={itemToDelete}
-      />
       <thead className="bg-white border-b">
         <tr>
           {columns.map((column) => {
@@ -86,6 +79,13 @@ const Table = (props) => {
                     <TrashIcon
                       className="h-6 w-6"
                       onClick={() => onDeleteClick(content.id)}
+                    />
+                    <Confirm
+                      className={classNames(itemToDelete ? "block" : "hidden")}
+                      display={setItemToDelete}
+                      action={handleDeletion}
+                      textValue="Are you sure you want to delete this item?"
+                      params={itemToDelete}
                     />
                   </>
                 )}
