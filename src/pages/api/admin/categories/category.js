@@ -47,7 +47,7 @@ const handler = mw({
   GET: [
     validate({
       query: {
-        page: queryPageValidator,
+        page: queryPageValidator.optional(),
       },
     }),
     async ({
@@ -56,24 +56,33 @@ const handler = mw({
       },
       res,
     }) => {
-      const limit = config.pagination.limit.default
-      const offset = (page - 1) * limit
+      let categories
+      let pagination
 
-      const categories = await CategoryModel.query()
-        .orderBy("id", "asc")
-        .limit(limit)
-        .offset(offset)
-      const totalCount = await CategoryModel.query().count().first()
+      if (page) {
+        const limit = config.pagination.limit.default
+        const offset = (page - 1) * limit
+
+        categories = await CategoryModel.query()
+          .orderBy("id", "asc")
+          .limit(limit)
+          .offset(offset)
+        const totalCount = await CategoryModel.query().count().first()
+
+        pagination = {
+          page,
+          limit,
+          totalItems: parseInt(totalCount.count, 10),
+          totalPages: Math.ceil(totalCount.count / limit),
+        }
+      } else {
+        categories = await CategoryModel.query().orderBy("id", "asc")
+      }
 
       if (categories) {
         res.send({
           result: categories,
-          pagination: {
-            page,
-            limit,
-            totalItems: parseInt(totalCount.count, 10),
-            totalPages: Math.ceil(totalCount.count / limit),
-          },
+          pagination: pagination,
         })
       } else {
         res.send({ result: "" })

@@ -30,6 +30,14 @@ const routes = {
       deleteImage: (imageId) => `/admin/carousel/${imageId}`,
       changeOrder: (imageId) => `/admin/carousel/${imageId}`,
     },
+    selectCategory: {
+      getSelectCategory: () => "/admin/categories/homepage/selected",
+      deleteSelectCategory: (categoryId) =>
+        `/admin/categories/homepage/${categoryId}`,
+      orderSelectedCategory: (categoryId) =>
+        `/admin/categories/homepage/${categoryId}`,
+      addSelectedCategory: () => "/admin/categories/homepage/selected",
+    },
     user: {
       addAddress: () => "/user/create/address",
       userData: (userId) => `/user/${userId}`,

@@ -18,7 +18,27 @@ const handler = mw({
     }) => {
       const id = imageId
 
+      const itemToDelete = await CarouselModel.query().findById(id)
+
+      if (!itemToDelete) {
+        res.status(400).send({ error: "Invalid ID !" })
+
+        return
+      }
+
       await CarouselModel.query().deleteById(id)
+
+      const itemsToReorder = await CarouselModel.query().where(
+        "order",
+        ">",
+        itemToDelete.order
+      )
+
+      for (const item of itemsToReorder) {
+        await CarouselModel.query()
+          .findById(item.id)
+          .patch({ order: item.order - 1 })
+      }
 
       res.send({ result: true })
     },
