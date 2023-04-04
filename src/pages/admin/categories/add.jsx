@@ -101,6 +101,7 @@ const AddSelectedCategory = (props) => {
         validationSchema={selectedCategoryValidationSchema}
         onSubmit={handlePost}
         selectOptions={categories}
+        formType="category"
       />
     </>
   )

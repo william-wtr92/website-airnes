@@ -38,6 +38,14 @@ const routes = {
         `/admin/categories/homepage/${categoryId}`,
       addSelectedCategory: () => "/admin/categories/homepage/selected",
     },
+    selectProduct: {
+      deleteSelectProduct: (productId) =>
+        `/admin/products/homepage/${productId}`,
+      orderSelectedProduct: (productId) =>
+        `/admin/products/homepage/${productId}`,
+      getSelectProducts: () => "/admin/products/homepage/selected",
+      addSelectedProduct: () => "/admin/products/homepage/selected",
+    },
     user: {
       addAddress: () => "/user/create/address",
       userData: (userId) => `/user/${userId}`,

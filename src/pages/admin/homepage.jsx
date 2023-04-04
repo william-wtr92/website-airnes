@@ -18,7 +18,7 @@ export const getServerSideProps = async (context) => {
   }
 
   try {
-    const [imagesRes, categoriesRes] = await Promise.all([
+    const [imagesRes, categoriesRes, productsRes] = await Promise.all([
       axios.get(
         `http://localhost:3000/api${routes.api.carousel.getImages()}?page=${
           page || 1
@@ -26,6 +26,9 @@ export const getServerSideProps = async (context) => {
       ),
       axios.get(
         `http://localhost:3000/api${routes.api.selectCategory.getSelectCategory()}`
+      ),
+      axios.get(
+        `http://localhost:3000/api${routes.api.selectProduct.getSelectProducts()}`
       ),
     ])
 
@@ -39,6 +42,7 @@ export const getServerSideProps = async (context) => {
       props: {
         images: imagesRes.data.result,
         categories: categoriesRes.data.result,
+        products: productsRes.data.result,
         deletedImageId: deletedImageId || null,
       },
     }
@@ -48,7 +52,7 @@ export const getServerSideProps = async (context) => {
 }
 
 const Homepage = (props) => {
-  const { images, categories } = props
+  const { images, categories, products } = props
 
   const [error, setError] = useState(null)
 
@@ -60,10 +64,15 @@ const Homepage = (props) => {
     [...categories].sort((a, b) => a.order - b.order)
   )
 
+  const [sortedProducts, setSortedProducts] = useState(
+    [...products].sort((a, b) => a.order - b.order)
+  )
+
   useEffect(() => {
     setSortedImages([...images].sort((a, b) => a.order - b.order))
     setSortedCategories([...categories].sort((a, b) => a.order - b.order))
-  }, [images, categories])
+    setSortedProducts([...products].sort((a, b) => a.order - b.order))
+  }, [images, categories, products])
 
   const router = useRouter()
 
@@ -73,6 +82,8 @@ const Homepage = (props) => {
       orderCarousel,
       deleteSelectedCategory,
       orderSelectedCategory,
+      deleteSelectedProduct,
+      orderSelectedProduct,
     },
   } = useAppContext()
 
@@ -108,6 +119,23 @@ const Homepage = (props) => {
       router.push(`/admin/homepage?deletedCategoryId=${categoryId}`)
     },
     [deleteSelectedCategory, router]
+  )
+
+  const handleDeleteProduct = useCallback(
+    async (productId) => {
+      setError(null)
+
+      const [err] = await deleteSelectedProduct(productId)
+
+      if (err) {
+        setError(productId)
+
+        return
+      }
+
+      router.push(`/admin/homepage?deletedProductId=${productId}`)
+    },
+    [deleteSelectedProduct, router]
   )
 
   const handleMoveCarousel = useCallback(
@@ -167,6 +195,37 @@ const Homepage = (props) => {
     [orderSelectedCategory, sortedCategories]
   )
 
+  const handleMoveProduct = useCallback(
+    async (productId, direction) => {
+      const [err] = await orderSelectedProduct(
+        productId,
+        direction === "up" ? -1 : 1
+      )
+
+      if (err) {
+        setError(err)
+
+        return
+      }
+
+      const updatedProducts = [...sortedProducts]
+
+      const currentIndex = updatedProducts.findIndex(
+        (pdt) => pdt.id === productId
+      )
+      const newIndex = currentIndex + (direction === "up" ? -1 : 1)
+
+      if (newIndex >= 0 && newIndex < updatedProducts.length) {
+        const temp = updatedProducts[currentIndex].order
+        updatedProducts[currentIndex].order = updatedProducts[newIndex].order
+        updatedProducts[newIndex].order = temp
+
+        setSortedProducts(updatedProducts.sort((a, b) => a.order - b.order))
+      }
+    },
+    [orderSelectedProduct, sortedProducts]
+  )
+
   return (
     <div className="p-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
       {error && (
@@ -190,6 +249,15 @@ const Homepage = (props) => {
         onDelete={handleDeleteCategory}
         onMove={handleMoveCategory}
         renderContent={"category"}
+        className={"mt-28"}
+      />
+      <DisplayMain
+        sectionName={"Products"}
+        sectionLink={"products"}
+        contents={sortedProducts}
+        onDelete={handleDeleteProduct}
+        onMove={handleMoveProduct}
+        renderContent={"products"}
         className={"mt-28"}
       />
     </div>
