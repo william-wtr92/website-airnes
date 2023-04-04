@@ -62,6 +62,25 @@ const handler = mw({
       })
     },
   ],
+  DELETE: [
+    validate({
+      query: {
+        contactId: numberValidator.required(),
+      },
+    }),
+    async ({
+      locals: {
+        query: { contactId },
+      },
+      res,
+    }) => {
+      await ContactModel.query().deleteById(contactId)
+
+      res.send({
+        result: null,
+      })
+    },
+  ],
 })
 
 export default handler
