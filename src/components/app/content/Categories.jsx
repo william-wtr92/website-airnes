@@ -14,8 +14,10 @@ const Categories = () => {
         `http://localhost:3000/api${routes.api.selectCategory.getSelectCategory()}`
       )
 
+      const sortedCategories = data.result.sort((a, b) => a.order - b.order)
+
       setIsLoading(false)
-      setCategories(data.result)
+      setCategories(sortedCategories)
     }
 
     fetchCategories()
