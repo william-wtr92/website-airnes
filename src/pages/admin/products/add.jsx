@@ -36,9 +36,6 @@ export const getServerSideProps = async (context) => {
       return redirectToInitial()
     }
 
-    // console.log(allProducts.data.result)
-    // console.log(selectProducts.data.result)
-
     return {
       props: {
         allProducts: allProducts.data.result,
