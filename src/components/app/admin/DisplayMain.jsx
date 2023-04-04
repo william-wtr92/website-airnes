@@ -19,6 +19,11 @@ const DisplayMain = (props) => {
     className,
   } = props
 
+  const path =
+    renderContent === "category" || renderContent === "products"
+      ? "/add"
+      : "/create"
+
   return (
     <div className={classNames("relative left-[40%]", className)}>
       <div className="flex gap-32">
@@ -36,7 +41,7 @@ const DisplayMain = (props) => {
                   <p className="truncate w-24">
                     {renderContent === "carousel"
                       ? content.label
-                      : content.name}
+                      : content.user.name}
                   </p>
                   <div className="ml-auto flex gap-6 items-center">
                     <div className="flex flex-row">
@@ -57,8 +62,8 @@ const DisplayMain = (props) => {
                 </li>
               )
             })}
-            <li className="flex gap-10 mt-4">
-              <NavLink href={`/admin/${sectionLink}/create`}>
+            <li className="flex gap-10 mt-4 items-center">
+              <NavLink href={`/admin/${sectionLink}${path}`}>
                 <PlusIcon className="h-6 text-gray-500" />
               </NavLink>
               <p className="font-bold">Add an item</p>

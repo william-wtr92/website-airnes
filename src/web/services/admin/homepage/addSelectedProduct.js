@@ -1,13 +1,13 @@
 import routes from "@/web/routes"
 
-const orderProduct =
+const addSelectedProduct =
   ({ api, jwt }) =>
-  async (productId, direction) => {
+  async ({ productId }) => {
     try {
-      const { data } = await api.patch(
-        `${routes.api.changeProductOrder(productId)}`,
+      const { data } = await api.post(
+        routes.api.selectProduct.addSelectedProduct(),
         {
-          direction,
+          productId,
           jwt,
         }
       )
@@ -20,4 +20,4 @@ const orderProduct =
     }
   }
 
-export default orderProduct
+export default addSelectedProduct

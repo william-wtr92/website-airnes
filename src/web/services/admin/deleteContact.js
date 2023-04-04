@@ -1,10 +1,10 @@
 import routes from "@/web/routes"
 
-const deleteProduct =
+const deleteContact =
   ({ api }) =>
-  async (productId) => {
+  async (contactId) => {
     try {
-      const { data } = await api.delete(routes.api.deleteProduct(productId))
+      const { data } = await api.delete(routes.api.deleteContact(contactId))
 
       return [null, data]
     } catch (err) {
@@ -14,4 +14,4 @@ const deleteProduct =
     }
   }
 
-export default deleteProduct
+export default deleteContact

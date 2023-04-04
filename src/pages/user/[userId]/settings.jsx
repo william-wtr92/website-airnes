@@ -15,7 +15,7 @@ import { accountSettingsValidationSchema } from "@/components/validation/validat
 import axios from "axios"
 import routes from "@/web/routes"
 import useAppContext from "@/web/hooks/useAppContext"
-import Comfirm from "@/components/app/ui/Comfirm"
+import Confirm from "@/components/app/ui/Confirm"
 import { useRouter } from "next/router"
 
 export const getServerSideProps = async (context) => {
@@ -24,15 +24,6 @@ export const getServerSideProps = async (context) => {
   const { data } = await axios.get(
     `http://localhost:3000/api${routes.api.user.userData(query.userId)}`
   )
-
-  if (!data.result) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    }
-  }
 
   return {
     props: {
@@ -48,8 +39,8 @@ const Settings = (props) => {
     actions: { patchUser, deleteAddress, deleteUser },
   } = useAppContext()
   const [viewAddressL, setViewAddressL] = useState(false)
-  const [comfirmeDelUser, setComfirmeDelUser] = useState(false)
-  const [comfirmeDelAddress, setComfirmeDelAddress] = useState(false)
+  const [confirmDelUser, setConfirmDelUser] = useState(false)
+  const [confirmDelAddress, setConfirmDelAddress] = useState(false)
 
   const [error, setError] = useState(null)
   const router = useRouter()
@@ -75,7 +66,7 @@ const Settings = (props) => {
     },
     [patchUser, userId]
   )
-  const handledeleteAddress = useCallback(
+  const handleDeleteAddress = useCallback(
     async (addressId) => {
       setError(null)
       const [err] = await deleteAddress(userId, addressId)
@@ -90,7 +81,7 @@ const Settings = (props) => {
     },
     [deleteAddress, userId]
   )
-  const handledeleteUser = useCallback(async () => {
+  const handleDeleteUser = useCallback(async () => {
     setError(null)
     const [err] = await deleteUser(userId)
 
@@ -104,13 +95,13 @@ const Settings = (props) => {
     router.push("/")
   }, [deleteUser, userId, router])
 
-  const handleComfirmAddress = useCallback(async () => {
-    setComfirmeDelAddress(true)
-  }, [setComfirmeDelAddress])
+  const handleConfirmAddress = useCallback(async () => {
+    setConfirmDelAddress(true)
+  }, [setConfirmDelAddress])
 
-  const handleComfirmUser = useCallback(async () => {
-    setComfirmeDelUser(true)
-  }, [setComfirmeDelUser])
+  const handleConfirmUser = useCallback(async () => {
+    setConfirmDelUser(true)
+  }, [setConfirmDelUser])
 
   return (
     <>
@@ -196,18 +187,18 @@ const Settings = (props) => {
                       <button
                         key={data.id}
                         className="text-red-600 "
-                        onClick={() => handleComfirmAddress()}
+                        onClick={() => handleConfirmAddress()}
                       >
                         <TrashIcon className="w-4" />
                       </button>
                     </div>
-                    <Comfirm
+                    <Confirm
                       className={classNames(
-                        comfirmeDelAddress ? "block" : "hidden"
+                        confirmDelAddress ? "block" : "hidden"
                       )}
-                      affichage={setComfirmeDelAddress}
-                      action={handledeleteAddress}
-                      textValue="l'adresse'"
+                      show={setConfirmDelAddress}
+                      action={handleDeleteAddress}
+                      textValue="Voulez-vous vraiment supprimer l'adresse ?"
                       params={data.id}
                     />
                   </div>
@@ -217,17 +208,17 @@ const Settings = (props) => {
           </div>
           <div className="flex flex-row-reverse">
             <Button
-              variant="suppr"
+              variant="danger"
               className="mt-16"
-              onClick={() => handleComfirmUser()}
+              onClick={() => handleConfirmUser()}
             >
               Supprimer le compte
             </Button>
-            <Comfirm
-              className={classNames(comfirmeDelUser ? "block" : "hidden")}
-              affichage={setComfirmeDelUser}
-              action={handledeleteUser}
-              textValue="l'utilisateur connecté"
+            <Confirm
+              className={classNames(confirmDelUser ? "block" : "hidden")}
+              show={setConfirmDelUser}
+              action={handleDeleteUser}
+              textValue="Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible."
             />
           </div>
         </div>

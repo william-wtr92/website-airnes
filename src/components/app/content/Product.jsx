@@ -10,11 +10,13 @@ const Product = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const { data } = await axios.get(
-        `http://localhost:3000/api${routes.api.getProducts()}`
+        `http://localhost:3000/api${routes.api.selectProduct.getSelectProducts()}`
       )
 
+      const sortedProducts = data.result.sort((a, b) => a.order - b.order)
+
       setIsLoading(false)
-      setProducts(data.result)
+      setProducts(sortedProducts)
     }
 
     fetchProducts()
@@ -35,23 +37,23 @@ const Product = () => {
           return (
             <>
               <Image
-                src={product.image}
-                alt={product.name}
+                src={product.user.image}
+                alt={product.user.name}
                 className="border-2 border-black w-full h-60 object-cover"
                 width={500}
                 height={500}
               />
               <div className="flex justify-between font-extrabold uppercase p-1">
-                <h1>{product.name}</h1>
-                {product.promotion ? (
+                <h1>{product.user.name}</h1>
+                {product.user.promotion ? (
                   <div className="text-right">
-                    <p className="line-through">{product.price} €</p>
+                    <p className="line-through">{product.user.price} €</p>
                     <p className="text-red-600 text-lg">
-                      {product.promotion} €
+                      {product.user.promotion} €
                     </p>
                   </div>
                 ) : (
-                  <p>{product.price} €</p>
+                  <p>{product.user.price} €</p>
                 )}
               </div>
             </>

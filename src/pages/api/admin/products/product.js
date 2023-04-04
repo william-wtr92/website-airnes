@@ -55,12 +55,6 @@ const handler = mw({
         return
       }
 
-      const maxOrder = await ProductModel.query()
-        .max("order as maxOrder")
-        .first()
-      const newOrder =
-        maxOrder && maxOrder.maxOrder !== null ? maxOrder.maxOrder + 1 : 1
-
       await ProductModel.query().insertAndFetch({
         image,
         categoryId,
@@ -70,7 +64,6 @@ const handler = mw({
         name,
         description,
         materialId,
-        order: newOrder,
       })
       res.send({ result: true })
     },

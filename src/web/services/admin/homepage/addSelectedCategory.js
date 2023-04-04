@@ -1,13 +1,13 @@
 import routes from "@/web/routes"
 
-const orderCategory =
+const addSelectedCategory =
   ({ api, jwt }) =>
-  async (categoryId, direction) => {
+  async ({ categoryId }) => {
     try {
-      const { data } = await api.patch(
-        `${routes.api.changeCategoryOrder(categoryId)}`,
+      const { data } = await api.post(
+        routes.api.selectCategory.addSelectedCategory(),
         {
-          direction,
+          categoryId,
           jwt,
         }
       )
@@ -20,4 +20,4 @@ const orderCategory =
     }
   }
 
-export default orderCategory
+export default addSelectedCategory

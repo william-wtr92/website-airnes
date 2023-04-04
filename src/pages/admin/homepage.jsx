@@ -25,12 +25,10 @@ export const getServerSideProps = async (context) => {
         }`
       ),
       axios.get(
-        `http://localhost:3000/api${routes.api.getCategories()}?page=${
-          page || 1
-        }`
+        `http://localhost:3000/api${routes.api.selectCategory.getSelectCategory()}`
       ),
       axios.get(
-        `http://localhost:3000/api${routes.api.getProducts()}?page=${page || 1}`
+        `http://localhost:3000/api${routes.api.selectProduct.getSelectProducts()}`
       ),
     ])
 
@@ -82,10 +80,10 @@ const Homepage = (props) => {
     actions: {
       deleteCarousel,
       orderCarousel,
-      deleteCategory,
-      orderCategory,
-      deleteProduct,
-      orderProduct,
+      deleteSelectedCategory,
+      orderSelectedCategory,
+      deleteSelectedProduct,
+      orderSelectedProduct,
     },
   } = useAppContext()
 
@@ -110,7 +108,7 @@ const Homepage = (props) => {
     async (categoryId) => {
       setError(null)
 
-      const [err] = await deleteCategory(categoryId)
+      const [err] = await deleteSelectedCategory(categoryId)
 
       if (err) {
         setError(categoryId)
@@ -120,14 +118,14 @@ const Homepage = (props) => {
 
       router.push(`/admin/homepage?deletedCategoryId=${categoryId}`)
     },
-    [deleteCategory, router]
+    [deleteSelectedCategory, router]
   )
 
   const handleDeleteProduct = useCallback(
     async (productId) => {
       setError(null)
 
-      const [err] = await deleteProduct(productId)
+      const [err] = await deleteSelectedProduct(productId)
 
       if (err) {
         setError(productId)
@@ -137,7 +135,7 @@ const Homepage = (props) => {
 
       router.push(`/admin/homepage?deletedProductId=${productId}`)
     },
-    [deleteProduct, router]
+    [deleteSelectedProduct, router]
   )
 
   const handleMoveCarousel = useCallback(
@@ -167,7 +165,10 @@ const Homepage = (props) => {
 
   const handleMoveCategory = useCallback(
     async (categoryId, direction) => {
-      const [err] = await orderCategory(categoryId, direction === "up" ? -1 : 1)
+      const [err] = await orderSelectedCategory(
+        categoryId,
+        direction === "up" ? -1 : 1
+      )
 
       if (err) {
         setError(err)
@@ -191,12 +192,15 @@ const Homepage = (props) => {
         setSortedCategories(updatedCategories.sort((a, b) => a.order - b.order))
       }
     },
-    [orderCategory, sortedCategories]
+    [orderSelectedCategory, sortedCategories]
   )
 
   const handleMoveProduct = useCallback(
     async (productId, direction) => {
-      const [err] = await orderProduct(productId, direction === "up" ? -1 : 1)
+      const [err] = await orderSelectedProduct(
+        productId,
+        direction === "up" ? -1 : 1
+      )
 
       if (err) {
         setError(err)
@@ -207,7 +211,7 @@ const Homepage = (props) => {
       const updatedProducts = [...sortedProducts]
 
       const currentIndex = updatedProducts.findIndex(
-        (cat) => cat.id === productId
+        (pdt) => pdt.id === productId
       )
       const newIndex = currentIndex + (direction === "up" ? -1 : 1)
 
@@ -219,7 +223,7 @@ const Homepage = (props) => {
         setSortedProducts(updatedProducts.sort((a, b) => a.order - b.order))
       }
     },
-    [orderProduct, sortedProducts]
+    [orderSelectedProduct, sortedProducts]
   )
 
   return (
