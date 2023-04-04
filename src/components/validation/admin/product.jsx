@@ -29,8 +29,8 @@ export const productInitialValues = {
 }
 
 export const selectedProductValidationSchema = yup.object().shape({
-  product: yup.string().required("Product required").label("Product"),
+  products: yup.string().required("Product required").label("Product"),
 })
 export const selectedProductInitialValues = {
-  product: "",
+  products: "",
 }

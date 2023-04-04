@@ -30,7 +30,6 @@ const SelectedForm = (props) => {
                 {option.label}
               </option>
             ))}
-            {console.log(selectOptions)}
           </Field>
           <Button type="submit" className="mt-10 bg-white">
             Add

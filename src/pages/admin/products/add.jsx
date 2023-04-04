@@ -83,7 +83,7 @@ const AddSelectedProduct = (props) => {
     async (values) => {
       setError(null)
 
-      const [err] = await addSelectedProduct({ productId: values.product })
+      const [err] = await addSelectedProduct({ productId: values.products })
 
       if (err) {
         setError(err)
