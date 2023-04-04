@@ -32,29 +32,21 @@ const Product = () => {
 
   return (
     <>
-      <div>
+      <div className="flex gap-20">
         {products.map((product) => {
           return (
             <>
-              <Image
-                src={product.user.image}
-                alt={product.user.name}
-                className="border-2 border-black w-full h-60 object-cover"
-                width={500}
-                height={500}
-              />
-              <div className="flex justify-between font-extrabold uppercase p-1">
-                <h1>{product.user.name}</h1>
-                {product.user.promotion ? (
-                  <div className="text-right">
-                    <p className="line-through">{product.user.price} €</p>
-                    <p className="text-red-600 text-lg">
-                      {product.user.promotion} €
-                    </p>
-                  </div>
-                ) : (
-                  <p>{product.user.price} €</p>
-                )}
+              <div className="flex flex-col">
+                <Image
+                  src={product.user.image}
+                  alt={product.user.name}
+                  className="border-2 border-black w-80 h-60 object-cover"
+                  width={500}
+                  height={500}
+                />
+                <div className="flex justify-between font-extrabold uppercase p-1">
+                  <h1>{product.user.name}</h1>
+                </div>
               </div>
             </>
           )

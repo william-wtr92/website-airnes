@@ -45,7 +45,7 @@ const Categories = () => {
             <Image
               src={category.user.image || "/images/categories.png"}
               alt={category.user.name}
-              className="object-cover"
+              className="object-cover h-52"
               width={500}
               height={500}
             />
