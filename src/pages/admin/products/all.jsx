@@ -45,6 +45,10 @@ const All = (props) => {
       section={"products"}
       items={products}
       pagination={pagination}
+      canAdd={true}
+      canEdit={true}
+      columns={["id", "name"]}
+      fields={["id", "name"]}
     />
   )
 }
