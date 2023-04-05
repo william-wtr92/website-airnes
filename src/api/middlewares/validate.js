@@ -10,6 +10,7 @@ const validate = ({ body, params, query }) => {
   return async (ctx) => {
     const { req, res, next } = ctx
 
+
     try {
       const { body, params, query } = await validator.validate(
         {

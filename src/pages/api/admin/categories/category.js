@@ -3,10 +3,13 @@ import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import {
   linkValidator,
+  queryPageValidator,
   stringValidator,
 } from "@/components/validation/validation"
 import parseSession from "@/web/parseSession"
 import UserModel from "@/api/db/models/UserModel"
+import { NotFoundError } from "@/api/errors"
+import config from "@/api/config"
 
 const handler = mw({
   POST: [
@@ -27,7 +30,7 @@ const handler = mw({
       const id = session.user.id
       const user = await UserModel.query().findOne({ id })
 
-      if (user.roleid !== 0) {
+      if (user.roleid !== 1) {
         res.status(403).send({ error: "You are not admin" })
 
         return
@@ -42,15 +45,49 @@ const handler = mw({
     },
   ],
   GET: [
-    async ({ res }) => {
-      const query = await CategoryModel.query()
+    validate({
+      query: {
+        page: queryPageValidator.optional(),
+      },
+    }),
+    async ({
+      locals: {
+        query: { page },
+      },
+      res,
+    }) => {
+      let categories
+      let pagination
 
-      if (query) {
+      if (page) {
+        const limit = config.pagination.limit.default
+        const offset = (page - 1) * limit
+
+        categories = await CategoryModel.query()
+          .orderBy("id", "asc")
+          .limit(limit)
+          .offset(offset)
+        const totalCount = await CategoryModel.query().count().first()
+
+        pagination = {
+          page,
+          limit,
+          totalItems: parseInt(totalCount.count, 10),
+          totalPages: Math.ceil(totalCount.count / limit),
+        }
+      } else {
+        categories = await CategoryModel.query().orderBy("id", "asc")
+      }
+
+      if (categories) {
         res.send({
-          result: query,
+          result: categories,
+          pagination: pagination,
         })
       } else {
         res.send({ result: "" })
+
+        throw new NotFoundError()
       }
     },
   ],

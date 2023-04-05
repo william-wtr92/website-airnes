@@ -6,12 +6,24 @@ import contactService from "@/web/services/contact.js"
 import updateContactService from "@/web/services/admin/updateContact"
 import createCategoryService from "@/web/services/admin/addCategory"
 import updateCategoryService from "@/web/services/admin/updateCategory"
+import deleteContactService from "@/web/services/admin/deleteContact"
 import addAddressService from "../services/user/address/addAddress"
 import patchUserService from "../services/user/patchUser"
 import deleteUserService from "../services/user/deleteUser"
 import patchAddressService from "../services/user/address/patchAddress"
 import deleteAddressService from "../services/user/address/deleteAddress"
+import addCarouselService from "../services/admin/addCarousel"
+import deleteCarouselService from "../services/admin/deleteCarousel"
+import orderCarouselService from "../services/admin/orderCarousel"
 import parseSession from "../parseSession"
+import createProductService from "@/web/services/admin/addProduct"
+import deleteSelectedCategoryService from "@/web/services/admin/homepage/deleteSelectedCategory"
+import orderSelectedCategoryService from "@/web/services/admin/homepage/orderSelectedCategory"
+import addSelectedCategoryService from "@/web/services/admin/homepage/addSelectedCategory"
+import addSelectedProductService from "@/web/services/admin/homepage/addSelectedProduct"
+import deleteSelectedProductService from "@/web/services/admin/homepage/deleteSelectedProduct"
+import orderSelectedProductService from "@/web/services/admin/homepage/orderSelectedProduct"
+
 import config from "../config"
 
 const AppContext = createContext()
@@ -40,13 +52,29 @@ export const AppContextProvider = (props) => {
 
   const addCategory = createCategoryService({ api, jwt })
   const updateCategory = updateCategoryService({ api, jwt })
+
   const updateContact = updateContactService({ api })
+  const deleteContact = deleteContactService({ api })
+  const addProduct = createProductService({ api, jwt })
+
   const addAddress = addAddressService({ api, jwt })
   const patchUser = patchUserService({ api })
   const patchAddress = patchAddressService({ api })
 
   const deleteUser = deleteUserService({ api })
   const deleteAddress = deleteAddressService({ api })
+
+  const addCarousel = addCarouselService({ api, jwt })
+  const deleteCarousel = deleteCarouselService({ api })
+  const orderCarousel = orderCarouselService({ api })
+
+  const deleteSelectedCategory = deleteSelectedCategoryService({ api })
+  const orderSelectedCategory = orderSelectedCategoryService({ api, jwt })
+  const addSelectedCategory = addSelectedCategoryService({ api, jwt })
+
+  const deleteSelectedProduct = deleteSelectedProductService({ api })
+  const orderSelectedProduct = orderSelectedProductService({ api, jwt })
+  const addSelectedProduct = addSelectedProductService({ api, jwt })
 
   return (
     <AppContext.Provider
@@ -59,11 +87,22 @@ export const AppContextProvider = (props) => {
           updateContact,
           addCategory,
           updateCategory,
+          deleteContact,
           addAddress,
           patchUser,
           patchAddress,
           deleteUser,
           deleteAddress,
+          addCarousel,
+          deleteCarousel,
+          orderCarousel,
+          addProduct,
+          deleteSelectedCategory,
+          orderSelectedCategory,
+          addSelectedCategory,
+          addSelectedProduct,
+          deleteSelectedProduct,
+          orderSelectedProduct,
         },
         state: {
           session,

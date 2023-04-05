@@ -66,6 +66,25 @@ const handler = mw({
       res.send({ result: true })
     },
   ],
+  DELETE: [
+    validate({
+      query: {
+        categoryId: numberValidator.required(),
+      },
+    }),
+    async ({
+      locals: {
+        query: { categoryId },
+      },
+      res,
+    }) => {
+      const id = categoryId
+
+      await CategoryModel.query().deleteById(id)
+
+      res.send({ result: true })
+    },
+  ],
 })
 
 export default handler

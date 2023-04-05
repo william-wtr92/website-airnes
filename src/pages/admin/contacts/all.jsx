@@ -1,70 +1,52 @@
-import { NavLink } from "@/components/utils/NavLink"
-import { TrashIcon } from "@heroicons/react/24/outline"
 import axios from "axios"
 import routes from "@/web/routes"
-import SearchBar from "@/components/app/ui/SearchBar"
+import DisplayPage from "@/components/app/admin/DisplayPage"
+import { useCallback } from "react"
+import useAppContext from "@/web/hooks/useAppContext"
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (context) => {
+  const { page } = context.query
+
   const { data } = await axios.get(
-    `http://localhost:3000/api${routes.api.getContacts()}`
+    `http://localhost:3000/api${routes.api.getContacts()}?page=${page || 1}`
   )
 
   return {
     props: {
       contacts: data.result,
+      pagination: data.pagination,
     },
   }
 }
 
 const AllContacts = (props) => {
-  const { contacts } = props
+  const {
+    actions: { deleteContact },
+  } = useAppContext()
+
+  const { contacts, pagination } = props
+
+  const handleDelete = useCallback(
+    async (id) => {
+      await deleteContact(id)
+
+      window.location.reload()
+    },
+    [deleteContact]
+  )
 
   return (
-    <div className="p-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
-      <SearchBar section="contact request" />
-      <div className="flex flex-col overflow-x-auto overflow-hidden py-2 min-w-full sm:-mx-6 lg:-mx-8 sm:px-6 lg:px-8">
-        <table className="table-auto">
-          <thead className="bg-white border-b">
-            <tr>
-              <th className="text-sm font-medium text-gray-900 p-4 text-left uppercase">
-                EMAIL ADDRESS
-              </th>
-              <th className="text-sm font-medium text-gray-900 p-4 text-left uppercase">
-                TOPIC
-              </th>
-              <th className="text-sm font-medium text-gray-900 p-4 text-left uppercase">
-                STATUS
-              </th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {contacts.map((contact) => {
-              return (
-                <tr className="bg-gray-100 border-b" key={contact.id}>
-                  <td className="p-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    <NavLink href={`/admin/contacts/${contact.id}/show`}>
-                      {contact.mail}
-                    </NavLink>
-                  </td>
-                  <td className="p-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {contact.topic}
-                  </td>
-                  <td className="p-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {contact.read ? "Read" : "New"}
-                  </td>
-                  <td className="text-sm text-gray-900 font-light p-4">
-                    <NavLink href={`/admin/contacts/${contacts.id}/delete`}>
-                      <TrashIcon className="h-6 w-6" />
-                    </NavLink>
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <DisplayPage
+      sections={"contacts"}
+      section={"contact"}
+      items={contacts}
+      pagination={pagination}
+      canAdd={false}
+      canEdit={false}
+      deleteRoute={handleDelete}
+      columns={["id", "topic", "state"]}
+      fields={["id", "topic", "read"]}
+    />
   )
 }
 

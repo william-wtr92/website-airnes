@@ -10,12 +10,42 @@ const routes = {
     contact: () => "/contact",
     getContacts: () => "/admin/contacts/contacts",
     contactData: (contactId) => `/api/admin/contacts/${contactId}`,
-    updateContact: (contactId) => `/admin/contacts/${contactId}`,
+    deleteContact: (contactId) => `/admin/contacts/${contactId}`,
     //categories: probably needs to get cleaned up as well
     createCategory: () => "/admin/categories/category",
     getCategories: () => "/admin/categories/category",
-    categoryData: (categoryId) => `/api/admin/categories/${categoryId}`,
     updateCategory: (categoryId) => `/admin/categories/${categoryId}`,
+    categoryData: (categoryId) => `/api/admin/categories/${categoryId}`,
+    //products: probably needs to get cleaned up as well
+    createProduct: () => "/admin/products/product",
+    getProducts: () => "/admin/products/product",
+    productData: (productId) => `/api/admin/products/${productId}`,
+    //materials:
+    getMaterialsAndCategory: () => "/admin/materials/material",
+    //users: probably needs to get cleaned up as well
+    getUsers: () => "/admin/users/user",
+    carousel: {
+      addImage: () => "/admin/carousel/add",
+      getImages: () => "/admin/carousel/images",
+      deleteImage: (imageId) => `/admin/carousel/${imageId}`,
+      changeOrder: (imageId) => `/admin/carousel/${imageId}`,
+    },
+    selectCategory: {
+      getSelectCategory: () => "/admin/categories/homepage/selected",
+      deleteSelectCategory: (categoryId) =>
+        `/admin/categories/homepage/${categoryId}`,
+      orderSelectedCategory: (categoryId) =>
+        `/admin/categories/homepage/${categoryId}`,
+      addSelectedCategory: () => "/admin/categories/homepage/selected",
+    },
+    selectProduct: {
+      deleteSelectProduct: (productId) =>
+        `/admin/products/homepage/${productId}`,
+      orderSelectedProduct: (productId) =>
+        `/admin/products/homepage/${productId}`,
+      getSelectProducts: () => "/admin/products/homepage/selected",
+      addSelectedProduct: () => "/admin/products/homepage/selected",
+    },
     user: {
       addAddress: () => "/user/create/address",
       userData: (userId) => `/user/${userId}`,
