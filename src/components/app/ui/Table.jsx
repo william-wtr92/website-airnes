@@ -73,7 +73,7 @@ const Table = (props) => {
                 )
               })}
               <td className="flex flex-row gap-5 text-sm text-gray-900 font-light py-4">
-                {canEdit && (
+                {canEdit && !isNoCategory && (
                   <NavLink href={`/admin/${section}/${content.id}/edit`}>
                     <PencilSquareIcon className="h-6 w-6" />
                   </NavLink>

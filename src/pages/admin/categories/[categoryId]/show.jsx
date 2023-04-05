@@ -3,6 +3,7 @@ import axios from "axios"
 import routes from "@/web/routes"
 import { NavLink } from "@/components/utils/NavLink"
 import Image from "next/image"
+import Table from "@/components/app/ui/Table"
 
 export const getServerSideProps = async (context) => {
   const { categoryId } = context.params
@@ -30,6 +31,10 @@ export const getServerSideProps = async (context) => {
 const ShowCategory = (props) => {
   const { category } = props
 
+  const isNoCategory = (category) => {
+    return category.name === "No category"
+  }
+
   return (
     <div className="p-10 flex flex-col gap-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
       <Return name="categories" back={"/admin/categories/all"} />
@@ -43,16 +48,20 @@ const ShowCategory = (props) => {
       <div className="font-bold">{category.name}</div>
       <div>{category.description}</div>
       <div className="flex gap-5">
-        <NavLink href={`/admin/categories/${category.id}/edit`}>
-          <button className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
-            Edit
-          </button>
-        </NavLink>
-        <NavLink href={"/"}>
-          <button className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
-            Delete
-          </button>
-        </NavLink>
+        {!isNoCategory(category) && (
+          <>
+            <NavLink href={`/admin/categories/${category.id}/edit`}>
+              <button className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
+                Edit
+              </button>
+            </NavLink>
+            <NavLink href={"/"}>
+              <button className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
+                Delete
+              </button>
+            </NavLink>
+          </>
+        )}
       </div>
     </div>
   )
