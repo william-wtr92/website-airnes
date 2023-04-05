@@ -8,6 +8,7 @@ export const up = async (knex) => {
     })
     .then(function () {
       return knex("category").insert({
+        id: 0,
         name: "No category",
         description: "No category",
         // needs to be changed once the db and image link handler are set up

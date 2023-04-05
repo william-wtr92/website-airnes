@@ -10,7 +10,7 @@ const Table = (props) => {
   const [itemToDelete, setItemToDelete] = useState(false)
 
   const isNoCategory = (content) => {
-    return section === "categories" && content.id === 1
+    return section === "categories" && content.name === "No category"
   }
 
   const onDeleteClick = (id) => {
