@@ -1,44 +1,35 @@
-import axios from "axios"
 import routes from "@/web/routes"
 import DisplayPage from "@/components/app/admin/DisplayPage"
 
 export const getServerSideProps = async (context) => {
   const { page } = context.query
 
-  const redirectToInitial = () => {
-    return {
-      redirect: {
-        destination: "/admin/products/all",
-        permanent: false,
-      },
-    }
-  }
+  const [productsRes, materiatAndCategoriesRes] = await Promise.all([
+      fetch( `http://localhost:3000/api${routes.api.getProducts()}?page=${page || 1}`),
+      fetch(`http://localhost:3000/api${routes.api.getMaterialsAndCategory()}`)
+      ]
+  )
 
-  try {
-    const { data } = await axios.get(
-      `http://localhost:3000/api${routes.api.getProducts()}?page=${page || 1}`
-    )
+  const [products, materiatAndCategories]= await Promise.all([
+    productsRes.json(),
+    materiatAndCategoriesRes.json()
+  ])
 
-    const isEmpty = data.result.length === 0
 
-    if (isEmpty) {
-      return redirectToInitial()
-    }
-
-    return {
-      props: {
-        products: data.result,
-        pagination: data.pagination,
-      },
-    }
-  } catch (error) {
-    return redirectToInitial()
+  return {
+    props: {
+      products: products.result,
+      pagination: products.pagination,
+      categories: materiatAndCategories.categories,
+      materials: materiatAndCategories.materials
+    },
   }
 }
 
 const All = (props) => {
-  const { products, pagination } = props
+  const { products, pagination, categories, materials } = props
 
+  console.log(categories, materials)
   return (
     <DisplayPage
       sections={"products"}
