@@ -7,6 +7,7 @@ import {
 } from "@/components/validation/validation"
 import CategoryModel from "@/api/db/models/CategoryModel"
 import { NotFoundError } from "@/api/errors"
+import ProductModel from "@/api/db/models/ProductModel"
 
 const handler = mw({
   GET: [
@@ -79,6 +80,15 @@ const handler = mw({
       res,
     }) => {
       const id = categoryId
+
+      const noCategory = await CategoryModel.query().findOne({
+        name: "No category",
+      })
+      const noCategoryId = parseInt(noCategory.id, 10)
+
+      await ProductModel.query()
+        .update({ categoryId: noCategoryId })
+        .where({ categoryId: id })
 
       await CategoryModel.query().deleteById(id)
 
