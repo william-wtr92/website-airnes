@@ -3,7 +3,6 @@ import validate from "@/api/middlewares/validate"
 import {linkValidator, numberValidator, stringValidator} from "@/components/validation/validation"
 import { NotFoundError } from "@/api/errors"
 import ProductModel from "@/api/db/models/ProductModel"
-import CategoryModel from "@/api/db/models/CategoryModel"
 
 const handler = mw({
     GET: [
@@ -59,9 +58,7 @@ const handler = mw({
             const id = productId
             const product = await ProductModel.query().findOne({ id })
 
-            console.log("test")
-
-            await CategoryModel.query().updateAndFetchById(id, {
+            await ProductModel.query().updateAndFetchById(id, {
                 ...(product.image !== image ? { image } : {}),
                 ...(product.name !== name ? { name } : {}),
                 ...(product.description !== description ? { description } : {}),

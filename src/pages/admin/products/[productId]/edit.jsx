@@ -10,23 +10,23 @@ import ProductForm from "@/components/app/admin/ProductForm"
 export const getServerSideProps = async (context) => {
   const { productId } = context.params
 
-  const [productRes, materiatAndCategoriesRes] = await Promise.all([
+  const [productRes, materialsAndCategoriesRes] = await Promise.all([
         fetch( `http://localhost:3000${routes.api.productData(productId)}`),
         fetch(`http://localhost:3000/api${routes.api.getMaterialsAndCategory()}`)
       ]
   )
 
-  const [product, materiatAndCategories]= await Promise.all([
+  const [product, materialsAndCategories]= await Promise.all([
     productRes.json(),
-    materiatAndCategoriesRes.json()
+      materialsAndCategoriesRes.json()
   ])
 
 
   return {
     props: {
       product: product.result,
-      categories: materiatAndCategories.categories,
-      materials: materiatAndCategories.materials
+      categories: materialsAndCategories.categories,
+      materials: materialsAndCategories.materials
     },
   }
 }
@@ -44,10 +44,8 @@ const EditProduct = (props) => {
     actions: { updateProduct },
   } = useAppContext()
 
-
   const handlePost = useCallback(
       async (values) => {
-          console.log(values, "handlePost")
         setError(null)
 
         const [err] = await updateProduct({ ...values, productId: product.id })

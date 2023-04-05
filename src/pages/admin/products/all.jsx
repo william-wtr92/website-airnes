@@ -4,15 +4,13 @@ import DisplayPage from "@/components/app/admin/DisplayPage"
 export const getServerSideProps = async (context) => {
   const { page } = context.query
 
-  const [productsRes, materiatAndCategoriesRes] = await Promise.all([
+  const [productsRes] = await Promise.all([
       fetch( `http://localhost:3000/api${routes.api.getProducts()}?page=${page || 1}`),
-      fetch(`http://localhost:3000/api${routes.api.getMaterialsAndCategory()}`)
       ]
   )
 
-  const [products, materiatAndCategories]= await Promise.all([
+  const [products]= await Promise.all([
     productsRes.json(),
-    materiatAndCategoriesRes.json()
   ])
 
 
@@ -20,16 +18,13 @@ export const getServerSideProps = async (context) => {
     props: {
       products: products.result,
       pagination: products.pagination,
-      categories: materiatAndCategories.categories,
-      materials: materiatAndCategories.materials
     },
   }
 }
 
 const All = (props) => {
-  const { products, pagination, categories, materials } = props
+  const { products, pagination } = props
 
-  console.log(categories, materials)
   return (
     <DisplayPage
       sections={"products"}

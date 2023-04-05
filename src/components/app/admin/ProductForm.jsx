@@ -34,8 +34,8 @@ const ProductForm = (props) => {
                         className="w-96"
                     />
                     <span className="text-md font-semibold">Catérogy</span>
-                    <Field as="select" name={initialValues.categoryId? "categoryId" : "category"} className="flex border-2 rounded-md border-gray-400 py-1 cursor-pointer">
-                        {initialValues.categoryId?
+                    <Field as="select" name={initialValues.categoryId && initialValues.categoryId !== 0 ? "categoryId" : "category"} className="flex border-2 rounded-md border-gray-400 py-1 cursor-pointer">
+                        {initialValues.categoryId && initialValues.categoryId !== 0 ?
                             <option defaultChecked value={initialValues.categoryId}
                                                    id={initialValues.categoryId}
                                                    key={initialValues.categoryId}

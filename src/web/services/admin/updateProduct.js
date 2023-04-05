@@ -14,7 +14,7 @@ const updateProduct =
                    quantity,
                }) => {
             try {
-                const {data} = await api.post(routes.api.updateProduct(productId), {
+                const {data} = await api.patch(routes.api.updateProduct(productId), {
                     image,
                     name,
                     description,
