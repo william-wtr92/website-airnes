@@ -3,7 +3,6 @@ import axios from "axios"
 import routes from "@/web/routes"
 import { NavLink } from "@/components/utils/NavLink"
 import Image from "next/image"
-import Table from "@/components/app/ui/Table"
 
 export const getServerSideProps = async (context) => {
   const { categoryId } = context.params
