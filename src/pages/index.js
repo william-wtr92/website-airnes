@@ -2,6 +2,7 @@ import Carousel from "@/components/app/ui/Carousel"
 import Categories from "@/components/app/content/Categories"
 import FooterMenu from "@/components/layouts/FooterMenu"
 import Product from "@/components/app/content/Product"
+import Promotion from "@/components/app/content/Promotions"
 
 const Main = () => {
   const exampleState = [
@@ -72,6 +73,11 @@ const Main = () => {
             <Categories />
           </div>
         </div>
+        <div className="flex flex-wrap justify-center">
+          <div className="flex flex-wrap justify-center lg:justify-between lg:w-4/5">
+            <Product />
+          </div>
+        </div>
         <div className="flex justify-center py-10">
           <div className="flex flex-col items-center gap-10 w-[90%] lg:w-4/5">
             <h3 className="uppercase font-bold text-xl tracking-widest">
@@ -80,7 +86,7 @@ const Main = () => {
             <div className="overflow-x-auto scrollbar flex w-full gap-10 bg-gray-100 p-8">
               {exampleState.map((product) => (
                 <div key={product.id} className="flex-none w-3/5 lg:w-2/5">
-                  <Product
+                  <Promotion
                     alt="test"
                     image={product.image}
                     productName={product.name}

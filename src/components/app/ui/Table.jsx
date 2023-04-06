@@ -9,6 +9,10 @@ const Table = (props) => {
 
   const [itemToDelete, setItemToDelete] = useState(false)
 
+  const isNoCategory = (content) => {
+    return section === "categories" && content.name === "No category"
+  }
+
   const onDeleteClick = (id) => {
     setItemToDelete(id)
   }
@@ -69,12 +73,12 @@ const Table = (props) => {
                 )
               })}
               <td className="flex flex-row gap-5 text-sm text-gray-900 font-light py-4">
-                {canEdit ? (
+                {canEdit && !isNoCategory && (
                   <NavLink href={`/admin/${section}/${content.id}/edit`}>
                     <PencilSquareIcon className="h-6 w-6" />
                   </NavLink>
-                ) : null}
-                {deleteRoute && (
+                )}
+                {deleteRoute && !isNoCategory(content) && (
                   <>
                     <TrashIcon
                       className="h-6 w-6"

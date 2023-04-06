@@ -6,6 +6,7 @@ import contactService from "@/web/services/contact.js"
 import updateContactService from "@/web/services/admin/updateContact"
 import createCategoryService from "@/web/services/admin/addCategory"
 import updateCategoryService from "@/web/services/admin/updateCategory"
+import deleteCategoryService from "@/web/services/admin/deleteCategory"
 import deleteContactService from "@/web/services/admin/deleteContact"
 import addAddressService from "../services/user/address/addAddress"
 import patchUserService from "../services/user/patchUser"
@@ -21,6 +22,9 @@ import updateProductService from "@/web/services/admin/updateProduct"
 import deleteSelectedCategoryService from "@/web/services/admin/homepage/deleteSelectedCategory"
 import orderSelectedCategoryService from "@/web/services/admin/homepage/orderSelectedCategory"
 import addSelectedCategoryService from "@/web/services/admin/homepage/addSelectedCategory"
+import addSelectedProductService from "@/web/services/admin/homepage/addSelectedProduct"
+import deleteSelectedProductService from "@/web/services/admin/homepage/deleteSelectedProduct"
+import orderSelectedProductService from "@/web/services/admin/homepage/orderSelectedProduct"
 
 import config from "../config"
 
@@ -50,6 +54,7 @@ export const AppContextProvider = (props) => {
 
   const addCategory = createCategoryService({ api, jwt })
   const updateCategory = updateCategoryService({ api, jwt })
+  const deleteCategory = deleteCategoryService({ api, jwt })
 
   const addProduct = createProductService({ api, jwt })
   const updateProduct = updateProductService({ api, jwt })
@@ -72,6 +77,10 @@ export const AppContextProvider = (props) => {
   const orderSelectedCategory = orderSelectedCategoryService({ api, jwt })
   const addSelectedCategory = addSelectedCategoryService({ api, jwt })
 
+  const deleteSelectedProduct = deleteSelectedProductService({ api })
+  const orderSelectedProduct = orderSelectedProductService({ api, jwt })
+  const addSelectedProduct = addSelectedProductService({ api, jwt })
+
   return (
     <AppContext.Provider
       {...props}
@@ -83,6 +92,7 @@ export const AppContextProvider = (props) => {
           updateContact,
           addCategory,
           updateCategory,
+          deleteCategory,
           deleteContact,
           addAddress,
           patchUser,
@@ -97,6 +107,9 @@ export const AppContextProvider = (props) => {
           deleteSelectedCategory,
           orderSelectedCategory,
           addSelectedCategory,
+          addSelectedProduct,
+          deleteSelectedProduct,
+          orderSelectedProduct,
         },
         state: {
           session,
