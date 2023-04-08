@@ -60,8 +60,8 @@ const All = (props) => {
       canAdd={true}
       canEdit={true}
       deleteRoute={handleDelete}
-      columns={["id", "name", "category"]}
-      fields={["id", "name", "categoryId"]}
+      columns={["id", "name", "category", "price", "quantity"]}
+      fields={["id", "name", "categoryId", "price", "quantity"]}
     />
   )
 }
