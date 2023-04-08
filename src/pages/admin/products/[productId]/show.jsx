@@ -1,11 +1,11 @@
 import Return from "@/components/app/ui/Return"
 import axios from "axios"
-import routes from "@/web/routes"
 import { NavLink } from "@/components/utils/NavLink"
 import Image from "next/image"
 import useAppContext from "@/web/hooks/useAppContext"
 import {useCallback} from "react"
-import {router} from "next/client"
+import routes from "@/web/routes"
+import { useRouter } from "next/router"
 
 export const getServerSideProps = async (context) => {
   const { productId } = context.params
@@ -13,8 +13,6 @@ export const getServerSideProps = async (context) => {
   const { data } = await axios.get(
     `http://localhost:3000${routes.api.productData(productId)}`
   )
-
-
 
   if (!data.result) {
     return {
@@ -35,6 +33,7 @@ export const getServerSideProps = async (context) => {
 const ShowProduct = (props) => {
   const { product } = props
 
+    const router = useRouter()
     const {
         actions: { deleteProduct },
     } = useAppContext()
@@ -63,7 +62,7 @@ const ShowProduct = (props) => {
       <div className="font-bold py-1">En Stock ({product.stock})</div>
       <div className="font-bold py-1">{product.description}</div>
       <div className="py-1">
-          <div className="font-bold pb-1">Matériaux :</div>
+          <div className="font-bold pb-1">Material :</div>
           <p>{product.material}</p>
       </div>
       <div className="flex gap-5">
