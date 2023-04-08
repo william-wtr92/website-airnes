@@ -1,8 +1,11 @@
 import Return from "@/components/app/ui/Return"
 import axios from "axios"
-import routes from "@/web/routes"
 import { NavLink } from "@/components/utils/NavLink"
 import Image from "next/image"
+import useAppContext from "@/web/hooks/useAppContext"
+import {useCallback} from "react"
+import routes from "@/web/routes"
+import { useRouter } from "next/router"
 
 export const getServerSideProps = async (context) => {
   const { productId } = context.params
@@ -10,8 +13,6 @@ export const getServerSideProps = async (context) => {
   const { data } = await axios.get(
     `http://localhost:3000${routes.api.productData(productId)}`
   )
-
-
 
   if (!data.result) {
     return {
@@ -32,6 +33,20 @@ export const getServerSideProps = async (context) => {
 const ShowProduct = (props) => {
   const { product } = props
 
+    const router = useRouter()
+    const {
+        actions: { deleteProduct },
+    } = useAppContext()
+
+    const handleDelete = useCallback(
+        async () => {
+            await deleteProduct(product.id)
+
+            router.push("/admin/contacts/all")
+        },
+        [deleteProduct, product.id]
+    )
+
   return (
     <div className="p-10 flex flex-col gap-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
       <Return name="products" back={"/admin/products/all"} />
@@ -47,20 +62,18 @@ const ShowProduct = (props) => {
       <div className="font-bold py-1">En Stock ({product.stock})</div>
       <div className="font-bold py-1">{product.description}</div>
       <div className="py-1">
-          <div className="font-bold pb-1">Matériaux :</div>
+          <div className="font-bold pb-1">Material :</div>
           <p>{product.material}</p>
       </div>
       <div className="flex gap-5">
-        <NavLink href={`/admin/products/${product.id}/edit`}>
-          <button className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
-            Edit
-          </button>
-        </NavLink>
-        <NavLink href={"/"}>
-          <button className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
+          <NavLink href={`/admin/products/${product.id}/edit`}>
+              <button className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
+                  Edit
+              </button>
+          </NavLink>
+          <button onClick={handleDelete} className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
             Delete
           </button>
-        </NavLink>
       </div>
     </div>
   )
