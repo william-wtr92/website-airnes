@@ -26,7 +26,7 @@ const Table = (props) => {
   )
 
   const renderFieldContent = (field, content, section) => {
-    if (field === "name" || field === "topic") {
+    if ((section != "users" && field === "name") || field === "topic") {
       return (
         <NavLink href={`/admin/${section}/${content.id}/show`}>
           {content[field]}
