@@ -12,7 +12,7 @@ export const getServerSideProps = async (context) => {
   const { userId } = context.params
 
   const { data } = await axios.get(
-    `http://localhost:3000${routes.api.users.userData(userId)}`
+    `http://localhost:3000/api${routes.api.admin.users.userData(userId)}`
   )
 
   if (!data.result) {
