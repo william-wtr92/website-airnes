@@ -6,26 +6,37 @@ import {useCallback} from "react"
 export const getServerSideProps = async (context) => {
   const { page } = context.query
 
-  const [productsRes] = await Promise.all([
+  const [productsRes, materialsAndCategoriesRes] = await Promise.all([
     fetch(
       `http://localhost:3000/api${routes.api.admin.products.getProducts()}?page=${
         page || 1
       }`
     ),
+    fetch(`http://localhost:3000/api${routes.api.admin.materials.getMaterialsAndCategory()}`)
   ])
 
-  const [products] = await Promise.all([productsRes.json()])
+  const [products, materialsAndCategories] = await Promise.all([productsRes.json(),materialsAndCategoriesRes.json()])
 
   return {
     props: {
       products: products.result,
       pagination: products.pagination,
+      categories: materialsAndCategories.categories
     },
   }
 }
 
 const All = (props) => {
-  const { products, pagination } = props
+  const { products, pagination, categories } = props
+
+  products.forEach(product => {
+    const category = categories.find(category => category.id === product.categoryId)
+
+    if (category) {
+      product.categoryId = category.name
+    }
+  })
+
 
   const {
     actions: { deleteProduct },
@@ -49,8 +60,8 @@ const All = (props) => {
       canAdd={true}
       canEdit={true}
       deleteRoute={handleDelete}
-      columns={["id", "name"]}
-      fields={["id", "name"]}
+      columns={["id", "name", "category", "price", "quantity"]}
+      fields={["id", "name", "categoryId", "price", "quantity"]}
     />
   )
 }
