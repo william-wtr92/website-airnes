@@ -10,7 +10,7 @@ export const up = async (knex) => {
     table.text("description").notNullable()
     table.text("image").notNullable()
     table.text("price").notNullable()
-    table.text("promotion").notNullable()
+    table.text("promotion")
     table.text("quantity").notNullable()
     table.integer("categoryId").references("id").inTable("category")
     table.integer("materialId").references("id").inTable("material")

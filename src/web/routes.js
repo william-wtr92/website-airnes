@@ -50,6 +50,7 @@ const routes = {
         getProducts: () => "/admin/products/product",
         updateProduct: (productId) => `/admin/products/${productId}`,
         productData: (productId) => `/admin/products/${productId}`,
+        deleteProduct: (productId) => `/admin/products/${productId}`,
       },
       users: {
         getUsers: () => "/admin/users/user",
