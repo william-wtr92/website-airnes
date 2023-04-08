@@ -8,9 +8,9 @@ const ProductForm = (props) => {
     const {initialValues, validationSchema, onSubmit, categories, materials ,error} = props
 
 
-    const defaultltValueCategory = categories.find( ({ id }) => id === initialValues.categoryId )
+    const defaultValueCategory = categories.find( ({ id }) => id === initialValues.categoryId )
     const filteredEditDefaultCategories = categories.filter((item) => item.id!==initialValues.categoryId)
-    const defaultltValueMaterial = materials.find( ({ id }) => id === initialValues.materialId )
+    const defaultValueMaterial = materials.find( ({ id }) => id === initialValues.materialId )
     const filteredEditDefaultMaterials = materials.filter((item) => item.id!==initialValues.materialId)
 
     const initialCategories = initialValues.categoryId? filteredEditDefaultCategories : categories
@@ -33,14 +33,14 @@ const ProductForm = (props) => {
                         label="Image"
                         className="w-96"
                     />
-                    <span className="text-md font-semibold">Catérogy</span>
+                    <span className="text-md font-semibold">Category</span>
                     <Field as="select" name={initialValues.categoryId && initialValues.categoryId !== 0 ? "categoryId" : "category"} className="flex border-2 rounded-md border-gray-400 py-1 cursor-pointer">
                         {initialValues.categoryId && initialValues.categoryId !== 0 ?
                             <option defaultChecked value={initialValues.categoryId}
                                                    id={initialValues.categoryId}
                                                    key={initialValues.categoryId}
-                            >{defaultltValueCategory.name}</option> :
-                        <option defaultChecked >Sélectionner une categorie</option> }
+                            >{defaultValueCategory.name}</option> :
+                        <option defaultChecked >Select a Category</option> }
                         {
                             initialCategories
                                 .map(category =>
@@ -79,13 +79,13 @@ const ProductForm = (props) => {
                         placeholder="Enter the product's description"
                         label="Description"
                     />
-                    <span className="text-md font-semibold">Matérial</span>
+                    <span className="text-md font-semibold">Material</span>
                     <Field as="select" name={initialValues.materialId? "materialId" : "material"} className="flex border-2 rounded-md border-gray-400 py-1 cursor-pointer">
                         {initialValues.materialId?
                             <option defaultChecked value={initialValues.materialId}
                                                    id={initialValues.materialId}
-                                                   key={initialValues.materialId}>{defaultltValueMaterial.name}</option> :
-                            <option defaultChecked >Selectionner un Matériau</option> }
+                                                   key={initialValues.materialId}>{defaultValueMaterial.name}</option> :
+                            <option defaultChecked >Select a Material</option> }
                         {
                             initialMaterials
                                 .map(material =>

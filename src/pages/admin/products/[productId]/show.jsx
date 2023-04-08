@@ -3,6 +3,8 @@ import axios from "axios"
 import routes from "@/web/routes"
 import { NavLink } from "@/components/utils/NavLink"
 import Image from "next/image"
+import useAppContext from "@/web/hooks/useAppContext"
+import {useCallback} from "react"
 
 export const getServerSideProps = async (context) => {
   const { productId } = context.params
@@ -32,6 +34,19 @@ export const getServerSideProps = async (context) => {
 const ShowProduct = (props) => {
   const { product } = props
 
+    const {
+        actions: { deleteProduct },
+    } = useAppContext()
+
+    const handleDelete = useCallback(
+        async (id) => {
+            await deleteProduct(id)
+
+            window.location.reload()
+        },
+        [deleteProduct]
+    )
+
   return (
     <div className="p-10 flex flex-col gap-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
       <Return name="products" back={"/admin/products/all"} />
@@ -51,12 +66,12 @@ const ShowProduct = (props) => {
           <p>{product.material}</p>
       </div>
       <div className="flex gap-5">
-        <NavLink href={`/admin/products/${product.id}/edit`}>
-          <button className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
-            Edit
-          </button>
-        </NavLink>
-        <NavLink href={"/"}>
+          <NavLink href={`/admin/products/${product.id}/edit`}>
+              <button className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
+                  Edit
+              </button>
+          </NavLink>
+        <NavLink href={`/admin/products/all}`} onClick={handleDelete(product.id)}>
           <button className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
             Delete
           </button>
