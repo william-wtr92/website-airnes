@@ -5,7 +5,7 @@ const deleteSelectedCategory =
   async (categoryId) => {
     try {
       const { data } = await api.delete(
-        routes.api.selectCategory.deleteSelectCategory(categoryId)
+        routes.api.admin.selectCategory.deleteSelectCategory(categoryId)
       )
 
       return [null, data]

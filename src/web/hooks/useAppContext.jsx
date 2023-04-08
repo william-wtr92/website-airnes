@@ -3,30 +3,30 @@ import createAPIClient from "../createAPIClient"
 import signUpService from "../services/signUp"
 import signInService from "../services/signIn"
 import contactService from "@/web/services/contact.js"
-import updateContactService from "@/web/services/admin/updateContact"
-import createCategoryService from "@/web/services/admin/addCategory"
-import updateCategoryService from "@/web/services/admin/updateCategory"
-import deleteCategoryService from "@/web/services/admin/deleteCategory"
-import deleteContactService from "@/web/services/admin/deleteContact"
+import updateContactService from "@/web/services/admin/contacts/updateContact"
+import createCategoryService from "@/web/services/admin/categories/addCategory"
+import updateCategoryService from "@/web/services/admin/categories/updateCategory"
+import deleteCategoryService from "@/web/services/admin/categories/deleteCategory"
+import deleteContactService from "@/web/services/admin/contacts/deleteContact"
 import addAddressService from "../services/user/address/addAddress"
 import patchUserService from "../services/user/patchUser"
 import deleteUserService from "../services/user/deleteUser"
 import patchAddressService from "../services/user/address/patchAddress"
 import deleteAddressService from "../services/user/address/deleteAddress"
-import addCarouselService from "../services/admin/addCarousel"
-import deleteCarouselService from "../services/admin/deleteCarousel"
-import orderCarouselService from "../services/admin/orderCarousel"
+import addCarouselService from "../services/admin/homepage/addCarousel"
+import deleteCarouselService from "../services/admin/homepage/deleteCarousel"
+import orderCarouselService from "../services/admin/homepage/orderCarousel"
 import parseSession from "../parseSession"
-import createProductService from "@/web/services/admin/addProduct"
-import updateProductService from "@/web/services/admin/updateProduct"
-import deleteProductService from "@/web/services/admin/deleteProduct"
+import createProductService from "@/web/services/admin/products/addProduct"
+import updateProductService from "@/web/services/admin/products/updateProduct"
+import deleteProductService from "@/web/services/admin/products/deleteProduct"
 import deleteSelectedCategoryService from "@/web/services/admin/homepage/deleteSelectedCategory"
 import orderSelectedCategoryService from "@/web/services/admin/homepage/orderSelectedCategory"
 import addSelectedCategoryService from "@/web/services/admin/homepage/addSelectedCategory"
 import addSelectedProductService from "@/web/services/admin/homepage/addSelectedProduct"
 import deleteSelectedProductService from "@/web/services/admin/homepage/deleteSelectedProduct"
 import orderSelectedProductService from "@/web/services/admin/homepage/orderSelectedProduct"
-import patchRoleService from "@/web/services/admin/updateRole"
+import patchRoleService from "@/web/services/admin/users/updateRole"
 
 import config from "../config"
 
@@ -60,7 +60,7 @@ export const AppContextProvider = (props) => {
 
   const addProduct = createProductService({ api, jwt })
   const updateProduct = updateProductService({ api, jwt })
-  const deleteProduct = deleteProductService({ api, jwt})
+  const deleteProduct = deleteProductService({ api, jwt })
 
   const updateContact = updateContactService({ api })
   const deleteContact = deleteContactService({ api })

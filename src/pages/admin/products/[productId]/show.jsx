@@ -3,7 +3,7 @@ import axios from "axios"
 import { NavLink } from "@/components/utils/NavLink"
 import Image from "next/image"
 import useAppContext from "@/web/hooks/useAppContext"
-import {useCallback} from "react"
+import { useCallback } from "react"
 import routes from "@/web/routes"
 import { useRouter } from "next/router"
 
@@ -11,7 +11,9 @@ export const getServerSideProps = async (context) => {
   const { productId } = context.params
 
   const { data } = await axios.get(
-    `http://localhost:3000${routes.api.productData(productId)}`
+    `http://localhost:3000/api${routes.api.admin.products.productData(
+      productId
+    )}`
   )
 
   if (!data.result) {
@@ -25,7 +27,7 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: {
-        product: data.result,
+      product: data.result,
     },
   }
 }
@@ -33,19 +35,16 @@ export const getServerSideProps = async (context) => {
 const ShowProduct = (props) => {
   const { product } = props
 
-    const router = useRouter()
-    const {
-        actions: { deleteProduct },
-    } = useAppContext()
+  const router = useRouter()
+  const {
+    actions: { deleteProduct },
+  } = useAppContext()
 
-    const handleDelete = useCallback(
-        async () => {
-            await deleteProduct(product.id)
+  const handleDelete = useCallback(async () => {
+    await deleteProduct(product.id)
 
-            router.push("/admin/contacts/all")
-        },
-        [deleteProduct, product.id]
-    )
+    router.push("/admin/contacts/all")
+  }, [deleteProduct, product.id])
 
   return (
     <div className="p-10 flex flex-col gap-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
@@ -62,18 +61,21 @@ const ShowProduct = (props) => {
       <div className="font-bold py-1">En Stock ({product.stock})</div>
       <div className="font-bold py-1">{product.description}</div>
       <div className="py-1">
-          <div className="font-bold pb-1">Material :</div>
-          <p>{product.material}</p>
+        <div className="font-bold pb-1">Material :</div>
+        <p>{product.material}</p>
       </div>
       <div className="flex gap-5">
-          <NavLink href={`/admin/products/${product.id}/edit`}>
-              <button className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
-                  Edit
-              </button>
-          </NavLink>
-          <button onClick={handleDelete} className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
-            Delete
+        <NavLink href={`/admin/products/${product.id}/edit`}>
+          <button className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
+            Edit
           </button>
+        </NavLink>
+        <button
+          onClick={handleDelete}
+          className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1"
+        >
+          Delete
+        </button>
       </div>
     </div>
   )

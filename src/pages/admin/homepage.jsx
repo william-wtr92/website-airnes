@@ -20,15 +20,15 @@ export const getServerSideProps = async (context) => {
   try {
     const [imagesRes, categoriesRes, productsRes] = await Promise.all([
       axios.get(
-        `http://localhost:3000/api${routes.api.carousel.getImages()}?page=${
+        `http://localhost:3000/api${routes.api.admin.carousel.getImages()}?page=${
           page || 1
         }`
       ),
       axios.get(
-        `http://localhost:3000/api${routes.api.selectCategory.getSelectCategory()}`
+        `http://localhost:3000/api${routes.api.admin.selectCategory.getSelectCategory()}`
       ),
       axios.get(
-        `http://localhost:3000/api${routes.api.selectProduct.getSelectProducts()}`
+        `http://localhost:3000/api${routes.api.admin.selectProduct.getSelectProducts()}`
       ),
     ])
 

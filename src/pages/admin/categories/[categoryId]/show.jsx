@@ -3,12 +3,19 @@ import axios from "axios"
 import routes from "@/web/routes"
 import { NavLink } from "@/components/utils/NavLink"
 import Image from "next/image"
+import Confirm from "@/components/app/ui/Confirm"
+import classNames from "classnames"
+import { useCallback, useState } from "react"
+import useAppContext from "@/web/hooks/useAppContext"
+import { useRouter } from "next/router"
 
 export const getServerSideProps = async (context) => {
   const { categoryId } = context.params
 
   const { data } = await axios.get(
-    `http://localhost:3000${routes.api.categoryData(categoryId)}`
+    `http://localhost:3000/api${routes.api.admin.categories.categoryData(
+      categoryId
+    )}`
   )
 
   if (!data.result) {
@@ -29,10 +36,30 @@ export const getServerSideProps = async (context) => {
 
 const ShowCategory = (props) => {
   const { category } = props
+  const [itemToDelete, setItemToDelete] = useState(false)
+  const router = useRouter()
+
+  const {
+    actions: { deleteCategory },
+  } = useAppContext()
 
   const isNoCategory = (category) => {
     return category.name === "No category"
   }
+
+  const onDeleteClick = (id) => {
+    setItemToDelete(id)
+  }
+
+  const handleDeletion = useCallback(
+    async (id) => {
+      await deleteCategory(id)
+      setItemToDelete(false)
+
+      router.push("/admin/categories/all")
+    },
+    [deleteCategory]
+  )
 
   return (
     <div className="p-10 flex flex-col gap-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
@@ -54,11 +81,21 @@ const ShowCategory = (props) => {
                 Edit
               </button>
             </NavLink>
-            <NavLink href={"/"}>
-              <button className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
+            <>
+              <button
+                className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1"
+                onClick={() => onDeleteClick(category.id)}
+              >
                 Delete
               </button>
-            </NavLink>
+              <Confirm
+                className={classNames(itemToDelete ? "block" : "hidden")}
+                display={setItemToDelete}
+                action={handleDeletion}
+                textValue="Are you sure you want to delete this item?"
+                params={itemToDelete}
+              />
+            </>
           </>
         )}
       </div>

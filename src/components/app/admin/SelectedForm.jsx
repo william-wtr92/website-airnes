@@ -20,11 +20,7 @@ const SelectedForm = (props) => {
             name={formType}
             className="flex border-2 rounded-md border-gray-400 py-1 cursor-pointer"
           >
-            <option defaultChecked>
-              {formType === "category"
-                ? "Ajouter une catégorie"
-                : "Ajouter un produit"}
-            </option>
+            <option defaultChecked>Add an item</option>
             {selectOptions.map((option) => (
               <option value={option.value} id={option.value} key={option.value}>
                 {option.label}

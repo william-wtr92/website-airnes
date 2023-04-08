@@ -5,7 +5,7 @@ const orderSelectedCategory =
   async (categoryId, direction) => {
     try {
       const { data } = await api.patch(
-        `${routes.api.selectCategory.orderSelectedCategory(categoryId)}`,
+        `${routes.api.admin.selectCategory.orderSelectedCategory(categoryId)}`,
         {
           direction,
           jwt,

@@ -5,7 +5,7 @@ const deleteSelectedProduct =
   async (productId) => {
     try {
       const { data } = await api.delete(
-        routes.api.selectProduct.deleteSelectProduct(productId)
+        routes.api.admin.selectProduct.deleteSelectProduct(productId)
       )
 
       return [null, data]

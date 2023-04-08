@@ -8,7 +8,9 @@ export const getServerSideProps = async (context) => {
   const { contactId } = context.params
 
   const { data } = await axios.get(
-    `http://localhost:3000${routes.api.contactData(contactId)}`
+    `http://localhost:3000/api${routes.api.admin.contacts.contactData(
+      contactId
+    )}`
   )
 
   if (!data.result) {

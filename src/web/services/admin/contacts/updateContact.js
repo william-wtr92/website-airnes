@@ -1,14 +1,16 @@
 import routes from "@/web/routes"
 
-const addCarousel =
+const updateContact =
   ({ api, jwt }) =>
-  async ({ url, label }) => {
+  async ({ contactId, status }) => {
     try {
-      const { data } = await api.post(routes.api.carousel.addImage(), {
-        url,
-        label,
-        jwt,
-      })
+      const { data } = await api.patch(
+        routes.api.admin.contacts.updateContact(contactId),
+        {
+          status,
+          jwt,
+        }
+      )
 
       return [null, data]
     } catch (err) {
@@ -18,4 +20,4 @@ const addCarousel =
     }
   }
 
-export default addCarousel
+export default updateContact

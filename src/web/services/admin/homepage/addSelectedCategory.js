@@ -5,7 +5,7 @@ const addSelectedCategory =
   async ({ categoryId }) => {
     try {
       const { data } = await api.post(
-        routes.api.selectCategory.addSelectedCategory(),
+        routes.api.admin.selectCategory.addSelectedCategory(),
         {
           categoryId,
           jwt,

@@ -1,13 +1,15 @@
 import routes from "@/web/routes"
 
-const orderSelectedProduct =
+const updateCategory =
   ({ api, jwt }) =>
-  async (productId, direction) => {
+  async ({ categoryId, image, name, description }) => {
     try {
       const { data } = await api.patch(
-        `${routes.api.admin.selectProduct.orderSelectedProduct(productId)}`,
+        routes.api.admin.categories.updateCategory(categoryId),
         {
-          direction,
+          image,
+          name,
+          description,
           jwt,
         }
       )
@@ -20,4 +22,4 @@ const orderSelectedProduct =
     }
   }
 
-export default orderSelectedProduct
+export default updateCategory

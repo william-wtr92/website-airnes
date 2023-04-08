@@ -10,7 +10,9 @@ export const getServerSideProps = async (context) => {
   const { categoryId } = context.params
 
   const { data } = await axios.get(
-    `http://localhost:3000${routes.api.categoryData(categoryId)}`
+    `http://localhost:3000/api${routes.api.admin.categories.categoryData(
+      categoryId
+    )}`
   )
 
   if (!data.result) {
