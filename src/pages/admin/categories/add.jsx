@@ -23,10 +23,12 @@ export const getServerSideProps = async (context) => {
 
   try {
     const [allCategories, selectCategories] = await Promise.all([
-      axios.get(`http://localhost:3000/api${routes.api.getCategories()}`),
+      axios.get(
+        `http://localhost:3000/api${routes.api.admin.categories.getCategories()}`
+      ),
 
       axios.get(
-        `http://localhost:3000/api${routes.api.selectCategory.getSelectCategory()}`
+        `http://localhost:3000/api${routes.api.admin.selectCategory.getSelectCategory()}`
       ),
     ])
 

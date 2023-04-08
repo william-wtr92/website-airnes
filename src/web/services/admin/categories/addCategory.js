@@ -1,13 +1,15 @@
 import routes from "@/web/routes"
 
-const orderCarousel =
+const addCategory =
   ({ api, jwt }) =>
-  async (imageId, direction) => {
+  async ({ image, name, description }) => {
     try {
-      const { data } = await api.patch(
-        `${routes.api.carousel.changeOrder(imageId)}`,
+      const { data } = await api.post(
+        routes.api.admin.categories.createCategory(),
         {
-          direction,
+          image,
+          name,
+          description,
           jwt,
         }
       )
@@ -20,4 +22,4 @@ const orderCarousel =
     }
   }
 
-export default orderCarousel
+export default addCategory

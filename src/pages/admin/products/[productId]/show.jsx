@@ -8,10 +8,10 @@ export const getServerSideProps = async (context) => {
   const { productId } = context.params
 
   const { data } = await axios.get(
-    `http://localhost:3000${routes.api.productData(productId)}`
+    `http://localhost:3000/api${routes.api.admin.products.productData(
+      productId
+    )}`
   )
-
-
 
   if (!data.result) {
     return {
@@ -24,7 +24,7 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: {
-        product: data.result,
+      product: data.result,
     },
   }
 }
@@ -47,8 +47,8 @@ const ShowProduct = (props) => {
       <div className="font-bold py-1">En Stock ({product.stock})</div>
       <div className="font-bold py-1">{product.description}</div>
       <div className="py-1">
-          <div className="font-bold pb-1">Matériaux :</div>
-          <p>{product.material}</p>
+        <div className="font-bold pb-1">Matériaux :</div>
+        <p>{product.material}</p>
       </div>
       <div className="flex gap-5">
         <NavLink href={`/admin/products/${product.id}/edit`}>

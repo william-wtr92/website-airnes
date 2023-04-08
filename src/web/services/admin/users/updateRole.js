@@ -4,9 +4,12 @@ const patchRole =
   ({ api }) =>
   async ({ userId, roleid }) => {
     try {
-      const { data } = await api.patch(routes.api.patchRole(userId), {
-        roleid,
-      })
+      const { data } = await api.patch(
+        routes.api.admin.users.patchRole(userId),
+        {
+          roleid,
+        }
+      )
 
       return [null, data]
     } catch (err) {

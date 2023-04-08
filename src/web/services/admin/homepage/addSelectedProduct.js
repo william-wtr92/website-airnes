@@ -5,7 +5,7 @@ const addSelectedProduct =
   async ({ productId }) => {
     try {
       const { data } = await api.post(
-        routes.api.selectProduct.addSelectedProduct(),
+        routes.api.admin.selectProduct.addSelectedProduct(),
         {
           productId,
           jwt,

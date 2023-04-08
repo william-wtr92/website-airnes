@@ -1,11 +1,11 @@
 import routes from "@/web/routes"
 
-const deleteCarousel =
+const deleteContact =
   ({ api }) =>
-  async (imageId) => {
+  async (contactId) => {
     try {
       const { data } = await api.delete(
-        routes.api.carousel.deleteImage(imageId)
+        routes.api.admin.contacts.deleteContact(contactId)
       )
 
       return [null, data]
@@ -16,4 +16,4 @@ const deleteCarousel =
     }
   }
 
-export default deleteCarousel
+export default deleteContact

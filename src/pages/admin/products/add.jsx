@@ -23,10 +23,12 @@ export const getServerSideProps = async (context) => {
 
   try {
     const [allProducts, selectProducts] = await Promise.all([
-      axios.get(`http://localhost:3000/api${routes.api.getProducts()}`),
+      axios.get(
+        `http://localhost:3000/api${routes.api.admin.products.getProducts()}`
+      ),
 
       axios.get(
-        `http://localhost:3000/api${routes.api.selectProduct.getSelectProducts()}`
+        `http://localhost:3000/api${routes.api.admin.selectProduct.getSelectProducts()}`
       ),
     ])
 

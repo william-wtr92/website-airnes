@@ -11,7 +11,7 @@ const Carousel = () => {
   useEffect(() => {
     const fetchImages = async () => {
       const { data } = await axios.get(
-        `http://localhost:3000/api${routes.api.carousel.getImages()}`
+        `http://localhost:3000/api${routes.api.admin.carousel.getImages()}`
       )
 
       const sortedSlides = data.result.sort((a, b) => a.order - b.order)

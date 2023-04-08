@@ -8,7 +8,7 @@ export const getServerSideProps = async (context) => {
   const { page } = context.query
 
   const { data } = await axios.get(
-    `http://localhost:3000/api${routes.api.getUsers()}?page=${page || 1}`
+    `http://localhost:3000/api${routes.api.users.getUsers()}?page=${page || 1}`
   )
 
   return {

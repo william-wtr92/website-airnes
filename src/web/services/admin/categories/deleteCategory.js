@@ -1,10 +1,12 @@
 import routes from "@/web/routes"
 
-const deleteContact =
+const deleteCategory =
   ({ api }) =>
-  async (contactId) => {
+  async (categoryId) => {
     try {
-      const { data } = await api.delete(routes.api.deleteContact(contactId))
+      const { data } = await api.delete(
+        routes.api.admin.categories.deleteCategory(categoryId)
+      )
 
       return [null, data]
     } catch (err) {
@@ -14,4 +16,4 @@ const deleteContact =
     }
   }
 
-export default deleteContact
+export default deleteCategory

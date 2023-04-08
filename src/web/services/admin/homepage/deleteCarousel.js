@@ -1,13 +1,12 @@
 import routes from "@/web/routes"
 
-const updateContact =
-  ({ api, jwt }) =>
-  async ({ contactId, status }) => {
+const deleteCarousel =
+  ({ api }) =>
+  async (imageId) => {
     try {
-      const { data } = await api.patch(routes.api.updateContact(contactId), {
-        status,
-        jwt,
-      })
+      const { data } = await api.delete(
+        routes.api.admin.carousel.deleteImage(imageId)
+      )
 
       return [null, data]
     } catch (err) {
@@ -17,4 +16,4 @@ const updateContact =
     }
   }
 
-export default updateContact
+export default deleteCarousel
