@@ -71,7 +71,7 @@ const ShowProduct = (props) => {
                   Edit
               </button>
           </NavLink>
-        <NavLink href={`/admin/products/all}`} onClick={handleDelete(product.id)}>
+        <NavLink href={`/admin/products/all`} onClick={handleDelete(product.id)}>
           <button className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
             Delete
           </button>
