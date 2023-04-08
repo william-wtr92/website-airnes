@@ -41,7 +41,7 @@ const All = (props) => {
       items={users}
       pagination={pagination}
       canAdd={false}
-      canEdit={false}
+      canEdit={true}
       deleteRoute={handleDelete}
       columns={["ID", "Name", "Mail", "Role"]}
       fields={["id", "name", "mail", "right"]}
