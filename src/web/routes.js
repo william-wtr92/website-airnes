@@ -26,6 +26,8 @@ const routes = {
     getMaterialsAndCategory: () => "/admin/materials/material",
     //users: probably needs to get cleaned up as well
     getUsers: () => "/admin/users/user",
+    userData: (userId) => `/api/admin/users/${userId}`,
+    patchRole: (userId) => `/admin/users/${userId}`,
     carousel: {
       addImage: () => "/admin/carousel/add",
       getImages: () => "/admin/carousel/images",

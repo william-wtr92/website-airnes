@@ -25,6 +25,7 @@ import addSelectedCategoryService from "@/web/services/admin/homepage/addSelecte
 import addSelectedProductService from "@/web/services/admin/homepage/addSelectedProduct"
 import deleteSelectedProductService from "@/web/services/admin/homepage/deleteSelectedProduct"
 import orderSelectedProductService from "@/web/services/admin/homepage/orderSelectedProduct"
+import patchRoleService from "@/web/services/admin/updateRole"
 
 import config from "../config"
 
@@ -64,6 +65,7 @@ export const AppContextProvider = (props) => {
 
   const addAddress = addAddressService({ api, jwt })
   const patchUser = patchUserService({ api })
+  const patchRole = patchRoleService({ api })
   const patchAddress = patchAddressService({ api })
 
   const deleteUser = deleteUserService({ api })
@@ -96,6 +98,7 @@ export const AppContextProvider = (props) => {
           deleteContact,
           addAddress,
           patchUser,
+          patchRole,
           patchAddress,
           deleteUser,
           deleteAddress,
