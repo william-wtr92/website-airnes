@@ -5,6 +5,7 @@ import { NavLink } from "@/components/utils/NavLink"
 import Image from "next/image"
 import useAppContext from "@/web/hooks/useAppContext"
 import {useCallback} from "react"
+import {router} from "next/client"
 
 export const getServerSideProps = async (context) => {
   const { productId } = context.params
@@ -39,12 +40,12 @@ const ShowProduct = (props) => {
     } = useAppContext()
 
     const handleDelete = useCallback(
-        async (id) => {
-            await deleteProduct(id)
+        async () => {
+            await deleteProduct(product.id)
 
-            window.location.reload()
+            router.push("/admin/contacts/all")
         },
-        [deleteProduct]
+        [deleteProduct, product.id]
     )
 
   return (
@@ -71,11 +72,9 @@ const ShowProduct = (props) => {
                   Edit
               </button>
           </NavLink>
-        <NavLink href={`/admin/products/all}`} onClick={handleDelete(product.id)}>
-          <button className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
+          <button onClick={handleDelete} className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
             Delete
           </button>
-        </NavLink>
       </div>
     </div>
   )
