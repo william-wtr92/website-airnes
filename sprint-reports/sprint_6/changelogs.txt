@@ -1,0 +1,20 @@
+# Tickets
+- Typography (Tom)
+- Logo (Tom)
+- Navbar (William)
+- Footer (William)
+- Buttons (Charlotte)
+- Form-field (William & Charlotte)
+- Palette (Charlotte)
+- Burger menu (Tom)
+- Contact page (Hugo)
+
+# Sprint review
+## Positive reviews
+None;
+## Negative reviews
+None;
+## Questions
+None;
+## Ideas for improvement
+Our current wireframes are too simple. We need to work on them for a bit longer and see if we can create something special to make our website outstanding.
