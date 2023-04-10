@@ -4,7 +4,7 @@
 We worked hard, and felt we were getting more comfortable with React. We gained a lot of skills at this sprint.
 
 ## Negative reviews
-On avait beaucoup de travail à côté de ce projet donc c'était plus difficile niveau organisation.
+We had a lot of work on the side so it was more difficult to organize.
 
 ## Questions
 None.
