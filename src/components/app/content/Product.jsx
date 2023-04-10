@@ -1,58 +1,25 @@
-import axios from "axios"
 import Image from "next/image"
-import { useEffect, useState } from "react"
-import routes from "@/web/routes"
+import { NavLink } from "@/components/utils/NavLink"
 
-const Product = () => {
-  const [products, setProducts] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const { data } = await axios.get(
-        `http://localhost:3000/api${routes.api.admin.selectProduct.getSelectProducts()}`
-      )
-
-      const sortedProducts = data.result.sort((a, b) => a.order - b.order)
-
-      setIsLoading(false)
-      setProducts(sortedProducts)
-    }
-
-    fetchProducts()
-  }, [])
-
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
-  if (products.length === 0) {
-    return <div>No products available</div>
-  }
+const Product = (props) => {
+  const { alt, productId, image, productName, productPrice } = props
 
   return (
-    <>
-      <div className="flex gap-20">
-        {products.map((product) => {
-          return (
-            <>
-              <div className="flex flex-col">
-                <Image
-                  src={product.user.image}
-                  alt={product.user.name}
-                  className="border-2 border-black w-80 h-60 object-cover"
-                  width={500}
-                  height={500}
-                />
-                <div className="flex justify-between font-extrabold uppercase p-1">
-                  <h1>{product.user.name}</h1>
-                </div>
-              </div>
-            </>
-          )
-        })}
+    <NavLink href={`/products/${productId}/product`}>
+      <div className="flex flex-col items-center">
+        <Image
+          src={image}
+          alt={alt}
+          className="w-full h-72 object-cover"
+          height={500}
+          width={500}
+        />
+        <div className="flex flex-col items-center">
+          <h3 className="text-2xl font-bold text-gray-800">{productName}</h3>
+          <p className="text-xl font-bold text-gray-800">${productPrice}</p>
+        </div>
       </div>
-    </>
+    </NavLink>
   )
 }
 

@@ -55,7 +55,7 @@
 [Hugo] 22b46bb 2023-02-02 | Revert "Sdv 68 all fix"
 [vaillanh] 7ac5c99 2023-02-02 | Correction 2
 [vaillanh] dd83257 2023-02-02 | Correction
-[vaillanh] c763e53 2023-02-02 | Creation Product and carrousel
+[vaillanh] c763e53 2023-02-02 | Creation CarrouselProducts and carrousel
 [Charlotte] 1a5c300 2023-02-02 | Merge pull request #20 from william-wtr92/SDV-68-all-fix
 [William] 9eab046 2023-02-02 | Fix PR comment's
 [William] 9fdd8dd 2023-02-02 | BDD connection

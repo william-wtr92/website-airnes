@@ -8,23 +8,38 @@ import {
 import CategoryModel from "@/api/db/models/CategoryModel"
 import { NotFoundError } from "@/api/errors"
 import ProductModel from "@/api/db/models/ProductModel"
+import { boolean } from "yup"
 
 const handler = mw({
   GET: [
     validate({
       query: {
         categoryId: numberValidator.required(),
+        showProducts: boolean(),
       },
     }),
     async ({
       locals: {
-        query: { categoryId },
+        query: { categoryId, showProducts },
       },
       res,
     }) => {
       const id = categoryId
 
       const category = await CategoryModel.query().findOne({ id })
+
+      if (showProducts) {
+        const products = await ProductModel.query().where({ categoryId: id })
+
+        res.send({
+          result: {
+            ...category,
+            products,
+          },
+        })
+
+        return
+      }
 
       if (!category) {
         res.send({ result: null })
