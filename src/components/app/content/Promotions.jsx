@@ -1,11 +1,13 @@
 import Image from "next/image"
+import { NavLink } from "@/components/utils/NavLink"
 
 const Promotion = (props) => {
   const { image, alt, productName, productPrice, promotion } = props
 
   return (
     <>
-      <div>
+      {/*productId needs to be replaced by the real product id*/}
+      <NavLink href={"/products/productId/product"}>
         <Image
           src={image}
           alt={alt}
@@ -24,7 +26,7 @@ const Promotion = (props) => {
             <p>{productPrice} €</p>
           )}
         </div>
-      </div>
+      </NavLink>
     </>
   )
 }

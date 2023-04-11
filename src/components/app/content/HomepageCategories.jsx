@@ -4,7 +4,7 @@ import axios from "axios"
 import routes from "@/web/routes"
 import { useEffect, useState } from "react"
 
-const Categories = () => {
+const HomepageCategories = () => {
   const [categories, setCategories] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -56,4 +56,4 @@ const Categories = () => {
   )
 }
 
-export default Categories
+export default HomepageCategories
