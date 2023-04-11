@@ -4,7 +4,7 @@ import axios from "axios"
 import routes from "@/web/routes"
 import { useEffect, useState } from "react"
 
-const CarrouselCategories = () => {
+const HomepageCategories = () => {
   const [categories, setCategories] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -56,4 +56,4 @@ const CarrouselCategories = () => {
   )
 }
 
-export default CarrouselCategories
+export default HomepageCategories

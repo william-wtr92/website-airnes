@@ -1,4 +1,4 @@
-import CarrouselProducts from "@/components/app/content/CarrouselProducts"
+import HomepageProducts from "@/components/app/content/HomepageProducts"
 import { useState, useEffect } from "react"
 import Filters from "@/components/app/find/Filters"
 import { FunnelIcon, AdjustmentsVerticalIcon } from "@heroicons/react/24/solid"
@@ -141,7 +141,7 @@ const SearchPage = () => {
                     val.price <= filterPriceMax
                 )
                 .map((val) => (
-                  <CarrouselProducts
+                  <HomepageProducts
                     key={val.id}
                     alt="test"
                     image={val.image}

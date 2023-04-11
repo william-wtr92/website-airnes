@@ -1,4 +1,4 @@
-import CarrouselProducts from "@/components/app/content/CarrouselProducts"
+import HomepageProducts from "@/components/app/content/HomepageProducts"
 
 const example = [
   {
@@ -30,7 +30,7 @@ const allProducts = () => {
       <div className="flex flex-col items-center">
         <div className="w-5/6 grid gap-16 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 my-20">
           {example.map((product) => (
-            <CarrouselProducts
+            <HomepageProducts
               key={product.id}
               alt="test"
               image={product.image}

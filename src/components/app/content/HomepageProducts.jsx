@@ -3,7 +3,7 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 import routes from "@/web/routes"
 
-const CarrouselProducts = () => {
+const HomepageProducts = () => {
   const [products, setProducts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -56,4 +56,4 @@ const CarrouselProducts = () => {
   )
 }
 
-export default CarrouselProducts
+export default HomepageProducts

@@ -1,4 +1,4 @@
-import CarrouselProducts from "@/components/app/content/CarrouselProducts"
+import HomepageProducts from "@/components/app/content/HomepageProducts"
 import { useState } from "react"
 import Filters from "@/components/app/find/Filters"
 
@@ -80,7 +80,7 @@ const SearchPage = () => {
               } w-5/6 grid gap-8 grid-cols-1 md:grid-cols-2 my-20`}
             >
               {example.map((product) => (
-                <CarrouselProducts
+                <HomepageProducts
                   key={product.id}
                   alt="test"
                   image={product.image}

@@ -39,7 +39,7 @@ const handler = mw({
       const product = await ProductModel.query().findById(productId)
 
       if (!product) {
-        return res.status(400).send({ error: "CarrouselProducts not found" })
+        return res.status(400).send({ error: "HomepageProducts not found" })
       }
 
       const existingSelectedProduct = await SelectedProductModel.query()
@@ -48,7 +48,7 @@ const handler = mw({
 
       if (existingSelectedProduct) {
         return res.status(400).send({
-          error: "CarrouselProducts already add",
+          error: "HomepageProducts already add",
         })
       }
 

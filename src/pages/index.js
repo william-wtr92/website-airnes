@@ -1,7 +1,7 @@
 import Carousel from "@/components/app/ui/Carousel"
-import CarrouselCategories from "@/components/app/content/CarrouselCategories"
+import HomepageCategories from "@/components/app/content/HomepageCategories"
 import FooterMenu from "@/components/layouts/FooterMenu"
-import CarrouselProducts from "@/components/app/content/CarrouselProducts"
+import HomepageProducts from "@/components/app/content/HomepageProducts"
 import Promotion from "@/components/app/content/Promotions"
 
 const Main = () => {
@@ -70,12 +70,12 @@ const Main = () => {
         </div>
         <div className="flex flex-wrap justify-center">
           <div className="flex flex-wrap justify-center lg:justify-between lg:w-4/5">
-            <CarrouselCategories />
+            <HomepageCategories />
           </div>
         </div>
         <div className="flex flex-wrap justify-center">
           <div className="flex flex-wrap justify-center lg:justify-between lg:w-4/5">
-            <CarrouselProducts />
+            <HomepageProducts />
           </div>
         </div>
         <div className="flex justify-center py-10">
