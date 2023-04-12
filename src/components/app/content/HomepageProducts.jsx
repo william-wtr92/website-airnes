@@ -43,13 +43,13 @@ const HomepageProducts = () => {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-4">
+      <div className="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-8">
         {products.map((product) => (
           <NavLink
             key={product.user.id}
             href={`/products/${product.user.id}/product`}
           >
-            <div className="h-64 w-80">
+            <div className="h-64 w-80 hover:scale-105">
               <Image
                 src={product.user.image}
                 alt={product.user.name}
