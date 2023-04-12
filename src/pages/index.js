@@ -69,17 +69,17 @@ const Main = () => {
           </p>
         </div>
         <div className="flex flex-wrap justify-center">
-          <div className="flex flex-wrap justify-center lg:justify-between lg:w-4/5">
+          <div className="flex flex-wrap justify-center lg:justify-between">
             <HomepageCategories />
           </div>
         </div>
         <div className="flex flex-wrap justify-center">
-          <div className="flex flex-wrap justify-center lg:justify-between lg:w-4/5">
+          <div className="flex flex-wrap justify-center lg:justify-between">
             <HomepageProducts />
           </div>
         </div>
         <div className="flex justify-center py-10">
-          <div className="flex flex-col items-center gap-10 w-[90%] lg:w-4/5">
+          <div className="flex flex-col items-center gap-10 w-[80%]">
             <h3 className="uppercase font-bold text-xl tracking-widest">
               Promotions
             </h3>
