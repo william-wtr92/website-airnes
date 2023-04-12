@@ -48,7 +48,7 @@ const HomepageCategories = () => {
           key={category.user.id}
           href={`/categories/${category.user.id}/category`}
         >
-          <div className="h-64 w-80  hover:scale-105">
+          <div className="h-64 w-80 hover:scale-105">
             <p className="flex justify-center relative top-1/2 font-bold tracking-widest text-lg text-black">
               {category.user.name}
             </p>

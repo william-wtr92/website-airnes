@@ -61,7 +61,6 @@ const Main = () => {
     <>
       <main>
         <Carousel />
-
         <div className="flex flex-col gap-8">
           <div className="text-center text-[13px] font-bold lg:py-6 lg:text-xl">
             <p>
