@@ -61,21 +61,29 @@ const Main = () => {
     <>
       <main>
         <Carousel />
-        <div className="text-center text-[13px] font-bold lg:py-6 lg:text-xl">
-          <p>
-            VENANT DES HAUTES TERRES D’ECOSSE
-            <br />
-            NOS MEUBLES SONT IMMORTELS
-          </p>
-        </div>
-        <div className="flex flex-wrap justify-center">
-          <div className="flex flex-wrap justify-center lg:justify-between">
-            <HomepageCategories />
+
+        <div className="flex flex-col gap-8">
+          <div className="text-center text-[13px] font-bold lg:py-6 lg:text-xl">
+            <p>
+              VENANT DES HAUTES TERRES D’ECOSSE
+              <br />
+              NOS MEUBLES SONT IMMORTELS
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center">
+            <div className="flex flex-wrap justify-center lg:justify-between">
+              <HomepageCategories />
+            </div>
           </div>
         </div>
-        <div className="flex flex-wrap justify-center">
-          <div className="flex flex-wrap justify-center lg:justify-between">
-            <HomepageProducts />
+        <div className="flex flex-col gap-8">
+          <div className="text-center text-[13px] font-bold lg:py-6 lg:text-xl">
+            <p>PRODUITS POPULAIRES</p>
+          </div>
+          <div className="flex flex-wrap justify-center">
+            <div className="flex flex-wrap justify-center lg:justify-between">
+              <HomepageProducts />
+            </div>
           </div>
         </div>
         <div className="flex justify-center py-10">

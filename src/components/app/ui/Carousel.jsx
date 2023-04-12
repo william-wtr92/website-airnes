@@ -41,11 +41,21 @@ const Carousel = () => {
   }, [currentIndex, slides.length])
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return (
+      <div className="flex flex-col gap-6 justify-center items-center h-72 lg:h-96">
+        <div className="animate-spin w-8 h-8 border-t-2 border-transparent border-primary rounded-full"></div>
+        <p className="font-bold">Loading ...</p>
+      </div>
+    )
   }
 
   if (slides.length === 0) {
-    return <div>No images available</div>
+    return (
+      <div className="flex flex-col gap-6 justify-center items-center h-72 lg:h-96">
+        <div className="animate-spin w-8 h-8 border-t-2 border-transparent border-primary rounded-full"></div>
+        <p className="font-bold">No images available !</p>
+      </div>
+    )
   }
 
   return (
@@ -62,12 +72,14 @@ const Carousel = () => {
       <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
         <BsChevronCompactRight onClick={nextSlide} size={30} />
       </div>
-      <div className="flex top-4 justify-center py-2">
+      <div className="absolute bottom-4 w-full flex justify-center">
         {slides.map((slide, slideIndex) => (
           <div
             key={slideIndex}
             onClick={() => goToSlide(slideIndex)}
-            className="text-2xl cursor-pointer"
+            className={`w-3 h-3 bg-white opacity-60 mx-2 rounded-full cursor-pointer ${
+              currentIndex === slideIndex ? "bg-white opacity-100" : ""
+            }`}
           ></div>
         ))}
       </div>
