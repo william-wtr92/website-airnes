@@ -58,7 +58,7 @@ const ShowCategory = (props) => {
 
       router.push("/admin/categories/all")
     },
-    [deleteCategory]
+    [deleteCategory, router]
   )
 
   return (
