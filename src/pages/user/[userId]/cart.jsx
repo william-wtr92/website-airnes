@@ -3,12 +3,47 @@ import { TrashIcon } from "@heroicons/react/24/solid"
 import { NavLink } from "@/components/utils/NavLink"
 import FooterMenu from "@/components/layouts/FooterMenu"
 import Image from "next/image"
+import axios from "axios"
+import routes from "@/web/routes"
 
-const UserCart = () => {
+export const getServerSideProps = async (context) => {
+  const { query } = context
+
+  const { data } = await axios.get(
+    `http://localhost:3000/api${routes.api.user.userData(query.userId)}`
+  )
+
+  if (!data.result) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    }
+  }
+
+  const userId = query.userId
+
+  return {
+    props: {
+      data,
+      userId,
+    },
+  }
+}
+
+const UserCart = (props) => {
+  const { data, userId } = props
+
   return (
     <>
       <main>
         <div>
+          <div>
+            {/* Temporaire en attendant le dev du cart */}
+            {JSON.stringify(data)}
+            {userId}
+          </div>
           <div className="flex justify-center my-8 lg:my-16">
             <h1 className="font-bold text-2xl hover:cursor-pointer hover:text-[#615043] lg:mr-14 lg:text-4xl">
               Mon Panier

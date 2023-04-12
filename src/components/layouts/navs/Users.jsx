@@ -86,7 +86,7 @@ const Users = () => {
                 color={"#615043"}
               />
             </NavLink>
-            <NavLink href={`/user/${token.user.id}/cart`}>
+            <NavLink href={token ? `/user/${token.user.id}/cart` : `/`}>
               <ShoppingCartIcon
                 className={`h-6 hover:scale-110 hover:text-[#b3825c]`}
                 color={"#615043"}
