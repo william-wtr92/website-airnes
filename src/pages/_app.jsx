@@ -7,7 +7,7 @@ const App = ({ Component, pageProps }) => {
   return (
     <Layout>
       <Head>
-        <title>Airnes</title>
+        <title>Airneis</title>
       </Head>
       <AppContextProvider>
         <Component {...pageProps} />
