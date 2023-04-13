@@ -1,18 +1,22 @@
 import { NavLink } from "@/components/utils/NavLink"
-import Image from "next/image"
 import {
   Bars3Icon,
   MagnifyingGlassIcon,
   ShoppingCartIcon,
   UserIcon,
   XMarkIcon,
+  ChevronRightIcon,
+  GlobeAltIcon,
 } from "@heroicons/react/24/solid"
 import { useState, useEffect } from "react"
-import { Collapse } from "@/components/app/ui/Collapse"
 import config from "@/web/config"
 import parseSession from "@/web/parseSession"
+import { useRouter } from "next/router"
+import Button from "@/components/app/ui/Button"
 
-const Users = () => {
+const Users = ({ className }) => {
+  const router = useRouter()
+
   const [burgerMenu, setBurgerMenu] = useState(false)
   const [token, setToken] = useState(false)
 
@@ -24,42 +28,9 @@ const Users = () => {
     }
   }, [])
 
-  const categoryOptions = [
-    {
-      name: "Toutes les categories",
-      redirection: "/categories/all",
-    },
-    {
-      name: "Salon",
-      redirection: "/categories/1/categories",
-    },
-    {
-      name: "Chambre",
-      redirection: "/categories/2/categories",
-    },
-    {
-      name: "Salle à manger",
-      redirection: "/categories/3/categories",
-    },
-  ]
-  const productOptions = [
-    {
-      name: "Tous les produits",
-      redirection: "/products/all",
-    },
-    {
-      name: "Tables",
-      redirection: "",
-    },
-    {
-      name: "Lits",
-      redirection: "",
-    },
-    {
-      name: "Bureaux",
-      redirection: "",
-    },
-  ]
+  useEffect(() => {
+    setBurgerMenu(false)
+  }, [router.pathname])
 
   const toggleBurgerMenu = () => {
     setBurgerMenu(!burgerMenu)
@@ -74,13 +45,11 @@ const Users = () => {
         <div className="flex h-14 items-center shadow-sm shadow-[#615043]">
           <div className="flex mr-auto ml-2 mt-2 lg:ml-10">
             <NavLink href="/">
-              <Image
-                src="/images/logo.png"
-                alt="Logo"
-                width={100}
-                height={1}
-                className="h-24 w-24 hover:scale-110 lg:w-24"
-              />
+              <span
+                className={`${className} font-black text-3xl text-primary cursor-pointer hover:scale-110 lg:text-4xl lg:w-24`}
+              >
+                Airneis
+              </span>
             </NavLink>
           </div>
           <div className="flex gap-2 lg:gap-6">
@@ -98,7 +67,7 @@ const Users = () => {
                 color={"#615043"}
               />
             </NavLink>
-            <NavLink href="/user/userId/cart">
+            <NavLink href={token ? `/user/${token.user.id}/cart` : `/`}>
               <ShoppingCartIcon
                 className={`h-6 hover:scale-110 hover:text-[#b3825c]`}
                 color={"#615043"}
@@ -127,7 +96,7 @@ const Users = () => {
           <div
             className={`${
               burgerMenu ? `block ` : `hidden `
-            }w-full md:w-[325px] h-screen bg-[#ffffff] absolute inset-y-0 right-0 z-50 opacity-95`}
+            }w-full md:w-[325px] min-h-screen bg-[#ffffff] absolute inset-y-0 right-0 z-50 opacity-95 lg:border-l-2 lg:border-primary`}
           >
             <div>
               <XMarkIcon
@@ -135,18 +104,84 @@ const Users = () => {
                 onClick={toggleBurgerMenu}
               />
             </div>
-            <div className="flex flex-col mx-16 my-10 gap-10">
-              <div className="hover:text-[#615043] hover:scale-105">
-                <NavLink href="/user/login">Connexion</NavLink>
+            <div className="flex flex-col mx-12 my-10 gap-4">
+              <div>
+                <NavLink href="/user/login">
+                  <div className="flex gap-4 hover:text-[#6f5e3f]">
+                    <ChevronRightIcon className="h-6 w-6" />
+                    <p className="hover:scale-105">Se connecter</p>
+                  </div>
+                </NavLink>
               </div>
-              <div className="hover:text-[#615043] hover:scale-105">
-                <Collapse title="Catégories" content={categoryOptions} />
+              <div>
+                <NavLink href="/signup">
+                  <div className="flex gap-4 hover:text-[#6f5e3f]">
+                    <ChevronRightIcon className="h-6 w-6" />
+                    <p className="hover:scale-105">S'inscrire</p>
+                  </div>
+                </NavLink>
               </div>
-              <div className="hover:text-[#615043] hover:scale-105">
-                <Collapse title="Produits" content={productOptions} />
+            </div>
+
+            <div className="flex flex-col mx-12 my-24 gap-4">
+              <div>
+                <NavLink href="/categories/all">
+                  <div className="flex gap-4 hover:text-[#6f5e3f]">
+                    <ChevronRightIcon className="h-6 w-6" />
+                    <p className="hover:scale-105">Catégories</p>
+                  </div>
+                </NavLink>
               </div>
-              <div className="hover:text-[#615043] hover:scale-105">
-                <NavLink href="/">Promotions</NavLink>
+
+              {/* Promotions à update quand la feature sera faite */}
+
+              <div>
+                <div className="flex gap-4">
+                  <ChevronRightIcon className="h-6 w-6" />
+                  <p className="hover:scale-105">Promotions</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col mx-12 my-20 gap-4">
+              <div>
+                <NavLink href="/help/cgu">
+                  <div className="flex gap-4 hover:text-[#6f5e3f]">
+                    <ChevronRightIcon className="h-6 w-6" />
+                    <p className="hover:scale-105">CGU</p>
+                  </div>
+                </NavLink>
+              </div>
+              <div>
+                <NavLink href="/help/legal">
+                  <div className="flex gap-4 hover:text-[#6f5e3f]">
+                    <ChevronRightIcon className="h-6 w-6" />
+                    <p className="hover:scale-105">Mentions Légales</p>
+                  </div>
+                </NavLink>
+              </div>
+              <div>
+                <NavLink href="/support/contact">
+                  <div className="flex gap-4 hover:text-[#6f5e3f]">
+                    <ChevronRightIcon className="h-6 w-6" />
+                    <p className="hover:scale-105">Contact</p>
+                  </div>
+                </NavLink>
+              </div>
+              <div>
+                <NavLink href="/">
+                  <div className="flex gap-4 hover:text-[#6f5e3f]">
+                    <ChevronRightIcon className="h-6 w-6" />
+                    <p className="hover:scale-105">A propos d'Airneis</p>
+                  </div>
+                </NavLink>
+              </div>
+
+              <div className="flex my-10 lg:my-20 gap-4">
+                <Button className="w-60 flex gap-4 whitespace-nowrap hover:text-[#e8e1d4]">
+                  <GlobeAltIcon className="h-6" />
+                  <p className="text-sm">Changer de langue</p>
+                </Button>
               </div>
             </div>
           </div>
