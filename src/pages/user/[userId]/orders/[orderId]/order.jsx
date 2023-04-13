@@ -1,4 +1,3 @@
-import FooterMenu from "@/components/layouts/FooterMenu"
 import ProductOrder from "@/components/app/content/ProductOrder"
 
 const Order = () => {
@@ -84,7 +83,6 @@ const Order = () => {
           </div>
         </div>
       </main>
-      <FooterMenu position="relative" />
     </>
   )
 }

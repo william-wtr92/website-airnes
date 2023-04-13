@@ -1,4 +1,4 @@
-import { NavLink } from "../utils/NavLink"
+import { NavLink } from "../../utils/NavLink"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faInstagram,
@@ -6,11 +6,11 @@ import {
   faFacebookF,
 } from "@fortawesome/free-brands-svg-icons"
 
-const FooterMenu = (props) => {
+const UserFooter = () => {
   return (
     <footer>
       <div
-        className={`flex justify-center bg-[#ffffff] text-[#615043] h-14 border-t-2 border-[#615043] ${props.position} bottom-0 w-full`}
+        className={`flex justify-center bg-[#ffffff] text-[#615043] h-14 border-t-2 border-[#615043] w-full`}
       >
         <div className="hidden lg:block">
           <div className="flex items-center my-4 font-semibold ml-10 gap-10">
@@ -57,4 +57,4 @@ const FooterMenu = (props) => {
   )
 }
 
-export default FooterMenu
+export default UserFooter

@@ -1,5 +1,6 @@
 import { Montserrat, WindSong } from "@next/font/google"
 import Main from "./navs/Main"
+import Footer from "./Footer"
 
 const montserrat = Montserrat({
   weight: "400",
@@ -15,7 +16,12 @@ const Layout = ({ children }) => {
   return (
     <>
       <Main className={windsong.className} />
-      <div className={montserrat.className}>{children}</div>
+      <div className="flex flex-col min-h-screen">
+        <main className="flex-grow">
+          <div className={montserrat.className}>{children}</div>
+        </main>
+      </div>
+      <Footer />
     </>
   )
 }

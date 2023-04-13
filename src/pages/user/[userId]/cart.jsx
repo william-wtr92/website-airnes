@@ -1,7 +1,6 @@
 import Button from "@/components/app/ui/Button"
 import { TrashIcon } from "@heroicons/react/24/solid"
 import { NavLink } from "@/components/utils/NavLink"
-import FooterMenu from "@/components/layouts/FooterMenu"
 import Image from "next/image"
 import axios from "axios"
 import routes from "@/web/routes"
@@ -106,7 +105,6 @@ const UserCart = (props) => {
           </div>
         </div>
       </main>
-      <FooterMenu position="absolute" />
     </>
   )
 }
