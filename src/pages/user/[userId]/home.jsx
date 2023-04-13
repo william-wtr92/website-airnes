@@ -1,4 +1,3 @@
-import FooterMenu from "@/components/layouts/FooterMenu"
 import Button from "@/components/app/ui/Button"
 import { NavLink } from "@/components/utils/NavLink"
 import axios from "axios"
@@ -49,7 +48,6 @@ const UserHome = (props) => {
           </Button>
         </NavLink>
       </div>
-      <FooterMenu position="absolute" />
     </>
   )
 }

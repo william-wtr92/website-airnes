@@ -1,4 +1,3 @@
-import FooterMenu from "@/components/layouts/FooterMenu"
 import Button from "@/components/app/ui/Button"
 import FormField from "@/components/utils/FormField"
 import {
@@ -74,8 +73,6 @@ const Contact = () => {
           </div>
         </div>
       </Formik>
-
-      <FooterMenu position="absolute" />
     </>
   )
 }

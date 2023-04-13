@@ -2,8 +2,6 @@ import HomepageProducts from "@/components/app/content/HomepageProducts"
 import { useState, useEffect } from "react"
 import Filters from "@/components/app/find/Filters"
 import { FunnelIcon, AdjustmentsVerticalIcon } from "@heroicons/react/24/solid"
-import FooterMenu from "@/components/layouts/FooterMenu"
-import { useMediaQuery } from "react-responsive"
 
 const SearchPage = () => {
   const [filterShow, setFilterShow] = useState(false)
@@ -11,7 +9,6 @@ const SearchPage = () => {
   const [search, setSearch] = useState("")
   const [filterPriceMin, setFilterPriceMin] = useState(1)
   const [filterPriceMax, setFilterPriceMax] = useState(100000)
-  const isMobile = useMediaQuery({ query: "(max-width: 600px)" })
 
   useEffect(() => {
     setData(example)
@@ -158,21 +155,13 @@ const SearchPage = () => {
           val.name.includes(search) &&
           val.price >= filterPriceMin &&
           val.price <= filterPriceMax
-      ).length === 0 && (
-        <FooterMenu
-          position={`${filterShow && isMobile ? `absolute` : `absolute`}`}
-        />
-      )}
+      ).length === 0 && ""}
       {data.filter(
         (val) =>
           val.name.includes(search) &&
           val.price >= filterPriceMin &&
           val.price <= filterPriceMax
-      ).length > 1 && (
-        <FooterMenu
-          position={`${filterShow && isMobile ? `absolute` : `relative`}`}
-        />
-      )}
+      ).length > 1 && ""}
     </>
   )
 }
