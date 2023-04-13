@@ -48,7 +48,7 @@ const Users = ({ className }) => {
               <span
                 className={`${className} font-black text-3xl text-primary cursor-pointer hover:scale-110 lg:text-4xl lg:w-24`}
               >
-                Airnes
+                Airneis
               </span>
             </NavLink>
           </div>
@@ -172,7 +172,7 @@ const Users = ({ className }) => {
                 <NavLink href="/">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
                     <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">A propos d'Airnes</p>
+                    <p className="hover:scale-105">A propos d'Airneis</p>
                   </div>
                 </NavLink>
               </div>

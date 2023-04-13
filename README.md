@@ -1,4 +1,4 @@
-## Airnes Project SDV
+## Airneis Project SDV
 
 <h1>Context</h1>
 ÀIRNEIS ("furniture" in Scottish Gaelic) is a Scottish company that resells furniture designed by Scottish designers. They have expressed their desire to move into the digital age and wish to create their own e-commerce solution to reach an international clientele and expend the one they already have locally.

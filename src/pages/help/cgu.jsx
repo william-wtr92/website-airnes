@@ -11,10 +11,10 @@ const cguPage = () => {
 
           <p>
             Les présentes Conditions Générales d'Utilisation ("CGU") gouvernent
-            l'utilisation du site web de notre entreprise Airnes ainsi que toute
-            commande passée par le biais du site. En accédant au site, vous
-            acceptez ces CGU dans leur intégralité. Si vous n'êtes pas d'accord
-            avec ces CGU, veuillez ne pas utiliser le site.
+            l'utilisation du site web de notre entreprise Airneis ainsi que
+            toute commande passée par le biais du site. En accédant au site,
+            vous acceptez ces CGU dans leur intégralité. Si vous n'êtes pas
+            d'accord avec ces CGU, veuillez ne pas utiliser le site.
           </p>
         </div>
 
