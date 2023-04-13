@@ -97,9 +97,11 @@ const ProductPage = (props) => {
               <div className="flex justify-between font-semibold">
                 <p className="text-xl">{product.price} $</p>
                 <span className="flex flex-col items-end">
-                  <h1 className="font-extrabold text-2xl">{product.name}</h1>
+                  <h1 className="font-extrabold text-md lg:text-2xl">
+                    {product.name}
+                  </h1>
                   <p className="text-xs">
-                    {product.quantity > 0 ? "En sotck" : "Rupture de Sotck"}{" "}
+                    {product.quantity > 0 ? "En stock" : "Rupture de Stock"}{" "}
                   </p>
                 </span>
               </div>
