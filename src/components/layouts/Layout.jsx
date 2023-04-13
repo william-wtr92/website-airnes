@@ -1,4 +1,4 @@
-import { Montserrat } from "@next/font/google"
+import { Montserrat, WindSong } from "@next/font/google"
 import Main from "./navs/Main"
 
 const montserrat = Montserrat({
@@ -6,12 +6,17 @@ const montserrat = Montserrat({
   subsets: ["latin"],
 })
 
+const windsong = WindSong({
+  weight: "400",
+  subsets: ["latin"],
+})
+
 const Layout = ({ children }) => {
   return (
-    <div className={montserrat.className}>
-      <Main />
-      {children}
-    </div>
+    <>
+      <Main className={windsong.className} />
+      <div className={montserrat.className}>{children}</div>
+    </>
   )
 }
 export default Layout
