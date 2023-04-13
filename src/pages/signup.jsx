@@ -1,4 +1,3 @@
-import FooterMenu from "@/components/layouts/FooterMenu"
 import Button from "@/components/app/ui/Button"
 import FormField from "@/components/utils/FormField"
 import { NavLink } from "@/components/utils/NavLink"
@@ -95,8 +94,6 @@ const SignUp = () => {
           </div>
         </div>
       </Formik>
-
-      <FooterMenu position="absolute" />
     </>
   )
 }

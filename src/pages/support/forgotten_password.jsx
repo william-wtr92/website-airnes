@@ -1,4 +1,3 @@
-import FooterMenu from "@/components/layouts/FooterMenu"
 import * as yup from "yup"
 import { Form, Formik } from "formik"
 import Formfield from "@/components/utils/FormField"
@@ -52,7 +51,6 @@ const OnForgotPassword = (props) => {
           </Formik>
         </>
       </main>
-      <FooterMenu position="absolute" />
     </>
   )
 }

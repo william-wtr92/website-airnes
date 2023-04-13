@@ -1,6 +1,5 @@
 import Carousel from "@/components/app/ui/Carousel"
 import HomepageCategories from "@/components/app/content/HomepageCategories"
-import FooterMenu from "@/components/layouts/FooterMenu"
 import HomepageProducts from "@/components/app/content/HomepageProducts"
 import Promotion from "@/components/app/content/Promotions"
 
@@ -106,7 +105,6 @@ const Main = () => {
           </div>
         </div>
       </main>
-      <FooterMenu position="relative" />
     </>
   )
 }

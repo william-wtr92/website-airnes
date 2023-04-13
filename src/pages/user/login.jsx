@@ -2,7 +2,6 @@ import { Form, Formik } from "formik"
 import Formfield from "@/components/utils/FormField"
 import { NavLink } from "@/components/utils/NavLink"
 import Button from "@/components/app/ui/Button"
-import FooterMenu from "@/components/layouts/FooterMenu"
 import { useRouter } from "next/router"
 import { useCallback, useState } from "react"
 import {
@@ -90,7 +89,6 @@ const OnLoginForm = () => {
           </div>
         </Formik>
       </main>
-      <FooterMenu position="absolute" />
     </>
   )
 }

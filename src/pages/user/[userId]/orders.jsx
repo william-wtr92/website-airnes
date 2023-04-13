@@ -1,4 +1,3 @@
-import FooterMenu from "@/components/layouts/FooterMenu"
 import { NavLink } from "@/components/utils/NavLink"
 
 const UserOrderView = () => {
@@ -79,7 +78,6 @@ const UserOrderView = () => {
           </div>
         </div>
       </main>
-      <FooterMenu position="relative" />
     </>
   )
 }
