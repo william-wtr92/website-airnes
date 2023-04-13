@@ -1,5 +1,4 @@
 import { NavLink } from "@/components/utils/NavLink"
-import Image from "next/image"
 import {
   Bars3Icon,
   MagnifyingGlassIcon,
@@ -18,7 +17,7 @@ import Button from "@/components/app/ui/Button"
 import axios from "axios"
 import routes from "@/web/routes"
 
-const Users = () => {
+const Users = ({ className }) => {
   const router = useRouter()
 
   const [burgerMenu, setBurgerMenu] = useState(false)
@@ -62,13 +61,11 @@ const Users = () => {
         <div className="flex h-14 items-center shadow-sm shadow-[#615043]">
           <div className="flex mr-auto ml-2 mt-2 lg:ml-10">
             <NavLink href="/">
-              <Image
-                src="/images/logo.png"
-                alt="Logo"
-                width={100}
-                height={1}
-                className="h-24 w-24 hover:scale-110 lg:w-24"
-              />
+              <span
+                className={`${className} font-black text-3xl text-primary cursor-pointer hover:scale-110 lg:text-4xl lg:w-24`}
+              >
+                Airnes
+              </span>
             </NavLink>
           </div>
           <div className="flex gap-2 lg:gap-6">
