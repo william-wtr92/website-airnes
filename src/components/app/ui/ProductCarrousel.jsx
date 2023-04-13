@@ -2,7 +2,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid"
 import classNames from "classnames"
 
 const ProductCarousel = (props) => {
-  const { imageState } = propsnue
+  const { imageState } = props
 
   return (
     <div
