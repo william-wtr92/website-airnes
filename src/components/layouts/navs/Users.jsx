@@ -9,32 +9,16 @@ import {
   GlobeAltIcon,
 } from "@heroicons/react/24/solid"
 import { useState, useEffect } from "react"
-import { Collapse } from "@/components/app/ui/Collapse"
 import config from "@/web/config"
 import parseSession from "@/web/parseSession"
 import { useRouter } from "next/router"
 import Button from "@/components/app/ui/Button"
-import axios from "axios"
-import routes from "@/web/routes"
 
 const Users = ({ className }) => {
   const router = useRouter()
 
   const [burgerMenu, setBurgerMenu] = useState(false)
   const [token, setToken] = useState(false)
-  const [categories, setCategories] = useState([])
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const { data } = await axios.get(
-        `http://localhost:3000/api${routes.api.admin.categories.getCategories()}`
-      )
-
-      setCategories(data.result)
-    }
-
-    fetchCategories()
-  }, [])
 
   useEffect(() => {
     const jwt = localStorage.getItem(config.session.localStorageKey)
@@ -116,7 +100,7 @@ const Users = ({ className }) => {
           >
             <div>
               <XMarkIcon
-                className="h-6 hover:cursor-pointer relative border-2 border-primary rounded-full top-4 left-3 hover:scale-105"
+                className="h-6 hover:cursor-pointer relative top-4 left-3 hover:scale-105"
                 onClick={toggleBurgerMenu}
               />
             </div>
@@ -141,10 +125,12 @@ const Users = ({ className }) => {
 
             <div className="flex flex-col mx-12 my-24 gap-4">
               <div>
-                <div className="flex gap-4">
-                  <ChevronRightIcon className="h-6 w-6" />
-                  <Collapse title="Catégories" content={categories} />
-                </div>
+                <NavLink href="/categories/all">
+                  <div className="flex gap-4 hover:text-[#6f5e3f]">
+                    <ChevronRightIcon className="h-6 w-6" />
+                    <p className="hover:scale-105">Catégories</p>
+                  </div>
+                </NavLink>
               </div>
 
               {/* Promotions à update quand la feature sera faite */}
