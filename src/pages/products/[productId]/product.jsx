@@ -156,7 +156,7 @@ const ProductPage = (props) => {
         <div className="fixed z-50 top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-8 rounded-md">
             <h2 className="text-xl font-bold mb-4">
-              Vous avez déjà tous le sotck de ce produit dans votre panier
+              Vous avez déjà tout le stock de ce produit dans votre panier
             </h2>
 
             <div className="flex justify-end mt-4">
