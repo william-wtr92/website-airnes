@@ -6,6 +6,7 @@ import axios from "axios"
 import routes from "@/web/routes"
 import { useCart } from "@/web/hooks/cart"
 import { useMediaQuery } from "react-responsive"
+import { useCallback } from "react"
 
 export const getServerSideProps = async (context) => {
   const { query } = context
@@ -37,41 +38,53 @@ const UserCart = () => {
   const { cartItems, total, tax, removeFromCart, updateQuantity } = useCart()
   const isMobile = useMediaQuery({ query: "(max-width: 1000px)" })
 
-  const handleRemoveFromCart = (productId) => {
-    removeFromCart(productId)
-  }
+  const handleRemoveFromCart = useCallback(
+    (productId) => {
+      removeFromCart(productId)
+    },
+    [removeFromCart]
+  )
 
-  const handleQuantityChange = (productId, newQuantity) => {
-    const item = cartItems.find((item) => item.id === productId)
+  const handleQuantityChange = useCallback(
+    (productId, newQuantity) => {
+      const item = cartItems.find((item) => item.id === productId)
 
-    if (newQuantity > parseInt(item.quantity, 10)) {
-      newQuantity = parseInt(item.quantity, 10)
-    }
+      if (newQuantity > parseInt(item.quantity, 10)) {
+        newQuantity = parseInt(item.quantity, 10)
+      }
 
-    updateQuantity(productId, newQuantity)
-  }
+      updateQuantity(productId, newQuantity)
+    },
+    [cartItems, updateQuantity]
+  )
 
-  const handleIncrement = (productId) => {
-    const item = cartItems.find((item) => item.id === productId)
-    const newQuantity = parseInt(item.product_quantity, 10) + 1
+  const handleIncrement = useCallback(
+    (productId) => {
+      const item = cartItems.find((item) => item.id === productId)
+      const newQuantity = parseInt(item.product_quantity, 10) + 1
 
-    if (newQuantity > parseInt(item.quantity, 10)) {
-      return
-    }
+      if (newQuantity > parseInt(item.quantity, 10)) {
+        return
+      }
 
-    updateQuantity(productId, newQuantity)
-  }
+      updateQuantity(productId, newQuantity)
+    },
+    [cartItems, updateQuantity]
+  )
 
-  const handleDecrement = (productId) => {
-    const item = cartItems.find((item) => item.id === productId)
-    const newQuantity = parseInt(item.product_quantity, 10) - 1
+  const handleDecrement = useCallback(
+    (productId) => {
+      const item = cartItems.find((item) => item.id === productId)
+      const newQuantity = parseInt(item.product_quantity, 10) - 1
 
-    if (newQuantity < 1) {
-      return
-    }
+      if (newQuantity < 1) {
+        return
+      }
 
-    updateQuantity(productId, newQuantity)
-  }
+      updateQuantity(productId, newQuantity)
+    },
+    [cartItems, updateQuantity]
+  )
 
   return (
     <>

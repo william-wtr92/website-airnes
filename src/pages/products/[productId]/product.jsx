@@ -4,7 +4,7 @@ import Promotion from "@/components/app/content/Promotions"
 import axios from "axios"
 import routes from "@/web/routes"
 import { useCart } from "@/web/hooks/cart"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { NavLink } from "@/components/utils/NavLink"
 import parseSession from "@/web/parseSession"
 import config from "@/web/config"
@@ -50,9 +50,11 @@ export const getServerSideProps = async (context) => {
     return redirectToInitial()
   }
 }
+
 const ProductPage = (props) => {
   const { product, allProducts } = props
   const [showPopup, setShowPopup] = useState(false)
+  const [showError, setShowError] = useState(false)
 
   const [token, setToken] = useState(false)
 
@@ -64,12 +66,24 @@ const ProductPage = (props) => {
     }
   }, [])
 
-  const { addToCart } = useCart()
+  const { addToCart, cartItems } = useCart()
 
-  const handleAddToCart = () => {
+  const handleAddToCart = useCallback(() => {
+    const item = cartItems.find(
+      (cartItem) =>
+        cartItem.id === product.id &&
+        parseInt(product.quantity, 10) === cartItem.product_quantity
+    )
+
+    if (item) {
+      setShowError(true)
+
+      return
+    }
+
     addToCart(product)
     setShowPopup(true)
-  }
+  }, [addToCart, cartItems, product])
 
   return (
     <>
@@ -131,6 +145,26 @@ const ProductPage = (props) => {
                 <NavLink href={`/user/${token.user.id}/cart`}>
                   Se rendre au panier
                 </NavLink>
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showError && (
+        <div className="fixed z-50 top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-8 rounded-md">
+            <h2 className="text-xl font-bold mb-4">
+              Vous avez déjà tous le sotck de ce produit dans votre panier
+            </h2>
+
+            <div className="flex justify-end mt-4">
+              <Button
+                className="mr-2"
+                onClick={() => {
+                  setShowError(false)
+                }}
+              >
+                Revenir à la page produit
               </Button>
             </div>
           </div>
