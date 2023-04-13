@@ -5,29 +5,21 @@ const ProductCarousel = (props) => {
   const { imageState } = props
 
   return (
-    <div
-      className={classNames(
-        " flex bg-cover w-2/3 h-96",
-      )}
-      style={{
-        backgroundImage: `url(${
-          imageState
-        })`,
-      }}
-    >
-      <div className="flex justify-between w-full">
-        <bouton
-          className="h-full  flex flex-col justify-center"
-        >
-          <ChevronLeftIcon className="w-6 " />
-        </bouton>
-        <bouton
-          className="h-full  flex flex-col justify-center"
-        >
-          <ChevronRightIcon className="w-6" />
-        </bouton>
+      <div
+          className={classNames("flex bg-cover w-full h-80")}
+          style={{
+            backgroundImage: `url(${imageState})`,
+          }}
+      >
+        <div className="flex justify-between w-full">
+          <bouton className="h-full flex flex-col justify-center">
+            <ChevronLeftIcon className="w-6 text-white font-bold" />
+          </bouton>
+          <bouton className="h-full flex flex-col justify-center">
+            <ChevronRightIcon className="w-6 text-white font-bold" />
+          </bouton>
+        </div>
       </div>
-    </div>
   )
 }
 
