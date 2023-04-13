@@ -3,7 +3,7 @@ import classNames from "classnames"
 import { useCallback, useState } from "react"
 
 const ProductCarousel = (props) => {
-  const { imageState, className } = props
+  const { imageState } = props
   const [idImage, setIdImage] = useState(0)
 
   const maxId = imageState.length
@@ -17,15 +17,11 @@ const ProductCarousel = (props) => {
   return (
     <div
       className={classNames(
-        " flex bg-cover",
-        imageState.find(({ id }) => id === idImage).sens === "h"
-          ? " w-full h-64"
-          : " w-2/3 h-96",
-        className
+        " flex bg-cover w-2/3 h-96",
       )}
       style={{
         backgroundImage: `url(${
-          imageState.find(({ id }) => id === idImage).src
+          imageState
         })`,
       }}
     >
