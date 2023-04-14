@@ -1,20 +1,24 @@
-// App.js
 import React from "react"
-import { View, StyleSheet } from "react-native"
+import { View, StyleSheet, SafeAreaView } from "react-native"
 import Navbar from "@/components/app/layout/NavMenu"
 import AppContainer from "@/components/app/layout/AppHomeContainer"
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <AppContainer />
+    <SafeAreaView style={styles.container}>
+      <View style={styles.content}>
+        <AppContainer />
+      </View>
       <Navbar />
-    </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  content: {
     flex: 1,
   },
 })

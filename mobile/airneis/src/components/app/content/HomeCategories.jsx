@@ -39,7 +39,7 @@ const HomepageCategories = () => {
       <Image
         source={{ uri: item.user.image }}
         style={styles.categoryImage}
-        accessibilityLabel={item.user.name}
+        alt={item.user.name}
       />
     </TouchableOpacity>
   )
@@ -79,9 +79,9 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
     position: "absolute",
-    top: "65%",
-    left: "50%",
-    transform: [{ translateX: -50 }, { translateY: -50 }],
+    top: "40%",
+    flex: 1,
+    justifyContent: "center",
     color: "black",
     zIndex: 1,
     textAlign: "center",
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   categoryImage: {
     width: 250,
     height: 250,
-    opacity: 50,
+    opacity: 0.7,
   },
   loadingContainer: {
     flex: 1,

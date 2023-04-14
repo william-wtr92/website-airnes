@@ -8,8 +8,6 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   navbar: {
-    position: "absolute",
-    bottom: 0,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
@@ -18,7 +16,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: "#615043",
     padding: 5,
-    zIndex: 1,
   },
   icon: {
     color: "#615043",

@@ -38,7 +38,7 @@ const HomepageProducts = () => {
       <Image
         source={{ uri: item.user.image }}
         style={styles.productImage}
-        accessibilityLabel={item.user.name}
+        alt={item.user.name}
       />
       <Text style={styles.productText}>{item.user.name}</Text>
     </TouchableOpacity>
@@ -70,16 +70,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 10,
-    marginBottom: 60,
   },
   productContainer: {
-    flex: 1,
-    gap: 6,
+    alignSelf: "flex-start",
     marginBottom: 20,
+    flexDirection: "column",
   },
   productText: {
-    flex: 1,
-    justifyContent: "flex-start",
     textTransform: "uppercase",
     fontSize: 18,
     fontWeight: "bold",
@@ -87,11 +84,11 @@ const styles = StyleSheet.create({
     zIndex: 1,
     position: "relative",
     left: 4,
+    textAlign: "left",
   },
   productImage: {
     width: 250,
     height: 250,
-    opacity: 50,
   },
   loadingContainer: {
     flex: 1,

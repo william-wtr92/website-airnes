@@ -1,42 +1,53 @@
 import React from "react"
-import { ScrollView, StyleSheet, Text, View } from "react-native"
+import { StyleSheet, Text, View, FlatList } from "react-native"
 import Carousel from "@/components/app/ui/Carousel"
 import HomepageCategories from "../content/HomeCategories"
 import HomepageProducts from "../content/HomeProducts"
 
 const AppContainer = () => {
-  return (
-    <ScrollView contentContainerStyle={styles.contentContainer}>
-      <View style={styles.container}>
-        <Carousel />
+  const data = [
+    { id: "carousel", component: <Carousel /> },
+    {
+      id: "title1",
+      component: (
         <View style={styles.text}>
           <Text style={styles.textCategory}>
             VENANT DES HAUTES TERRES D’ECOSSE
           </Text>
           <Text style={styles.textCategory}>NOS MEUBLES SONT IMMORTELS</Text>
         </View>
-        <View style={styles.categories}>
-          <HomepageCategories />
-        </View>
+      ),
+    },
+    { id: "categories", component: <HomepageCategories /> },
+    {
+      id: "title2",
+      component: (
         <View style={styles.text}>
           <Text style={styles.textProduct}>PRODUITS POPULAIRES</Text>
         </View>
-        <View style={styles.categories}>
-          <HomepageProducts />
-        </View>
-      </View>
-    </ScrollView>
+      ),
+    },
+    { id: "products", component: <HomepageProducts /> },
+  ]
+
+  const renderItem = ({ item }) => item.component
+
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+      />
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom: 60,
-  },
-  contentContainer: {
-    paddingBottom: 60,
-    height: 60,
+    height: 80,
   },
   text: {
     flex: 1,
@@ -52,9 +63,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 18,
-  },
-  categories: {
-    marginVertical: 50,
   },
 })
 
