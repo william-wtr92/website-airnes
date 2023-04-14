@@ -8,6 +8,7 @@ import {
 } from "react-native"
 import axios from "axios"
 import routes from "@/web/routes"
+import Constants from "expo-constants"
 
 const Carousel = () => {
   const [slides, setSlides] = useState([])
@@ -17,7 +18,9 @@ const Carousel = () => {
   useEffect(() => {
     const fetchImages = async () => {
       const { data } = await axios.get(
-        `http://localhost:3000/api${routes.api.admin.carousel.getImages()}`
+        `${
+          Constants.manifest.extra.apiBaseUrl
+        }/api${routes.api.admin.carousel.getImages()}`
       )
 
       const sortedSlides = data.result.sort((a, b) => a.order - b.order)
