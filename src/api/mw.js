@@ -8,7 +8,10 @@ const db = knex(config.db)
 BaseModel.knex(db)
 
 const corsMiddleware = cors({
-  origin: "*",
+  origin: (origin, callback) => {
+    callback(null, true)
+  },
+  credentials: true,
   methods: ["GET", "POST", "PATCH", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
 })

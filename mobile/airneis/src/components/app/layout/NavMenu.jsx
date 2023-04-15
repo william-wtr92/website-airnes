@@ -1,6 +1,7 @@
 import React from "react"
 import { StyleSheet, View, TouchableOpacity } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
+import { useNavigation } from "@react-navigation/native"
 
 const styles = StyleSheet.create({
   container: {
@@ -32,18 +33,26 @@ const styles = StyleSheet.create({
 })
 
 const NavMenu = () => {
+  const navigation = useNavigation()
+
   return (
     <>
       <View style={styles.navbar}>
         <TouchableOpacity>
           <Ionicons name="person-outline" size={24} style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Ionicons name="cart-outline" size={24} style={styles.icon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.homeButton}>
-          <Ionicons name="home-outline" size={30} style={styles.icon} />
-        </TouchableOpacity>
+        <Ionicons
+          name="cart-outline"
+          size={24}
+          style={styles.icon}
+          onPress={() => navigation.navigate("Cart")}
+        />
+        <Ionicons
+          name="home-outline"
+          size={30}
+          style={styles.icon}
+          onPress={() => navigation.navigate("Main")}
+        />
         <TouchableOpacity>
           <Ionicons name="search-outline" size={24} style={styles.icon} />
         </TouchableOpacity>
