@@ -29,9 +29,15 @@ const allCategories = (props) => {
         Toutes nos catégories
       </h1>
       <div className="flex flex-wrap justify-center gap-10">
-        <div className="flex flex-col gap-5 items-center justify-center p-4">
-          <Category categories={categories} />
-        </div>
+        {categories.length === 0 ? (
+          <div>
+            <p className="text-center">Aucune catégorie n'a été trouvée.</p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-5 items-center justify-center p-4">
+            <Category categories={categories} />
+          </div>
+        )}
       </div>
     </>
   )

@@ -7,6 +7,9 @@ const routes = {
     signUp: () => "/sign-up",
     signIn: () => "/sign-in",
     contact: () => "/contact",
+    app: {
+      getProducts: () => "/app/products",
+    },
     admin: {
       carousel: {
         addImage: () => "/admin/carousel/add",
