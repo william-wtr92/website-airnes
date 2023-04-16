@@ -3,12 +3,11 @@ import ProductCarousel from "@/components/app/ui/ProductCarrousel"
 import axios from "axios"
 import routes from "@/web/routes"
 import { useCart } from "@/web/hooks/cart"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import { NavLink } from "@/components/utils/NavLink"
-import parseSession from "@/web/parseSession"
-import config from "@/web/config"
 import classNames from "classnames"
 import SlideProducts from "@/components/app/content/SlideProducts"
+import useAppContext from "@/web/hooks/useAppContext"
 
 export const getServerSideProps = async (context) => {
   const { productId } = context.params
@@ -61,15 +60,9 @@ const ProductPage = (props) => {
   const [showPopup, setShowPopup] = useState(false)
   const [showError, setShowError] = useState(false)
 
-  const [token, setToken] = useState(false)
-
-  useEffect(() => {
-    const jwt = localStorage.getItem(config.session.localStorageKey)
-
-    if (jwt) {
-      setToken(parseSession(jwt))
-    }
-  }, [])
+  const {
+    state: { session },
+  } = useAppContext()
 
   const { addToCart, cartItems } = useCart()
 
@@ -158,7 +151,7 @@ const ProductPage = (props) => {
                 Continuer mes achats
               </Button>
               <Button>
-                <NavLink href={`/user/${token.user.id}/cart`}>
+                <NavLink href={`/user/${session.user.id}/cart`}>
                   Se rendre au panier
                 </NavLink>
               </Button>

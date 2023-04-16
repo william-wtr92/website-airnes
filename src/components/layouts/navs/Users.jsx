@@ -9,24 +9,13 @@ import {
   GlobeAltIcon,
 } from "@heroicons/react/24/solid"
 import { useState, useEffect } from "react"
-import config from "@/web/config"
-import parseSession from "@/web/parseSession"
 import { useRouter } from "next/router"
 import Button from "@/components/app/ui/Button"
 
-const Users = ({ className }) => {
+const Users = ({ className, session }) => {
   const router = useRouter()
 
   const [burgerMenu, setBurgerMenu] = useState(false)
-  const [token, setToken] = useState(false)
-
-  useEffect(() => {
-    const jwt = localStorage.getItem(config.session.localStorageKey)
-
-    if (jwt) {
-      setToken(parseSession(jwt))
-    }
-  }, [])
 
   useEffect(() => {
     setBurgerMenu(false)
@@ -54,7 +43,7 @@ const Users = ({ className }) => {
           </div>
           <div className="flex gap-2 lg:gap-6">
             <NavLink
-              href={token ? `/user/${token.user.id}/home` : `/user/login`}
+              href={session ? `/user/${session.user.id}/home` : `/user/login`}
             >
               <UserIcon
                 className={`h-6 hover:scale-110 hover:text-[#b3825c]`}
@@ -67,7 +56,7 @@ const Users = ({ className }) => {
                 color={"#615043"}
               />
             </NavLink>
-            <NavLink href={token ? `/user/${token.user.id}/cart` : `/`}>
+            <NavLink href={session ? `/user/${session.user.id}/cart` : `/`}>
               <ShoppingCartIcon
                 className={`h-6 hover:scale-110 hover:text-[#b3825c]`}
                 color={"#615043"}

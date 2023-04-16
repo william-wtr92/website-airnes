@@ -39,6 +39,12 @@ export const AppContextProvider = (props) => {
 
   const signUp = signUpService({ api })
   const signIn = signInService({ api, setSession, setJWT })
+  const logout = () => {
+    localStorage.clear()
+    setSession(null)
+    setJWT(null)
+  }
+
   const contact = contactService({ api })
 
   useEffect(() => {
@@ -116,6 +122,7 @@ export const AppContextProvider = (props) => {
           addSelectedProduct,
           deleteSelectedProduct,
           orderSelectedProduct,
+          logout,
         },
         state: {
           session,

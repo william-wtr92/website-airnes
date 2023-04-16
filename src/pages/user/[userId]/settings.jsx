@@ -36,11 +36,12 @@ export const getServerSideProps = async (context) => {
 const Settings = (props) => {
   const { data, userId } = props
   const {
-    actions: { patchUser, deleteAddress, deleteUser },
+    actions: { patchUser, deleteAddress, deleteUser, logout },
   } = useAppContext()
   const [viewAddressL, setViewAddressL] = useState(false)
   const [confirmDelUser, setConfirmDelUser] = useState(false)
   const [confirmDelAddress, setConfirmDelAddress] = useState(false)
+  const [confirmLogout, setConfirmLogout] = useState(false)
 
   const [error, setError] = useState(null)
   const router = useRouter()
@@ -103,6 +104,15 @@ const Settings = (props) => {
     setConfirmDelUser(true)
   }, [setConfirmDelUser])
 
+  const handleLogout = useCallback(async () => {
+    logout()
+    router.push("/")
+  }, [router, logout])
+
+  const handleConfirmLogout = useCallback(async () => {
+    setConfirmLogout(true)
+  }, [setConfirmLogout])
+
   return (
     <>
       <div className="flex justify-center mt-8 ">
@@ -140,7 +150,9 @@ const Settings = (props) => {
             </Formik>
           </div>
           <div className="flex flex-col lg:flex-row gap-2 lg:gap-16 mt-4 lg:mt-12">
-            <h2 className="text-2xl font-bold">Mes adresses</h2>
+            <h2 className="text-2xl font-bold whitespace-nowrap">
+              Mes adresses
+            </h2>
             <div className="w-4/5">
               <div>
                 <span className="flex justify-between">
@@ -216,9 +228,24 @@ const Settings = (props) => {
             </Button>
             <Confirm
               className={classNames(confirmDelUser ? "block" : "hidden")}
-              show={setConfirmDelUser}
+              display={setConfirmDelUser}
               action={handleDeleteUser}
               textValue="Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible."
+            />
+          </div>
+          <div className="flex flex-row-reverse">
+            <Button
+              variant="primary"
+              className="mt-4 bg-primary py-2 px-4"
+              onClick={handleConfirmLogout}
+            >
+              Se deconnecter
+            </Button>
+            <Confirm
+              className={classNames(confirmLogout ? "block" : "hidden")}
+              display={setConfirmLogout}
+              action={handleLogout}
+              textValue="Êtes-vous sûr de vouloir vous déconnecter ?"
             />
           </div>
         </div>

@@ -12,10 +12,10 @@ const windsong = WindSong({
   subsets: ["latin"],
 })
 
-const Layout = ({ children }) => {
+const Layout = ({ children, session }) => {
   return (
     <>
-      <Main className={windsong.className} />
+      <Main className={windsong.className} session={session} />
       <div className="flex flex-col min-h-screen">
         <main className="flex-grow">
           <div className={montserrat.className}>{children}</div>
