@@ -1,60 +1,27 @@
 import Carousel from "@/components/app/ui/Carousel"
 import HomepageCategories from "@/components/app/content/HomepageCategories"
 import HomepageProducts from "@/components/app/content/HomepageProducts"
-import Promotion from "@/components/app/content/Promotions"
+import SlideProducts from "@/components/app/content/SlideProducts"
+import axios from "axios"
+import routes from "@/web/routes"
+import classNames from "classnames"
 
-const Main = () => {
-  const exampleState = [
-    {
-      id: 0,
-      name: "Chaise",
-      price: 123,
-      promotion: 100,
-      image: "/images/meuble2.jpg",
+export const getServerSideProps = async () => {
+  const { data } = await axios.get(
+    `http://localhost:3000/api${routes.api.app.getProducts()}?sale=true&page=1`
+  )
+
+  const products = data.result
+
+  return {
+    props: {
+      products: products,
     },
-    {
-      id: 1,
-      name: "Chaise 2",
-      price: 456,
-      promotion: 400,
-      image: "/images/meuble2.jpg",
-    },
-    {
-      id: 2,
-      name: "Chaise 3",
-      price: 789,
-      promotion: 700,
-      image: "/images/meuble2.jpg",
-    },
-    {
-      id: 3,
-      name: "Chaise 4",
-      price: 987,
-      promotion: 900,
-      image: "/images/meuble2.jpg",
-    },
-    {
-      id: 4,
-      name: "Chaise 5",
-      price: 654,
-      promotion: 600,
-      image: "/images/meuble2.jpg",
-    },
-    {
-      id: 5,
-      name: "Chaise 5",
-      price: 654,
-      promotion: 600,
-      image: "/images/meuble2.jpg",
-    },
-    {
-      id: 6,
-      name: "Chaise 5",
-      price: 654,
-      promotion: 600,
-      image: "/images/meuble2.jpg",
-    },
-  ]
+  }
+}
+
+const Main = (props) => {
+  const { products } = props
 
   return (
     <>
@@ -84,26 +51,36 @@ const Main = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-center py-10">
-          <div className="flex flex-col items-center gap-10 w-[80%]">
-            <h3 className="uppercase font-bold text-xl tracking-widest">
-              Promotions
-            </h3>
-            <div className="overflow-x-auto scrollbar flex w-full gap-10 bg-gray-100 p-8">
-              {exampleState.map((product) => (
-                <div key={product.id} className="flex-none w-3/5 lg:w-2/5">
-                  <Promotion
-                    alt="test"
-                    image={product.image}
-                    productName={product.name}
-                    productPrice={product.price}
-                    promotion={product.promotion}
-                  />
-                </div>
-              ))}
+        {products.length > 0 && (
+          <div className="flex justify-center py-10">
+            <div className="flex flex-col items-center gap-10 w-[80%]">
+              <h3 className="uppercase font-bold text-xl tracking-widest">
+                Promotions
+              </h3>
+              <div
+                className={classNames(
+                  "overflow-x-auto scrollbar w-full flex gap-10 p-4",
+                  products.length < 3 && "justify-center"
+                )}
+              >
+                {products.map((product) => (
+                  <div
+                    key={product.id}
+                    className="flex-none w-full md:w-1/2 lg:w-1/3"
+                  >
+                    <SlideProducts
+                      image={product.image}
+                      productId={product.id}
+                      productName={product.name}
+                      productPrice={product.price}
+                      promotion={product.promotion}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </main>
     </>
   )

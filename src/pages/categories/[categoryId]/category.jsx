@@ -2,6 +2,8 @@ import ProductThumbnail from "@/components/app/content/ProductThumbnail"
 import Image from "next/image"
 import axios from "axios"
 import routes from "@/web/routes"
+import { NavLink } from "@/components/utils/NavLink"
+import Button from "@/components/app/ui/Button"
 
 export const getServerSideProps = async (context) => {
   const { categoryId } = context.params
@@ -61,23 +63,32 @@ const Category = (props) => {
           </h1>
         </div>
       </div>
-      <div className="flex flex-col items-center">
-        <div className="px-10 py-20">{category.description}</div>
-        <div className="w-5/6 grid gap-16 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {products.map(
-            (product) =>
-              product.quantity && (
-                <ProductThumbnail
-                  key={product.id}
-                  alt={product.name}
-                  image={product.image}
-                  productId={product.id}
-                  productName={product.name}
-                  productPrice={product.price}
-                />
-              )
-          )}
-        </div>
+      <div className="flex flex-col items-center py-5">
+        <div className="px-10 py-10">{category.description}</div>
+        {products.length === 0 ? (
+          <div className="flex flex-col gap-5">
+            <p className="text-center">Aucun produit n'a été trouvé.</p>
+            <NavLink href="/categories/all">
+              <Button>Retour aux catégories</Button>
+            </NavLink>
+          </div>
+        ) : (
+          <div className="w-5/6 grid gap-16 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {products.map(
+              (product) =>
+                product.quantity && (
+                  <ProductThumbnail
+                    key={product.id}
+                    alt={product.name}
+                    image={product.image}
+                    productId={product.id}
+                    productName={product.name}
+                    productPrice={product.price}
+                  />
+                )
+            )}
+          </div>
+        )}
       </div>
     </>
   )

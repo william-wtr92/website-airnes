@@ -4,17 +4,31 @@ export const up = async (knex) => {
     table.text("name").notNullable()
   })
 
-  await knex.schema.createTable("product", (table) => {
-    table.increments("id")
-    table.text("name").notNullable()
-    table.text("description").notNullable()
-    table.text("image").notNullable()
-    table.text("price").notNullable()
-    table.text("promotion")
-    table.text("quantity").notNullable()
-    table.integer("categoryId").references("id").inTable("category")
-    table.integer("materialId").references("id").inTable("material")
-  })
+  await knex.schema
+    .createTable("product", (table) => {
+      table.increments("id")
+      table.text("name").notNullable()
+      table.text("description").notNullable()
+      table.text("image").notNullable()
+      table.float("price").notNullable()
+      table.float("promotion")
+      table.integer("quantity").notNullable()
+      table.integer("categoryId").references("id").inTable("category")
+      table.integer("materialId").references("id").inTable("material")
+    })
+    .then(() => {
+      return knex.schema.raw(
+        "ALTER TABLE ?? ADD CONSTRAINT ?? CHECK ((?? IS NULL) OR (?? >= 0 AND ?? < ??))",
+        [
+          "product",
+          "promotion_validity",
+          "promotion",
+          "promotion",
+          "promotion",
+          "price",
+        ]
+      )
+    })
 
   await knex.schema.createTable("selected_product", (table) => {
     table.increments("id")
