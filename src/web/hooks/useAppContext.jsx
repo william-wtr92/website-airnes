@@ -91,6 +91,61 @@ export const AppContextProvider = (props) => {
   const orderSelectedProduct = orderSelectedProductService({ api, jwt })
   const addSelectedProduct = addSelectedProductService({ api, jwt })
 
+  const [cartItems, setCartItems] = useState([])
+
+  useEffect(() => {
+    const storedCart = localStorage.getItem("cart")
+
+    if (storedCart) {
+      const parsedCart = JSON.parse(storedCart)
+      setCartItems(parsedCart)
+    }
+  }, [])
+
+  const addToCart = (product) => {
+    const currentCart = JSON.parse(localStorage.getItem("cart")) || []
+    const existingItemIndex = currentCart.findIndex(
+      (item) => item.id === product.id
+    )
+
+    let newCartItems = []
+
+    if (existingItemIndex !== -1) {
+      newCartItems = [...currentCart]
+      newCartItems[existingItemIndex].product_quantity += 1
+    } else {
+      newCartItems = [...currentCart, { ...product, product_quantity: 1 }]
+    }
+
+    setCartItems(newCartItems)
+    localStorage.setItem("cart", JSON.stringify(newCartItems))
+  }
+
+  const removeFromCart = (productId) => {
+    const newCartItems = cartItems.filter((item) => item.id !== productId)
+    setCartItems(newCartItems)
+    localStorage.setItem("cart", JSON.stringify(newCartItems))
+  }
+
+  const clearCart = () => {
+    setCartItems([])
+    localStorage.removeItem("cart")
+  }
+
+  const updateCartQuantity = (productId, newQuantity) => {
+    if (newQuantity >= 1) {
+      const updatedCartItems = cartItems.map((item) => {
+        if (item.id === productId) {
+          return { ...item, product_quantity: newQuantity }
+        }
+
+        return item
+      })
+      setCartItems(updatedCartItems)
+      localStorage.setItem("cart", JSON.stringify(updatedCartItems))
+    }
+  }
+
   return (
     <AppContext.Provider
       {...props}
@@ -123,9 +178,14 @@ export const AppContextProvider = (props) => {
           deleteSelectedProduct,
           orderSelectedProduct,
           logout,
+          addToCart,
+          clearCart,
+          updateCartQuantity,
+          removeFromCart,
         },
         state: {
           session,
+          cartItems,
         },
       }}
     />

@@ -5,11 +5,11 @@ import useAppContext, { AppContextProvider } from "@/web/hooks/useAppContext"
 
 const App = ({ Component, pageProps }) => {
   const {
-    state: { session },
+    state: { session, cartItems },
   } = useAppContext()
 
   return (
-    <Layout session={session}>
+    <Layout session={session} cartItems={cartItems}>
       <Head>
         <title>Airneis</title>
       </Head>

@@ -2,7 +2,6 @@ import Button from "@/components/app/ui/Button"
 import ProductCarousel from "@/components/app/ui/ProductCarrousel"
 import axios from "axios"
 import routes from "@/web/routes"
-import { useCart } from "@/web/hooks/cart"
 import { useCallback, useState } from "react"
 import { NavLink } from "@/components/utils/NavLink"
 import classNames from "classnames"
@@ -61,10 +60,9 @@ const ProductPage = (props) => {
   const [showError, setShowError] = useState(false)
 
   const {
-    state: { session },
+    actions: { addToCart },
+    state: { session, cartItems },
   } = useAppContext()
-
-  const { addToCart, cartItems } = useCart()
 
   const handleAddToCart = useCallback(() => {
     const item = cartItems.find(

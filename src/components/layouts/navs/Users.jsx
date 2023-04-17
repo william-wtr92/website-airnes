@@ -18,7 +18,7 @@ const formatName = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
 }
 
-const Users = ({ className, session }) => {
+const Users = ({ className, session, cartItems }) => {
   const router = useRouter()
 
   const [burgerMenu, setBurgerMenu] = useState(false)
@@ -47,8 +47,13 @@ const Users = ({ className, session }) => {
     setBurgerMenu(!burgerMenu)
   }
 
-  let cartNumber = 0
-  cartNumber = cartNumber === 0 ? null : cartNumber > 9 ? "9+" : cartNumber
+  const [cartNumber, setCartNumber] = useState(0)
+
+  useEffect(() => {
+    setCartNumber(cartItems.length)
+  }, [cartItems])
+
+  let number = cartNumber === 0 ? null : cartNumber > 9 ? "9+" : cartNumber
 
   return (
     <>
@@ -92,7 +97,7 @@ const Users = ({ className, session }) => {
                       : "right-[43px] lg:right-[58px]"
                   } -z-10 bg-[#EDE4E0] text-primary font-bold text-xs rounded-full lg:px-2`}
                 >
-                  {cartNumber}
+                  {number}
                 </div>
               )}
             </NavLink>
@@ -119,9 +124,11 @@ const Users = ({ className, session }) => {
               <div className="mx-12 my-10 gap-4">
                 <div className="flex gap-2">
                   <p>Bonjour, </p>
-                  <NavLink href={`/user/${session.user.id}/home`}>
-                    {userName}
-                  </NavLink>
+                  <p className="font-bold">
+                    <NavLink href={`/user/${session.user.id}/home`}>
+                      {userName}
+                    </NavLink>
+                  </p>
                 </div>
               </div>
             ) : (
