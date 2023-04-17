@@ -11,15 +11,37 @@ import {
 import { useState, useEffect } from "react"
 import { useRouter } from "next/router"
 import Button from "@/components/app/ui/Button"
+import axios from "axios"
+import routes from "@/web/routes"
+
+const formatName = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
+}
 
 const Users = ({ className, session }) => {
   const router = useRouter()
 
   const [burgerMenu, setBurgerMenu] = useState(false)
+  const [userName, setUserName] = useState("")
 
   useEffect(() => {
     setBurgerMenu(false)
   }, [router.pathname])
+
+  useEffect(() => {
+    if (session && session.user) {
+      const fetchUserData = async () => {
+        const data = await axios.get(
+          `http://localhost:3000/api${routes.api.user.userData(
+            session.user.id
+          )}`
+        )
+        setUserName(formatName(data.data.result.name))
+      }
+
+      fetchUserData()
+    }
+  }, [session])
 
   const toggleBurgerMenu = () => {
     setBurgerMenu(!burgerMenu)
@@ -93,26 +115,41 @@ const Users = ({ className, session }) => {
                 onClick={toggleBurgerMenu}
               />
             </div>
-            <div className="flex flex-col mx-12 my-10 gap-4">
-              <div>
-                <NavLink href="/user/login">
-                  <div className="flex gap-4 hover:text-[#6f5e3f]">
-                    <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">Se connecter</p>
-                  </div>
-                </NavLink>
+            {session ? (
+              <div className="mx-12 my-10 gap-4">
+                <div className="flex gap-2">
+                  <p>Bonjour, </p>
+                  <NavLink href={`/user/${session.user.id}/home`}>
+                    {userName}
+                  </NavLink>
+                </div>
               </div>
-              <div>
-                <NavLink href="/signup">
-                  <div className="flex gap-4 hover:text-[#6f5e3f]">
-                    <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">S'inscrire</p>
-                  </div>
-                </NavLink>
+            ) : (
+              <div className="flex flex-col mx-12 my-10 gap-4">
+                <div>
+                  <NavLink href="/user/login">
+                    <div className="flex gap-4 hover:text-[#6f5e3f]">
+                      <ChevronRightIcon className="h-6 w-6" />
+                      <p className="hover:scale-105">Se connecter</p>
+                    </div>
+                  </NavLink>
+                </div>
+                <div>
+                  <NavLink href="/signup">
+                    <div className="flex gap-4 hover:text-[#6f5e3f]">
+                      <ChevronRightIcon className="h-6 w-6" />
+                      <p className="hover:scale-105">S'inscrire</p>
+                    </div>
+                  </NavLink>
+                </div>
               </div>
-            </div>
+            )}
 
-            <div className="flex flex-col mx-12 my-24 gap-4">
+            <div
+              className={`flex flex-col mx-12 ${
+                session ? "my-14" : "my-20"
+              } gap-4`}
+            >
               <div>
                 <NavLink href="/categories/all">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
