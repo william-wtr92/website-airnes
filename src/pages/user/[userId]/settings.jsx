@@ -140,7 +140,9 @@ const Settings = (props) => {
             </Formik>
           </div>
           <div className="flex flex-col lg:flex-row gap-2 lg:gap-16 mt-4 lg:mt-12">
-            <h2 className="text-2xl font-bold">Mes adresses</h2>
+            <h2 className="text-2xl font-bold whitespace-nowrap">
+              Mes adresses
+            </h2>
             <div className="w-4/5">
               <div>
                 <span className="flex justify-between">
@@ -216,7 +218,7 @@ const Settings = (props) => {
             </Button>
             <Confirm
               className={classNames(confirmDelUser ? "block" : "hidden")}
-              show={setConfirmDelUser}
+              display={setConfirmDelUser}
               action={handleDeleteUser}
               textValue="Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible."
             />

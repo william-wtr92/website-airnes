@@ -1,19 +1,29 @@
 import Head from "next/head"
 import Layout from "@/components/layouts/Layout"
 import "./styles.css"
-import { AppContextProvider } from "@/web/hooks/useAppContext"
+import useAppContext, { AppContextProvider } from "@/web/hooks/useAppContext"
 
 const App = ({ Component, pageProps }) => {
+  const {
+    state: { session, cartItems },
+  } = useAppContext()
+
   return (
-    <Layout>
+    <Layout session={session} cartItems={cartItems}>
       <Head>
         <title>Airneis</title>
       </Head>
-      <AppContextProvider>
-        <Component {...pageProps} />
-      </AppContextProvider>
+      <Component {...pageProps} />
     </Layout>
   )
 }
 
-export default App
+const SyncApp = (props) => {
+  return (
+    <AppContextProvider>
+      <App {...props} />
+    </AppContextProvider>
+  )
+}
+
+export default SyncApp

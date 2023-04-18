@@ -1,6 +1,6 @@
-import knexfile from "@@/knexfile.js"
-import dotenv from "dotenv"
-import { resolve } from "node:path"
+const knexfile = require("../../knexfile.js")
+const dotenv = require("dotenv")
+const { resolve } = require("path")
 
 dotenv.config({ path: resolve(".env.local") })
 
@@ -34,4 +34,4 @@ const config = {
   },
 }
 
-export default config
+module.exports = config

@@ -8,36 +8,71 @@ import {
   ChevronRightIcon,
   GlobeAltIcon,
 } from "@heroicons/react/24/solid"
-import { useState, useEffect } from "react"
-import config from "@/web/config"
-import parseSession from "@/web/parseSession"
+import { useState, useEffect, useCallback } from "react"
 import { useRouter } from "next/router"
 import Button from "@/components/app/ui/Button"
+import axios from "axios"
+import routes from "@/web/routes"
+import useAppContext from "@/web/hooks/useAppContext"
+import Confirm from "@/components/app/ui/Confirm"
+import classNames from "classnames"
 
-const Users = ({ className }) => {
+const formatName = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
+}
+
+const Users = ({ className, session, cartItems }) => {
   const router = useRouter()
 
   const [burgerMenu, setBurgerMenu] = useState(false)
-  const [token, setToken] = useState(false)
-
-  useEffect(() => {
-    const jwt = localStorage.getItem(config.session.localStorageKey)
-
-    if (jwt) {
-      setToken(parseSession(jwt))
-    }
-  }, [])
+  const [userName, setUserName] = useState("")
 
   useEffect(() => {
     setBurgerMenu(false)
   }, [router.pathname])
 
+  useEffect(() => {
+    if (session && session.user) {
+      const fetchUserData = async () => {
+        const data = await axios.get(
+          `http://localhost:3000/api${routes.api.user.userData(
+            session.user.id
+          )}`
+        )
+        setUserName(formatName(data.data.result.name))
+      }
+
+      fetchUserData()
+    }
+  }, [session])
+
   const toggleBurgerMenu = () => {
     setBurgerMenu(!burgerMenu)
   }
 
-  let cartNumber = 0
-  cartNumber = cartNumber === 0 ? null : cartNumber > 9 ? "9+" : cartNumber
+  const [cartNumber, setCartNumber] = useState(0)
+
+  useEffect(() => {
+    setCartNumber(cartItems.length)
+  }, [cartItems])
+
+  let number = cartNumber === 0 ? null : cartNumber > 9 ? "9+" : cartNumber
+
+  const {
+    actions: { logout },
+  } = useAppContext()
+
+  const [confirmLogout, setConfirmLogout] = useState(false)
+
+  const handleLogout = useCallback(async () => {
+    logout()
+    router.push("/")
+    setBurgerMenu(false)
+  }, [router, logout])
+
+  const handleConfirmLogout = useCallback(async () => {
+    setConfirmLogout(true)
+  }, [setConfirmLogout])
 
   return (
     <>
@@ -54,7 +89,7 @@ const Users = ({ className }) => {
           </div>
           <div className="flex gap-2 lg:gap-6">
             <NavLink
-              href={token ? `/user/${token.user.id}/home` : `/user/login`}
+              href={session ? `/user/${session.user.id}/home` : `/user/login`}
             >
               <UserIcon
                 className={`h-6 hover:scale-110 hover:text-[#b3825c]`}
@@ -67,7 +102,7 @@ const Users = ({ className }) => {
                 color={"#615043"}
               />
             </NavLink>
-            <NavLink href={token ? `/user/${token.user.id}/cart` : `/`}>
+            <NavLink href={session ? `/user/${session.user.id}/cart` : `/`}>
               <ShoppingCartIcon
                 className={`h-6 hover:scale-110 hover:text-[#b3825c]`}
                 color={"#615043"}
@@ -81,7 +116,7 @@ const Users = ({ className }) => {
                       : "right-[43px] lg:right-[58px]"
                   } -z-10 bg-[#EDE4E0] text-primary font-bold text-xs rounded-full lg:px-2`}
                 >
-                  {cartNumber}
+                  {number}
                 </div>
               )}
             </NavLink>
@@ -104,26 +139,65 @@ const Users = ({ className }) => {
                 onClick={toggleBurgerMenu}
               />
             </div>
-            <div className="flex flex-col mx-12 my-10 gap-4">
-              <div>
-                <NavLink href="/user/login">
-                  <div className="flex gap-4 hover:text-[#6f5e3f]">
-                    <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">Se connecter</p>
-                  </div>
-                </NavLink>
-              </div>
-              <div>
-                <NavLink href="/signup">
-                  <div className="flex gap-4 hover:text-[#6f5e3f]">
-                    <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">S'inscrire</p>
-                  </div>
-                </NavLink>
-              </div>
-            </div>
+            {session ? (
+              <div className="flex flex-col mx-12 my-10 gap-6">
+                <div className="flex gap-2">
+                  <p>Bonjour, </p>
+                  <p className="font-bold">
+                    <NavLink href={`/user/${session.user.id}/home`}>
+                      {userName}
+                    </NavLink>
+                  </p>
+                </div>
+                <div className="flex flex-col gap-4">
+                  <NavLink href={`/user/${session.user.id}/orders`}>
+                    <div className="flex gap-4 hover:text-[#6f5e3f]">
+                      <ChevronRightIcon className="h-6 w-6" />
+                      <p className="hover:scale-105">Mes commandes</p>
+                    </div>
+                  </NavLink>
 
-            <div className="flex flex-col mx-12 my-24 gap-4">
+                  <div
+                    className="flex gap-4 hover:text-[#6f5e3f] hover:cursor-pointer"
+                    onClick={() => handleConfirmLogout()}
+                  >
+                    <ChevronRightIcon className="h-6 w-6" />
+                    <p className="hover:scale-105">Déconnexion</p>
+                  </div>
+                  <Confirm
+                    className={classNames(confirmLogout ? "block" : "hidden")}
+                    display={setConfirmLogout}
+                    action={handleLogout}
+                    textValue="Confirmez-vous ?"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-col mx-12 my-10 gap-4">
+                <div>
+                  <NavLink href="/user/login">
+                    <div className="flex gap-4 hover:text-[#6f5e3f]">
+                      <ChevronRightIcon className="h-6 w-6" />
+                      <p className="hover:scale-105">Se connecter</p>
+                    </div>
+                  </NavLink>
+                </div>
+                <div>
+                  <NavLink href="/signup">
+                    <div className="flex gap-4 hover:text-[#6f5e3f]">
+                      <ChevronRightIcon className="h-6 w-6" />
+                      <p className="hover:scale-105">S'inscrire</p>
+                    </div>
+                  </NavLink>
+                </div>
+              </div>
+            )}
+
+            <div
+              className={`flex flex-col mx-12 ${
+                session ? "my-14" : "my-20"
+              } gap-4`}
+            >
               <div>
                 <NavLink href="/categories/all">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">

@@ -4,9 +4,10 @@ import { NavLink } from "@/components/utils/NavLink"
 import Image from "next/image"
 import axios from "axios"
 import routes from "@/web/routes"
-import { useCart } from "@/web/hooks/cart"
+// import { useCart } from "@/web/hooks/cart"
 import { useMediaQuery } from "react-responsive"
 import { useCallback } from "react"
+import useAppContext from "@/web/hooks/useAppContext"
 
 export const getServerSideProps = async (context) => {
   const { query } = context
@@ -35,8 +36,20 @@ export const getServerSideProps = async (context) => {
 }
 
 const UserCart = () => {
-  const { cartItems, total, tax, removeFromCart, updateQuantity } = useCart()
   const isMobile = useMediaQuery({ query: "(max-width: 1000px)" })
+
+  const {
+    state: { cartItems },
+    actions: { removeFromCart, updateCartQuantity },
+  } = useAppContext()
+
+  const total =
+    cartItems?.reduce(
+      (acc, item) => acc + item.price * item.product_quantity,
+      0
+    ) || 0
+
+  const tax = total * 0.2
 
   const handleRemoveFromCart = useCallback(
     (productId) => {
@@ -53,9 +66,9 @@ const UserCart = () => {
         newQuantity = parseInt(item.quantity, 10)
       }
 
-      updateQuantity(productId, newQuantity)
+      updateCartQuantity(productId, newQuantity)
     },
-    [cartItems, updateQuantity]
+    [cartItems, updateCartQuantity]
   )
 
   const handleIncrement = useCallback(
@@ -67,9 +80,9 @@ const UserCart = () => {
         return
       }
 
-      updateQuantity(productId, newQuantity)
+      updateCartQuantity(productId, newQuantity)
     },
-    [cartItems, updateQuantity]
+    [cartItems, updateCartQuantity]
   )
 
   const handleDecrement = useCallback(
@@ -81,9 +94,9 @@ const UserCart = () => {
         return
       }
 
-      updateQuantity(productId, newQuantity)
+      updateCartQuantity(productId, newQuantity)
     },
-    [cartItems, updateQuantity]
+    [cartItems, updateCartQuantity]
   )
 
   return (
