@@ -41,8 +41,9 @@ export const getServerSideProps = async (context) => {
       return redirectToInitial()
     }
 
-    const similarProducts = products.data.result.filter(
-      (product) => product.id === productId
+
+    const similarProducts = products.data.allProduct.filter(
+      (product) => product.id != productId && product.categoryId === productData.data.result.categoryId
     )
 
     return {
@@ -95,7 +96,7 @@ const ProductPage = (props) => {
       <div className="flex justify-center">
         <div className="w-full lg:w-3/5 ">
           <div className="flex flex-col lg:flex-row lg:justify-between items-center">
-            <div className="w-full mt-7 lg:w-1/2 flex justify-center lg:mt-0">
+            <div className="w-full mt-7 lg:w-1/2 flex justify-center lg:mt-0 lg:border-2 lg:border-black">
               <ProductCarousel imageState={product.image} />
             </div>
             <div className="w-4/5 lg:w-2/5 flex flex-col gap-8 h-[500px] mt-10  justify-center">
@@ -125,7 +126,7 @@ const ProductPage = (props) => {
                   similarProducts.length < 3 && "justify-center"
                 )}
               >
-                {similarProducts.map((product) => (
+                {similarProducts.sort(() => 0.5 - Math.random()).slice(0, 6).map((product) => (
                   <div
                     key={product.id}
                     className="flex-none w-full md:w-1/2 lg:w-1/3"
