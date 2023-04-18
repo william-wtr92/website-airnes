@@ -126,7 +126,10 @@ const ProductPage = (props) => {
                   similarProducts.length < 3 && "justify-center"
                 )}
               >
-                {similarProducts.sort(() => 0.5 - Math.random()).slice(0, 6).map((product) => (
+                {similarProducts
+                    .sort((a, b) => a.id - b.id)
+                    .slice(0, 6)
+                    .map((product) => (
                   <div
                     key={product.id}
                     className="flex-none w-full md:w-1/2 lg:w-1/3"
