@@ -21,7 +21,7 @@ const Confirm = (props) => {
   return (
     <div
       className={classNames(
-        "md:w-1/2 w-full md:h-1/3 h-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white border border-gray-300 shadow-md rounded-md absolute",
+        "md:w-1/2 w-full md:h-1/3 h-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white border border-gray-300 shadow-md rounded-md absolute lg:w-full",
         className
       )}
     >

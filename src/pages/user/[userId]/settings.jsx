@@ -36,12 +36,11 @@ export const getServerSideProps = async (context) => {
 const Settings = (props) => {
   const { data, userId } = props
   const {
-    actions: { patchUser, deleteAddress, deleteUser, logout },
+    actions: { patchUser, deleteAddress, deleteUser },
   } = useAppContext()
   const [viewAddressL, setViewAddressL] = useState(false)
   const [confirmDelUser, setConfirmDelUser] = useState(false)
   const [confirmDelAddress, setConfirmDelAddress] = useState(false)
-  const [confirmLogout, setConfirmLogout] = useState(false)
 
   const [error, setError] = useState(null)
   const router = useRouter()
@@ -103,15 +102,6 @@ const Settings = (props) => {
   const handleConfirmUser = useCallback(async () => {
     setConfirmDelUser(true)
   }, [setConfirmDelUser])
-
-  const handleLogout = useCallback(async () => {
-    logout()
-    router.push("/")
-  }, [router, logout])
-
-  const handleConfirmLogout = useCallback(async () => {
-    setConfirmLogout(true)
-  }, [setConfirmLogout])
 
   return (
     <>
@@ -231,21 +221,6 @@ const Settings = (props) => {
               display={setConfirmDelUser}
               action={handleDeleteUser}
               textValue="Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible."
-            />
-          </div>
-          <div className="flex flex-row-reverse">
-            <Button
-              variant="primary"
-              className="mt-4 bg-primary py-2 px-4"
-              onClick={handleConfirmLogout}
-            >
-              Se deconnecter
-            </Button>
-            <Confirm
-              className={classNames(confirmLogout ? "block" : "hidden")}
-              display={setConfirmLogout}
-              action={handleLogout}
-              textValue="Êtes-vous sûr de vouloir vous déconnecter ?"
             />
           </div>
         </div>

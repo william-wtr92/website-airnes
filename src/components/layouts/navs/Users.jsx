@@ -8,11 +8,14 @@ import {
   ChevronRightIcon,
   GlobeAltIcon,
 } from "@heroicons/react/24/solid"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useRouter } from "next/router"
 import Button from "@/components/app/ui/Button"
 import axios from "axios"
 import routes from "@/web/routes"
+import useAppContext from "@/web/hooks/useAppContext"
+import Confirm from "@/components/app/ui/Confirm"
+import classNames from "classnames"
 
 const formatName = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
@@ -54,6 +57,22 @@ const Users = ({ className, session, cartItems }) => {
   }, [cartItems])
 
   let number = cartNumber === 0 ? null : cartNumber > 9 ? "9+" : cartNumber
+
+  const {
+    actions: { logout },
+  } = useAppContext()
+
+  const [confirmLogout, setConfirmLogout] = useState(false)
+
+  const handleLogout = useCallback(async () => {
+    logout()
+    router.push("/")
+    setBurgerMenu(false)
+  }, [router, logout])
+
+  const handleConfirmLogout = useCallback(async () => {
+    setConfirmLogout(true)
+  }, [setConfirmLogout])
 
   return (
     <>
@@ -121,7 +140,7 @@ const Users = ({ className, session, cartItems }) => {
               />
             </div>
             {session ? (
-              <div className="mx-12 my-10 gap-4">
+              <div className="flex flex-col mx-12 my-10 gap-6">
                 <div className="flex gap-2">
                   <p>Bonjour, </p>
                   <p className="font-bold">
@@ -129,6 +148,28 @@ const Users = ({ className, session, cartItems }) => {
                       {userName}
                     </NavLink>
                   </p>
+                </div>
+                <div className="flex flex-col gap-4">
+                  <NavLink href={`/user/${session.user.id}/orders`}>
+                    <div className="flex gap-4 hover:text-[#6f5e3f]">
+                      <ChevronRightIcon className="h-6 w-6" />
+                      <p className="hover:scale-105">Mes commandes</p>
+                    </div>
+                  </NavLink>
+
+                  <div
+                    className="flex gap-4 hover:text-[#6f5e3f] hover:cursor-pointer"
+                    onClick={() => handleConfirmLogout()}
+                  >
+                    <ChevronRightIcon className="h-6 w-6" />
+                    <p className="hover:scale-105">Déconnexion</p>
+                  </div>
+                  <Confirm
+                    className={classNames(confirmLogout ? "block" : "hidden")}
+                    display={setConfirmLogout}
+                    action={handleLogout}
+                    textValue="Confirmez-vous ?"
+                  />
                 </div>
               </div>
             ) : (

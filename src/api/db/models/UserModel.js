@@ -1,7 +1,7 @@
 import BaseModel from "@/api/db/models/BaseModel.js"
-import hashPassword from "../hashPassword"
 import AddressModel from "./AddressModel"
 import RoleModel from "./RoleModel"
+const { hashPassword } = require("@/api/db/hashPassword")
 
 class UserModel extends BaseModel {
   static tableName = "user"

@@ -15,6 +15,9 @@ const knexfile = {
     directory: resolve("src/api/db/migrations"),
     stub: resolve("src/api/db/migration.stub"),
   },
+  seeds: {
+    directory: resolve("src/api/seeds"),
+  },
 }
 
 module.exports = knexfile

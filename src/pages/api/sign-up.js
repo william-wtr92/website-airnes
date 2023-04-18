@@ -1,4 +1,3 @@
-import hashPassword from "@/api/db/hashPassword"
 import UserModel from "@/api/db/models/UserModel"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
@@ -8,6 +7,7 @@ import {
   NameValidator,
   passwordValidator,
 } from "@/components/validation/validation"
+const { hashPassword } = require("@/api/db/hashPassword")
 
 const handler = mw({
   POST: [
