@@ -23,7 +23,7 @@ const handler = mw({
       res,
     }) => {
       const limit = config.pagination.limit.default
-      page = parseInt(page, 20) || 1
+      page = parseInt(page, 10) || 1
       const offset = (page - 1) * limit
 
       const productsQuery = ProductModel.query()
@@ -49,7 +49,7 @@ const handler = mw({
       const pagination = {
         page,
         limit,
-        totalItems: parseInt(totalCount.count, 20),
+        totalItems: parseInt(totalCount.count, 10),
         totalPages: Math.ceil(totalCount.count / limit),
       }
 
