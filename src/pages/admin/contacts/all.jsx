@@ -5,18 +5,20 @@ import { useCallback } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
 
 export const getServerSideProps = async (context) => {
-  const { page } = context.query
+  const { page, order, column } = context.query
+  const clearPage = page || 1
+  const clearOrder = order || "asc"
+  const clearColumn = column || "id"
 
   const { data } = await axios.get(
-    `http://localhost:3000/api${routes.api.admin.contacts.getContacts()}?page=${
-      page || 1
-    }`
+    `http://localhost:3000/api${routes.api.admin.contacts.getContacts()}?page=${clearPage}&order=${clearOrder}&col=${clearColumn}`
   )
 
   return {
     props: {
       contacts: data.result,
       pagination: data.pagination,
+      query: { clearPage, clearOrder, clearColumn },
     },
   }
 }
@@ -26,7 +28,7 @@ const AllContacts = (props) => {
     actions: { deleteContact },
   } = useAppContext()
 
-  const { contacts, pagination } = props
+  const { contacts, pagination, query } = props
 
   const handleDelete = useCallback(
     async (id) => {
@@ -48,6 +50,7 @@ const AllContacts = (props) => {
       deleteRoute={handleDelete}
       columns={["id", "topic", "state"]}
       fields={["id", "topic", "read"]}
+      query={query}
     />
   )
 }

@@ -14,6 +14,7 @@ const DisplayPage = (props) => {
     canAdd,
     canEdit,
     deleteRoute,
+    query,
   } = props
 
   return (
@@ -31,7 +32,7 @@ const DisplayPage = (props) => {
             )}
           </div>
         </div>
-        <div className="flex flex-col overflow-x-auto overflow-hidden py-2 inline-block min-w-full sm:-mx-6 lg:-mx-8 sm:px-6 lg:px-8">
+        <div className="flex flex-col overflow-x-auto overflow-hidden py-2 min-w-full sm:-mx-6 lg:-mx-8 sm:px-6 lg:px-8">
           <Table
             section={sections}
             columns={columns}
@@ -39,12 +40,16 @@ const DisplayPage = (props) => {
             canEdit={canEdit}
             deleteRoute={deleteRoute}
             fields={fields}
+            page={query.clearPage}
+            lastorder={query.clearOrder}
           />
         </div>
       </div>
       <Pagination
         totalPages={pagination.totalPages}
         currentPage={pagination.page}
+        order={query.clearOrder}
+        column={query.clearColumn}
       />
     </div>
   )
