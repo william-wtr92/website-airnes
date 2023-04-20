@@ -4,7 +4,7 @@ const deleteProduct =
   ({ api }) =>
   async (productId) => {
     try {
-      const { data } = await api.delete(routes.api.deleteProduct(productId))
+      const { data } = await api.delete(routes.api.admin.products.deleteProduct(productId))
 
       return [null, data]
     } catch (err) {

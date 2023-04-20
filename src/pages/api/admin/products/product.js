@@ -3,7 +3,7 @@ import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import {
   linkValidator,
-  numberValidator,
+  numberValidator, objectValidator,
   queryPageValidator,
   stringValidator,
 } from "@/components/validation/validation"
@@ -23,7 +23,7 @@ const handler = mw({
         promotion: numberValidator.required(),
         quantity: numberValidator.required(),
         description: stringValidator.required(),
-        material: stringValidator.required(),
+        materials: objectValidator.required(),
       },
     }),
     async ({
@@ -36,7 +36,7 @@ const handler = mw({
           price,
           promotion,
           quantity,
-          material,
+          materials,
           jwt,
         },
       },
@@ -46,8 +46,11 @@ const handler = mw({
       const id = session.user.id
       const user = await UserModel.query().findOne({ id })
 
+      Object.keys(materials).forEach((key) => {
+        materials[key] = parseInt(materials[key])
+      })
+
       const categoryId = parseInt(category)
-      const materialId = parseInt(material)
 
       if (user.roleid !== 1) {
         res.status(403).send({ error: "You are not admin" })
@@ -63,8 +66,9 @@ const handler = mw({
         quantity,
         name,
         description,
-        materialId,
+        materials,
       })
+      console.log("inseett")
       res.send({ result: true })
     },
   ],

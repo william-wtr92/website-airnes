@@ -31,6 +31,7 @@ const CreateProduct = (props) => {
 
   const handlePost = useCallback(
     async (values) => {
+      console.log(values)
       setError(null)
 
       const [err] = await addProduct(values)

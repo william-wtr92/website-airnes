@@ -9,9 +9,7 @@ const addProduct =
     category,
     price,
     promotion,
-    material,
-    material2,
-    material3,
+    materials,
     quantity,
   }) => {
     try {
@@ -24,17 +22,16 @@ const addProduct =
           category,
           price,
           promotion,
-          material,
-          material2,
-          material3,
           quantity,
+          materials,
           jwt,
         }
       )
+        console.log("services add product")
 
       return [null, data]
     } catch (err) {
-      const error = err.response?.data?.error || "Oops. Something went wrong"
+      const error = err.response?.data?.error || "Oopsy. Something went wrong"
 
       return [Array.isArray(error) ? error : [error]]
     }

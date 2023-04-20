@@ -13,8 +13,8 @@ export const up = async (knex) => {
       table.float("price").notNullable()
       table.float("promotion")
       table.integer("quantity").notNullable()
-      table.integer("categoryId").references("id").inTable("category")
-      table.integer("materialId").references("id").inTable("material")
+      table.integer("categoryId").notNullable().references("id").inTable("category")
+      table.jsonb("materials").notNullable().defaultTo({})
     })
     .then(() => {
       return knex.schema.raw(

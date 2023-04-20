@@ -6,15 +6,16 @@ export const productValidationSchema = yup.object().shape({
   price: yup.number().required("Price required").label("price"),
   promotion: yup.number().label("promotion"),
   category: yup.number().required("Category required").label("category"),
-  material: yup
-    .number()
-    .required("At least 1 material required")
-    .label("material"),
+  materials: yup.object().shape({
+    material1: yup.number().required("At least 1 material required").label("material1"),
+    material2: yup.number().label("material2"),
+    material3: yup.number().label("material3"),
+  }),
   quantity: yup.number().required("Quantity required").label("quantity"),
   description: yup
-    .string()
-    .required("Description required")
-    .label("description"),
+      .string()
+      .required("Description required")
+      .label("description"),
 })
 
 export const productInitialValues = {
@@ -24,7 +25,11 @@ export const productInitialValues = {
   price: "",
   promotion: "",
   category: "",
-  material: "",
+  materials: {
+    material1: "",
+    material2: "",
+    material3: "",
+  },
   quantity: "",
 }
 

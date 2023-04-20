@@ -80,11 +80,43 @@ const ProductForm = (props) => {
                         label="Description"
                     />
                     <span className="text-md font-semibold">Material</span>
-                    <Field as="select" name={initialValues.materialId? "materialId" : "material"} className="flex border-2 rounded-md border-gray-400 py-1 cursor-pointer">
+                    <Field as="select" name={initialValues.materialId? "materialId" : "materials.material1"} className="flex border-2 rounded-md border-gray-400 py-1 cursor-pointer">
                         {initialValues.materialId?
                             <option defaultChecked value={initialValues.materialId}
                                                    id={initialValues.materialId}
                                                    key={initialValues.materialId}>{defaultValueMaterial.name}</option> :
+                            <option defaultChecked >Select a Material</option> }
+                        {
+                            initialMaterials
+                                .map(material =>
+                                    <option value={material.id}
+                                            id={material.id}
+                                            key={material.id}
+                                    >{material.name}</option>
+                                )
+                        }
+                    </Field>
+                    <Field as="select" name={initialValues.materialId? "materialId" : "materials.material2"} className="flex border-2 rounded-md border-gray-400 py-1 cursor-pointer">
+                        {initialValues.materialId?
+                            <option defaultChecked value={initialValues.materialId}
+                                    id={initialValues.materialId}
+                                    key={initialValues.materialId}>{defaultValueMaterial.name}</option> :
+                            <option defaultChecked >Select a Material</option> }
+                        {
+                            initialMaterials
+                                .map(material =>
+                                    <option value={material.id}
+                                            id={material.id}
+                                            key={material.id}
+                                    >{material.name}</option>
+                                )
+                        }
+                    </Field>
+                    <Field as="select" name={initialValues.materialId? "materialId" : "materials.material3"} className="flex border-2 rounded-md border-gray-400 py-1 cursor-pointer">
+                        {initialValues.materialId?
+                            <option defaultChecked value={initialValues.materialId}
+                                    id={initialValues.materialId}
+                                    key={initialValues.materialId}>{defaultValueMaterial.name}</option> :
                             <option defaultChecked >Select a Material</option> }
                         {
                             initialMaterials
