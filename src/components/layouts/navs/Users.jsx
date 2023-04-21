@@ -102,7 +102,7 @@ const Users = ({ className, session, cartItems }) => {
                 color={"#615043"}
               />
             </NavLink>
-            <NavLink href={session ? `/user/${session.user.id}/cart` : `/`}>
+            <NavLink href={`/user/cart`}>
               <ShoppingCartIcon
                 className={`h-6 hover:scale-110 hover:text-[#b3825c]`}
                 color={"#615043"}

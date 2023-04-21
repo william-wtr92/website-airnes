@@ -2,44 +2,15 @@ import Button from "@/components/app/ui/Button"
 import { TrashIcon, PlusIcon, MinusIcon } from "@heroicons/react/24/solid"
 import { NavLink } from "@/components/utils/NavLink"
 import Image from "next/image"
-import axios from "axios"
-import routes from "@/web/routes"
-// import { useCart } from "@/web/hooks/cart"
 import { useMediaQuery } from "react-responsive"
 import { useCallback } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
-
-export const getServerSideProps = async (context) => {
-  const { query } = context
-
-  const { data } = await axios.get(
-    `http://localhost:3000/api${routes.api.user.userData(query.userId)}`
-  )
-
-  if (!data.result) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    }
-  }
-
-  const userId = query.userId
-
-  return {
-    props: {
-      data,
-      userId,
-    },
-  }
-}
 
 const UserCart = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 1000px)" })
 
   const {
-    state: { cartItems },
+    state: { session, cartItems },
     actions: { removeFromCart, updateCartQuantity },
   } = useAppContext()
 
@@ -198,7 +169,9 @@ const UserCart = () => {
                   className="bg-[#615043] hover:bg-[#927864] hover:cursor-pointer
            active:bg-[#615043] border border-black px-10 py-4 font-semibold rounded-md text-[#fff]"
                 >
-                  <NavLink href="/payment/checkout">Passer la Commande</NavLink>
+                  <NavLink href={session ? `/payment/checkout` : `/user/login`}>
+                    Passer la Commande
+                  </NavLink>
                 </Button>
               </div>
             </div>

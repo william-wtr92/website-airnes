@@ -61,7 +61,7 @@ const ProductPage = (props) => {
 
   const {
     actions: { addToCart },
-    state: { session, cartItems },
+    state: { cartItems },
   } = useAppContext()
 
   const handleAddToCart = useCallback(() => {
@@ -149,9 +149,7 @@ const ProductPage = (props) => {
                 Continuer mes achats
               </Button>
               <Button>
-                <NavLink href={`/user/${session.user.id}/cart`}>
-                  Se rendre au panier
-                </NavLink>
+                <NavLink href={`/user/cart`}>Se rendre au panier</NavLink>
               </Button>
             </div>
           </div>
