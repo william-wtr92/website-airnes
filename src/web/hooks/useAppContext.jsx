@@ -29,6 +29,7 @@ import orderSelectedProductService from "@/web/services/admin/homepage/orderSele
 import patchRoleService from "@/web/services/admin/users/updateRole"
 
 import config from "../config"
+import Cookies from "js-cookie"
 
 const AppContext = createContext()
 
@@ -43,6 +44,7 @@ export const AppContextProvider = (props) => {
     localStorage.clear()
     setSession(null)
     setJWT(null)
+    Cookies.remove(config.session.localStorageKey)
   }
 
   const contact = contactService({ api })

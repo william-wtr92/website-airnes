@@ -9,6 +9,9 @@ import {
   loginValidationSchema,
 } from "@/components/validation/validationyup"
 import useAppContext from "@/web/hooks/useAppContext"
+import { redirectToHomeIfLoggedIn } from "@/web/hooks/getServerSidePropsLog"
+
+export const getServerSideProps = redirectToHomeIfLoggedIn
 
 const OnLoginForm = () => {
   const router = useRouter()

@@ -1,3 +1,5 @@
+// signInService.js
+import Cookies from "js-cookie"
 import config from "../config"
 import parseSession from "../parseSession"
 import routes from "../routes"
@@ -15,7 +17,8 @@ const signIn =
 
       setSession(parseSession(jwt))
       setJWT(jwt)
-      localStorage.setItem(config.session.localStorageKey, jwt)
+
+      Cookies.set(config.session.localStorageKey, jwt, { expires: 30 })
 
       return [null, true]
     } catch (err) {

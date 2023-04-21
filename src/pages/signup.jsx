@@ -9,6 +9,9 @@ import { Form, Formik, Field } from "formik"
 import { useRouter } from "next/router"
 import { useCallback, useState } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
+import { redirectToHomeIfLoggedIn } from "@/web/hooks/getServerSidePropsLog"
+
+export const getServerSideProps = redirectToHomeIfLoggedIn
 
 const SignUp = () => {
   const {
