@@ -9,7 +9,7 @@ import { Form, Formik, Field } from "formik"
 import { useRouter } from "next/router"
 import { useCallback, useState } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
-import { redirectToHomeIfLoggedIn } from "@/web/hooks/getServerSidePropsLog"
+import { redirectToHomeIfLoggedIn } from "@/web/helper/getServerSidePropsLog"
 
 export const getServerSideProps = redirectToHomeIfLoggedIn
 

@@ -74,6 +74,7 @@ const Users = ({ className, session, cartItems }) => {
 
   const handleConfirmLogout = useCallback(async () => {
     setConfirmLogout(true)
+    setCartNumber(0)
   }, [setConfirmLogout])
 
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false)

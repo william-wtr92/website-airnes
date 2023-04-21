@@ -34,9 +34,13 @@ const App = ({ Component, pageProps }) => {
 const SyncApp = (props) => {
   return (
     <AppContextProvider>
-      <App {...props} />
+      <AppWithAppContext {...props} />
     </AppContextProvider>
   )
+}
+
+const AppWithAppContext = (props) => {
+  return <App {...props} />
 }
 
 export default appWithTranslation(SyncApp)

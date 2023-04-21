@@ -9,7 +9,7 @@ import {
   loginValidationSchema,
 } from "@/components/validation/validationyup"
 import useAppContext from "@/web/hooks/useAppContext"
-import { redirectToHomeIfLoggedIn } from "@/web/hooks/getServerSidePropsLog"
+import { redirectToHomeIfLoggedIn } from "@/web/helper/getServerSidePropsLog"
 
 export const getServerSideProps = redirectToHomeIfLoggedIn
 

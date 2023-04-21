@@ -1,4 +1,3 @@
-// signInService.js
 import Cookies from "js-cookie"
 import config from "../config"
 import parseSession from "../parseSession"
