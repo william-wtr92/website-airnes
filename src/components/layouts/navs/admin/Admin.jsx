@@ -6,7 +6,6 @@ import {
   EnvelopeIcon,
   FolderIcon,
   HomeIcon,
-  XMarkIcon,
 } from "@heroicons/react/24/outline"
 import { UsersIcon } from "@heroicons/react/24/solid"
 import { useState } from "react"
@@ -14,8 +13,17 @@ import { useState } from "react"
 const Admin = () => {
   const [burgerMenu, setBurgerMenu] = useState(false)
 
+  const handleBodyScroll = (disable) => {
+    if (disable) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "auto"
+    }
+  }
+
   const handleBurgerMenu = () => {
     setBurgerMenu(!burgerMenu)
+    handleBodyScroll(!burgerMenu)
   }
 
   return (
@@ -27,12 +35,11 @@ const Admin = () => {
       </div>
       <div
         className={`${
-          burgerMenu ? `block top-0 ` : `lg:block hidden `
-        }h-screen space-y-10 sidebar bg-gray-100 font-semibold w-full lg:w-64 px-2 py-4 absolute lg:relative left-0 z-50`}
+          burgerMenu ? `block ` : `lg:block hidden `
+        }h-screen space-y-10 sidebar bg-gray-100 font-semibold w-full lg:w-64 px-2 py-4 sticky top-0 left-0 z-50`}
       >
         <div className="p-4 flex flex-row justify-between items-center">
           <h1 className="font-bold">AIRNEIS</h1>
-          <XMarkIcon className="h-6 w-6 lg:hidden" onClick={handleBurgerMenu} />
         </div>
         <nav className="px-4 flex flex-col gap-8 uppercase">
           <div className="flex flex-row gap-4">

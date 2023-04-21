@@ -6,10 +6,11 @@ module.exports = {
     "next",
     "plugin:react/recommended",
   ],
-  plugins: ["react", "react-hooks"],
+  plugins: ["react", "react-hooks", "testing-library"],
   env: {
     es2022: true,
     node: true,
+    jest: true,
   },
   parserOptions: {
     sourceType: "module",

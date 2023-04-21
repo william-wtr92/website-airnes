@@ -61,6 +61,7 @@ const Carousel = () => {
   return (
     <div className="w-full h-72 m-auto mb-10 relative group lg:h-96">
       <div
+        data-testid={`carousel-slide-${currentIndex}`}
         style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
         className="w-full h-72 bg-center bg-cover duration-500 lg:h-96"
       ></div>
