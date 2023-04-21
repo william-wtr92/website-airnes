@@ -16,6 +16,7 @@ import routes from "@/web/routes"
 import useAppContext from "@/web/hooks/useAppContext"
 import Confirm from "@/components/app/ui/Confirm"
 import classNames from "classnames"
+import { useTranslation } from "next-i18next"
 
 const formatName = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
@@ -23,6 +24,7 @@ const formatName = (str) => {
 
 const Users = ({ className, session, cartItems }) => {
   const router = useRouter()
+  const { i18n } = useTranslation("common")
 
   const [burgerMenu, setBurgerMenu] = useState(false)
   const [userName, setUserName] = useState("")
@@ -73,6 +75,17 @@ const Users = ({ className, session, cartItems }) => {
   const handleConfirmLogout = useCallback(async () => {
     setConfirmLogout(true)
   }, [setConfirmLogout])
+
+  const [languageMenuOpen, setLanguageMenuOpen] = useState(false)
+
+  const toggleLanguageMenu = () => {
+    setLanguageMenuOpen(!languageMenuOpen)
+  }
+
+  const handleLanguageChange = (lang) => {
+    i18n.changeLanguage(lang)
+    setLanguageMenuOpen(false)
+  }
 
   return (
     <>
@@ -252,10 +265,37 @@ const Users = ({ className, session, cartItems }) => {
               </div>
 
               <div className="flex my-10 lg:my-20 gap-4">
-                <Button className="w-60 flex gap-4 whitespace-nowrap hover:text-[#e8e1d4]">
+                <Button
+                  className="w-60 flex gap-4 whitespace-nowrap hover:text-[#e8e1d4]"
+                  onClick={toggleLanguageMenu}
+                >
                   <GlobeAltIcon className="h-6" />
-                  <p className="text-sm">Changer de langue</p>
+                  <p className="text-sm">Changer de Langue</p>
                 </Button>
+                <div
+                  className={`${
+                    languageMenuOpen ? "block" : "hidden"
+                  } absolute bg-white rounded shadow mt-2 p-2`}
+                >
+                  <div
+                    className="cursor-pointer p-1 hover:bg-gray-100 rounded"
+                    onClick={() => {
+                      handleLanguageChange("en")
+                      toggleLanguageMenu()
+                    }}
+                  >
+                    English
+                  </div>
+                  <div
+                    className="cursor-pointer p-1 hover:bg-gray-100 rounded"
+                    onClick={() => {
+                      handleLanguageChange("fr")
+                      toggleLanguageMenu()
+                    }}
+                  >
+                    Français
+                  </div>
+                </div>
               </div>
             </div>
           </div>

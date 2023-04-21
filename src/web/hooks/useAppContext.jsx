@@ -148,6 +148,12 @@ export const AppContextProvider = (props) => {
     }
   }
 
+  const [language, setLanguage] = useState("fr")
+
+  const changeLanguage = (newLanguage) => {
+    setLanguage(newLanguage)
+  }
+
   return (
     <AppContext.Provider
       {...props}
@@ -184,10 +190,12 @@ export const AppContextProvider = (props) => {
           clearCart,
           updateCartQuantity,
           removeFromCart,
+          changeLanguage,
         },
         state: {
           session,
           cartItems,
+          language,
         },
       }}
     />
