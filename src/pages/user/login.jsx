@@ -84,6 +84,11 @@ const OnLoginForm = () => {
                     SE CONNECTER
                   </Button>
                 </div>
+                {error && (
+                  <div className="text-red-500 text-center my-4">
+                    Email ou mot de passe incorrect
+                  </div>
+                )}
               </Form>
             </div>
           </div>
