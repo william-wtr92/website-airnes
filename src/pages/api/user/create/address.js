@@ -3,8 +3,8 @@ import AddressModel from "@/api/db/models/AddressModel"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import { stringValidator } from "@/components/validation/validation"
-import parseSession from "@/web/parseSession"
 import { NotFoundError } from "@/api/errors"
+import { getSessionFromCookiesServ } from "@/web/helper/getSessionFromCookiesServ"
 
 const handler = mw({
   POST: [
@@ -20,6 +20,7 @@ const handler = mw({
       },
     }),
     async ({
+      req,
       locals: {
         body: {
           name,
@@ -29,13 +30,14 @@ const handler = mw({
           complete,
           city,
           postal_code,
-          jwt,
         },
       },
       res,
     }) => {
-      const session = parseSession(jwt.jwt)
-      const id = session.user.id
+      const sessionFromCookies = getSessionFromCookiesServ(req)
+
+      const id = sessionFromCookies.user.id
+
       const user = await UserModel.query().findOne({ id })
 
       if (!user) {

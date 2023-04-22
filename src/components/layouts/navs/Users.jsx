@@ -16,7 +16,7 @@ import routes from "@/web/routes"
 import useAppContext from "@/web/hooks/useAppContext"
 import Confirm from "@/components/app/ui/Confirm"
 import classNames from "classnames"
-import { useTranslation } from "next-i18next"
+import { i18n } from "next-i18next"
 
 const formatName = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
@@ -24,7 +24,6 @@ const formatName = (str) => {
 
 const Users = ({ className, session, cartItems }) => {
   const router = useRouter()
-  const { i18n } = useTranslation("common")
 
   const [burgerMenu, setBurgerMenu] = useState(false)
   const [userName, setUserName] = useState("")
@@ -61,7 +60,7 @@ const Users = ({ className, session, cartItems }) => {
   let number = cartNumber === 0 ? null : cartNumber > 9 ? "9+" : cartNumber
 
   const {
-    actions: { logout },
+    actions: { logout, changeLanguage },
   } = useAppContext()
 
   const [confirmLogout, setConfirmLogout] = useState(false)
@@ -78,15 +77,35 @@ const Users = ({ className, session, cartItems }) => {
   }, [setConfirmLogout])
 
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false)
+  const isBrowser = () => typeof window !== "undefined"
 
   const toggleLanguageMenu = () => {
     setLanguageMenuOpen(!languageMenuOpen)
   }
 
-  const handleLanguageChange = (lang) => {
-    i18n.changeLanguage(lang)
-    setLanguageMenuOpen(false)
+  const getUserLanguage = () => {
+    if (isBrowser()) {
+      const userLang = localStorage.getItem("userLanguage")
+
+      return userLang || "fr"
+    }
+
+    return "fr"
   }
+  const [currentLanguage, setCurrentLanguage] = useState(getUserLanguage())
+
+  useEffect(() => {
+    i18n.changeLanguage(currentLanguage)
+  }, [router.pathname, currentLanguage, changeLanguage])
+
+  const handleLanguageChange = useCallback(
+    async (lang) => {
+      setCurrentLanguage(lang)
+      setLanguageMenuOpen(false)
+      localStorage.setItem("userLanguage", lang)
+    },
+    [setCurrentLanguage]
+  )
 
   return (
     <>

@@ -7,9 +7,12 @@ import { NavLink } from "@/components/utils/NavLink"
 import classNames from "classnames"
 import SlideProducts from "@/components/app/content/SlideProducts"
 import useAppContext from "@/web/hooks/useAppContext"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+// import { useTranslation } from "react-i18next"
 
 export const getServerSideProps = async (context) => {
   const { productId } = context.params
+  const { locale } = context
 
   const redirectToInitial = () => {
     return {
@@ -47,6 +50,7 @@ export const getServerSideProps = async (context) => {
       props: {
         similarProducts: similarProducts,
         product: productData.data.result,
+        ...(await serverSideTranslations(locale, ["product"])),
       },
     }
   } catch (error) {
@@ -58,6 +62,8 @@ const ProductPage = (props) => {
   const { product, similarProducts } = props
   const [showPopup, setShowPopup] = useState(false)
   const [showError, setShowError] = useState(false)
+
+  // const { t } = useTranslation("product")
 
   const {
     actions: { addToCart },
@@ -107,9 +113,7 @@ const ProductPage = (props) => {
           </div>
           {similarProducts.length > 0 && (
             <div className="flex flex-col items-center space-y-3">
-              <h2 className="uppercase font-extrabold text-xl">
-                Produits similaires
-              </h2>
+              <h2 className="uppercase font-extrabold text-xl">AAA</h2>
               <div
                 className={classNames(
                   "overflow-x-auto scrollbar w-full flex gap-10 p-4",

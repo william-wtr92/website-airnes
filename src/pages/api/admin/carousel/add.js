@@ -5,8 +5,8 @@ import {
   urlValidator,
   labelValidator,
 } from "@/components/validation/validation"
-import parseSession from "@/web/parseSession"
 import UserModel from "@/api/db/models/UserModel"
+import { getSessionFromCookiesServ } from "@/web/helper/getSessionFromCookiesServ"
 
 const handler = mw({
   POST: [
@@ -17,13 +17,16 @@ const handler = mw({
       },
     }),
     async ({
+      req,
       locals: {
-        body: { url, label, jwt },
+        body: { url, label },
       },
       res,
     }) => {
-      const session = parseSession(jwt.jwt)
-      const id = session.user.id
+      const sessionFromCookies = getSessionFromCookiesServ(req)
+
+      const id = sessionFromCookies.user.id
+
       const user = await UserModel.query().findOne({ id })
 
       if (user.roleid !== 1) {

@@ -12,12 +12,14 @@ const App = ({ Component, pageProps }) => {
   } = useAppContext()
 
   useEffect(() => {
-    i18n.on("languageChanged", (lang) => {
-      changeLanguage(lang)
-    })
+    if (i18n) {
+      i18n.on("languageChanged", (lang) => {
+        changeLanguage(lang)
+      })
 
-    return () => {
-      i18n.off("languageChanged")
+      return () => {
+        i18n.off("languageChanged")
+      }
     }
   }, [changeLanguage])
 

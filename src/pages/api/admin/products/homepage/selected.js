@@ -3,8 +3,8 @@ import mw from "@/api/mw"
 import ProductModel from "@/api/db/models/ProductModel"
 import validate from "@/api/middlewares/validate"
 import { numberValidator } from "@/components/validation/validation"
-import parseSession from "@/web/parseSession"
 import UserModel from "@/api/db/models/UserModel"
+import { getSessionFromCookiesServ } from "@/web/helper/getSessionFromCookiesServ"
 
 const handler = mw({
   GET: [
@@ -21,13 +21,16 @@ const handler = mw({
       productId: numberValidator.required(),
     }),
     async ({
+      req,
       locals: {
-        body: { productId, jwt },
+        body: { productId },
       },
       res,
     }) => {
-      const session = parseSession(jwt.jwt)
-      const id = session.user.id
+      const sessionFromCookies = getSessionFromCookiesServ(req)
+
+      const id = sessionFromCookies.user.id
+
       const user = await UserModel.query().findOne({ id })
 
       if (user.roleid !== 1) {
