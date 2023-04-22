@@ -32,11 +32,17 @@ const handler = mw({
         .limit(limit)
         .offset(offset)
 
+      const allProductQuery = ProductModel.query()
+          .where("categoryId", "!=", 0)
+          .orderBy("id", "asc")
+
       if (sale) {
         productsQuery.andWhere("promotion", ">", 0)
       }
 
       const products = await productsQuery
+
+      const allProduct = await allProductQuery
 
       const totalCount = await ProductModel.query().count().first()
 
@@ -51,6 +57,7 @@ const handler = mw({
         res.send({
           result: products,
           pagination: pagination,
+          allProduct: allProduct,
         })
 
         return
