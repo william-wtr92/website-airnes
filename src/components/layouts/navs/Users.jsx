@@ -16,7 +16,6 @@ import routes from "@/web/routes"
 import useAppContext from "@/web/hooks/useAppContext"
 import Confirm from "@/components/app/ui/Confirm"
 import classNames from "classnames"
-import { i18n } from "next-i18next"
 
 const formatName = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
@@ -77,34 +76,17 @@ const Users = ({ className, session, cartItems }) => {
   }, [setConfirmLogout])
 
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false)
-  const isBrowser = () => typeof window !== "undefined"
 
   const toggleLanguageMenu = () => {
     setLanguageMenuOpen(!languageMenuOpen)
   }
 
-  const getUserLanguage = () => {
-    if (isBrowser()) {
-      const userLang = localStorage.getItem("userLanguage")
-
-      return userLang || "fr"
-    }
-
-    return "fr"
-  }
-  const [currentLanguage, setCurrentLanguage] = useState(getUserLanguage())
-
-  useEffect(() => {
-    i18n.changeLanguage(currentLanguage)
-  }, [router.pathname, currentLanguage, changeLanguage])
-
   const handleLanguageChange = useCallback(
-    async (lang) => {
-      setCurrentLanguage(lang)
+    (lang) => {
+      changeLanguage(lang)
       setLanguageMenuOpen(false)
-      localStorage.setItem("userLanguage", lang)
     },
-    [setCurrentLanguage]
+    [changeLanguage]
   )
 
   return (
@@ -290,7 +272,7 @@ const Users = ({ className, session, cartItems }) => {
                   onClick={toggleLanguageMenu}
                 >
                   <GlobeAltIcon className="h-6" />
-                  <p className="text-sm">Changer de Langue</p>
+                  <p className="text-sm">Changer la langue</p>
                 </Button>
                 <div
                   className={`${

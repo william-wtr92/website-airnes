@@ -2,27 +2,9 @@ import Head from "next/head"
 import Layout from "@/components/layouts/Layout"
 import "./styles.css"
 import useAppContext, { AppContextProvider } from "@/web/hooks/useAppContext"
-import { appWithTranslation, i18n } from "next-i18next"
-import { useEffect } from "react"
+import { appWithTranslation } from "next-i18next"
 
-const App = ({ Component, pageProps }) => {
-  const {
-    actions: { changeLanguage },
-    state: { session, cartItems },
-  } = useAppContext()
-
-  useEffect(() => {
-    if (i18n) {
-      i18n.on("languageChanged", (lang) => {
-        changeLanguage(lang)
-      })
-
-      return () => {
-        i18n.off("languageChanged")
-      }
-    }
-  }, [changeLanguage])
-
+const App = ({ Component, pageProps, session, cartItems }) => {
   return (
     <Layout session={session} cartItems={cartItems}>
       <Head>
@@ -42,7 +24,19 @@ const SyncApp = (props) => {
 }
 
 const AppWithAppContext = (props) => {
-  return <App {...props} />
+  const {
+    actions: { changeLanguage },
+    state: { session, cartItems },
+  } = useAppContext()
+
+  return (
+    <App
+      {...props}
+      session={session}
+      cartItems={cartItems}
+      changeLanguage={changeLanguage}
+    />
+  )
 }
 
 export default appWithTranslation(SyncApp)

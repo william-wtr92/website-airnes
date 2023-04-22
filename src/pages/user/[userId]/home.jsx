@@ -46,7 +46,7 @@ const UserHome = (props) => {
         </div>
         <NavLink href={`/user/${userId}/orders`}>
           <Button className="w-full rounded-2xl whitespace-normal tracking-normal">
-            <p>{t(`myOrder`)}</p>
+            {t(`myOrder`)}
           </Button>
         </NavLink>
         <NavLink href={`/user/${userId}/settings`}>

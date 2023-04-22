@@ -30,6 +30,7 @@ import patchRoleService from "@/web/services/admin/users/updateRole"
 import config from "../config"
 import Cookies from "js-cookie"
 import { getSessionFromCookies } from "../helper/getSessionFromCookies"
+import { i18n } from "next-i18next"
 
 const AppContext = createContext()
 
@@ -162,10 +163,20 @@ export const AppContextProvider = ({
     }
   }
 
-  const [language, setLanguage] = useState("fr")
+  const language = i18n ? i18n.language : "fr"
 
-  const changeLanguage = (newLanguage) => {
-    setLanguage(newLanguage)
+  const saveLanguageToLocalStorage = (language) => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("userLanguage", language)
+    }
+  }
+
+  const changeLanguage = (language) => {
+    if (i18n) {
+      i18n.changeLanguage(language)
+    }
+
+    saveLanguageToLocalStorage(language)
   }
 
   return (
