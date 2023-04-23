@@ -4,6 +4,7 @@ import classNames from "classnames"
 import Confirm from "@/components/app/ui/Confirm"
 import { useCallback, useState } from "react"
 import { useRouter } from "next/router"
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid"
 
 const Table = (props) => {
   const {
@@ -80,7 +81,18 @@ const Table = (props) => {
                 className="text-sm font-medium text-gray-900 p-4 text-left uppercase"
                 key={column}
               >
-                {column}
+                <div className="flex">
+                  {column}
+                  {lastcolumn == fields[id] ? (
+                    order == "asc" ? (
+                      <ChevronDownIcon className="w-6" />
+                    ) : (
+                      <ChevronUpIcon className="w-6" />
+                    )
+                  ) : (
+                    ""
+                  )}
+                </div>
               </th>
             )
           })}
