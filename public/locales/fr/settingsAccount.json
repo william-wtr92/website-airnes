@@ -1,0 +1,16 @@
+{
+  "myAccount": "Mon compte",
+  "myInfo": "Mes Informations",
+  "changePwd": "Changer de mdp",
+  "btnModify": "MODIFIER",
+  "address": "Mes adresses",
+  "orderAddress": "Adresse de livraison",
+  "addressCp": "Complément d'adresse:",
+  "dltAccount": "Supprimer le compte",
+  "labelName": "Nom complet*",
+  "labelEmail": "E-mail*",
+  "placeholderEmail": "Entrez votre e-mail",
+  "placeholderName": "Entez votre nom",
+  "confirmAddress": "Voulez-vous vraiment supprimer l'adresse ?",
+  "confirmDeleteAccount": "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible."
+}

@@ -31,6 +31,7 @@ import config from "../config"
 import Cookies from "js-cookie"
 import { getSessionFromCookies } from "../helper/getSessionFromCookies"
 import { i18n } from "next-i18next"
+import { useRouter } from "next/router"
 
 const AppContext = createContext()
 
@@ -163,6 +164,8 @@ export const AppContextProvider = ({
     }
   }
 
+  const router = useRouter()
+
   const language = i18n ? i18n.language : "fr"
 
   const saveLanguageToLocalStorage = (language) => {
@@ -172,11 +175,11 @@ export const AppContextProvider = ({
   }
 
   const changeLanguage = (language) => {
-    if (i18n) {
+    if (i18n && language !== i18n.language) {
       i18n.changeLanguage(language)
+      saveLanguageToLocalStorage(language)
+      router.push(router.pathname, router.asPath, { locale: language })
     }
-
-    saveLanguageToLocalStorage(language)
   }
 
   return (

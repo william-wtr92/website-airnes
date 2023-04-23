@@ -31,6 +31,7 @@ export const getServerSideProps = async (context) => {
     },
   }
 }
+
 const UserHome = (props) => {
   const { data } = props
 
