@@ -16,6 +16,7 @@ import routes from "@/web/routes"
 import useAppContext from "@/web/hooks/useAppContext"
 import Confirm from "@/components/app/ui/Confirm"
 import classNames from "classnames"
+import { useTranslation } from "next-i18next"
 
 const formatName = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
@@ -89,6 +90,8 @@ const Users = ({ className, session, cartItems }) => {
     [changeLanguage]
   )
 
+  const { t } = useTranslation("navbar")
+
   return (
     <>
       <header className="bg-white sticky top-0 z-20">
@@ -157,7 +160,7 @@ const Users = ({ className, session, cartItems }) => {
             {session ? (
               <div className="flex flex-col mx-12 my-10 gap-6">
                 <div className="flex gap-2">
-                  <p>Bonjour, </p>
+                  <p>{t(`welcome`)} </p>
                   <p className="font-bold">
                     <NavLink href={`/user/${session.user.id}/home`}>
                       {userName}
@@ -168,7 +171,7 @@ const Users = ({ className, session, cartItems }) => {
                   <NavLink href={`/user/${session.user.id}/orders`}>
                     <div className="flex gap-4 hover:text-[#6f5e3f]">
                       <ChevronRightIcon className="h-6 w-6" />
-                      <p className="hover:scale-105">Mes commandes</p>
+                      <p className="hover:scale-105">{t(`mycommand`)}</p>
                     </div>
                   </NavLink>
 
@@ -177,13 +180,13 @@ const Users = ({ className, session, cartItems }) => {
                     onClick={() => handleConfirmLogout()}
                   >
                     <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">Déconnexion</p>
+                    <p className="hover:scale-105">{t(`logout`)}</p>
                   </div>
                   <Confirm
                     className={classNames(confirmLogout ? "block" : "hidden")}
                     display={setConfirmLogout}
                     action={handleLogout}
-                    textValue="Confirmez-vous ?"
+                    textValue={t(`confirmLogout`)}
                   />
                 </div>
               </div>
@@ -193,7 +196,7 @@ const Users = ({ className, session, cartItems }) => {
                   <NavLink href="/user/login">
                     <div className="flex gap-4 hover:text-[#6f5e3f]">
                       <ChevronRightIcon className="h-6 w-6" />
-                      <p className="hover:scale-105">Se connecter</p>
+                      <p className="hover:scale-105">{t("signin")}</p>
                     </div>
                   </NavLink>
                 </div>
@@ -201,7 +204,7 @@ const Users = ({ className, session, cartItems }) => {
                   <NavLink href="/signup">
                     <div className="flex gap-4 hover:text-[#6f5e3f]">
                       <ChevronRightIcon className="h-6 w-6" />
-                      <p className="hover:scale-105">S'inscrire</p>
+                      <p className="hover:scale-105">{t(`signup`)}</p>
                     </div>
                   </NavLink>
                 </div>
@@ -217,7 +220,7 @@ const Users = ({ className, session, cartItems }) => {
                 <NavLink href="/categories/all">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
                     <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">Catégories</p>
+                    <p className="hover:scale-105">{t(`categories`)}</p>
                   </div>
                 </NavLink>
               </div>
@@ -227,7 +230,7 @@ const Users = ({ className, session, cartItems }) => {
               <div>
                 <div className="flex gap-4">
                   <ChevronRightIcon className="h-6 w-6" />
-                  <p className="hover:scale-105">Promotions</p>
+                  <p className="hover:scale-105">{t(`promotions`)}</p>
                 </div>
               </div>
             </div>
@@ -237,7 +240,7 @@ const Users = ({ className, session, cartItems }) => {
                 <NavLink href="/help/cgu">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
                     <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">CGU</p>
+                    <p className="hover:scale-105">{t(`cgu`)}</p>
                   </div>
                 </NavLink>
               </div>
@@ -245,7 +248,7 @@ const Users = ({ className, session, cartItems }) => {
                 <NavLink href="/help/legal">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
                     <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">Mentions Légales</p>
+                    <p className="hover:scale-105">{t(`legal`)}</p>
                   </div>
                 </NavLink>
               </div>
@@ -253,7 +256,7 @@ const Users = ({ className, session, cartItems }) => {
                 <NavLink href="/support/contact">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
                     <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">Contact</p>
+                    <p className="hover:scale-105">{t(`contact`)}</p>
                   </div>
                 </NavLink>
               </div>
@@ -261,7 +264,7 @@ const Users = ({ className, session, cartItems }) => {
                 <NavLink href="/">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
                     <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">A propos d'Airneis</p>
+                    <p className="hover:scale-105">{t(`about`)}</p>
                   </div>
                 </NavLink>
               </div>
@@ -272,7 +275,7 @@ const Users = ({ className, session, cartItems }) => {
                   onClick={toggleLanguageMenu}
                 >
                   <GlobeAltIcon className="h-6" />
-                  <p className="text-sm">Changer la langue</p>
+                  <p className="text-sm">{t(`languageChange`)}</p>
                 </Button>
                 <div
                   className={`${
@@ -286,7 +289,7 @@ const Users = ({ className, session, cartItems }) => {
                       toggleLanguageMenu()
                     }}
                   >
-                    English
+                    {t(`en`)}
                   </div>
                   <div
                     className="cursor-pointer p-1 hover:bg-gray-100 rounded"
@@ -295,7 +298,7 @@ const Users = ({ className, session, cartItems }) => {
                       toggleLanguageMenu()
                     }}
                   >
-                    Français
+                    {t(`fr`)}
                   </div>
                 </div>
               </div>

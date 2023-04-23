@@ -18,7 +18,7 @@ export const getServerSideProps = async ({ locale }) => {
   return {
     props: {
       products: products,
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(locale, ["common", "footer", "navbar"])),
     },
   }
 }

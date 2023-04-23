@@ -1,0 +1,16 @@
+{
+  "signupText": "Inscription",
+  "labelName": "Nom complet",
+  "placeholderName": "Entrez votre nom",
+  "labelEmail": "E-mail*",
+  "placeholderEmail": "Entrez votre e-mail",
+  "labelPwd": "Mot de passe*",
+  "placeholderPwd": "Entrez votre mot de passe",
+  "labelConfirmPwd": "Confirmation du mot de passe",
+  "placeholderConfirmPwd": "Entrez votre mot de passe",
+  "acceptText": "J'accepte les",
+  "conditionText": "condition d'utilisation",
+  "haveAccount": "Déjà un compte ?",
+  "signin": "Connectez-vous",
+  "btnSignup": "S'INSCRIRE"
+}

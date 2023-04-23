@@ -7,15 +7,17 @@ export const redirectToHomeIfLoggedIn = async (context) => {
     session &&
     (context.req.url === "/signup" || context.req.url === "/user/login")
   ) {
+    const { locale } = context
+
+    const destination = locale ? `/${locale}` : "/"
+
     return {
       redirect: {
-        destination: "/",
+        destination: destination,
         permanent: false,
       },
     }
   }
 
-  return {
-    props: {},
-  }
+  return null
 }

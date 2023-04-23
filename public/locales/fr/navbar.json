@@ -1,0 +1,17 @@
+{
+  "welcome": "Bonjour,",
+  "mycommand": "Mes commandes",
+  "logout": "Déconnexion",
+  "confirmLogout": "Confirmez-vous ?",
+  "signin": "Se connecter",
+  "signup": "S'inscrire",
+  "categories": "Catégories",
+  "promotions": "Promotions",
+  "cgu": "CGU",
+  "legal": "Mentions Légales",
+  "contact": "Contact",
+  "about": "A propos d'Airneis",
+  "languageChange": "Changer la langue",
+  "en": "Anglais",
+  "fr": "Français"
+}

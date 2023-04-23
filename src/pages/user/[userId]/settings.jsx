@@ -18,7 +18,7 @@ import useAppContext from "@/web/hooks/useAppContext"
 import Confirm from "@/components/app/ui/Confirm"
 import { useRouter } from "next/router"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "next-i18next"
 
 export const getServerSideProps = async (context) => {
   const { query, locale } = context
@@ -31,7 +31,11 @@ export const getServerSideProps = async (context) => {
     props: {
       data: data,
       userId: query.userId,
-      ...(await serverSideTranslations(locale, ["settingsAccount"])),
+      ...(await serverSideTranslations(locale, [
+        "settingsAccount",
+        "navbar",
+        "footer",
+      ])),
     },
   }
 }

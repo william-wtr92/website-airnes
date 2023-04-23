@@ -1,0 +1,10 @@
+{
+  "contactUs": "Nous contacter",
+  "labelEmail": "Mail*",
+  "placeholderEmail": "Entrez votre e-mail",
+  "labelSubject": "Subject*",
+  "placeholderSubject": "Entrez votre sujet",
+  "labelContent": "Message*",
+  "placeholderContent": "Entrez votre message",
+  "send": "ENVOYER"
+}
