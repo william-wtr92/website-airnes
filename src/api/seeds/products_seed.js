@@ -7,15 +7,50 @@ faker.locale = "fr"
 const seed = async () => {
   const db = knex(config.db)
 
+  await db("selected_category").del()
+  await db("selected_product").del()
   await db("product").del()
   await db("category").del()
   await db("material").del()
+  await db("carousel_image").del()
 
   await insertMaterials(db)
 
-  await insertCategories(db)
+  const categories = await insertCategories(db)
 
-  await insertProducts(db)
+  const products = await insertProducts(db)
+
+  await insertSelectedCategories(db, categories)
+
+  await insertSelectedProducts(db, products)
+
+  await insertCarousel(db)
+}
+
+const insertSelectedCategories = async (db, categories) => {
+  const selectedCategories = categories
+    .sort(() => 0.5 - Math.random())
+    .slice(0, 3)
+
+  await db("selected_category").insert(
+    selectedCategories.map((category, index) => ({
+      id: index + 1,
+      category_id: category.id,
+      order: index + 1,
+    }))
+  )
+}
+
+const insertSelectedProducts = async (db, products) => {
+  const selectedProducts = products.sort(() => 0.5 - Math.random()).slice(0, 3)
+
+  await db("selected_product").insert(
+    selectedProducts.map((product, index) => ({
+      id: index + 1,
+      product_id: product.id,
+      order: index + 1,
+    }))
+  )
 }
 
 const insertProducts = async (db) => {
@@ -32,6 +67,8 @@ const insertProducts = async (db) => {
   }))
 
   await db("product").insert(products)
+
+  return products
 }
 
 const insertCategories = async (db) => {
@@ -59,6 +96,8 @@ const insertCategories = async (db) => {
   }))
 
   await db("category").insert(categories)
+
+  return categories
 }
 
 const insertMaterials = async (db) => {
@@ -84,6 +123,17 @@ const insertMaterials = async (db) => {
   }))
 
   await db("material").insert(materials)
+}
+
+const insertCarousel = async (db) => {
+  const images = Array.from({ length: 3 }, (_, index) => ({
+    id: index + 1,
+    label: faker.commerce.productName(),
+    url: faker.image.imageUrl(),
+    order: index + 1,
+  }))
+
+  await db("carousel_image").insert(images)
 }
 
 module.exports = {
