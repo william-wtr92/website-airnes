@@ -3,18 +3,23 @@ import mw from "@/api/mw"
 import { NotFoundError } from "@/api/errors"
 import config from "@/api/config"
 import validate from "@/api/middlewares/validate"
-import { queryPageValidator } from "@/components/validation/validation"
+import {
+  queryPageValidator,
+  stringValidator,
+} from "@/components/validation/validation"
 
 const handler = mw({
   GET: [
     validate({
       query: {
-        page: queryPageValidator,
+        page: queryPageValidator.optional(),
+        order: stringValidator.optional(),
+        col: stringValidator.optional(),
       },
     }),
     async ({
       locals: {
-        query: { page },
+        query: { page, order, col },
       },
       res,
     }) => {
@@ -22,7 +27,7 @@ const handler = mw({
       const offset = (page - 1) * limit
 
       const contacts = await ContactModel.query()
-        .orderBy("id", "asc")
+        .orderBy(col, order)
         .limit(limit)
         .offset(offset)
       const totalCount = await ContactModel.query().count().first()

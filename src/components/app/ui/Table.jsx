@@ -3,11 +3,24 @@ import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline"
 import classNames from "classnames"
 import Confirm from "@/components/app/ui/Confirm"
 import { useCallback, useState } from "react"
+import { useRouter } from "next/router"
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid"
 
 const Table = (props) => {
-  const { section, columns, contents, canEdit, deleteRoute, fields } = props
+  const {
+    section,
+    columns,
+    contents,
+    canEdit,
+    deleteRoute,
+    fields,
+    page,
+    lastorder,
+  } = props
 
   const [itemToDelete, setItemToDelete] = useState(false)
+  const [lastcolumn, setLastcolumn] = useState("id")
+  const [order, setOrder] = useState(lastorder)
 
   const isNoCategory = (content) => {
     return section === "categories" && content.name === "No category"
@@ -23,6 +36,22 @@ const Table = (props) => {
       setItemToDelete(false)
     },
     [deleteRoute]
+  )
+
+  const router = useRouter()
+
+  const handlePageChange = useCallback(
+    async (column) => {
+      const samecolumn = column == lastcolumn && order == "asc"
+      const newOrder = samecolumn ? "desc" : "asc"
+      setOrder(newOrder)
+      setLastcolumn(column)
+
+      await router.push({
+        query: { column, order: newOrder, page },
+      })
+    },
+    [order, lastcolumn, setOrder, setLastcolumn, router, page]
   )
 
   const renderFieldContent = (field, content, section) => {
@@ -45,13 +74,25 @@ const Table = (props) => {
     <table className="table-auto">
       <thead className="bg-white border-b">
         <tr>
-          {columns.map((column) => {
+          {columns.map((column, id) => {
             return (
               <th
+                onClick={() => handlePageChange(fields[id])}
                 className="text-sm font-medium text-gray-900 p-4 text-left uppercase"
                 key={column}
               >
-                {column}
+                <div className="flex">
+                  {column}
+                  {lastcolumn == fields[id] ? (
+                    order == "asc" ? (
+                      <ChevronDownIcon className="w-6" />
+                    ) : (
+                      <ChevronUpIcon className="w-6" />
+                    )
+                  ) : (
+                    ""
+                  )}
+                </div>
               </th>
             )
           })}
