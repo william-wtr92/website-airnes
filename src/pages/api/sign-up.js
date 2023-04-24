@@ -7,6 +7,7 @@ import {
   NameValidator,
   passwordValidator,
 } from "@/components/validation/validation"
+import sgMail from "@sendgrid/mail"
 const { hashPassword } = require("@/api/db/hashPassword")
 
 const handler = mw({
@@ -42,6 +43,20 @@ const handler = mw({
         passwordHash,
         passwordSalt,
       })
+
+      sgMail.setApiKey(process.env.KEY_SEND_GRID)
+
+      const sendGridMail = {
+        to: mail,
+        from: process.env.MAIL_SEND_GRID,
+        templateId: "d-f38671e3147741b4ba1c0968ec6702f4 ",
+        dynamic_template_data: {
+          name: name,
+          mail: mail,
+        },
+      }
+
+      await sgMail.send(sendGridMail)
 
       res.send({ result: true })
     },

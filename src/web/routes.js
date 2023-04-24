@@ -7,6 +7,7 @@ const routes = {
     signUp: () => "/sign-up",
     signIn: () => "/sign-in",
     contact: () => "/contact",
+    sendMail: () => "/reset_password",
     app: {
       getProducts: () => "/app/products",
     },
