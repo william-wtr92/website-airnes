@@ -26,7 +26,7 @@ const handler = mw({
         throw new InvalidCredentialsError()
       }
 
-      const jwt = jsonwebtoken.sign(
+      const tokken = jsonwebtoken.sign(
         {
           payload: {
             mail: mail,
@@ -43,8 +43,8 @@ const handler = mw({
         from: process.env.MAIL_SEND_GRID,
         templateId: "d-6bad8b034b8e40b3b64170469823f86a",
         dynamic_template_data: {
-          mail: mail,
-          jwt: jwt,
+          fullname: user.name,
+          tokken: tokken,
         },
       }
 

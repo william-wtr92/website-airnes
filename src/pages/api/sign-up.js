@@ -51,8 +51,7 @@ const handler = mw({
         from: process.env.MAIL_SEND_GRID,
         templateId: "d-f38671e3147741b4ba1c0968ec6702f4 ",
         dynamic_template_data: {
-          name: name,
-          mail: mail,
+          fullname: name,
         },
       }
 
