@@ -3,18 +3,23 @@ import UserModel from "@/api/db/models/UserModel"
 import { NotFoundError } from "@/api/errors"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
-import { queryPageValidator } from "@/components/validation/validation"
+import {
+  queryPageValidator,
+  stringValidator,
+} from "@/components/validation/validation"
 
 const handler = mw({
   GET: [
     validate({
       query: {
-        page: queryPageValidator,
+        page: queryPageValidator.optional(),
+        order: stringValidator.optional(),
+        col: stringValidator.optional(),
       },
     }),
     async ({
       locals: {
-        query: { page },
+        query: { page, order, col },
       },
       res,
     }) => {
@@ -22,11 +27,11 @@ const handler = mw({
       const offset = (page - 1) * limit
 
       const user = await UserModel.query()
-        .orderBy("id", "asc")
         .limit(limit)
         .offset(offset)
         .modify("sanitize")
         .withGraphFetched("roledata")
+        .orderBy(col, order)
 
       const totalCount = await UserModel.query().count().first()
 

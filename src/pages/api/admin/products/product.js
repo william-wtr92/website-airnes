@@ -74,11 +74,13 @@ const handler = mw({
     validate({
       query: {
         page: queryPageValidator.optional(),
+        order: stringValidator.optional(),
+        col: stringValidator.optional(),
       },
     }),
     async ({
       locals: {
-        query: { page },
+        query: { page, order, col },
       },
       res,
     }) => {
@@ -90,7 +92,7 @@ const handler = mw({
         const offset = (page - 1) * limit
 
         products = await ProductModel.query()
-          .orderBy("id", "asc")
+          .orderBy(col, order)
           .limit(limit)
           .offset(offset)
         const totalCount = await ProductModel.query().count().first()
@@ -102,7 +104,7 @@ const handler = mw({
           totalPages: Math.ceil(totalCount.count / limit),
         }
       } else {
-        products = await ProductModel.query().orderBy("id", "asc")
+        products = await ProductModel.query().orderBy(col, order)
       }
 
       if (products) {
