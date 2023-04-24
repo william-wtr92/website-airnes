@@ -25,18 +25,23 @@ const DisplayMain = (props) => {
       : "/create"
 
   return (
-    <div className={classNames("relative left-[40%]", className)}>
-      <div className="flex gap-32">
+    <div
+      className={classNames(
+        "flex flex-col lg:relative lg:left-1/4 w-full px-8",
+        className
+      )}
+    >
+      <div className="flex flex-col gap-6 lg:gap-32 lg:flex-row">
         <div>
-          <h1 className="text-2xl font-bold w-36 whitespace-nowrap">
+          <h1 className="text-2xl font-bold w-full lg:w-36 whitespace-nowrap mb-4">
             Home {sectionName}
           </h1>
         </div>
-        <div>
-          <ul className="flex flex-col items-start gap-4 mt-2">
+        <div className="w-full lg:w-auto">
+          <ul className="flex flex-col items-start gap-4">
             {contents.map((content) => {
               return (
-                <li key={content.id} className="flex gap-10 items-center">
+                <li key={content.id} className="flex gap-6 items-center">
                   <Bars3Icon className="h-6" />
                   <p className="truncate w-24">
                     {renderContent === "carousel"
@@ -62,7 +67,7 @@ const DisplayMain = (props) => {
                 </li>
               )
             })}
-            <li className="flex gap-10 mt-4 items-center">
+            <li className="flex gap-6 mt-4 items-center">
               <NavLink href={`/admin/${sectionLink}${path}`}>
                 <PlusIcon className="h-6 text-gray-500" />
               </NavLink>

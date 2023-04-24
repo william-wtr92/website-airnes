@@ -227,7 +227,7 @@ const Homepage = (props) => {
   )
 
   return (
-    <div className="p-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
+    <div className="lg:absolute lg:top-0 lg:left-[20%]">
       {error && (
         <div className="text-red-500 mb-4">
           <p>Error: {error}</p>
@@ -258,7 +258,7 @@ const Homepage = (props) => {
         onDelete={handleDeleteProduct}
         onMove={handleMoveProduct}
         renderContent={"products"}
-        className={"mt-28"}
+        className={"mt-28 mb-6"}
       />
     </div>
   )
