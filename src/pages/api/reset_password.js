@@ -49,7 +49,13 @@ const handler = mw({
       }
 
       await sgMail.send(sendGridMail)
-      res.send({ result: true })
+
+      try {
+        await sgMail.send(sendGridMail)
+        res.send({ result: true })
+      } catch {
+        throw new InvalidCredentialsError()
+      }
     },
   ],
 })

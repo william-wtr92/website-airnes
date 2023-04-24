@@ -69,7 +69,9 @@ const OnLoginForm = () => {
                 />
                 <div className="flex justify-center gap-2 my-4 lg:gap-4">
                   <div className="font-bold hover:text-[#927864] text-xs lg:text-sm">
-                    <NavLink href="/user/#">Mot de passe oublié?</NavLink>
+                    <NavLink href="/support/forgotten_password">
+                      Mot de passe oublié?
+                    </NavLink>
                   </div>
                   <div className="font-bold hover:text-[#927864] text-xs lg:text-sm">
                     <NavLink href="/signup">Inscrivez vous</NavLink>
