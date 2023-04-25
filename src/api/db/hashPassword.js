@@ -1,6 +1,6 @@
-const { pbkdf2: pbkdf2Callback, randomBytes } = require("crypto")
-const { promisify } = require("util")
-const config = require("../config.js")
+import { pbkdf2 as pbkdf2Callback, randomBytes } from "node:crypto"
+import { promisify } from "node:util"
+import config from "../config.js"
 
 const pbkdf2 = promisify(pbkdf2Callback)
 
@@ -20,4 +20,4 @@ const hashPassword = async (
   salt,
 ]
 
-module.exports.hashPassword = hashPassword
+export default hashPassword
