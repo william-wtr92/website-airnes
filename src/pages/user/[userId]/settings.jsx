@@ -43,7 +43,7 @@ export const getServerSideProps = async (context) => {
 const Settings = (props) => {
   const { data, userId } = props
   const {
-    actions: { patchUser, deleteAddress, deleteUser },
+    actions: { patchUser, deleteAddress, deleteUser, logout },
   } = useAppContext()
   const [viewAddressL, setViewAddressL] = useState(false)
   const [confirmDelUser, setConfirmDelUser] = useState(false)
@@ -99,8 +99,9 @@ const Settings = (props) => {
     }
 
     localStorage.clear()
+    logout()
     router.push("/")
-  }, [deleteUser, userId, router])
+  }, [deleteUser, userId, router, logout])
 
   const handleConfirmAddress = useCallback(async () => {
     setConfirmDelAddress(true)
