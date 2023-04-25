@@ -300,6 +300,15 @@ const Users = ({ className, session, cartItems }) => {
                   >
                     {t(`fr`)}
                   </div>
+                  <div
+                    className="cursor-pointer p-1 hover:bg-gray-100 rounded"
+                    onClick={() => {
+                      handleLanguageChange("ar")
+                      toggleLanguageMenu()
+                    }}
+                  >
+                    {t(`ar`)}
+                  </div>
                 </div>
               </div>
             </div>
