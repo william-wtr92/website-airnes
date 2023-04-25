@@ -1,3 +1,4 @@
+import hashPassword from "@/api/db/hashPassword"
 import UserModel from "@/api/db/models/UserModel"
 import { InvalidCredentialsError } from "@/api/errors"
 import validate from "@/api/middlewares/validate"
@@ -9,8 +10,6 @@ import {
   passwordValidator,
 } from "@/components/validation/validation"
 import sgMail from "@sendgrid/mail"
-
-const { hashPassword } = require("@/api/db/hashPassword")
 
 const handler = mw({
   POST: [

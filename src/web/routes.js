@@ -8,6 +8,7 @@ const routes = {
     signIn: () => "/sign-in",
     contact: () => "/contact",
     sendMail: () => "/reset_password",
+    resetPwd: () => "/reset_password",
     app: {
       getProducts: () => "/app/products",
     },
