@@ -303,11 +303,11 @@ const Users = ({ className, session, cartItems }) => {
                   <div
                     className="cursor-pointer p-1 hover:bg-gray-100 rounded"
                     onClick={() => {
-                      handleLanguageChange("ar")
+                      handleLanguageChange("am")
                       toggleLanguageMenu()
                     }}
                   >
-                    {t(`ar`)}
+                    {t(`am`)}
                   </div>
                   <div
                     className="cursor-pointer p-1 hover:bg-gray-100 rounded"
