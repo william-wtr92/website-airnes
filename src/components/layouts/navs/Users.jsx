@@ -280,7 +280,7 @@ const Users = ({ className, session, cartItems }) => {
                 <div
                   className={`${
                     languageMenuOpen ? "block" : "hidden"
-                  } absolute bg-white rounded shadow mt-2 p-2`}
+                  } absolute bottom-24 lg:right-42 lg:bottom-32 bg-white rounded shadow mt-2 p-4`}
                 >
                   <div
                     className="cursor-pointer p-1 hover:bg-gray-100 rounded"
@@ -308,6 +308,15 @@ const Users = ({ className, session, cartItems }) => {
                     }}
                   >
                     {t(`ar`)}
+                  </div>
+                  <div
+                    className="cursor-pointer p-1 hover:bg-gray-100 rounded"
+                    onClick={() => {
+                      handleLanguageChange("hbr")
+                      toggleLanguageMenu()
+                    }}
+                  >
+                    {t(`hbr`)}
                   </div>
                 </div>
               </div>
