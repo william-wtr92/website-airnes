@@ -2,60 +2,53 @@ import UserModel from "@/api/db/models/UserModel"
 import { InvalidCredentialsError } from "@/api/errors"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
-import {
-  boolValidator,
-  mailValidator,
-  NameValidator,
-  passwordValidator,
-} from "@/components/validation/validation"
+import { mailValidator } from "@/components/validation/contact"
 import sgMail from "@sendgrid/mail"
-
-const { hashPassword } = require("@/api/db/hashPassword")
+import jsonwebtoken from "jsonwebtoken"
+import config from "@/api/config"
 
 const handler = mw({
   POST: [
     validate({
       body: {
-        name: NameValidator.required(),
         mail: mailValidator.required(),
-        password: passwordValidator.required(),
-        passwordConfirmation: passwordValidator.required(),
-        cgu: boolValidator.required(),
       },
     }),
     async ({
       locals: {
-        body: { name, mail, password },
+        body: { mail },
       },
       res,
     }) => {
       const user = await UserModel.query().findOne({ mail })
 
-      if (user) {
-        res.send({ result: true })
-
-        return
+      if (!user) {
+        throw new InvalidCredentialsError()
       }
 
-      const [passwordHash, passwordSalt] = await hashPassword(password)
-
-      await UserModel.query().insertAndFetch({
-        name,
-        mail,
-        passwordHash,
-        passwordSalt,
-      })
+      const tokken = jsonwebtoken.sign(
+        {
+          payload: {
+            mail: mail,
+          },
+        },
+        config.security.jwt.secret,
+        { expiresIn: config.security.jwt.expiresIn }
+      )
 
       sgMail.setApiKey(process.env.KEY_SEND_GRID)
 
       const sendGridMail = {
         to: mail,
         from: process.env.MAIL_SEND_GRID,
-        templateId: "d-f38671e3147741b4ba1c0968ec6702f4",
+        templateId: "d-6bad8b034b8e40b3b64170469823f86a",
         dynamic_template_data: {
-          fullname: name,
+          fullname: user.name,
+          tokken: tokken,
         },
       }
+
+      await sgMail.send(sendGridMail)
 
       try {
         await sgMail.send(sendGridMail)
