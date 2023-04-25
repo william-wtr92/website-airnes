@@ -94,7 +94,7 @@ const OnLoginForm = () => {
                   label={t(`labelPwd`)}
                   className="mb-2"
                 />
-                <div className="flex justify-center gap-2 my-4 lg:gap-4">
+                <div className="flex justify-center gap-4 my-4 lg:gap-4">
                   <div className="font-bold hover:text-[#927864] text-xs lg:text-sm">
                     <NavLink href="/support/forgotten_password">
                       {t(`forgotPassword`)}

@@ -6,6 +6,9 @@ import { mailValidator } from "@/components/validation/contact"
 import sgMail from "@sendgrid/mail"
 import jsonwebtoken from "jsonwebtoken"
 import config from "@/api/config"
+import { stringValidator } from "@/components/validation/validation"
+import parseSession from "@/web/parseSession"
+import hashPassword from "@/api/db/hashPassword"
 
 const handler = mw({
   POST: [
@@ -56,6 +59,42 @@ const handler = mw({
       } catch {
         throw new InvalidCredentialsError()
       }
+    },
+  ],
+  PATCH: [
+    validate({
+      body: {
+        tokken: stringValidator.required(),
+        password: stringValidator.required(),
+      },
+    }),
+    async ({
+      locals: {
+        body: { tokken, password },
+      },
+      res,
+    }) => {
+      const email = parseSession(tokken)
+      const mail = email.mail
+
+      const user = await UserModel.query().findOne({ mail })
+
+      if (!user) {
+        throw new InvalidCredentialsError()
+      }
+
+      const [passwordHash, passwordSalt] = await hashPassword(password)
+
+      try {
+        await UserModel.query().updateAndFetchById(user.id, {
+          ...(user.passwordHash != passwordHash ? { passwordHash } : {}),
+          ...(user.passwordSalt != passwordSalt ? { passwordSalt } : {}),
+        })
+      } catch {
+        throw new InvalidCredentialsError()
+      }
+
+      res.send({ result: true })
     },
   ],
 })

@@ -22,9 +22,9 @@ exports[`renders homepage unchanged 1`] = `
         class="text-center text-[13px] font-bold lg:py-6 lg:text-xl"
       >
         <p>
-          VENANT DES HAUTES TERRES D’ECOSSE
+          highlands
           <br />
-          NOS MEUBLES SONT IMMORTELS
+          ourFurniture
         </p>
       </div>
       <div
@@ -55,7 +55,7 @@ exports[`renders homepage unchanged 1`] = `
         class="text-center text-[13px] font-bold lg:py-6 lg:text-xl"
       >
         <p>
-          PRODUITS POPULAIRES
+          popularProducts
         </p>
       </div>
       <div
@@ -88,7 +88,7 @@ exports[`renders homepage unchanged 1`] = `
         <h3
           class="uppercase font-bold text-xl tracking-widest"
         >
-          Promotions
+          promotions
         </h3>
         <div
           class="overflow-x-auto scrollbar w-full flex gap-10 p-4 justify-center"

@@ -4,6 +4,7 @@ import signUpService from "../services/signUp"
 import signInService from "../services/signIn"
 import contactService from "@/web/services/contact.js"
 import sendMailService from "@/web/services/sendMail"
+import resetPwdService from "@/web/services/resetPwd"
 import updateContactService from "@/web/services/admin/contacts/updateContact"
 import createCategoryService from "@/web/services/admin/categories/addCategory"
 import updateCategoryService from "@/web/services/admin/categories/updateCategory"
@@ -91,6 +92,7 @@ export const AppContextProvider = ({
   const deleteContact = deleteContactService({ api })
 
   const sendMail = sendMailService({ api })
+  const resetPwd = resetPwdService({ api })
 
   const addAddress = addAddressService({ api, jwt })
   const patchUser = patchUserService({ api })
@@ -194,6 +196,7 @@ export const AppContextProvider = ({
           signIn,
           contact,
           sendMail,
+          resetPwd,
           updateContact,
           addCategory,
           updateCategory,
