@@ -3,6 +3,9 @@ const { resolve } = require("path")
 
 dotenv.config({ path: resolve(".env") })
 
+const isProduction = process.env.NODE_ENV === "production"
+const vercelUrl = process.env.VERCEL_URL
+
 const config = {
   port: 3000,
   db: {
@@ -48,7 +51,7 @@ const config = {
       default: 0,
     },
   },
-  path: process.env.HOST_PATH,
+  path: isProduction ? `https://${vercelUrl}/` : process.env.HOST_PATH,
 }
 
 module.exports = config
