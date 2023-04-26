@@ -1,4 +1,4 @@
-import hashPassword from "@/api/db/hashPassword"
+const { hashPassword } = require("@/api/db/hashPassword")
 import UserModel from "@/api/db/models/UserModel"
 import { InvalidCredentialsError } from "@/api/errors"
 import validate from "@/api/middlewares/validate"
