@@ -48,6 +48,7 @@ const config = {
       default: 0,
     },
   },
+  path: process.env.HOST_PATH,
 }
 
 module.exports = config
