@@ -1,12 +1,28 @@
-const knexfile = require("../../knexfile.js")
 const dotenv = require("dotenv")
 const { resolve } = require("path")
 
-dotenv.config({ path: resolve(".env.local") })
+dotenv.config({ path: resolve(".env") })
 
 const config = {
   port: 3000,
-  db: knexfile,
+  db: {
+    client: "pg",
+    connection: {
+      host: process.env.DB_CONNECTION_HOST,
+      user: process.env.DB_CONNECTION_USER,
+      password: process.env.DB_CONNECTION_PWD,
+      database: process.env.DB_CONNECTION_DB,
+      ssl: true,
+      sslmode: "require",
+    },
+    migrations: {
+      directory: resolve("src/api/db/migrations"),
+      stub: resolve("src/api/db/migration.stub"),
+    },
+    seeds: {
+      directory: resolve("src/api/seeds"),
+    },
+  },
   security: {
     jwt: {
       secret: process.env.SECURITY_JWT_SECRET,
