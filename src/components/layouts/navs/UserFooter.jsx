@@ -5,8 +5,11 @@ import {
   faLinkedin,
   faFacebookF,
 } from "@fortawesome/free-brands-svg-icons"
+import { useTranslation } from "next-i18next"
 
 const UserFooter = () => {
+  const { t } = useTranslation("footer")
+
   return (
     <footer>
       <div
@@ -16,17 +19,17 @@ const UserFooter = () => {
           <div className="flex items-center my-4 font-semibold ml-10 gap-10">
             <NavLink href="/help/cgu">
               <div className="text-[12px] hover:text-[#b3825c] hover:scale-110 text-sm">
-                CGU
+                {t(`cgu`)}
               </div>
             </NavLink>
             <NavLink href="/help/legal">
               <div className="text-[12px] hover:text-[#b3825c] hover:scale-110 text-sm">
-                Mentions légales
+                {t(`legal`)}
               </div>
             </NavLink>
             <NavLink href="/support/contact">
               <div className="text-[12px] hover:text-[#b3825c] hover:scale-110 text-sm">
-                Contact
+                {t(`contact`)}
               </div>
             </NavLink>
           </div>

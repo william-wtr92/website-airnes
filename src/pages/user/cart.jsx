@@ -2,35 +2,18 @@ import Button from "@/components/app/ui/Button"
 import { TrashIcon, PlusIcon, MinusIcon } from "@heroicons/react/24/solid"
 import { NavLink } from "@/components/utils/NavLink"
 import Image from "next/image"
-import axios from "axios"
-import routes from "@/web/routes"
-// import { useCart } from "@/web/hooks/cart"
 import { useMediaQuery } from "react-responsive"
 import { useCallback } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
+import { useTranslation } from "next-i18next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 export const getServerSideProps = async (context) => {
-  const { query } = context
-
-  const { data } = await axios.get(
-    `http://localhost:3000/api${routes.api.user.userData(query.userId)}`
-  )
-
-  if (!data.result) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    }
-  }
-
-  const userId = query.userId
+  const { locale } = context
 
   return {
     props: {
-      data,
-      userId,
+      ...(await serverSideTranslations(locale, ["cart", "navbar", "footer"])),
     },
   }
 }
@@ -39,7 +22,7 @@ const UserCart = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 1000px)" })
 
   const {
-    state: { cartItems },
+    state: { session, cartItems },
     actions: { removeFromCart, updateCartQuantity },
   } = useAppContext()
 
@@ -99,19 +82,21 @@ const UserCart = () => {
     [cartItems, updateCartQuantity]
   )
 
+  const { t } = useTranslation("cart")
+
   return (
     <>
       <div className="min-h-screen">
         <div className="flex justify-center my-8 lg:my-16">
           <h1 className="font-bold text-2xl hover:cursor-pointer hover:text-[#615043] lg:mr-14 lg:text-4xl">
-            Mon Panier
+            {t(`mycart`)}
           </h1>
         </div>
 
         <div className="flex flex-col md:flex-col lg:flex-col xl:flex-row">
           {cartItems.length === 0 ? (
             <div className="flex justify-center lg:mt-10 xl:w-1/2">
-              <h2 className="font-bold text-xl">Panier vide</h2>
+              <h2 className="font-bold text-xl">{t(`emptyCart`)}</h2>
             </div>
           ) : (
             <div className="flex flex-col justify-center xl:justify-start">
@@ -186,11 +171,11 @@ const UserCart = () => {
           <div>
             <div className="flex flex-col items-center mt-10">
               <div className="grid grid-cols-2 w-64 lg:w-96">
-                <p className="font-bold text-md lg:text-xl">TOTAL</p>
+                <p className="font-bold text-md lg:text-xl">{t(`total`)}</p>
                 <p className="font-bold text-md flex justify-end lg:text-xl ">
                   {total.toFixed(2)} €
                 </p>
-                <p className="ml-2">TVA</p>
+                <p className="ml-2">{t(`tva`)}</p>
                 <p className="flex justify-end mr-2">{tax.toFixed(2)} €</p>
               </div>
               <div className="my-6">
@@ -198,7 +183,9 @@ const UserCart = () => {
                   className="bg-[#615043] hover:bg-[#927864] hover:cursor-pointer
            active:bg-[#615043] border border-black px-10 py-4 font-semibold rounded-md text-[#fff]"
                 >
-                  <NavLink href="/payment/checkout">Passer la Commande</NavLink>
+                  <NavLink href={session ? `/payment/checkout` : `/user/login`}>
+                    {t(`command`)}
+                  </NavLink>
                 </Button>
               </div>
             </div>

@@ -1,0 +1,11 @@
+{
+"loginText": "התחבר",
+"placeholderEmail": "דואר אלקטרוני",
+"labelEmail": "דואר אלקטרוני",
+"placeholderPwd": "סיסמא",
+"labelPwd": "סיסמא",
+"forgotPassword": "שכחתי סיסמא",
+"signup": "הרשם",
+"signin": "התחבר",
+"error": "דואר אלקטרוני או סיסמא לא נכונים!"
+}

@@ -1,0 +1,11 @@
+{
+  "loginText": "Connection", 
+  "placeholderEmail": "Mail",
+  "labelEmail": "Mail",
+  "placeholderPwd": "Password",
+  "labelPwd": "Password",
+  "forgotPassword": "Forgot your password ?",
+  "signup": "Register now",
+  "signin": "CONNECT",
+  "error": "Wrong mail or password !"
+}

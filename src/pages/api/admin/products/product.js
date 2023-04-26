@@ -7,10 +7,10 @@ import {
   queryPageValidator,
   stringValidator,
 } from "@/components/validation/validation"
-import parseSession from "@/web/parseSession"
 import UserModel from "@/api/db/models/UserModel"
 import { NotFoundError } from "objection"
 import config from "@/api/config"
+import { getSessionFromCookiesServ } from "@/web/helper/getSessionFromCookiesServ"
 
 const handler = mw({
   POST: [
@@ -27,6 +27,7 @@ const handler = mw({
       },
     }),
     async ({
+      req,
       locals: {
         body: {
           image,
@@ -37,13 +38,14 @@ const handler = mw({
           promotion,
           quantity,
           material,
-          jwt,
         },
       },
       res,
     }) => {
-      const session = parseSession(jwt.jwt)
-      const id = session.user.id
+      const sessionFromCookies = getSessionFromCookiesServ(req)
+
+      const id = sessionFromCookies.user.id
+
       const user = await UserModel.query().findOne({ id })
 
       const categoryId = parseInt(category)

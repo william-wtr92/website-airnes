@@ -1,0 +1,16 @@
+{
+  "signupText": "Register",
+  "labelName": "Full Name",
+  "placeholderName": "Enter ur name",
+  "labelEmail": "Mail*",
+  "placeholderEmail": "Enter ur mail",
+  "labelPwd": "Password*",
+  "placeholderPwd": "Enter ur password",
+  "labelConfirmPwd": "Confirm ur password",
+  "placeholderConfirmPwd": "Enter ur password",
+  "acceptText": "I accept the",
+  "conditionText": "terms of use",
+  "haveAccount": "Already have an account?",
+  "signin": "Log in",
+  "btnSignup": "SIGN UP"
+}

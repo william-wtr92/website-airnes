@@ -1,0 +1,11 @@
+{
+  "loginText": "Connexion", 
+  "placeholderEmail": "E-mail",
+  "labelEmail": "E-mail",
+  "placeholderPwd": "Mot de passe",
+  "labelPwd": "Mot de passe",
+  "forgotPassword": "Mot de passe oublié ?",
+  "signup": "Inscrivez vous",
+  "signin": "SE CONNECTER",
+  "error": "Email ou mot de passe incorrect !"
+}

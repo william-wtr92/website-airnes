@@ -16,6 +16,7 @@ import routes from "@/web/routes"
 import useAppContext from "@/web/hooks/useAppContext"
 import Confirm from "@/components/app/ui/Confirm"
 import classNames from "classnames"
+import { useTranslation } from "next-i18next"
 
 const formatName = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
@@ -59,7 +60,7 @@ const Users = ({ className, session, cartItems }) => {
   let number = cartNumber === 0 ? null : cartNumber > 9 ? "9+" : cartNumber
 
   const {
-    actions: { logout },
+    actions: { logout, changeLanguage },
   } = useAppContext()
 
   const [confirmLogout, setConfirmLogout] = useState(false)
@@ -72,7 +73,24 @@ const Users = ({ className, session, cartItems }) => {
 
   const handleConfirmLogout = useCallback(async () => {
     setConfirmLogout(true)
+    setCartNumber(0)
   }, [setConfirmLogout])
+
+  const [languageMenuOpen, setLanguageMenuOpen] = useState(false)
+
+  const toggleLanguageMenu = () => {
+    setLanguageMenuOpen(!languageMenuOpen)
+  }
+
+  const handleLanguageChange = useCallback(
+    (lang) => {
+      changeLanguage(lang)
+      setLanguageMenuOpen(false)
+    },
+    [changeLanguage]
+  )
+
+  const { t } = useTranslation("navbar")
 
   return (
     <>
@@ -102,7 +120,7 @@ const Users = ({ className, session, cartItems }) => {
                 color={"#615043"}
               />
             </NavLink>
-            <NavLink href={session ? `/user/${session.user.id}/cart` : `/`}>
+            <NavLink href={`/user/cart`}>
               <ShoppingCartIcon
                 className={`h-6 hover:scale-110 hover:text-[#b3825c]`}
                 color={"#615043"}
@@ -142,7 +160,7 @@ const Users = ({ className, session, cartItems }) => {
             {session ? (
               <div className="flex flex-col mx-12 my-10 gap-6">
                 <div className="flex gap-2">
-                  <p>Bonjour, </p>
+                  <p>{t(`welcome`)} </p>
                   <p className="font-bold">
                     <NavLink href={`/user/${session.user.id}/home`}>
                       {userName}
@@ -153,7 +171,7 @@ const Users = ({ className, session, cartItems }) => {
                   <NavLink href={`/user/${session.user.id}/orders`}>
                     <div className="flex gap-4 hover:text-[#6f5e3f]">
                       <ChevronRightIcon className="h-6 w-6" />
-                      <p className="hover:scale-105">Mes commandes</p>
+                      <p className="hover:scale-105">{t(`mycommand`)}</p>
                     </div>
                   </NavLink>
 
@@ -162,13 +180,13 @@ const Users = ({ className, session, cartItems }) => {
                     onClick={() => handleConfirmLogout()}
                   >
                     <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">Déconnexion</p>
+                    <p className="hover:scale-105">{t(`logout`)}</p>
                   </div>
                   <Confirm
                     className={classNames(confirmLogout ? "block" : "hidden")}
                     display={setConfirmLogout}
                     action={handleLogout}
-                    textValue="Confirmez-vous ?"
+                    textValue={t(`confirmLogout`)}
                   />
                 </div>
               </div>
@@ -178,7 +196,7 @@ const Users = ({ className, session, cartItems }) => {
                   <NavLink href="/user/login">
                     <div className="flex gap-4 hover:text-[#6f5e3f]">
                       <ChevronRightIcon className="h-6 w-6" />
-                      <p className="hover:scale-105">Se connecter</p>
+                      <p className="hover:scale-105">{t("signin")}</p>
                     </div>
                   </NavLink>
                 </div>
@@ -186,7 +204,7 @@ const Users = ({ className, session, cartItems }) => {
                   <NavLink href="/signup">
                     <div className="flex gap-4 hover:text-[#6f5e3f]">
                       <ChevronRightIcon className="h-6 w-6" />
-                      <p className="hover:scale-105">S'inscrire</p>
+                      <p className="hover:scale-105">{t(`signup`)}</p>
                     </div>
                   </NavLink>
                 </div>
@@ -202,7 +220,7 @@ const Users = ({ className, session, cartItems }) => {
                 <NavLink href="/categories/all">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
                     <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">Catégories</p>
+                    <p className="hover:scale-105">{t(`categories`)}</p>
                   </div>
                 </NavLink>
               </div>
@@ -212,7 +230,7 @@ const Users = ({ className, session, cartItems }) => {
               <div>
                 <div className="flex gap-4">
                   <ChevronRightIcon className="h-6 w-6" />
-                  <p className="hover:scale-105">Promotions</p>
+                  <p className="hover:scale-105">{t(`promotions`)}</p>
                 </div>
               </div>
             </div>
@@ -222,7 +240,7 @@ const Users = ({ className, session, cartItems }) => {
                 <NavLink href="/help/cgu">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
                     <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">CGU</p>
+                    <p className="hover:scale-105">{t(`cgu`)}</p>
                   </div>
                 </NavLink>
               </div>
@@ -230,7 +248,7 @@ const Users = ({ className, session, cartItems }) => {
                 <NavLink href="/help/legal">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
                     <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">Mentions Légales</p>
+                    <p className="hover:scale-105">{t(`legal`)}</p>
                   </div>
                 </NavLink>
               </div>
@@ -238,7 +256,7 @@ const Users = ({ className, session, cartItems }) => {
                 <NavLink href="/support/contact">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
                     <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">Contact</p>
+                    <p className="hover:scale-105">{t(`contact`)}</p>
                   </div>
                 </NavLink>
               </div>
@@ -246,16 +264,61 @@ const Users = ({ className, session, cartItems }) => {
                 <NavLink href="/">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
                     <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">A propos d'Airneis</p>
+                    <p className="hover:scale-105">{t(`about`)}</p>
                   </div>
                 </NavLink>
               </div>
 
               <div className="flex my-10 lg:my-20 gap-4">
-                <Button className="w-60 flex gap-4 whitespace-nowrap hover:text-[#e8e1d4]">
+                <Button
+                  className="w-60 flex gap-4 whitespace-nowrap hover:text-[#e8e1d4]"
+                  onClick={toggleLanguageMenu}
+                >
                   <GlobeAltIcon className="h-6" />
-                  <p className="text-sm">Changer de langue</p>
+                  <p className="text-sm">{t(`languageChange`)}</p>
                 </Button>
+                <div
+                  className={`${
+                    languageMenuOpen ? "block" : "hidden"
+                  } absolute bottom-24 lg:right-42 lg:bottom-32 bg-white rounded shadow mt-2 p-4`}
+                >
+                  <div
+                    className="cursor-pointer p-1 hover:bg-gray-100 rounded"
+                    onClick={() => {
+                      handleLanguageChange("en")
+                      toggleLanguageMenu()
+                    }}
+                  >
+                    {t(`en`)}
+                  </div>
+                  <div
+                    className="cursor-pointer p-1 hover:bg-gray-100 rounded"
+                    onClick={() => {
+                      handleLanguageChange("fr")
+                      toggleLanguageMenu()
+                    }}
+                  >
+                    {t(`fr`)}
+                  </div>
+                  <div
+                    className="cursor-pointer p-1 hover:bg-gray-100 rounded"
+                    onClick={() => {
+                      handleLanguageChange("am")
+                      toggleLanguageMenu()
+                    }}
+                  >
+                    {t(`am`)}
+                  </div>
+                  <div
+                    className="cursor-pointer p-1 hover:bg-gray-100 rounded"
+                    onClick={() => {
+                      handleLanguageChange("hbr")
+                      toggleLanguageMenu()
+                    }}
+                  >
+                    {t(`hbr`)}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

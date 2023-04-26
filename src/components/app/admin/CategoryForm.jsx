@@ -35,7 +35,7 @@ const CategoryForm = (props) => {
             placeholder="Enter the category's description"
             label="Description"
           />
-          <Button type="submit" className="mt-10 bg-white">
+          <Button type="submit" className="mt-10">
             Save
           </Button>
         </Form>

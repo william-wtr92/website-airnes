@@ -8,7 +8,7 @@ import jsonwebtoken from "jsonwebtoken"
 import config from "@/api/config"
 import { stringValidator } from "@/components/validation/validation"
 import parseSession from "@/web/parseSession"
-import hashPassword from "@/api/db/hashPassword"
+const { hashPassword } = require("@/api/db/hashPassword")
 
 const handler = mw({
   POST: [

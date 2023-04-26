@@ -1,0 +1,10 @@
+{
+"contactUs": "צור קשר",
+"labelEmail": "דואר אלקטרוני*",
+"placeholderEmail": "הכנס את כתובת הדואר האלקטרוני שלך",
+"labelSubject": "נושא*",
+"placeholderSubject": "הכנס נושא לפנייה",
+"labelContent": "תוכן*",
+"placeholderContent": "הכנס את הודעתך",
+"send": "שלח"
+}

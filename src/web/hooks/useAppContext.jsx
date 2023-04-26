@@ -18,7 +18,6 @@ import deleteAddressService from "../services/user/address/deleteAddress"
 import addCarouselService from "../services/admin/homepage/addCarousel"
 import deleteCarouselService from "../services/admin/homepage/deleteCarousel"
 import orderCarouselService from "../services/admin/homepage/orderCarousel"
-import parseSession from "../parseSession"
 import createProductService from "@/web/services/admin/products/addProduct"
 import updateProductService from "@/web/services/admin/products/updateProduct"
 import deleteProductService from "@/web/services/admin/products/deleteProduct"
@@ -31,10 +30,17 @@ import orderSelectedProductService from "@/web/services/admin/homepage/orderSele
 import patchRoleService from "@/web/services/admin/users/updateRole"
 
 import config from "../config"
+import Cookies from "js-cookie"
+import { getSessionFromCookies } from "../helper/getSessionFromCookies"
+import { i18n } from "next-i18next"
+import { useRouter } from "next/router"
 
 const AppContext = createContext()
 
-export const AppContextProvider = (props) => {
+export const AppContextProvider = ({
+  cartItems: initialCartItems,
+  ...props
+}) => {
   const [session, setSession] = useState(null)
   const [jwt, setJWT] = useState(null)
   const api = createAPIClient({ jwt })
@@ -42,24 +48,36 @@ export const AppContextProvider = (props) => {
   const signUp = signUpService({ api })
   const signIn = signInService({ api, setSession, setJWT })
   const logout = () => {
-    localStorage.clear()
+    clearCart()
     setSession(null)
     setJWT(null)
+    Cookies.remove(config.session.localStorageKey)
   }
 
   const contact = contactService({ api })
 
   useEffect(() => {
-    const jwt = localStorage.getItem(config.session.localStorageKey)
+    if (typeof window !== "undefined") {
+      const updateSessionFromCookies = () => {
+        const sessionFromCookies = getSessionFromCookies()
 
-    if (!jwt) {
-      return
+        if (sessionFromCookies) {
+          setSession(sessionFromCookies)
+          const jwt = Cookies.get(config.session.localStorageKey)
+
+          if (jwt) {
+            setJWT(jwt)
+          }
+        }
+      }
+
+      updateSessionFromCookies()
+      window.addEventListener("storage", updateSessionFromCookies)
+
+      return () => {
+        window.removeEventListener("storage", updateSessionFromCookies)
+      }
     }
-
-    const session = parseSession(jwt)
-
-    setSession(session)
-    setJWT({ jwt })
   }, [])
 
   const addCategory = createCategoryService({ api, jwt })
@@ -96,7 +114,7 @@ export const AppContextProvider = (props) => {
   const orderSelectedProduct = orderSelectedProductService({ api, jwt })
   const addSelectedProduct = addSelectedProductService({ api, jwt })
 
-  const [cartItems, setCartItems] = useState([])
+  const [cartItems, setCartItems] = useState(initialCartItems || [])
 
   useEffect(() => {
     const storedCart = localStorage.getItem("cart")
@@ -151,6 +169,24 @@ export const AppContextProvider = (props) => {
     }
   }
 
+  const router = useRouter()
+
+  const language = i18n ? i18n.language : "fr"
+
+  const saveLanguageToLocalStorage = (language) => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("userLanguage", language)
+    }
+  }
+
+  const changeLanguage = (language) => {
+    if (i18n && language !== i18n.language) {
+      i18n.changeLanguage(language)
+      saveLanguageToLocalStorage(language)
+      router.push(router.pathname, router.asPath, { locale: language })
+    }
+  }
+
   return (
     <AppContext.Provider
       {...props}
@@ -189,10 +225,12 @@ export const AppContextProvider = (props) => {
           clearCart,
           updateCartQuantity,
           removeFromCart,
+          changeLanguage,
         },
         state: {
           session,
           cartItems,
+          language,
         },
       }}
     />

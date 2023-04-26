@@ -1,0 +1,16 @@
+{
+"myAccount": "החשבון שלי",
+"myInfo": "מידע אישי שלי",
+"changePwd": "שנה סיסמא",
+"btnModify": "ערוך",
+"address": "כתובותיי",
+"orderAddress": "כתובת למשלוח",
+"addressCp": "כתובת משלוח נוספת:",
+"dltAccount": "מחק חשבון",
+"labelName": "שם מלא*",
+"labelEmail": "דואר אלקטרוני*",
+"placeholderEmail": "הכנס את כתובת הדואר האלקטרוני שלך",
+"placeholderName": "הכנס שם מלא",
+"confirmAddress": "האם את/ה באמת רוצה למחוק את הכתובת?",
+"confirmDeleteAccount": "האם את/ה בטוח/ה שברצונך למחוק את החשבון שלך? פעולה זו היא בלתי הפיכה."
+}

@@ -1,5 +1,4 @@
 import { useRouter } from "next/router"
-
 import UserFooter from "./navs/UserFooter"
 
 const Footer = () => {

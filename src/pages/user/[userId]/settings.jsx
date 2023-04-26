@@ -17,9 +17,11 @@ import routes from "@/web/routes"
 import useAppContext from "@/web/hooks/useAppContext"
 import Confirm from "@/components/app/ui/Confirm"
 import { useRouter } from "next/router"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "next-i18next"
 
 export const getServerSideProps = async (context) => {
-  const { query } = context
+  const { query, locale } = context
 
   const { data } = await axios.get(
     `http://localhost:3000/api${routes.api.user.userData(query.userId)}`
@@ -29,6 +31,11 @@ export const getServerSideProps = async (context) => {
     props: {
       data: data,
       userId: query.userId,
+      ...(await serverSideTranslations(locale, [
+        "settingsAccount",
+        "navbar",
+        "footer",
+      ])),
     },
   }
 }
@@ -36,7 +43,7 @@ export const getServerSideProps = async (context) => {
 const Settings = (props) => {
   const { data, userId } = props
   const {
-    actions: { patchUser, deleteAddress, deleteUser },
+    actions: { patchUser, deleteAddress, deleteUser, logout },
   } = useAppContext()
   const [viewAddressL, setViewAddressL] = useState(false)
   const [confirmDelUser, setConfirmDelUser] = useState(false)
@@ -92,8 +99,9 @@ const Settings = (props) => {
     }
 
     localStorage.clear()
+    logout()
     router.push("/")
-  }, [deleteUser, userId, router])
+  }, [deleteUser, userId, router, logout])
 
   const handleConfirmAddress = useCallback(async () => {
     setConfirmDelAddress(true)
@@ -103,13 +111,15 @@ const Settings = (props) => {
     setConfirmDelUser(true)
   }, [setConfirmDelUser])
 
+  const { t } = useTranslation("settingsAccount")
+
   return (
     <>
       <div className="flex justify-center mt-8 ">
         <div className=" w-4/5 lg:w-3/5 ">
-          <h1 className="text-center  text-3xl font-bold ">Mon Compte</h1>
+          <h1 className="text-center  text-3xl font-bold ">{t(`myAccount`)}</h1>
           <div className="flex flex-col lg:flex-row gap-2 lg:gap-16 mt-4 lg:mt-20">
-            <h2 className="text-2xl font-bold">Mes Informations</h2>
+            <h2 className="text-2xl font-bold">{t(`myInfo`)}</h2>
             <Formik
               onSubmit={handleModify}
               initialValues={accountSettingsInitialValues}
@@ -120,28 +130,29 @@ const Settings = (props) => {
                 <FormField
                   type="text"
                   name="name"
-                  label="Nom complet*"
+                  placeholder={t(`placeholderName`)}
+                  label={t(`labelName`)}
                   className=" mb-2"
                 />
                 <FormField
                   type="email"
                   name="mail"
-                  placeholder="Entrez votre e-mail"
-                  label="E-mail*"
+                  placeholder={t(`placeholderEmail`)}
+                  label={t(`labelEmail`)}
                   className=" mb-2"
                 />
                 <div className="">
-                  <NavLink href="#"> Changer de mdp</NavLink>
+                  <NavLink href="#">{t(`changePwd`)}</NavLink>
                 </div>
                 <Button type="submit" className="w-2/3 ml-8 lg:ml-20 ">
-                  MODIFIER
+                  {t(`btnModify`)}
                 </Button>
               </Form>
             </Formik>
           </div>
           <div className="flex flex-col lg:flex-row gap-2 lg:gap-16 mt-4 lg:mt-12">
             <h2 className="text-2xl font-bold whitespace-nowrap">
-              Mes adresses
+              {t(`address`)}
             </h2>
             <div className="w-4/5">
               <div>
@@ -152,7 +163,7 @@ const Settings = (props) => {
                     ) : (
                       <ChevronRightIcon className="w-6" />
                     )}
-                    Adresse de livraison
+                    {t(`orderAddress`)}
                   </span>
                   <span
                     className={classNames(
@@ -177,7 +188,9 @@ const Settings = (props) => {
                     <div className="flex flex-col ">
                       <span className="font-bold">{data.addressName}:</span>
                       <span>{data.address}</span>
-                      <span>Complément d'adresse: {data.complete}</span>
+                      <span>
+                        {t(`addressCp`)} {data.complete}
+                      </span>
                       <span>
                         {data.postal_code}, {data.city}
                       </span>
@@ -200,8 +213,9 @@ const Settings = (props) => {
                       )}
                       show={setConfirmDelAddress}
                       action={handleDeleteAddress}
-                      textValue="Voulez-vous vraiment supprimer l'adresse ?"
+                      textValue={t(`confirmAddress`)}
                       params={data.id}
+                      display={setConfirmDelAddress}
                     />
                   </div>
                 ))}
@@ -214,13 +228,13 @@ const Settings = (props) => {
               className="mt-16"
               onClick={() => handleConfirmUser()}
             >
-              Supprimer le compte
+              {t(`dltAccount`)}
             </Button>
             <Confirm
               className={classNames(confirmDelUser ? "block" : "hidden")}
               display={setConfirmDelUser}
               action={handleDeleteUser}
-              textValue="Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible."
+              textValue={t(`confirmDeleteAccount`)}
             />
           </div>
         </div>

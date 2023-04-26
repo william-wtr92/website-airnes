@@ -1,0 +1,11 @@
+{
+"loginText": "Մուտք",
+"placeholderEmail": "Էլ. փոստ",
+"labelEmail": "Էլ. փոստ",
+"placeholderPwd": "Գաղտնաբառ",
+"labelPwd": "Գաղտնաբառ",
+"forgotPassword": "Մոռացե՞լ եք գաղտնաբառը",
+"signup": "Գրանցվել",
+"signin": "Մուտք",
+"error": "Էլ. փոստ կամ գաղտնաբառ սխալ է:"
+}

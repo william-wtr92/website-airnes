@@ -8,7 +8,7 @@ const Main = ({ className, session, cartItems }) => {
   return !router.pathname.startsWith("/admin") ? (
     <Users className={className} session={session} cartItems={cartItems} />
   ) : (
-    <Admin />
+    <Admin session={session} />
   )
 }
 

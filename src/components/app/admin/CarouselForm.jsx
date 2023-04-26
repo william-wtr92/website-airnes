@@ -28,7 +28,7 @@ const CarouselForm = (props) => {
             placeholder="Enter the url of ur image"
             label="Url"
           />
-          <Button type="submit" className="mt-10 bg-white">
+          <Button type="submit" className="mt-10">
             Save
           </Button>
         </Form>

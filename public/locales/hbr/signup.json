@@ -1,0 +1,16 @@
+{
+"signupText": "הרשמה",
+"labelName": "שם מלא",
+"placeholderName": "הכנסשם מלא",
+"labelEmail": "דואר אלקטרוני*",
+"placeholderEmail": "הכנס את כתובת הדואר האלקטרוני שלך",
+"labelPwd": "סיסמא*",
+"placeholderPwd": "הכנס סיסמא",
+"labelConfirmPwd": "אישור סיסמא",
+"placeholderConfirmPwd": "הכנס את הסיסמא שוב",
+"acceptText": "אני מקבל/ה",
+"conditionText": "תנאי השימוש",
+"haveAccount": "כבר יש לך חשבון?",
+"signin": "התחבר",
+"btnSignup": "הרשם"
+}
