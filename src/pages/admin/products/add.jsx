@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
 import routes from "@/web/routes"
 import axios from "axios"
+import config from "@/api/config"
 
 export const getServerSideProps = async (context) => {
   const { page } = context.query
@@ -23,12 +24,10 @@ export const getServerSideProps = async (context) => {
 
   try {
     const [allProducts, selectProducts] = await Promise.all([
-      axios.get(
-        `http://localhost:3000/api${routes.api.admin.products.getProducts()}`
-      ),
+      axios.get(`${config.path}api${routes.api.admin.products.getProducts()}`),
 
       axios.get(
-        `http://localhost:3000/api${routes.api.admin.selectProduct.getSelectProducts()}`
+        `${config.path}api${routes.api.admin.selectProduct.getSelectProducts()}`
       ),
     ])
 

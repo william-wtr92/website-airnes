@@ -3,6 +3,7 @@ import routes from "@/web/routes"
 import DisplayPage from "@/components/app/admin/DisplayPage"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback } from "react"
+import config from "@/api/config"
 
 export const getServerSideProps = async (context) => {
   const { page, order, column } = context.query
@@ -11,7 +12,9 @@ export const getServerSideProps = async (context) => {
   const clearColumn = (column === "right" ? "roleid" : column) || "id"
 
   const { data } = await axios.get(
-    `http://localhost:3000/api${routes.api.admin.users.getUsers()}?page=${clearPage}&order=${clearOrder}&col=${clearColumn}`
+    `${
+      config.path
+    }api${routes.api.admin.users.getUsers()}?page=${clearPage}&order=${clearOrder}&col=${clearColumn}`
   )
 
   return {

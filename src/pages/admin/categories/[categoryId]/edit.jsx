@@ -5,14 +5,13 @@ import routes from "@/web/routes"
 import { useRouter } from "next/router"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback } from "react"
+import config from "@/api/config"
 
 export const getServerSideProps = async (context) => {
   const { categoryId } = context.params
 
   const { data } = await axios.get(
-    `http://localhost:3000/api${routes.api.admin.categories.categoryData(
-      categoryId
-    )}`
+    `${config.path}api${routes.api.admin.categories.categoryData(categoryId)}`
   )
 
   if (!data.result) {

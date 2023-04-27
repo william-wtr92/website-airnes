@@ -7,12 +7,13 @@ import { addressValidationSchema } from "@/components/validation/validationyup"
 import axios from "axios"
 import routes from "@/web/routes"
 import useAppContext from "@/web/hooks/useAppContext"
+import config from "@/api/config"
 
 export const getServerSideProps = async (context) => {
   const { query } = context
 
   const { data } = await axios.get(
-    `http://localhost:3000/api${routes.api.user.address.addressData(
+    `${config.path}api${routes.api.user.address.addressData(
       query.userId,
       query.addressId
     )}`

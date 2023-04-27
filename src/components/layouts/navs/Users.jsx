@@ -36,9 +36,7 @@ const Users = ({ className, session, cartItems }) => {
     if (session && session.user) {
       const fetchUserData = async () => {
         const data = await axios.get(
-          `http://localhost:3000/api${routes.api.user.userData(
-            session.user.id
-          )}`
+          `/api${routes.api.user.userData(session.user.id)}`
         )
         setUserName(formatName(data.data.result.name))
       }

@@ -19,12 +19,13 @@ import Confirm from "@/components/app/ui/Confirm"
 import { useRouter } from "next/router"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
+import config from "@/api/config"
 
 export const getServerSideProps = async (context) => {
   const { query, locale } = context
 
   const { data } = await axios.get(
-    `http://localhost:3000/api${routes.api.user.userData(query.userId)}`
+    `${config.path}api${routes.api.user.userData(query.userId)}`
   )
 
   return {

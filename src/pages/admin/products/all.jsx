@@ -2,6 +2,7 @@ import routes from "@/web/routes"
 import DisplayPage from "@/components/app/admin/DisplayPage"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback } from "react"
+import config from "@/api/config"
 
 export const getServerSideProps = async (context) => {
   const { page, order, column } = context.query
@@ -11,10 +12,12 @@ export const getServerSideProps = async (context) => {
 
   const [productsRes, materialsAndCategoriesRes] = await Promise.all([
     fetch(
-      `http://localhost:3000/api${routes.api.admin.products.getProducts()}?page=${clearPage}&order=${clearOrder}&col=${clearColumn}`
+      `${
+        config.path
+      }api${routes.api.admin.products.getProducts()}?page=${clearPage}&order=${clearOrder}&col=${clearColumn}`
     ),
     fetch(
-      `http://localhost:3000/api${routes.api.admin.materials.getMaterialsAndCategory()}`
+      `${config.path}api${routes.api.admin.materials.getMaterialsAndCategory()}`
     ),
   ])
 

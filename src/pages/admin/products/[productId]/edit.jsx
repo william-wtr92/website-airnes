@@ -4,18 +4,17 @@ import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback, useState } from "react"
 import { editProductValidationSchema } from "@/components/validation/admin/product"
 import ProductForm from "@/components/app/admin/ProductForm"
+import config from "@/api/config"
 
 export const getServerSideProps = async (context) => {
   const { productId } = context.params
 
   const [productRes, materialsAndCategoriesRes] = await Promise.all([
     fetch(
-      `http://localhost:3000/api${routes.api.admin.products.productData(
-        productId
-      )}`
+      `${config.path}api${routes.api.admin.products.productData(productId)}`
     ),
     fetch(
-      `http://localhost:3000/api${routes.api.admin.materials.getMaterialsAndCategory()}`
+      `${config.path}api${routes.api.admin.materials.getMaterialsAndCategory()}`
     ),
   ])
 

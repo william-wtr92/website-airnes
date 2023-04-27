@@ -7,12 +7,13 @@ import Return from "@/components/app/ui/Return"
 import { Field, Form, Formik } from "formik"
 import Button from "@/components/app/ui/Button"
 import * as yup from "yup"
+import config from "@/api/config"
 
 export const getServerSideProps = async (context) => {
   const { userId } = context.params
 
   const { data } = await axios.get(
-    `http://localhost:3000/api${routes.api.admin.users.userData(userId)}`
+    `${config.path}api${routes.api.admin.users.userData(userId)}`
   )
 
   if (!data.result) {

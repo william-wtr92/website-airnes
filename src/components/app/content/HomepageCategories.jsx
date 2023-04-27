@@ -11,7 +11,7 @@ const HomepageCategories = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       const { data } = await axios.get(
-        `http://localhost:3000/api${routes.api.admin.selectCategory.getSelectCategory()}`
+        `/api${routes.api.admin.selectCategory.getSelectCategory()}`
       )
 
       const sortedCategories = data.result.sort((a, b) => a.order - b.order)

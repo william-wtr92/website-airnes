@@ -4,12 +4,13 @@ import axios from "axios"
 import routes from "@/web/routes"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
+import config from "@/api/config"
 
 export const getServerSideProps = async (context) => {
   const { query, locale } = context
 
   const { data } = await axios.get(
-    `http://localhost:3000/api${routes.api.user.userData(query.userId)}`
+    `${config.path}api${routes.api.user.userData(query.userId)}`
   )
 
   if (!data.result) {

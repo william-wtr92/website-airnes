@@ -11,7 +11,7 @@ const HomepageProducts = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const { data } = await axios.get(
-        `http://localhost:3000/api${routes.api.admin.selectProduct.getSelectProducts()}`
+        `/api${routes.api.admin.selectProduct.getSelectProducts()}`
       )
 
       const sortedProducts = data.result.sort((a, b) => a.order - b.order)
