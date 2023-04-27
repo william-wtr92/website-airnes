@@ -8,9 +8,10 @@ import { useCallback, useState } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
 import axios from "axios"
 import routes from "@/web/routes"
+import config from "@/api/config"
 export const getServerSideProps = async () => {
   const { data } = await axios.get(
-    `http://localhost:3000/api${routes.api.admin.materials.getMaterialsAndCategory()}`
+    `${config.path}api${routes.api.admin.materials.getMaterialsAndCategory()}`
   )
 
   return {

@@ -11,6 +11,19 @@ const nextConfig = {
     forceSwcTransforms: true,
   },
   i18n,
+  async headers() {
+    return [
+      {
+        source: "/locales/:path*",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "application/json",
+          },
+        ],
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig

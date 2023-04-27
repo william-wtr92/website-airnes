@@ -9,6 +9,7 @@ import SlideProducts from "@/components/app/content/SlideProducts"
 import useAppContext from "@/web/hooks/useAppContext"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
+import config from "@/api/config"
 
 export const getServerSideProps = async (context) => {
   const { locale, params } = context
@@ -26,14 +27,10 @@ export const getServerSideProps = async (context) => {
 
   try {
     const [products, productData] = await Promise.all([
-      axios.get(
-        `http://localhost:3000/api${routes.api.app.getProducts()}?page=1`
-      ),
+      axios.get(`${config.path}api${routes.api.app.getProducts()}?page=1`),
 
       axios.get(
-        `http://localhost:3000/api${routes.api.admin.products.productData(
-          productId
-        )}`
+        `${config.path}api${routes.api.admin.products.productData(productId)}`
       ),
     ])
 

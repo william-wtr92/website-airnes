@@ -4,6 +4,7 @@ import DisplayMain from "@/components/app/admin/DisplayMain"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback, useState, useEffect } from "react"
 import { useRouter } from "next/router"
+import config from "@/api/config"
 
 export const getServerSideProps = async (context) => {
   const { page, deletedImageId } = context.query
@@ -20,15 +21,17 @@ export const getServerSideProps = async (context) => {
   try {
     const [imagesRes, categoriesRes, productsRes] = await Promise.all([
       axios.get(
-        `http://localhost:3000/api${routes.api.admin.carousel.getImages()}?page=${
+        `${config.path}api${routes.api.admin.carousel.getImages()}?page=${
           page || 1
         }`
       ),
       axios.get(
-        `http://localhost:3000/api${routes.api.admin.selectCategory.getSelectCategory()}`
+        `${
+          config.path
+        }api${routes.api.admin.selectCategory.getSelectCategory()}`
       ),
       axios.get(
-        `http://localhost:3000/api${routes.api.admin.selectProduct.getSelectProducts()}`
+        `${config.path}api${routes.api.admin.selectProduct.getSelectProducts()}`
       ),
     ])
 

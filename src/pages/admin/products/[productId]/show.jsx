@@ -6,14 +6,13 @@ import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback } from "react"
 import routes from "@/web/routes"
 import { useRouter } from "next/router"
+import config from "@/api/config"
 
 export const getServerSideProps = async (context) => {
   const { productId } = context.params
 
   const { data } = await axios.get(
-    `http://localhost:3000/api${routes.api.admin.products.productData(
-      productId
-    )}`
+    `${config.path}api${routes.api.admin.products.productData(productId)}`
   )
 
   if (!data.result) {

@@ -1,10 +1,11 @@
 import axios from "axios"
 import routes from "@/web/routes"
 import Category from "@/components/app/content/Category"
+import config from "@/api/config"
 
 export const getServerSideProps = async () => {
   const request = await axios.get(
-    `http://localhost:3000/api${routes.api.admin.categories.getCategories()}`
+    `${config.path}api${routes.api.admin.categories.getCategories()}`
   )
 
   const categories = request.data.result

@@ -7,10 +7,11 @@ import routes from "@/web/routes"
 import classNames from "classnames"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
+import config from "@/api/config"
 
 export const getServerSideProps = async ({ locale }) => {
   const { data } = await axios.get(
-    `http://localhost:3000/api${routes.api.app.getProducts()}?sale=true&page=1`
+    `${config.path}api${routes.api.app.getProducts()}?sale=true&page=1`
   )
 
   const products = data.result
