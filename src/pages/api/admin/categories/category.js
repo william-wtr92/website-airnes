@@ -64,12 +64,15 @@ const handler = mw({
       let categories
       let pagination
 
+      const column = col || "id"
+      const orderCol = order || "asc"
+
       if (page) {
         const limit = config.pagination.limit.default
         const offset = (page - 1) * limit
 
         categories = await CategoryModel.query()
-          .orderBy(col, order)
+          .orderBy(column, orderCol)
           .limit(limit)
           .offset(offset)
         const totalCount = await CategoryModel.query().count().first()
@@ -81,7 +84,7 @@ const handler = mw({
           totalPages: Math.ceil(totalCount.count / limit),
         }
       } else {
-        categories = await CategoryModel.query().orderBy(col, order)
+        categories = await CategoryModel.query().orderBy(column, orderCol)
       }
 
       if (categories) {
