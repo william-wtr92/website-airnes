@@ -86,7 +86,7 @@ const handler = mw({
                }) => {
             await ProductModel.query().deleteById(productId)
 
-            res.send({ result: null })
+            res.send({ result: true })
         },
     ],
 })
