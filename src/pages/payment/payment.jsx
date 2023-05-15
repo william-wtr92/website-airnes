@@ -1,85 +1,51 @@
-import * as yup from "yup"
-import {Form, Formik} from "formik"
-import FormField from "@/components/utils/FormField"
-import Button from "@/components/app/ui/Button"
-import React, {useCallback} from "react"
-import {useRouter} from "next/router"
+import React, { useState, useEffect } from "react"
+import { loadStripe } from "@stripe/stripe-js"
+import { Elements } from "@stripe/react-stripe-js"
 
-const defaultValidationSchema = yup.object().shape({
-    fullName: yup.string().required().label("Nom complet"),
-    cardNumber: yup
-        .number()
-        .required()
-        .label("Numéro de carte")
-        .test(
-            "len",
-            "Le numéro est invalide.",
-            (val) => val && val.toString().length === 16
-        ),
-    expDate: yup.string().length(5).required().label("Date d'expiration"),
-    ccv: yup
-        .number()
-        .required()
-        .label("CCV")
-        .test(
-            "len",
-            "Le ccv est invalide.",
-            (val) => val && val.toString().length === 3
-        ),
-})
+import CheckoutForm from "@/components/app/cart/checkoutform"
+import useAppContext from "@/web/hooks/useAppContext"
 
-const defaultInitialValues = {
-    fullName: "",
-    cardNumber: "",
-    expDate: "",
-    ccv: "",
-}
+const stripePromise = loadStripe(
+  "pk_test_51N1ln3IACBtQSJSw4YajhmK8NygdDj8YALH3jd1XBaVNX7SwjCfCSewi2emUg1iSqanX2TFsoPhzGzqKgAs06t9j00vAD1XTx4"
+)
 
-const Payment = (props) => {
-    const {validationSchema = defaultValidationSchema} = props
+const Payment = () => {
+  const {
+    state: { cartItems },
+    actions: { payment },
+  } = useAppContext()
 
-    const router = useRouter()
-    const handleSubmit = useCallback(() => {
-        router.push("/payment/confirmation")
-    }, [router])
+  const [clientSecret, setClientSecret] = useState("")
 
-    return (
-        <>
-            <Formik
-                onSubmit={handleSubmit}
-                initialValues={defaultInitialValues}
-                validationSchema={validationSchema}
-            >
-                <div>
-                    <Form>
-                        <div className="flex flex-col items-center my-10 space-y-5 md:mt-20 lg:mt-32">
-                            <h1 className="font-bold text-xl">Paiement</h1>
-                            <div
-                                className="flex flex-col flex-wrap md:flex-row w-4/5 lg:w-1/2 gap-y-5">
-                                <FormField
-                                    name="cardNumber"
-                                    label="Numéro de carte"
-                                    className="basis-full md:basis-1/2"
-                                />
-                                <FormField
-                                    name="fullName"
-                                    label="Nom complet"
-                                    className="basis-full md:basis-1/2"
-                                />
-                                <FormField
-                                    name="expDate"
-                                    label="Date d'expiration"
-                                    className="basis-full md:basis-1/2"
-                                />
-                                <FormField name="ccv" label="CCV" className="basis-full md:basis-1/2"/>
-                            </div>
-                            <Button type="submit">Payer</Button>
-                        </div>
-                    </Form>
-                </div>
-            </Formik>
-        </>
-    )
+  useEffect(() => {
+    async function fetchData() {
+      const items = cartItems
+      const paymentIntent = await payment(items)
+      setClientSecret(paymentIntent[1].clientSecret)
+    }
+
+    if (cartItems.length != 0) {
+      fetchData()
+    }
+  }, [payment, cartItems])
+
+  const appearance = {
+    theme: "stripe",
+  }
+  const options = {
+    clientSecret,
+    appearance,
+  }
+
+  return (
+    <div>
+      {clientSecret && (
+        <Elements options={options} stripe={stripePromise}>
+          <CheckoutForm />
+        </Elements>
+      )}
+    </div>
+  )
 }
 
 export default Payment
