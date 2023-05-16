@@ -1,56 +1,31 @@
-import axios from "axios"
-import routes from "@/web/routes"
 import DisplayMain from "@/components/app/admin/DisplayMain"
 import useAppContext from "@/web/hooks/useAppContext"
-import { useCallback, useState, useEffect } from "react"
-import { useRouter } from "next/router"
-import config from "@/api/config"
+import {useCallback, useState, useEffect} from "react"
+import {useRouter} from "next/router"
+import getApi from "@/web/getAPI"
+import routes from "@/web/routes"
 
 export const getServerSideProps = async (context) => {
-  const { page, deletedImageId } = context.query
+  const api = getApi(context)
 
-  const redirectToInitial = () => {
-    return {
-      redirect: {
-        destination: "/admin/homepage?page=1",
-        permanent: false,
-      },
+  const imagesRes = await api.get(
+    routes.api.admin.carousel.getImages()
+  )
+
+  const categoriesRes = await api.get(
+    routes.api.admin.selectCategory.getSelectCategory()
+  )
+
+  const productsRes = await api.get(
+    routes.api.admin.selectProduct.getSelectProducts()
+  )
+
+  return {
+    props: {
+      images: imagesRes.data.result,
+      categories: categoriesRes.data.result,
+      products: productsRes.data.result
     }
-  }
-
-  try {
-    const [imagesRes, categoriesRes, productsRes] = await Promise.all([
-      axios.get(
-        `${config.path}api${routes.api.admin.carousel.getImages()}?page=${
-          page || 1
-        }`
-      ),
-      axios.get(
-        `${
-          config.path
-        }api${routes.api.admin.selectCategory.getSelectCategory()}`
-      ),
-      axios.get(
-        `${config.path}api${routes.api.admin.selectProduct.getSelectProducts()}`
-      ),
-    ])
-
-    const isEmpty = imagesRes.data.result.length === 0
-
-    if (isEmpty && page !== "1") {
-      return redirectToInitial()
-    }
-
-    return {
-      props: {
-        images: imagesRes.data.result,
-        categories: categoriesRes.data.result,
-        products: productsRes.data.result,
-        deletedImageId: deletedImageId || null,
-      },
-    }
-  } catch (error) {
-    return redirectToInitial()
   }
 }
 
@@ -86,8 +61,8 @@ const Homepage = (props) => {
       deleteSelectedCategory,
       orderSelectedCategory,
       deleteSelectedProduct,
-      orderSelectedProduct,
-    },
+      orderSelectedProduct
+    }
   } = useAppContext()
 
   const handleDeleteCarousel = useCallback(
@@ -102,7 +77,7 @@ const Homepage = (props) => {
         return
       }
 
-      router.push(`/admin/homepage?deletedImageId=${imageId}`)
+      router.push(`/admin/homepage`)
     },
     [deleteCarousel, router]
   )

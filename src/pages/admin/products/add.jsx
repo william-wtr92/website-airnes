@@ -1,55 +1,47 @@
 import {
   selectedProductInitialValues,
-  selectedProductValidationSchema,
+  selectedProductValidationSchema
 } from "@/components/validation/admin/product"
-import { useRouter } from "next/router"
+import {useRouter} from "next/router"
 import SelectedForm from "@/components/app/admin/SelectedForm"
-import { useCallback, useEffect, useState } from "react"
+import {useCallback, useEffect, useState} from "react"
 import useAppContext from "@/web/hooks/useAppContext"
 import routes from "@/web/routes"
-import axios from "axios"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
 
 export const getServerSideProps = async (context) => {
   const { page } = context.query
 
-  const redirectToInitial = () => {
+  const api = getApi(context)
+
+  const allProducts = await api.get(
+    routes.api.admin.products.getProducts()
+  )
+
+  const selectedProducts = await api.get(
+    routes.api.admin.selectProduct.getSelectProducts()
+  )
+
+  const isEmpty = allProducts.data.result.length === 0
+
+  if (isEmpty && page !== "1") {
     return {
       redirect: {
-        destination: "/admin/homepage?page=1",
-        permanent: false,
-      },
+        destination: "/admin/homepage"
+      }
     }
   }
 
-  try {
-    const [allProducts, selectProducts] = await Promise.all([
-      axios.get(`${config.path}api${routes.api.admin.products.getProducts()}`),
-
-      axios.get(
-        `${config.path}api${routes.api.admin.selectProduct.getSelectProducts()}`
-      ),
-    ])
-
-    const isEmpty = allProducts.data.result.length === 0
-
-    if (isEmpty && page !== "1") {
-      return redirectToInitial()
+  return {
+    props: {
+      allProducts: allProducts.data.result,
+      selectedProducts: selectedProducts.data.result
     }
-
-    return {
-      props: {
-        allProducts: allProducts.data.result,
-        selectProducts: selectProducts.data.result,
-      },
-    }
-  } catch (error) {
-    return redirectToInitial()
   }
 }
 
 const AddSelectedProduct = (props) => {
-  const { allProducts, selectProducts } = props
+  const { allProducts, selectedProducts } = props
 
   const [error, setError] = useState(null)
 
@@ -59,7 +51,7 @@ const AddSelectedProduct = (props) => {
 
   useEffect(() => {
     const selectedProductsIds = new Set(
-      selectProducts.map((item) => item.product_id)
+      selectedProducts.map((item) => item.product_id)
     )
     const unselectedProducts = allProducts.filter(
       (product) => !selectedProductsIds.has(product.id)
@@ -67,14 +59,14 @@ const AddSelectedProduct = (props) => {
 
     const options = unselectedProducts.map((item) => ({
       value: item.id,
-      label: item.name,
+      label: item.name
     }))
 
     setProducts(options)
-  }, [selectProducts, allProducts])
+  }, [selectedProducts, allProducts])
 
   const {
-    actions: { addSelectedProduct },
+    actions: { addSelectedProduct }
   } = useAppContext()
 
   const handlePostProduct = useCallback(

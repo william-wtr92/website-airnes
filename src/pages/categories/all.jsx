@@ -1,22 +1,15 @@
-import axios from "axios"
 import routes from "@/web/routes"
+import getApi from "@/web/getAPI"
 import Category from "@/components/app/content/Category"
-import config from "@/api/config"
 
-export const getServerSideProps = async () => {
-  const request = await axios.get(
-    `${config.path}api${routes.api.admin.categories.getCategories()}`
-  )
+export const getServerSideProps = async (context) => {
+  const api = getApi(context)
 
-  const categories = request.data.result
-
-  const filteredCategories = categories.filter(
-    (category) => category.name !== "No category"
-  )
+  const { data } = await api.get(routes.api.app.categories.getCategories())
 
   return {
     props: {
-      categories: filteredCategories,
+      categories: data,
     },
   }
 }
@@ -36,7 +29,7 @@ const allCategories = (props) => {
           </div>
         ) : (
           <div className="flex flex-col gap-5 items-center justify-center p-4">
-            <Category categories={categories} />
+            <Category categories={categories.data} />
           </div>
         )}
       </div>

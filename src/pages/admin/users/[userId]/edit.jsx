@@ -1,4 +1,3 @@
-import axios from "axios"
 import routes from "@/web/routes"
 import { useRouter } from "next/router"
 import useAppContext from "@/web/hooks/useAppContext"
@@ -7,13 +6,15 @@ import Return from "@/components/app/ui/Return"
 import { Field, Form, Formik } from "formik"
 import Button from "@/components/app/ui/Button"
 import * as yup from "yup"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
 
 export const getServerSideProps = async (context) => {
   const { userId } = context.params
 
-  const { data } = await axios.get(
-    `${config.path}api${routes.api.admin.users.userData(userId)}`
+  const api = getApi(context)
+
+  const { data } = await api.get(
+    routes.api.admin.users.userData(userId)
   )
 
   if (!data.result) {

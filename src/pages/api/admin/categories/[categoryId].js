@@ -105,7 +105,7 @@ const handler = mw({
         .update({ categoryId: noCategoryId })
         .where({ categoryId: id })
 
-      await CategoryModel.query().deleteById(id)
+      await CategoryModel.query().findOne({ id }).del()
 
       res.send({ result: true })
     },

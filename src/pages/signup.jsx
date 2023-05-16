@@ -39,6 +39,7 @@ const SignUp = () => {
   const {
     actions: { signUp },
   } = useAppContext()
+
   const [error, setError] = useState(null)
   const router = useRouter()
 

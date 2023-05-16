@@ -56,7 +56,7 @@ const handler = mw({
 
       try {
         await UserModel.query().updateAndFetchById(id, {
-          ...(user.roleid != roleid ? { roleid } : {}),
+          ...(user.roleid !== roleid ? { roleid } : {}),
         })
       } catch {
         res.status(500).send({ error: "Oops. Something went wrong." })

@@ -1,21 +1,25 @@
-import axios from "axios"
 import routes from "@/web/routes"
 import DisplayPage from "@/components/app/admin/DisplayPage"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback } from "react"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
 
 export const getServerSideProps = async (context) => {
   const { page, order, column } = context.query
+
   const clearPage = page || 1
   const clearOrder = order || "asc"
   const clearColumn = column || "id"
 
-  const { data } = await axios.get(
-    `${
-      config.path
-    }api${routes.api.admin.categories.getCategories()}?page=${clearPage}&order=${clearOrder}&col=${clearColumn}`
-  )
+  const api = getApi(context)
+
+  const { data } = await api.get(routes.api.admin.categories.getCategories(), {
+    params: {
+      page: clearPage,
+      order: clearOrder,
+      col: clearColumn,
+    },
+  })
 
   return {
     props: {

@@ -15,8 +15,8 @@ const config = {
       user: process.env.DB_CONNECTION_USER,
       password: process.env.DB_CONNECTION_PWD,
       database: process.env.DB_CONNECTION_DB,
-      ssl: true,
-      sslmode: "require",
+      // ssl: true,
+      // sslmode: "require",
     },
     migrations: {
       directory: resolve("src/api/db/migrations"),
@@ -52,6 +52,9 @@ const config = {
     },
   },
   path: isProduction ? `https://${vercelUrl}/` : process.env.HOST_PATH,
+  baseURL: `${
+    isProduction ? `https://${vercelUrl}/` : process.env.HOST_PATH
+  }/api`,
 }
 
 module.exports = config

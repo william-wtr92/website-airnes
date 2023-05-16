@@ -11,39 +11,21 @@ import {
 import { useState, useEffect, useCallback } from "react"
 import { useRouter } from "next/router"
 import Button from "@/components/app/ui/Button"
-import axios from "axios"
-import routes from "@/web/routes"
 import useAppContext from "@/web/hooks/useAppContext"
 import Confirm from "@/components/app/ui/Confirm"
 import classNames from "classnames"
 import { useTranslation } from "next-i18next"
 
-const formatName = (str) => {
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
-}
 
-const Users = ({ className, session, cartItems }) => {
+const Users = ({ className, cartItems }) => {
   const router = useRouter()
 
   const [burgerMenu, setBurgerMenu] = useState(false)
-  const [userName, setUserName] = useState("")
+  const [userName] = useState("")
 
   useEffect(() => {
     setBurgerMenu(false)
   }, [router.pathname])
-
-  useEffect(() => {
-    if (session && session.user) {
-      const fetchUserData = async () => {
-        const data = await axios.get(
-          `/api${routes.api.user.userData(session.user.id)}`
-        )
-        setUserName(formatName(data.data.result.name))
-      }
-
-      fetchUserData()
-    }
-  }, [session])
 
   const toggleBurgerMenu = () => {
     setBurgerMenu(!burgerMenu)
@@ -59,6 +41,7 @@ const Users = ({ className, session, cartItems }) => {
 
   const {
     actions: { logout, changeLanguage },
+    state: { session }
   } = useAppContext()
 
   const [confirmLogout, setConfirmLogout] = useState(false)

@@ -1,69 +1,38 @@
 import Button from "@/components/app/ui/Button"
 import ProductCarousel from "@/components/app/ui/ProductCarrousel"
-import axios from "axios"
 import routes from "@/web/routes"
 import { useCallback, useEffect, useState } from "react"
 import { NavLink } from "@/components/utils/NavLink"
 import classNames from "classnames"
 import SlideProducts from "@/components/app/content/SlideProducts"
 import useAppContext from "@/web/hooks/useAppContext"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
 
 export const getServerSideProps = async (context) => {
-  const { locale, params } = context
+  const { params } = context
 
-  const redirectToInitial = () => {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    }
-  }
+  const api = getApi(context)
 
   const productId = params.productId
 
-  try {
-    const [products, productData] = await Promise.all([
-      axios.get(`${config.path}api${routes.api.app.getProducts()}?page=1`),
-
-      axios.get(
-        `${config.path}api${routes.api.admin.products.productData(productId)}`
-      ),
-    ])
-
-    const isEmpty = productData.data.result.length === 0
-
-    if (isEmpty) {
-      return redirectToInitial()
+  const { data } = await api.get(routes.api.app.products.getProduct(productId), {
+    params: {
+      withSimilarProducts: true,
     }
+  })
 
-    const similarProducts = products.data.allProduct.filter(
-      (product) =>
-        product.id != productId &&
-        product.categoryId === productData.data.result.categoryId
-    )
-
-    return {
-      props: {
-        ...(await serverSideTranslations(locale, [
-          "product",
-          "navbar",
-          "footer",
-        ])),
-        similarProducts: similarProducts,
-        product: productData.data.result,
-      },
+  return {
+    props: {
+      product: data.product,
+      similarProducts: data.similarProducts,
     }
-  } catch (error) {
-    return redirectToInitial()
   }
 }
 
 const ProductPage = (props) => {
   const { product, similarProducts } = props
+
   const [showPopup, setShowPopup] = useState(false)
   const [showError, setShowError] = useState(false)
 
@@ -73,7 +42,7 @@ const ProductPage = (props) => {
 
   useEffect(() => {
     setAddToCartText(t("addCart"))
-    setSimilarText(t(`similarProducts`))
+    setSimilarText(t("similarProducts"))
   }, [t])
 
   const {
@@ -135,16 +104,14 @@ const ProductPage = (props) => {
                   similarProducts.length < 3 && "justify-center"
                 )}
               >
-                {similarProducts
-                  .sort((a, b) => a.id - b.id)
-                  .slice(0, 6)
-                  .map((product) => (
+                {similarProducts.map((product) => (
                     <div
                       key={product.id}
                       className="flex-none w-full md:w-1/2 lg:w-1/3"
                     >
                       <SlideProducts
                         image={product.image}
+                        productId={product.id}
                         productName={product.name}
                         productPrice={product.price}
                         promotion={product.promotion}

@@ -1,45 +1,29 @@
 import ProductThumbnail from "@/components/app/content/ProductThumbnail"
 import Image from "next/image"
-import axios from "axios"
 import routes from "@/web/routes"
 import { NavLink } from "@/components/utils/NavLink"
 import Button from "@/components/app/ui/Button"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
 
 export const getServerSideProps = async (context) => {
   const { categoryId } = context.params
 
-  const returnCategories = () => {
+  const api = getApi(context)
+
+  try {
+    const { data } = await api.get(routes.api.app.categories.getCategory(categoryId))
+
+    return {
+      props: {
+        category: data.result,
+      },
+    }
+  } catch (error) {
     return {
       redirect: {
         destination: "/categories/all",
-        permanent: false,
-      },
+      }
     }
-  }
-
-  const noCategoryId = 0
-
-  if (!categoryId || categoryId === noCategoryId) {
-    returnCategories()
-  }
-
-  const { data } = await axios.get(
-    `${config.path}api${routes.api.admin.categories.categoryData(
-      categoryId
-    )}?showProducts=true`
-  )
-
-  if (!data.result) {
-    returnCategories()
-  }
-
-  const categoryData = data.result
-
-  return {
-    props: {
-      category: categoryData,
-    },
   }
 }
 

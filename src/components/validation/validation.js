@@ -34,3 +34,9 @@ export const urlValidator = yup
   .required("URL is required")
 
 export const labelValidator = yup.string()
+
+// website
+export const categoryValidator = yup
+  .number()
+  .integer()
+  .min(1)

@@ -8,7 +8,6 @@ import {
 
 const handler = mw({
   GET: [
-    //rajouter auth check query.useriD
     validate({
       query: {
         addressId: numberValidator.required(),
@@ -34,7 +33,6 @@ const handler = mw({
     },
   ],
   PATCH: [
-    //rajouter auth check query.useriD
     validate({
       query: {
         addressId: numberValidator.required(),

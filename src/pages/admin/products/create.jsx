@@ -6,12 +6,13 @@ import { useRouter } from "next/router"
 import ProductForm from "@/components/app/admin/ProductForm"
 import { useCallback, useState } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
-import axios from "axios"
 import routes from "@/web/routes"
-import config from "@/api/config"
-export const getServerSideProps = async () => {
-  const { data } = await axios.get(
-    `${config.path}api${routes.api.admin.materials.getMaterialsAndCategory()}`
+import getApi from "@/web/getAPI"
+export const getServerSideProps = async (context) => {
+  const api = getApi(context)
+
+  const { data } = await api.get(
+    routes.api.admin.materials.getMaterialsAndCategory()
   )
 
   return {

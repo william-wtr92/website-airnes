@@ -4,24 +4,23 @@ import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback, useState } from "react"
 import { editProductValidationSchema } from "@/components/validation/admin/product"
 import ProductForm from "@/components/app/admin/ProductForm"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
 
 export const getServerSideProps = async (context) => {
   const { productId } = context.params
 
-  const [productRes, materialsAndCategoriesRes] = await Promise.all([
-    fetch(
-      `${config.path}api${routes.api.admin.products.productData(productId)}`
-    ),
-    fetch(
-      `${config.path}api${routes.api.admin.materials.getMaterialsAndCategory()}`
-    ),
-  ])
+  const api = getApi(context)
 
-  const [product, materialsAndCategories] = await Promise.all([
-    productRes.json(),
-    materialsAndCategoriesRes.json(),
-  ])
+  const productRes = await api.get(
+    routes.api.admin.products.productData(productId)
+  )
+
+  const materialsAndCategoriesRes = await api.get(
+    routes.api.admin.materials.getMaterialsAndCategory()
+  )
+
+  const product = await productRes.json()
+  const materialsAndCategories = await materialsAndCategoriesRes.json()
 
   return {
     props: {

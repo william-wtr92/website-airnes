@@ -12,20 +12,21 @@ import {
 import { NavLink } from "@/components/utils/NavLink"
 import classNames from "classnames"
 import { accountSettingsValidationSchema } from "@/components/validation/validationyup"
-import axios from "axios"
 import routes from "@/web/routes"
 import useAppContext from "@/web/hooks/useAppContext"
 import Confirm from "@/components/app/ui/Confirm"
 import { useRouter } from "next/router"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
 
 export const getServerSideProps = async (context) => {
   const { query, locale } = context
 
-  const { data } = await axios.get(
-    `${config.path}api${routes.api.user.userData(query.userId)}`
+  const api = getApi(context)
+
+  const { data } = await api.get(
+    routes.api.user.userData(query.userId)
   )
 
   return {

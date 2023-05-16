@@ -1,15 +1,16 @@
 import Return from "@/components/app/ui/Return"
-import axios from "axios"
 import routes from "@/web/routes"
 import { useRouter } from "next/router"
 import useAppContext from "@/web/hooks/useAppContext"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
 
 export const getServerSideProps = async (context) => {
   const { contactId } = context.params
 
-  const { data } = await axios.get(
-    `${config.path}api${routes.api.admin.contacts.contactData(contactId)}`
+  const api = getApi(context)
+
+  const { data } = await api.get(
+    routes.api.admin.contacts.contactData(contactId)
   )
 
   if (!data.result) {
@@ -71,7 +72,7 @@ const ShowContact = (props) => {
         className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1"
         onClick={handleClick}
       >
-        {contact.read ? "Open it" : "Mark as read"}
+        {contact.read ? "Mark it as new" : "Mark it as open"}
       </button>
     </div>
   )

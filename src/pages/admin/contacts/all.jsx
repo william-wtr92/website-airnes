@@ -1,21 +1,25 @@
-import axios from "axios"
 import routes from "@/web/routes"
 import DisplayPage from "@/components/app/admin/DisplayPage"
 import { useCallback } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
 
 export const getServerSideProps = async (context) => {
   const { page, order, column } = context.query
+
+  const api = getApi(context)
+
   const clearPage = page || 1
   const clearOrder = order || "asc"
   const clearColumn = column || "id"
 
-  const { data } = await axios.get(
-    `${
-      config.path
-    }api${routes.api.admin.contacts.getContacts()}?page=${clearPage}&order=${clearOrder}&col=${clearColumn}`
-  )
+  const { data } = await api.get(routes.api.admin.contacts.getContacts(), {
+    params: {
+      page: clearPage,
+      order: clearOrder,
+      col: clearColumn,
+    }
+  })
 
   return {
     props: {
@@ -27,11 +31,11 @@ export const getServerSideProps = async (context) => {
 }
 
 const AllContacts = (props) => {
+  const { contacts, pagination, query } = props
+
   const {
     actions: { deleteContact },
   } = useAppContext()
-
-  const { contacts, pagination, query } = props
 
   const handleDelete = useCallback(
     async (id) => {

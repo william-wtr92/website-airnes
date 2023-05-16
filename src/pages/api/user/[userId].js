@@ -10,7 +10,6 @@ import { NotFoundError } from "@/api/errors"
 
 const handler = mw({
   GET: [
-    //rajouter auth
     validate({
       query: {
         userId: numberValidator.required(),
@@ -41,7 +40,6 @@ const handler = mw({
     },
   ],
   PATCH: [
-    //rajouter auth
     validate({
       query: {
         userId: numberValidator.required(),
@@ -61,10 +59,10 @@ const handler = mw({
       const id = userId
 
       const user = await UserModel.query().findOne({ id })
-      const emailverif = await UserModel.query().findOne({ mail })
+      const emailVerif = await UserModel.query().findOne({ mail })
 
       try {
-        if (!emailverif || user.id === emailverif.id) {
+        if (!emailVerif || user.id === emailVerif.id) {
           await UserModel.query().updateAndFetchById(id, {
             ...(user.name != name ? { name } : {}),
             ...(user.mail != mail ? { mail } : {}),
@@ -78,7 +76,6 @@ const handler = mw({
     },
   ],
   DELETE: [
-    //rajouter auth check query.useriD
     validate({
       query: {
         userId: numberValidator.required(),

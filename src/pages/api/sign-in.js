@@ -8,6 +8,7 @@ import {
 } from "@/components/validation/validation"
 import jsonwebtoken from "jsonwebtoken"
 import { InvalidCredentialsError } from "@/api/errors"
+import { setCookie } from "@/components/utils/cookies"
 
 const handler = mw({
   POST: [
@@ -42,6 +43,12 @@ const handler = mw({
         config.security.jwt.secret,
         { expiresIn: config.security.jwt.expiresIn }
       )
+
+      setCookie(res, "session", jwt, {
+        maxAge: 35000,
+        path: "/",
+        httpOnly: true,
+      })
 
       res.send({ result: jwt })
     },

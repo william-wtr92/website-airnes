@@ -2,30 +2,40 @@ import Carousel from "@/components/app/ui/Carousel"
 import HomepageCategories from "@/components/app/content/HomepageCategories"
 import HomepageProducts from "@/components/app/content/HomepageProducts"
 import SlideProducts from "@/components/app/content/SlideProducts"
-import axios from "axios"
 import routes from "@/web/routes"
 import classNames from "classnames"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
 
-export const getServerSideProps = async ({ locale }) => {
-  const { data } = await axios.get(
-    `${config.path}api${routes.api.app.getProducts()}?sale=true&page=1`
-  )
+export const getServerSideProps = async (context) => {
+  const { locale } = context
 
-  const products = data.result
+  const api = getApi(context)
+
+  const categoryQuery = await api.get(routes.api.admin.selectCategory.getSelectCategory())
+
+  const productQuery = await api.get(routes.api.admin.selectProduct.getSelectProducts())
+
+  const saleQuery = await api.get(routes.api.app.products.getProducts(), {
+    params: {
+      sale: true,
+      page: 1,
+    },
+  })
 
   return {
     props: {
-      products: products,
+      products: productQuery.data.result,
+      categories: categoryQuery.data.result,
+      sales: saleQuery.data.result,
       ...(await serverSideTranslations(locale, ["common", "footer", "navbar"])),
     },
   }
 }
 
 const Main = (props) => {
-  const { products } = props
+  const { categories, products, sales } = props
   const { t } = useTranslation("common")
 
   return (
@@ -42,7 +52,9 @@ const Main = (props) => {
           </div>
           <div className="flex flex-wrap justify-center">
             <div className="flex flex-wrap justify-center lg:justify-between">
-              <HomepageCategories />
+              <HomepageCategories
+                categories={categories}
+              />
             </div>
           </div>
         </div>
@@ -52,7 +64,9 @@ const Main = (props) => {
           </div>
           <div className="flex flex-wrap justify-center">
             <div className="flex flex-wrap justify-center lg:justify-between">
-              <HomepageProducts />
+              <HomepageProducts
+                products={products}
+              />
             </div>
           </div>
         </div>
@@ -65,10 +79,10 @@ const Main = (props) => {
               <div
                 className={classNames(
                   "overflow-x-auto scrollbar w-full flex gap-10 p-4",
-                  products.length < 3 && "justify-center"
+                  sales.length < 3 && "justify-center"
                 )}
               >
-                {products.map((product) => (
+                {sales.map((product) => (
                   <div
                     key={product.id}
                     className="flex-none w-full md:w-1/2 lg:w-1/3"

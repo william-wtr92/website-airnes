@@ -4,12 +4,10 @@ import mw from "@/api/mw"
 import {
   linkValidator,
   queryPageValidator,
-  stringValidator,
+  stringValidator
 } from "@/components/validation/validation"
-import UserModel from "@/api/db/models/UserModel"
-import { NotFoundError } from "@/api/errors"
+import {NotFoundError} from "@/api/errors"
 import config from "@/api/config"
-import { getSessionFromCookiesServ } from "@/web/helper/getSessionFromCookiesServ"
 
 const handler = mw({
   POST: [
@@ -17,50 +15,38 @@ const handler = mw({
       body: {
         image: linkValidator.required(),
         name: stringValidator.required(),
-        description: stringValidator.required(),
-      },
+        description: stringValidator.required()
+      }
     }),
     async ({
-      req,
-      locals: {
-        body: { image, name, description },
-      },
-      res,
-    }) => {
-      const sessionFromCookies = getSessionFromCookiesServ(req)
-
-      const id = sessionFromCookies.user.id
-
-      const user = await UserModel.query().findOne({ id })
-
-      if (user.roleid !== 1) {
-        res.status(403).send({ error: "You are not admin" })
-
-        return
-      }
-
+             locals: {
+               body: { image, name, description }
+             },
+             res
+           }) => {
       await CategoryModel.query().insertAndFetch({
         image,
         name,
-        description,
+        description
       })
+
       res.send({ result: true })
-    },
+    }
   ],
   GET: [
     validate({
       query: {
         page: queryPageValidator.optional(),
         order: stringValidator.optional(),
-        col: stringValidator.optional(),
-      },
+        col: stringValidator.optional()
+      }
     }),
     async ({
-      locals: {
-        query: { page, order, col },
-      },
-      res,
-    }) => {
+             locals: {
+               query: { page, order, col }
+             },
+             res
+           }) => {
       let categories
       let pagination
 
@@ -81,7 +67,7 @@ const handler = mw({
           page,
           limit,
           totalItems: parseInt(totalCount.count, 10),
-          totalPages: Math.ceil(totalCount.count / limit),
+          totalPages: Math.ceil(totalCount.count / limit)
         }
       } else {
         categories = await CategoryModel.query().orderBy(column, orderCol)
@@ -90,15 +76,15 @@ const handler = mw({
       if (categories) {
         res.send({
           result: categories,
-          pagination: pagination,
+          pagination: pagination
         })
       } else {
         res.send({ result: "" })
 
         throw new NotFoundError()
       }
-    },
-  ],
+    }
+  ]
 })
 
 export default handler

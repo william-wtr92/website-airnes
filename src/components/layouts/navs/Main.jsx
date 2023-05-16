@@ -5,10 +5,10 @@ import Users from "@/components/layouts/navs/Users"
 const Main = ({ className, session, cartItems }) => {
   const router = useRouter()
 
-  return !router.pathname.startsWith("/admin") ? (
-    <Users className={className} session={session} cartItems={cartItems} />
+  return router.pathname.startsWith("/admin") ? (
+    <Admin session={session}/>
   ) : (
-    <Admin session={session} />
+    <Users className={className} session={session} cartItems={cartItems}/>
   )
 }
 

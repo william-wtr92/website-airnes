@@ -10,7 +10,7 @@ export const up = async (knex) => {
       return knex("category").insert({
         id: 0,
         name: "No category",
-        description: "No category",
+        description: "No categories",
         // needs to be changed once the db and image link handler are set up
         image:
           "https://images.unsplash.com/photo-1630699144339-420f59b4747b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",

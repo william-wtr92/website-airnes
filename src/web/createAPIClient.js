@@ -1,9 +1,11 @@
-import config from "@/web/config.js"
 import axios from "axios"
 
-const createAPIClient = () =>
+const createAPIClient = ({ baseURL, jwt }) =>
   axios.create({
-    baseURL: config.api.baseURL,
+    baseURL,
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
   })
 
 export default createAPIClient

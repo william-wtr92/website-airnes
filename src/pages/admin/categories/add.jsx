@@ -7,11 +7,12 @@ import SelectedForm from "@/components/app/admin/SelectedForm"
 import { useCallback, useEffect, useState } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
 import routes from "@/web/routes"
-import axios from "axios"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
 
 export const getServerSideProps = async (context) => {
   const { page } = context.query
+
+  const api = getApi(context)
 
   const redirectToInitial = () => {
     return {
@@ -23,17 +24,13 @@ export const getServerSideProps = async (context) => {
   }
 
   try {
-    const [allCategories, selectCategories] = await Promise.all([
-      axios.get(
-        `${config.path}api${routes.api.admin.categories.getCategories()}`
-      ),
+    const allCategories = await api.get(
+      routes.api.admin.categories.getCategories()
+    )
 
-      axios.get(
-        `${
-          config.path
-        }api${routes.api.admin.selectCategory.getSelectCategory()}`
-      ),
-    ])
+    const selectedCategories = await api.get(
+      routes.api.admin.selectCategory.getSelectCategory()
+    )
 
     const isEmpty = allCategories.data.result.length === 0
 
@@ -44,7 +41,7 @@ export const getServerSideProps = async (context) => {
     return {
       props: {
         allCategories: allCategories.data.result,
-        selectCategories: selectCategories.data.result,
+        selectedCategories: selectedCategories.data.result,
       },
     }
   } catch (error) {
@@ -53,7 +50,7 @@ export const getServerSideProps = async (context) => {
 }
 
 const AddSelectedCategory = (props) => {
-  const { allCategories, selectCategories } = props
+  const { allCategories, selectedCategories } = props
 
   const [error, setError] = useState(null)
 
@@ -63,7 +60,7 @@ const AddSelectedCategory = (props) => {
 
   useEffect(() => {
     const selectedCategoryIds = new Set(
-      selectCategories.map((item) => item.category_id)
+      selectedCategories.map((item) => item.category_id)
     )
     const unselectedCategories = allCategories.filter(
       (category) => !selectedCategoryIds.has(category.id)
@@ -75,7 +72,7 @@ const AddSelectedCategory = (props) => {
     }))
 
     setCategories(options)
-  }, [selectCategories, allCategories])
+  }, [selectedCategories, allCategories])
 
   const {
     actions: { addSelectedCategory },

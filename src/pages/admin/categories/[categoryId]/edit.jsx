@@ -1,17 +1,18 @@
 import CategoryForm from "@/components/app/admin/CategoryForm"
 import { categoryValidationSchema } from "@/components/validation/admin/category"
-import axios from "axios"
 import routes from "@/web/routes"
 import { useRouter } from "next/router"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback } from "react"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
 
 export const getServerSideProps = async (context) => {
   const { categoryId } = context.params
 
-  const { data } = await axios.get(
-    `${config.path}api${routes.api.admin.categories.categoryData(categoryId)}`
+  const api = getApi(context)
+
+  const { data } = await api.get(
+    routes.api.admin.categories.categoryData(categoryId)
   )
 
   if (!data.result) {

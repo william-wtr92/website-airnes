@@ -1,5 +1,4 @@
 import Return from "@/components/app/ui/Return"
-import axios from "axios"
 import routes from "@/web/routes"
 import { NavLink } from "@/components/utils/NavLink"
 import Image from "next/image"
@@ -8,13 +7,15 @@ import classNames from "classnames"
 import { useCallback, useState } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useRouter } from "next/router"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
 
 export const getServerSideProps = async (context) => {
   const { categoryId } = context.params
 
-  const { data } = await axios.get(
-    `${config.path}api${routes.api.admin.categories.categoryData(categoryId)}`
+  const api = getApi(context)
+
+  const { data } = await api.get(
+    routes.api.admin.categories.categoryData(categoryId)
   )
 
   if (!data.result) {
@@ -43,7 +44,7 @@ const ShowCategory = (props) => {
   } = useAppContext()
 
   const isNoCategory = (category) => {
-    return category.name === "No category"
+    return category.name === "No categories"
   }
 
   const onDeleteClick = (id) => {

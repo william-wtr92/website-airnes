@@ -1,8 +1,8 @@
 import Head from "next/head"
-import Layout from "@/components/layouts/Layout"
 import "./styles.css"
 import useAppContext, { AppContextProvider } from "@/web/hooks/useAppContext"
 import { appWithTranslation } from "next-i18next"
+import Layout from "@/components/layouts/Layout"
 
 const App = ({ Component, pageProps, session, cartItems }) => {
   return (

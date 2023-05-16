@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useState } from "react"
-import createAPIClient from "../createAPIClient"
-import signUpService from "../services/signUp"
-import signInService from "../services/signIn"
+import {createContext, useContext, useEffect, useState} from "react"
+import createAPIClient from "@/web/createAPIClient"
+import signUpService from "@/web/services/signUp"
+import signInService from "@/web/services/signIn"
 import contactService from "@/web/services/contact.js"
 import sendMailService from "@/web/services/sendMail"
 import resetPwdService from "@/web/services/resetPwd"
@@ -10,14 +10,14 @@ import createCategoryService from "@/web/services/admin/categories/addCategory"
 import updateCategoryService from "@/web/services/admin/categories/updateCategory"
 import deleteCategoryService from "@/web/services/admin/categories/deleteCategory"
 import deleteContactService from "@/web/services/admin/contacts/deleteContact"
-import addAddressService from "../services/user/address/addAddress"
-import patchUserService from "../services/user/patchUser"
-import deleteUserService from "../services/user/deleteUser"
-import patchAddressService from "../services/user/address/patchAddress"
-import deleteAddressService from "../services/user/address/deleteAddress"
-import addCarouselService from "../services/admin/homepage/addCarousel"
-import deleteCarouselService from "../services/admin/homepage/deleteCarousel"
-import orderCarouselService from "../services/admin/homepage/orderCarousel"
+import addAddressService from "@/web/services/user/address/addAddress"
+import patchUserService from "@/web/services/user/patchUser"
+import deleteUserService from "@/web/services/user/deleteUser"
+import patchAddressService from "@/web/services/user/address/patchAddress"
+import deleteAddressService from "@/web/services/user/address/deleteAddress"
+import addCarouselService from "@/web/services/admin/homepage/addCarousel"
+import deleteCarouselService from "@/web/services/admin/homepage/deleteCarousel"
+import orderCarouselService from "@/web/services/admin/homepage/orderCarousel"
 import createProductService from "@/web/services/admin/products/addProduct"
 import updateProductService from "@/web/services/admin/products/updateProduct"
 import deleteProductService from "@/web/services/admin/products/deleteProduct"
@@ -29,21 +29,21 @@ import deleteSelectedProductService from "@/web/services/admin/homepage/deleteSe
 import orderSelectedProductService from "@/web/services/admin/homepage/orderSelectedProduct"
 import patchRoleService from "@/web/services/admin/users/updateRole"
 
-import config from "../config"
+import config from "@/web/config"
 import Cookies from "js-cookie"
-import { getSessionFromCookies } from "../helper/getSessionFromCookies"
-import { i18n } from "next-i18next"
-import { useRouter } from "next/router"
+import {getSessionFromCookies} from "@/web/helper/getSessionFromCookies"
+import {i18n} from "next-i18next"
+import {useRouter} from "next/router"
 
 const AppContext = createContext()
 
 export const AppContextProvider = ({
-  cartItems: initialCartItems,
-  ...props
-}) => {
+                                     cartItems: initialCartItems,
+                                     ...props
+                                   }) => {
   const [session, setSession] = useState(null)
   const [jwt, setJWT] = useState(null)
-  const api = createAPIClient({ jwt })
+  const api = createAPIClient({ jwt, baseURL: config.api.baseURL })
 
   const signUp = signUpService({ api })
   const signIn = signInService({ api, setSession, setJWT })
@@ -80,13 +80,13 @@ export const AppContextProvider = ({
     }
   }, [])
 
-  const addCategory = createCategoryService({ api, jwt })
-  const updateCategory = updateCategoryService({ api, jwt })
-  const deleteCategory = deleteCategoryService({ api, jwt })
+  const addCategory = createCategoryService({ api })
+  const updateCategory = updateCategoryService({ api })
+  const deleteCategory = deleteCategoryService({ api })
 
-  const addProduct = createProductService({ api, jwt })
-  const updateProduct = updateProductService({ api, jwt })
-  const deleteProduct = deleteProductService({ api, jwt })
+  const addProduct = createProductService({ api })
+  const updateProduct = updateProductService({ api })
+  const deleteProduct = deleteProductService({ api })
 
   const updateContact = updateContactService({ api })
   const deleteContact = deleteContactService({ api })
@@ -94,7 +94,7 @@ export const AppContextProvider = ({
   const sendMail = sendMailService({ api })
   const resetPwd = resetPwdService({ api })
 
-  const addAddress = addAddressService({ api, jwt })
+  const addAddress = addAddressService({ api })
   const patchUser = patchUserService({ api })
   const patchRole = patchRoleService({ api })
   const patchAddress = patchAddressService({ api })
@@ -102,17 +102,17 @@ export const AppContextProvider = ({
   const deleteUser = deleteUserService({ api })
   const deleteAddress = deleteAddressService({ api })
 
-  const addCarousel = addCarouselService({ api, jwt })
+  const addCarousel = addCarouselService({ api })
   const deleteCarousel = deleteCarouselService({ api })
   const orderCarousel = orderCarouselService({ api })
 
   const deleteSelectedCategory = deleteSelectedCategoryService({ api })
-  const orderSelectedCategory = orderSelectedCategoryService({ api, jwt })
-  const addSelectedCategory = addSelectedCategoryService({ api, jwt })
+  const orderSelectedCategory = orderSelectedCategoryService({ api })
+  const addSelectedCategory = addSelectedCategoryService({ api })
 
   const deleteSelectedProduct = deleteSelectedProductService({ api })
-  const orderSelectedProduct = orderSelectedProductService({ api, jwt })
-  const addSelectedProduct = addSelectedProductService({ api, jwt })
+  const orderSelectedProduct = orderSelectedProductService({ api })
+  const addSelectedProduct = addSelectedProductService({ api })
 
   const [cartItems, setCartItems] = useState(initialCartItems || [])
 
@@ -225,13 +225,13 @@ export const AppContextProvider = ({
           clearCart,
           updateCartQuantity,
           removeFromCart,
-          changeLanguage,
+          changeLanguage
         },
         state: {
           session,
           cartItems,
-          language,
-        },
+          language
+        }
       }}
     />
   )

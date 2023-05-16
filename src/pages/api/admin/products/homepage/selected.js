@@ -2,43 +2,28 @@ import SelectedProductModel from "@/api/db/models/SeletedProductModel"
 import mw from "@/api/mw"
 import ProductModel from "@/api/db/models/ProductModel"
 import validate from "@/api/middlewares/validate"
-import { numberValidator } from "@/components/validation/validation"
-import UserModel from "@/api/db/models/UserModel"
-import { getSessionFromCookiesServ } from "@/web/helper/getSessionFromCookiesServ"
+import {numberValidator} from "@/components/validation/validation"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
     async ({ res }) => {
-      const products = await SelectedProductModel.query().withGraphFetched(
-        "user"
-      )
+      const products = await SelectedProductModel.query().withGraphFetched("product")
 
       res.send({ result: products })
-    },
+    }
   ],
   POST: [
     validate({
-      productId: numberValidator.required(),
+      productId: numberValidator.required()
     }),
+    auth("admin"),
     async ({
-      req,
-      locals: {
-        body: { productId },
-      },
-      res,
-    }) => {
-      const sessionFromCookies = getSessionFromCookiesServ(req)
-
-      const id = sessionFromCookies.user.id
-
-      const user = await UserModel.query().findOne({ id })
-
-      if (user.roleid !== 1) {
-        res.status(403).send({ error: "You are not admin" })
-
-        return
-      }
-
+             locals: {
+               body: { productId }
+             },
+             res
+           }) => {
       const product = await ProductModel.query().findById(productId)
 
       if (!product) {
@@ -51,7 +36,7 @@ const handler = mw({
 
       if (existingSelectedProduct) {
         return res.status(400).send({
-          error: "HomepageProducts already add",
+          error: "HomepageProducts already add"
         })
       }
 
@@ -63,12 +48,12 @@ const handler = mw({
 
       const newSelectedProduct = await SelectedProductModel.query().insert({
         order: newOrder,
-        product_id: productId,
+        product_id: productId
       })
 
       res.status(201).send({ result: newSelectedProduct })
-    },
-  ],
+    }
+  ]
 })
 
 export default handler
