@@ -28,6 +28,8 @@ import addSelectedProductService from "@/web/services/admin/homepage/addSelected
 import deleteSelectedProductService from "@/web/services/admin/homepage/deleteSelectedProduct"
 import orderSelectedProductService from "@/web/services/admin/homepage/orderSelectedProduct"
 import patchRoleService from "@/web/services/admin/users/updateRole"
+import paymentService from "@/web/services/cart/payment"
+import confirmOrderService from "@/web/services/cart/confirmOrder"
 
 import config from "../config"
 import Cookies from "js-cookie"
@@ -113,6 +115,9 @@ export const AppContextProvider = ({
   const deleteSelectedProduct = deleteSelectedProductService({ api })
   const orderSelectedProduct = orderSelectedProductService({ api, jwt })
   const addSelectedProduct = addSelectedProductService({ api, jwt })
+
+  const payment = paymentService({ api })
+  const confirmOrder = confirmOrderService({ api })
 
   const [cartItems, setCartItems] = useState(initialCartItems || [])
 
@@ -226,6 +231,8 @@ export const AppContextProvider = ({
           updateCartQuantity,
           removeFromCart,
           changeLanguage,
+          payment,
+          confirmOrder,
         },
         state: {
           session,

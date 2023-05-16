@@ -74,6 +74,10 @@ const routes = {
         deleteAddress: (userId, addressId) => `/user/${userId}/${addressId}`,
       },
     },
+    cart: {
+      payment: () => "/cart/payment",
+      confirmOrder: () => "/cart/confirmOrder",
+    },
   },
 }
 
