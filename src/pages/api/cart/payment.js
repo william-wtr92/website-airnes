@@ -3,8 +3,6 @@ import mw from "@/api/mw"
 import { arrayValidator } from "@/components/validation/validation"
 const stripe = require("stripe")(process.env.SK_STRIPE)
 
-process.env.SK_STRIPE
-
 const handler = mw({
   POST: [
     validate({
