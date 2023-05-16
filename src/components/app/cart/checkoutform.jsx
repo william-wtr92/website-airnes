@@ -2,7 +2,8 @@ import React, { useState } from "react"
 import { PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import Button from "../ui/Button"
 
-export default function CheckoutForm() {
+export default function CheckoutForm(props) {
+  const { price, dynamicPath } = props
   const stripe = useStripe()
   const elements = useElements()
 
@@ -21,7 +22,7 @@ export default function CheckoutForm() {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:3000/payment/confirmation",
+        return_url: `${dynamicPath}payment/confirmation`,
       },
     })
 
@@ -44,6 +45,7 @@ export default function CheckoutForm() {
       className="max-w-md mx-auto xl:mt-52 mt-36 flex flex-col "
       onSubmit={handleSubmit}
     >
+      <label className="mb-4 font-semibold">Prix: {price} $</label>
       <div className="mb-4">
         <PaymentElement id="payment-element" options={paymentElementOptions} />
       </div>

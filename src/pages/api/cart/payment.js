@@ -23,19 +23,18 @@ const handler = mw({
           return accumulator + element.price * element.product_quantity
         }, 0)
 
-        const finalPrice = totalPrice * 100
-
-        return finalPrice
+        return totalPrice
       }
 
       const paymentIntent = await stripe.paymentIntents.create({
-        amount: calculateOrderAmount(items),
+        amount: calculateOrderAmount(items) * 100,
         currency: "eur",
         payment_method_types: ["card"],
       })
 
       res.send({
         clientSecret: paymentIntent.client_secret,
+        price: calculateOrderAmount(items),
       })
     },
   ],
