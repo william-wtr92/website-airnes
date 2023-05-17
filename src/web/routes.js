@@ -10,7 +10,10 @@ const routes = {
     sendMail: () => "/reset_password",
     resetPwd: () => "/reset_password",
     app: {
-      getProducts: () => "/app/products",
+      products:{
+        searchProducts: () => "/app/products/search",
+        getProducts: () => "/app/products/products",
+      },
     },
     admin: {
       carousel: {
