@@ -27,7 +27,7 @@ export const getServerSideProps = async (context) => {
 
   try {
     const [products, productData] = await Promise.all([
-      axios.get(`${config.path}api${routes.api.app.getProducts()}?page=1`),
+      axios.get(`${config.path}api${routes.api.app.products.getProducts()}?page=1`),
 
       axios.get(
         `${config.path}api${routes.api.admin.products.productData(productId)}`
