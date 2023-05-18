@@ -1,0 +1,18 @@
+{
+  "addText": "הוסף כתובת",
+  "firstnameLabel": "שם פרטי",
+  "firstnamePlaceholder": "הזן את שמך הפרטי",
+  "lastnameLabel": "שם משפחה",
+  "lastnamePlaceholder": "הזן את שמך המשפחה",
+  "addressNameLabel": "שם הכתובת",
+  "addressNamePlaceholder": "בית",
+  "addressFullLabel": "כתובת",
+  "addressFullPlaceholder": "רחוב 1 של ...",
+  "addressComplementLabel": "תוספת לכתובת",
+  "addressComplementPlaceholder": "בניין, רחוב, ...",
+  "postalLabel": "מיקוד",
+  "postalPlaceholder": "92400",
+  "cityLabel": "עיר",
+  "cityPlaceholder": "פריז",
+  "buttonText": "שמור"
+}
