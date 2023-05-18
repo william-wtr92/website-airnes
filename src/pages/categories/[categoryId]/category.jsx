@@ -5,9 +5,12 @@ import routes from "@/web/routes"
 import { NavLink } from "@/components/utils/NavLink"
 import Button from "@/components/app/ui/Button"
 import config from "@/api/config"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "next-i18next"
 
 export const getServerSideProps = async (context) => {
   const { categoryId } = context.params
+  const { locale } = context
 
   const returnCategories = () => {
     return {
@@ -36,9 +39,16 @@ export const getServerSideProps = async (context) => {
 
   const categoryData = data.result
 
+  const translations = await serverSideTranslations(locale, [
+    "categories",
+    "navbar",
+    "footer",
+  ])
+
   return {
     props: {
       category: categoryData,
+      ...translations,
     },
   }
 }
@@ -47,6 +57,8 @@ const Category = (props) => {
   const { category } = props
 
   const products = category.products
+
+  const { t } = useTranslation("categories")
 
   return (
     <>
@@ -68,9 +80,9 @@ const Category = (props) => {
         <div className="px-10 py-10">{category.description}</div>
         {products.length === 0 ? (
           <div className="flex flex-col gap-5">
-            <p className="text-center">Aucun produit n'a été trouvé.</p>
+            <p className="text-center">{t(`notfound2`)}</p>
             <NavLink href="/categories/all">
-              <Button>Retour aux catégories</Button>
+              <Button>{t(`buttonText`)}</Button>
             </NavLink>
           </div>
         ) : (
