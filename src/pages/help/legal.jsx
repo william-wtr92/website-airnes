@@ -1,69 +1,68 @@
-const legalPage = () => {
+import { useTranslation } from "next-i18next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+
+export const getServerSideProps = async (context) => {
+  const { locale } = context
+
+  const translations = await serverSideTranslations(locale, [
+    "legal",
+    "navbar",
+    "footer",
+  ])
+
+  return {
+    props: {
+      ...translations,
+    },
+  }
+}
+
+const LegalPage = () => {
+  const { t } = useTranslation("legal")
+
   return (
     <div>
       <h1 className="flex justify-center my-20 font-bold lg:text-2xl">
-        Mentions légales
+        {t(`main`)}
       </h1>
       <div className="mx-4 flex flex-col justify-center gap-5 lg:mx-20">
         <div>
           <p>
-            Le présent site est édité par Airneis, SAS au capital de [montant du
-            capital social], immatriculée au Registre du Commerce et des
-            Sociétés d'Edimbourg sous le numéro SC1234567890, dont le siège
-            social est situé à l'adresse suivante :{" "}
-            <span className="font-bold">
-              Airneis 10 Rue des Érables Edimbourg, Écosse
-            </span>
+            {t(`p1`)} <span className="font-bold">{t(`p1-1`)}</span>
           </p>
         </div>
         <div>
           <p>
-            Adresse email :{" "}
+            {t(`p2`)}{" "}
             <a className="font-bold" href="mailto:airnes@contact.com">
-              airnes@contact.com
+              {t(`p2-1`)}
             </a>
           </p>
           <p>
-            Numéro de téléphone :{" "}
-            <span className="font-bold">+44 131 123 4567</span>
+            {t(`p3`)} <span className="font-bold">{t(`p3-1`)}</span>
           </p>
         </div>
         <div>
-          <h2 className="font-bold mb-4">Directeur de publication</h2>
+          <h2 className="font-bold mb-4">{t(`title4`)}</h2>
+          <p>{t(`p4`)}</p>
+        </div>
+        <div>
+          <h2 className="font-bold mb-4">{t(`title5`)}</h2>
           <p>
-            Le directeur de la publication du présent site est HuChaToWi SDV.
+            {t(`p5`)} <span className="font-bold mb-4">{t(`p5-1`)}</span>
           </p>
         </div>
         <div>
-          <h2 className="font-bold mb-4">Hébergement du site</h2>
-          <p>
-            Le site est hébergé par HuChaToWi, dont le siège social est situé à
-            l'adresse suivante :{" "}
-            <span className="font-bold mb-4">
-              Airneis 10 Rue des Érables Edimbourg, Écosse
-            </span>
-          </p>
-        </div>
-        <div>
-          <h2 className="font-bold mb-4">Propriété intellectuelle</h2>
-          <p>
-            Tous les éléments présents sur le site, qu'ils soient visuels ou
-            sonores, sont la propriété exclusive d'Airneis. Toute reproduction,
-            même partielle, est interdite sans l'autorisation préalable de la
-            société.
-          </p>
+          <h2 className="font-bold mb-4">{t(`title6`)}</h2>
+          <p>{t(`p6`)}</p>
         </div>
         <div className="mb-20">
-          <h2 className="font-bold mb-4">Données personnelles</h2>
-          <p>
-            Airneis s'engage à respecter la confidentialité des données
-            personnelles collectées sur le site. Pour en savoir plus sur notre
-            politique de confidentialité, veuillez consulter la page dédiée.
-          </p>
+          <h2 className="font-bold mb-4">{t(`title7`)}</h2>
+          <p>{t(`p7`)}</p>
         </div>
       </div>
     </div>
   )
 }
 
-export default legalPage
+export default LegalPage
