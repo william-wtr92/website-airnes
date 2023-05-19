@@ -20,7 +20,7 @@ const handler = mw({
                    },
                    res,
                }) => {
-        const limit = 18
+            const limit = 18
             page = parseInt(page, 10) || 1
             const offset = (page - 1) * limit
 

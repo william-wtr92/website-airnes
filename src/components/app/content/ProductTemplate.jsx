@@ -2,7 +2,7 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 import { NavLink } from "@/components/utils/NavLink"
 
-const HomepageProducts = (props) => {
+const ProductTemplate = (props) => {
     const { product } = props
 
     const [isLoading, setIsLoading] = useState(true)
@@ -43,4 +43,4 @@ const HomepageProducts = (props) => {
     )
 }
 
-export default HomepageProducts
+export default ProductTemplate
