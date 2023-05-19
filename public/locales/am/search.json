@@ -1,0 +1,14 @@
+{
+  "reset": "Վերագրավել",
+  "close": "Փակել",
+  "min": "Նվազագույն գին €",
+  "minPlaceholder": ". . . €",
+  "max": "Առավելագույն գին €",
+  "maxPlaceholder": ". . . €",
+  "search": "Որոնել",
+  "filter": "Դատարկել",
+  "searchPlaceholder": "Որոնել",
+  "result": "արդյունք",
+  "asc": "Դասավորել ըստ: (asc)",
+  "noresult": "ՈՒՂԵՐԱՐԿ ՉԿԱ"
+}

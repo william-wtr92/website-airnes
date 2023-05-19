@@ -1,0 +1,14 @@
+{
+  "reset": "איפוס",
+  "close": "סגור",
+  "min": "מחיר מינימלי €",
+  "minPlaceholder": ". . . €",
+  "max": "מחיר מקסימלי €",
+  "maxPlaceholder": ". . . €",
+  "search": "חיפוש",
+  "filter": "מסננת",
+  "searchPlaceholder": "חפש",
+  "result": "תוצאה",
+  "asc": "מיין לפי: (asc)",
+  "noresult": "אין תוצאות"
+}

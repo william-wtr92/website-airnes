@@ -1,0 +1,14 @@
+{
+  "reset": "Réinitialiser",
+  "close": "Fermer",
+  "min": "Prix min €",
+  "minPlaceholder": ". . . €",
+  "max": "Prix max €",
+  "maxPlaceholder": ". . . €",
+  "search": "Recherche",
+  "filter": "Filtrer",
+  "searchPlaceholder": "Rechercher",
+  "result": "Résultat",
+  "asc": "Trier par : (asc)",
+  "noresult": "AUCUN RÉSULTAT"
+}
