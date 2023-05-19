@@ -13,7 +13,9 @@ export const getServerSideProps = async ({ locale }) => {
   const [productsRes, carouselRes, categoriesRes, selectedProductRes] =
     await Promise.all([
       axios.get(
-        `${config.path}api${routes.api.app.getProducts()}?sale=true&page=1`
+        `${
+          config.path
+        }api${routes.api.app.products.getProducts()}?sale=true&page=1`
       ),
       axios.get(`${config.path}api${routes.api.admin.carousel.getImages()}`),
       axios.get(
