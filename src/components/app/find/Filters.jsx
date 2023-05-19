@@ -1,9 +1,8 @@
 
 const Filters = (props) => {
     const {
-        categories,
+        data,
         name,
-        onFilterChange,
     } = props
 
     return (
@@ -15,16 +14,15 @@ const Filters = (props) => {
             </header>
 
             <ul>
-                {categories.map(category => (
-                    <li key={category} >
+                {data.map(val => (
+                    <li key={val.id} >
                         <label className="text-black font-bold text-md flex content-center gap-4 text-xl pb-4 pl-4">
                             <input
                                 type="checkbox"
-                                onChange={onFilterChange}
                                 className="border border-black w-[25px] h-[25px]"
-                                value={category}
+                                value={val.id}
                             />
-                            {category}
+                            {val.name}
                         </label>
                     </li>
                 ))}

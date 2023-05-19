@@ -11,7 +11,7 @@ import config from "@/api/config"
 
 export const getServerSideProps = async ({ locale }) => {
   const { data } = await axios.get(
-    `${config.path}api${routes.api.app.getProducts()}?sale=true&page=1`
+    `${config.path}api${routes.api.app.products.getProducts()}?sale=true&page=1`
   )
 
   const products = data.result
