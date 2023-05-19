@@ -1,12 +1,12 @@
-import {useEffect, useState} from "react"
+import { useEffect, useState } from "react"
 import { FunnelIcon, AdjustmentsVerticalIcon } from "@heroicons/react/24/solid"
 import config from "@/api/config"
 import routes from "@/web/routes"
-import {serverSideTranslations} from "next-i18next/serverSideTranslations"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import axios from "axios"
 import ProductTemplate from "@/components/app/content/ProductTemplate"
 import Filters from "@/components/app/find/Filters"
-import {useRouter} from "next/router"
+import { useRouter } from "next/router"
 import Pagination from "@/components/app/ui/Pagination"
 
 export const getServerSideProps = async (context) => {
@@ -15,13 +15,16 @@ export const getServerSideProps = async (context) => {
   const search = searchQuery || ""
   const pageQuery = page || 1
 
-
-  const [products,materialsAndCategories] = await Promise.all([
-    axios.get(`${config.path}api${routes.api.app.products.searchProducts()}?page=${pageQuery}&search=${search}`),
-    axios.get(`${config.path}api${routes.api.admin.materials.getMaterialsAndCategory()}`
+  const [products, materialsAndCategories] = await Promise.all([
+    axios.get(
+        `${
+            config.path
+        }api${routes.api.app.products.searchProducts()}?page=${pageQuery}&search=${search}`
+    ),
+    axios.get(
+        `${config.path}api${routes.api.admin.materials.getMaterialsAndCategory()}`
     ),
   ])
-
 
   return {
     props: {
@@ -34,26 +37,41 @@ export const getServerSideProps = async (context) => {
       pagination: products.data.pagination,
       categories: materialsAndCategories.data.categories,
       materials: materialsAndCategories.data.materials,
-      query: {search, pageQuery}
+      query: { search, pageQuery },
     },
   }
 }
 
 const SearchPage = (props) => {
-  const { products, categories, materials, pagination, query} = props
+  const { products, categories, materials, pagination, query } = props
 
   const [filterShow, setFilterShow] = useState(false)
-
   const [searchQuery, setSearchQuery] = useState("")
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("")
 
   const router = useRouter()
 
   useEffect(() => {
-    router.push({
-      pathname: router.pathname,
-      query: {...router.query, searchQuery, page: 1 },
-    })
-  }, [router, searchQuery])
+    const handler = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery)
+    }, 500)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [searchQuery])
+
+  useEffect(() => {
+    if (
+        debouncedSearchQuery !== "" &&
+        debouncedSearchQuery !== router.query.searchQuery
+    ) {
+      router.push({
+        pathname: router.pathname,
+        query: { ...router.query, searchQuery: debouncedSearchQuery, page: 1 },
+      })
+    }
+  }, [debouncedSearchQuery, router])
 
   const handleShowFilter = () => {
     setFilterShow(!filterShow)
@@ -62,9 +80,11 @@ const SearchPage = (props) => {
   return (
       <>
         <div className="flex flex-rows">
-          <div className={`${
-              filterShow ? `block ` : `hidden`
-          } flex flex-col border-r-2 p-4 fixed inset-0 top-[3.8125rem] left-[max(0px,calc(50%-45rem))] right-auto w-full md:w-[36%] pb-10 overflow-y-auto`}>
+          <div
+              className={`${
+                  filterShow ? `block ` : `hidden`
+              } flex flex-col border-r-2 p-4 fixed inset-0 top-[3.8125rem] left-[max(0px,calc(50%-45rem))] right-auto w-full md:w-[36%] pb-10 overflow-y-auto`}
+          >
             <div className="flex justify-between pb-4">
               <button className="underline text-xl" onClick={handleShowFilter}>
                 Réintialiser
@@ -145,24 +165,24 @@ const SearchPage = (props) => {
                       filterShow ? `lg:grid-cols-2` : `lg:grid-cols-3`
                   } w-5/6 grid gap-8 grid-cols-1 md:grid-cols-2 mb-20 mt-10 `}
               >
-                {products
-                    .map((product) => (
-                        <ProductTemplate key={product.id} product={product}/>
-                    ))}
+                {products.map((product) => (
+                    <ProductTemplate key={product.id} product={product} />
+                ))}
               </div>
               {products.length === 0 && <div>AUNCUN RÉSULTAT</div>}
-              {query.pageQuery === "1" ?
-                  (products.length === 18 &&
+              {query.pageQuery === "1" ? (
+                  products.length === 18 && (
                       <Pagination
                           totalPages={pagination.totalPages}
                           currentPage={pagination.page}
                       />
-                  ) :
+                  )
+              ) : (
                   <Pagination
                       totalPages={pagination.totalPages}
                       currentPage={pagination.page}
                   />
-              }
+              )}
             </div>
           </div>
         </div>
