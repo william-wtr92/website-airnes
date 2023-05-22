@@ -1,27 +1,19 @@
 import { NavLink } from "@/components/utils/NavLink"
 import Image from "next/image"
-import axios from "axios"
-import routes from "@/web/routes"
 import { useEffect, useState } from "react"
 
-const HomepageCategories = () => {
+const HomepageCategories = (props) => {
+  const { data = [] } = props
   const [categories, setCategories] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      const { data } = await axios.get(
-        `/api${routes.api.admin.selectCategory.getSelectCategory()}`
-      )
-
-      const sortedCategories = data.result.sort((a, b) => a.order - b.order)
-
+    if (data) {
+      const sortedCategories = data.sort((a, b) => a.order - b.order)
       setIsLoading(false)
       setCategories(sortedCategories)
     }
-
-    fetchCategories()
-  }, [])
+  }, [data])
 
   if (isLoading) {
     return (

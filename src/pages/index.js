@@ -10,14 +10,34 @@ import { useTranslation } from "next-i18next"
 import config from "@/api/config"
 
 export const getServerSideProps = async ({ locale }) => {
-  const { data } = await axios.get(
-    `${config.path}api${routes.api.app.products.getProducts()}?sale=true&page=1`
-  )
+  const [productsRes, carouselRes, categoriesRes, selectedProductRes] =
+    await Promise.all([
+      axios.get(
+        `${
+          config.path
+        }api${routes.api.app.products.getProducts()}?sale=true&page=1`
+      ),
+      axios.get(`${config.path}api${routes.api.admin.carousel.getImages()}`),
+      axios.get(
+        `${
+          config.path
+        }api${routes.api.admin.selectCategory.getSelectCategory()}`
+      ),
+      axios.get(
+        `${config.path}api${routes.api.admin.selectProduct.getSelectProducts()}`
+      ),
+    ])
 
-  const products = data.result
+  const products = productsRes.data.result
+  const carousel = carouselRes.data.result
+  const categories = categoriesRes.data.result
+  const selectedProduct = selectedProductRes.data.result
 
   return {
     props: {
+      carousel: carousel,
+      categories: categories,
+      selectedProduct: selectedProduct,
       products: products,
       ...(await serverSideTranslations(locale, ["common", "footer", "navbar"])),
     },
@@ -25,13 +45,13 @@ export const getServerSideProps = async ({ locale }) => {
 }
 
 const Main = (props) => {
-  const { products } = props
+  const { products, carousel, categories, selectedProduct } = props
   const { t } = useTranslation("common")
 
   return (
     <>
       <main>
-        <Carousel />
+        <Carousel data={carousel} />
         <div className="flex flex-col gap-8">
           <div className="text-center text-[13px] font-bold lg:py-6 lg:text-xl">
             <p>
@@ -42,7 +62,7 @@ const Main = (props) => {
           </div>
           <div className="flex flex-wrap justify-center">
             <div className="flex flex-wrap justify-center lg:justify-between">
-              <HomepageCategories />
+              <HomepageCategories data={categories} />
             </div>
           </div>
         </div>
@@ -52,7 +72,7 @@ const Main = (props) => {
           </div>
           <div className="flex flex-wrap justify-center">
             <div className="flex flex-wrap justify-center lg:justify-between">
-              <HomepageProducts />
+              <HomepageProducts data={selectedProduct} />
             </div>
           </div>
         </div>
