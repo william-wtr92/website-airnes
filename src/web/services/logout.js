@@ -1,12 +1,15 @@
 import routes from "../routes"
+import config from "@/web/config"
 
 const logout =
-  ({ api, setSession }) =>
+  ({ api, setSession, setJWT }) =>
     async () => {
       try {
         const { data } = await api.post(routes.api.logout())
 
         setSession(false)
+        setJWT(null)
+        localStorage.removeItem(config.session.localStorageKey)
 
         return [null, data]
       } catch (err) {

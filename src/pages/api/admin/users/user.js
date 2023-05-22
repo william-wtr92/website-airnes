@@ -30,14 +30,14 @@ const handler = mw({
         .limit(limit)
         .offset(offset)
         .modify("sanitize")
-        .withGraphFetched("roledata")
+        .withGraphFetched("roleData")
         .orderBy(col, order)
 
       const totalCount = await UserModel.query().count().first()
 
       const newUser = user.map((item) => ({
         ...item,
-        right: item.roledata.right,
+        right: item.roleData.right,
       }))
 
       if (newUser) {

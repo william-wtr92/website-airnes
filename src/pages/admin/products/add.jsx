@@ -100,4 +100,6 @@ const AddSelectedProduct = (props) => {
   )
 }
 
+AddSelectedProduct.restrictedTo = "admin"
+
 export default AddSelectedProduct

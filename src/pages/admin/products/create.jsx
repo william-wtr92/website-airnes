@@ -60,4 +60,6 @@ const CreateProduct = (props) => {
   )
 }
 
+CreateProduct.restrictedTo = "admin"
+
 export default CreateProduct

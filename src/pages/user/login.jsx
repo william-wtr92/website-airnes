@@ -35,7 +35,7 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-const OnLoginForm = () => {
+const LoginForm = () => {
   const router = useRouter()
 
   const {
@@ -78,7 +78,7 @@ const OnLoginForm = () => {
                 {t(`loginText`)}
               </h1>
             </div>
-            <div className="flex justify-center mx-6 mt-6 py-10 px-6 border-2 lg:w-[600px] lg:px-10 lg:py-16 lg:mx-auto lg:rounded-md lg:mt-0">
+            <div className="flex justify-center mx-6 mt-6 lg:w-[600px] lg:px-10 lg:py-16 lg:mx-auto lg:mt-0">
               <Form className="flex flex-col">
                 <Formfield
                   type="email"
@@ -127,4 +127,6 @@ const OnLoginForm = () => {
   )
 }
 
-export default OnLoginForm
+LoginForm.restrictedTo = null
+
+export default LoginForm

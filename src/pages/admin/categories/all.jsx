@@ -30,7 +30,7 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-const All = (props) => {
+const AllCategories = (props) => {
   const { categories, pagination, query } = props
 
   const {
@@ -63,4 +63,6 @@ const All = (props) => {
   )
 }
 
-export default All
+AllCategories.restrictedTo = "admin"
+
+export default AllCategories

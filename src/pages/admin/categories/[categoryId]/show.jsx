@@ -103,4 +103,6 @@ const ShowCategory = (props) => {
   )
 }
 
+ShowCategory.restrictedTo = "admin"
+
 export default ShowCategory

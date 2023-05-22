@@ -62,4 +62,6 @@ const AllContacts = (props) => {
   )
 }
 
+AllContacts.restrictedTo = "admin"
+
 export default AllContacts

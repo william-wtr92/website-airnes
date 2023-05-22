@@ -179,7 +179,7 @@ const Settings = (props) => {
                   </span>
                 </span>
 
-                {data.result.alldata.map((data) => (
+                {data.result.allData.map((data) => (
                   <div
                     key={data.id}
                     className={classNames(
@@ -244,5 +244,7 @@ const Settings = (props) => {
     </>
   )
 }
+
+Settings.restrictedTo = "user"
 
 export default Settings

@@ -31,7 +31,7 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-const All = (props) => {
+const AllProducts = (props) => {
   const { products, pagination, query } = props
 
   const {
@@ -63,4 +63,6 @@ const All = (props) => {
   )
 }
 
-export default All
+AllProducts.restrictedTo = "admin"
+
+export default AllProducts

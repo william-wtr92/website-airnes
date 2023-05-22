@@ -14,7 +14,7 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-const allCategories = (props) => {
+const AllCategories = (props) => {
   const { categories } = props
 
   return (
@@ -37,4 +37,6 @@ const allCategories = (props) => {
   )
 }
 
-export default allCategories
+AllCategories.restrictedTo = null
+
+export default AllCategories

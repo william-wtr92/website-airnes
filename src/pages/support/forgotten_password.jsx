@@ -13,7 +13,7 @@ const defaultValidationSchema = yup.object().shape({
 const defaultInitialValues = {
   mail: "",
 }
-const OnForgotPassword = (props) => {
+const ForgotPassword = (props) => {
   const {
     actions: { sendMail },
   } = useAppContext()
@@ -78,4 +78,6 @@ const OnForgotPassword = (props) => {
   )
 }
 
-export default OnForgotPassword
+ForgotPassword.isPublic = true
+
+export default ForgotPassword

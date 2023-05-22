@@ -105,4 +105,6 @@ const Main = (props) => {
   )
 }
 
+Main.restrictedTo = null
+
 export default Main

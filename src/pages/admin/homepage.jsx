@@ -242,4 +242,6 @@ const Homepage = (props) => {
   )
 }
 
+Homepage.restrictedTo = "admin"
+
 export default Homepage

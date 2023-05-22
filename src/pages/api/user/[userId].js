@@ -26,7 +26,7 @@ const handler = mw({
       const query = await UserModel.query()
         .findOne({ id })
         .select("mail", "name")
-        .withGraphFetched("alldata")
+        .withGraphFetched("allData")
 
       if (query) {
         res.send({

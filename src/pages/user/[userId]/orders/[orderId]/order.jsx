@@ -118,4 +118,6 @@ export const example = [
   },
 ]
 
+Order.restrictedTo = "user"
+
 export default Order
