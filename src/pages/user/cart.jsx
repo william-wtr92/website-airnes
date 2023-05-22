@@ -18,7 +18,7 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-const UserCart = () => {
+const Cart = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 1000px)" })
 
   const {
@@ -196,4 +196,6 @@ const UserCart = () => {
   )
 }
 
-export default UserCart
+Cart.restrictedTo = null
+
+export default Cart

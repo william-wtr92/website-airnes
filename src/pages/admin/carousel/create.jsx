@@ -45,4 +45,6 @@ const CreateCarousel = () => {
   )
 }
 
+CreateCarousel.restrictedTo = "admin"
+
 export default CreateCarousel

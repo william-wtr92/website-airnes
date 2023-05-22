@@ -60,4 +60,6 @@ const EditCategory = (props) => {
   )
 }
 
+EditCategory.restrictedTo = "admin"
+
 export default EditCategory

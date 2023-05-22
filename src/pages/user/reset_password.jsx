@@ -19,7 +19,7 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-const OnForgotPassword = (props) => {
+const ForgottenPassword = (props) => {
   const {
     actions: { resetPwd },
   } = useAppContext()
@@ -81,4 +81,6 @@ const OnForgotPassword = (props) => {
   )
 }
 
-export default OnForgotPassword
+ForgottenPassword.restrictedTo = null
+
+export default ForgottenPassword

@@ -78,4 +78,6 @@ const ShowContact = (props) => {
   )
 }
 
+ShowContact.restrictedTo = "admin"
+
 export default ShowContact

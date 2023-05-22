@@ -96,4 +96,6 @@ const Contact = () => {
   )
 }
 
+Contact.isPublic = true
+
 export default Contact

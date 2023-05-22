@@ -60,4 +60,6 @@ const UserHome = (props) => {
   )
 }
 
+UserHome.restrictedTo = "user"
+
 export default UserHome

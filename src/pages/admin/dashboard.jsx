@@ -76,7 +76,7 @@ const options = {
   },
 }
 
-const statisticsView = () => {
+const Dashboard = () => {
   return (
     <>
       <div className="overflow-y-auto">
@@ -174,4 +174,6 @@ const statisticsView = () => {
   )
 }
 
-export default statisticsView
+Dashboard.restrictedTo = "admin"
+
+export default Dashboard

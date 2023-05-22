@@ -144,4 +144,6 @@ const EditAddress = (props) => {
   )
 }
 
+EditAddress.restrictedTo = "user"
+
 export default EditAddress

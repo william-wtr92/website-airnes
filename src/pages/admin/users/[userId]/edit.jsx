@@ -39,7 +39,7 @@ export const userAdminValidationschema = yup.object().shape({
   roleId: yup.number().required(),
 })
 
-const EditCategory = (props) => {
+const EditUser = (props) => {
   const { user, role, userId } = props
 
   const initialValues = user
@@ -111,4 +111,6 @@ const EditCategory = (props) => {
   )
 }
 
-export default EditCategory
+EditUser.restrictedTo = "admin"
+
+export default EditUser

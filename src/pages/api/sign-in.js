@@ -24,7 +24,7 @@ const handler = mw({
       },
       res,
     }) => {
-      const user = await UserModel.query().findOne({ mail })
+      const user = await UserModel.query().findOne({ mail }).withGraphFetched("roleData")
 
       const validity = await user.checkPassword(password)
 
@@ -37,6 +37,7 @@ const handler = mw({
           payload: {
             user: {
               id: user.id,
+              role: user.roleData.right,
             },
           },
         },

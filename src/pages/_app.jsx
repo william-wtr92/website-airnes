@@ -4,7 +4,7 @@ import useAppContext, { AppContextProvider } from "@/web/hooks/useAppContext"
 import { appWithTranslation } from "next-i18next"
 import Layout from "@/components/layouts/Layout"
 
-const App = ({ Component, pageProps }) => {
+const MyApp = ({ Component, pageProps }) => {
   const {
     actions: { changeLanguage },
   } = useAppContext()
@@ -14,31 +14,17 @@ const App = ({ Component, pageProps }) => {
       <Head>
         <title>Airneis</title>
       </Head>
-      <Component {...pageProps} changeLanguage={changeLanguage} />
+      <Component {...pageProps} changeLanguage={changeLanguage}/>
     </Layout>
   )
 }
 
-
-const SyncApp = (props) => {
+const AppWithAppContext = ({ Component, ...props }) => {
   return (
-    <AppContextProvider>
-      <AppWithAppContext {...props} />
+    <AppContextProvider restrictedTo={Component.restrictedTo}>
+      <MyApp Component={Component} {...props} />
     </AppContextProvider>
   )
 }
 
-const AppWithAppContext = (props) => {
-  const {
-    actions: { changeLanguage },
-  } = useAppContext()
-
-  return (
-    <App
-      {...props}
-      changeLanguage={changeLanguage}
-    />
-  )
-}
-
-export default appWithTranslation(SyncApp)
+export default appWithTranslation(AppWithAppContext)

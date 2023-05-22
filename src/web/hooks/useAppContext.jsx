@@ -1,4 +1,4 @@
-import {createContext, useContext, useEffect, useState} from "react"
+import {createContext, useContext, useState, useEffect} from "react"
 import createAPIClient from "@/web/createAPIClient"
 import signUpService from "@/web/services/signUp"
 import signInService from "@/web/services/signIn"
@@ -37,30 +37,30 @@ import parseSession from "@/web/parseSession"
 
 const AppContext = createContext()
 
-export const AppContextProvider = ({
-                                     cartItems: initialCartItems,
-                                     ...props
-                                   }) => {
+export const AppContextProvider = (props) => {
+  const {
+    restrictedTo,
+    cartItems: initialCartItems,
+    ...otherProps
+  } = props
+
   const [session, setSession] = useState(null)
+  const [loading, setLoading] = useState(true)
   const [jwt, setJWT] = useState(null)
   const api = createAPIClient({ jwt, baseURL: config.api.baseURL })
+  const [cartItems, setCartItems] = useState(initialCartItems || [])
+
+  const router = useRouter()
+  const redirectToLogin = () => {
+    router.push("/user/login")
+  }
+  const redirectToHome = () => {
+    router.push("/")
+  }
 
   const signUp = signUpService({ api })
   const signIn = signInService({ api, setSession, setJWT })
   const logout = logoutService({ api, setSession, setJWT })
-
-  useEffect(() => {
-    const jwt = localStorage.getItem(config.session.localStorageKey)
-
-    if (!jwt) {
-      return
-    }
-
-    const session = parseSession(jwt)
-
-    setSession(session)
-    setJWT({ jwt })
-  }, [])
 
   const contact = contactService({ api })
 
@@ -98,7 +98,20 @@ export const AppContextProvider = ({
   const orderSelectedProduct = orderSelectedProductService({ api })
   const addSelectedProduct = addSelectedProductService({ api })
 
-  const [cartItems, setCartItems] = useState(initialCartItems || [])
+  useEffect(() => {
+    const jwt = localStorage.getItem(config.session.localStorageKey)
+
+    if (!jwt) {
+      setLoading(false)
+
+      return
+    }
+
+    const session = parseSession(jwt)
+
+    setSession(session)
+    setLoading(false)
+  }, [])
 
   useEffect(() => {
     const storedCart = localStorage.getItem("cart")
@@ -109,13 +122,32 @@ export const AppContextProvider = ({
     }
   }, [])
 
+  useEffect(() => {
+    if (!loading && restrictedTo) {
+      if (session === null) {
+        return redirectToLogin()
+      }
+
+      const {
+        user: { role }
+      } = session
+
+      if (restrictedTo !== role) {
+        return redirectToHome()
+      }
+    }
+  }, [loading])
+
   const addToCart = (product) => {
     const currentCart = JSON.parse(localStorage.getItem("cart")) || []
     const existingItemIndex = currentCart.findIndex(
       (item) => item.id === product.id
     )
 
-    const newCartItems = existingItemIndex !== -1 ? [...currentCart] : [...currentCart, { ...product, product_quantity: 1 }]
+    const newCartItems = existingItemIndex !== -1 ? [...currentCart] : [...currentCart, {
+      ...product,
+      product_quantity: 1
+    }]
 
     if (existingItemIndex !== -1) {
       newCartItems[existingItemIndex].product_quantity += 1
@@ -145,8 +177,6 @@ export const AppContextProvider = ({
     }
   }
 
-  const router = useRouter()
-
   const language = i18n ? i18n.language : "fr"
 
   const saveLanguageToLocalStorage = (language) => {
@@ -165,7 +195,7 @@ export const AppContextProvider = ({
 
   return (
     <AppContext.Provider
-      {...props}
+      {...otherProps}
       value={{
         actions: {
           signUp,

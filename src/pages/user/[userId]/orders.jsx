@@ -1,6 +1,6 @@
 import { NavLink } from "@/components/utils/NavLink"
 
-const UserOrderView = () => {
+const Orders = () => {
   return (
     <>
       <main>
@@ -82,4 +82,6 @@ const UserOrderView = () => {
   )
 }
 
-export default UserOrderView
+Orders.restrictedTo = "user"
+
+export default Orders

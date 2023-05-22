@@ -72,4 +72,6 @@ const EditProduct = (props) => {
   )
 }
 
+EditProduct.restrictedTo = "admin"
+
 export default EditProduct

@@ -109,4 +109,6 @@ const AddSelectedCategory = (props) => {
   )
 }
 
+AddSelectedCategory.restrictedTo = "admin"
+
 export default AddSelectedCategory

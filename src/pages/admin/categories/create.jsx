@@ -45,4 +45,6 @@ const CreateCategory = () => {
   )
 }
 
+CreateCategory.restrictedTo = "admin"
+
 export default CreateCategory

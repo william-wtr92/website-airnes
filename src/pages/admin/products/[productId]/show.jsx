@@ -85,4 +85,6 @@ const ShowProduct = (props) => {
   )
 }
 
+ShowProduct.restrictedTo = "admin"
+
 export default ShowProduct

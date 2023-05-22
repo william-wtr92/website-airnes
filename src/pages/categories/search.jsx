@@ -285,4 +285,7 @@ export const example = [
     product: "lit",
   },
 ]
+
+SearchPage.restrictedTo = null
+
 export default SearchPage
