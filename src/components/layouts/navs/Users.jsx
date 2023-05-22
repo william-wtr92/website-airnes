@@ -1,4 +1,4 @@
-import { NavLink } from "@/components/utils/NavLink"
+import {NavLink} from "@/components/utils/NavLink"
 import {
   Bars3Icon,
   MagnifyingGlassIcon,
@@ -6,22 +6,25 @@ import {
   UserIcon,
   XMarkIcon,
   ChevronRightIcon,
-  GlobeAltIcon,
+  GlobeAltIcon
 } from "@heroicons/react/24/solid"
-import { useState, useEffect, useCallback } from "react"
-import { useRouter } from "next/router"
+import {useState, useEffect, useCallback} from "react"
+import {useRouter} from "next/router"
 import Button from "@/components/app/ui/Button"
 import useAppContext from "@/web/hooks/useAppContext"
-import Confirm from "@/components/app/ui/Confirm"
-import classNames from "classnames"
-import { useTranslation } from "next-i18next"
+import {useTranslation} from "next-i18next"
 
+const Users = (props) => {
+  const { className } = props
 
-const Users = ({ className, cartItems }) => {
+  const {
+    actions: { logout, changeLanguage },
+    state: { session, cartItems }
+  } = useAppContext()
+
   const router = useRouter()
 
   const [burgerMenu, setBurgerMenu] = useState(false)
-  const [userName] = useState("")
 
   useEffect(() => {
     setBurgerMenu(false)
@@ -39,23 +42,11 @@ const Users = ({ className, cartItems }) => {
 
   let number = cartNumber === 0 ? null : cartNumber > 9 ? "9+" : cartNumber
 
-  const {
-    actions: { logout, changeLanguage },
-    state: { session }
-  } = useAppContext()
-
-  const [confirmLogout, setConfirmLogout] = useState(false)
-
   const handleLogout = useCallback(async () => {
     logout()
-    router.push("/")
+    await router.push("/")
     setBurgerMenu(false)
   }, [router, logout])
-
-  const handleConfirmLogout = useCallback(async () => {
-    setConfirmLogout(true)
-    setCartNumber(0)
-  }, [setConfirmLogout])
 
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false)
 
@@ -88,7 +79,7 @@ const Users = ({ className, cartItems }) => {
           </div>
           <div className="flex gap-2 lg:gap-6">
             <NavLink
-              href={session ? `/user/${session.user.id}/home` : `/user/login`}
+              href={session ? `/user/${session.user.id}/home` : "/user/login"}
             >
               <UserIcon
                 className={`h-6 hover:scale-110 hover:text-[#b3825c]`}
@@ -107,7 +98,7 @@ const Users = ({ className, cartItems }) => {
                 color={"#615043"}
               />
 
-              {cartNumber !== null && (
+              {cartNumber !== 0 && (
                 <div
                   className={`absolute top-7 px-2 ${
                     cartNumber < 9
@@ -138,80 +129,53 @@ const Users = ({ className, cartItems }) => {
                 onClick={toggleBurgerMenu}
               />
             </div>
-            {session ? (
-              <div className="flex flex-col mx-12 my-10 gap-6">
-                <div className="flex gap-2">
-                  <p>{t(`welcome`)} </p>
-                  <p className="font-bold">
-                    <NavLink href={`/user/${session.user.id}/home`}>
-                      {userName}
-                    </NavLink>
-                  </p>
-                </div>
+            <div className="flex flex-col mx-12 my-10 gap-4">
+              {session ? (
                 <div className="flex flex-col gap-4">
                   <NavLink href={`/user/${session.user.id}/orders`}>
                     <div className="flex gap-4 hover:text-[#6f5e3f]">
-                      <ChevronRightIcon className="h-6 w-6" />
-                      <p className="hover:scale-105">{t(`mycommand`)}</p>
+                      <ChevronRightIcon className="h-6 w-6"/>
+                      <p className="hover:scale-105">{t("mycommands")}</p>
                     </div>
                   </NavLink>
-
-                  <div
-                    className="flex gap-4 hover:text-[#6f5e3f] hover:cursor-pointer"
-                    onClick={() => handleConfirmLogout()}
-                  >
-                    <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">{t(`logout`)}</p>
+                  <div className="flex gap-4 hover:text-[#6f5e3f]">
+                    <ChevronRightIcon className="h-6 w-6"/>
+                    <p className="hover:scale-105" onClick={handleLogout}>{t("logout")}</p>
                   </div>
-                  <Confirm
-                    className={classNames(confirmLogout ? "block" : "hidden")}
-                    display={setConfirmLogout}
-                    action={handleLogout}
-                    textValue={t(`confirmLogout`)}
-                  />
                 </div>
-              </div>
-            ) : (
-              <div className="flex flex-col mx-12 my-10 gap-4">
-                <div>
-                  <NavLink href="/user/login">
-                    <div className="flex gap-4 hover:text-[#6f5e3f]">
-                      <ChevronRightIcon className="h-6 w-6" />
-                      <p className="hover:scale-105">{t("signin")}</p>
-                    </div>
-                  </NavLink>
+              ) : (
+                <div className="flex flex-col gap-4">
+                    <NavLink href="/user/login">
+                      <div className="flex gap-4 hover:text-[#6f5e3f]">
+                        <ChevronRightIcon className="h-6 w-6"/>
+                        <p className="hover:scale-105">{t("signin")}</p>
+                      </div>
+                    </NavLink>
+                    <NavLink href="/signup">
+                      <div className="flex gap-4 hover:text-[#6f5e3f]">
+                        <ChevronRightIcon className="h-6 w-6"/>
+                        <p className="hover:scale-105">{t("signup")}</p>
+                      </div>
+                    </NavLink>
                 </div>
-                <div>
-                  <NavLink href="/signup">
-                    <div className="flex gap-4 hover:text-[#6f5e3f]">
-                      <ChevronRightIcon className="h-6 w-6" />
-                      <p className="hover:scale-105">{t(`signup`)}</p>
-                    </div>
-                  </NavLink>
-                </div>
-              </div>
-            )}
-
+              )}
+            </div>
             <div
-              className={`flex flex-col mx-12 ${
-                session ? "my-14" : "my-20"
-              } gap-4`}
+              className={"flex flex-col mx-12 my-20 gap-4"}
             >
               <div>
                 <NavLink href="/categories/all">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
-                    <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">{t(`categories`)}</p>
+                    <ChevronRightIcon className="h-6 w-6"/>
+                    <p className="hover:scale-105">{t("categories")}</p>
                   </div>
                 </NavLink>
               </div>
 
-              {/* Promotions à update quand la feature sera faite */}
-
               <div>
                 <div className="flex gap-4">
-                  <ChevronRightIcon className="h-6 w-6" />
-                  <p className="hover:scale-105">{t(`promotions`)}</p>
+                  <ChevronRightIcon className="h-6 w-6"/>
+                  <p className="hover:scale-105">{t("promotions")}</p>
                 </div>
               </div>
             </div>
@@ -220,32 +184,32 @@ const Users = ({ className, cartItems }) => {
               <div>
                 <NavLink href="/help/cgu">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
-                    <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">{t(`cgu`)}</p>
+                    <ChevronRightIcon className="h-6 w-6"/>
+                    <p className="hover:scale-105">{t("cgu")}</p>
                   </div>
                 </NavLink>
               </div>
               <div>
                 <NavLink href="/help/legal">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
-                    <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">{t(`legal`)}</p>
+                    <ChevronRightIcon className="h-6 w-6"/>
+                    <p className="hover:scale-105">{t("legal")}</p>
                   </div>
                 </NavLink>
               </div>
               <div>
                 <NavLink href="/support/contact">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
-                    <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">{t(`contact`)}</p>
+                    <ChevronRightIcon className="h-6 w-6"/>
+                    <p className="hover:scale-105">{t("contact")}</p>
                   </div>
                 </NavLink>
               </div>
               <div>
                 <NavLink href="/">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
-                    <ChevronRightIcon className="h-6 w-6" />
-                    <p className="hover:scale-105">{t(`about`)}</p>
+                    <ChevronRightIcon className="h-6 w-6"/>
+                    <p className="hover:scale-105">{t("about")}</p>
                   </div>
                 </NavLink>
               </div>
@@ -255,8 +219,8 @@ const Users = ({ className, cartItems }) => {
                   className="w-60 flex gap-4 whitespace-nowrap hover:text-[#e8e1d4]"
                   onClick={toggleLanguageMenu}
                 >
-                  <GlobeAltIcon className="h-6" />
-                  <p className="text-sm">{t(`languageChange`)}</p>
+                  <GlobeAltIcon className="h-6"/>
+                  <p className="text-sm">{t("languageChange")}</p>
                 </Button>
                 <div
                   className={`${
@@ -270,7 +234,7 @@ const Users = ({ className, cartItems }) => {
                       toggleLanguageMenu()
                     }}
                   >
-                    {t(`en`)}
+                    {t("en")}
                   </div>
                   <div
                     className="cursor-pointer p-1 hover:bg-gray-100 rounded"
@@ -279,7 +243,7 @@ const Users = ({ className, cartItems }) => {
                       toggleLanguageMenu()
                     }}
                   >
-                    {t(`fr`)}
+                    {t("fr")}
                   </div>
                   <div
                     className="cursor-pointer p-1 hover:bg-gray-100 rounded"
@@ -288,7 +252,7 @@ const Users = ({ className, cartItems }) => {
                       toggleLanguageMenu()
                     }}
                   >
-                    {t(`am`)}
+                    {t("am")}
                   </div>
                   <div
                     className="cursor-pointer p-1 hover:bg-gray-100 rounded"
@@ -297,7 +261,7 @@ const Users = ({ className, cartItems }) => {
                       toggleLanguageMenu()
                     }}
                   >
-                    {t(`hbr`)}
+                    {t("hbr")}
                   </div>
                 </div>
               </div>

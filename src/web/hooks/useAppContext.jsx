@@ -2,6 +2,7 @@ import {createContext, useContext, useEffect, useState} from "react"
 import createAPIClient from "@/web/createAPIClient"
 import signUpService from "@/web/services/signUp"
 import signInService from "@/web/services/signIn"
+import logoutService from "@/web/services/logout"
 import contactService from "@/web/services/contact.js"
 import sendMailService from "@/web/services/sendMail"
 import resetPwdService from "@/web/services/resetPwd"
@@ -30,10 +31,9 @@ import orderSelectedProductService from "@/web/services/admin/homepage/orderSele
 import patchRoleService from "@/web/services/admin/users/updateRole"
 
 import config from "@/web/config"
-import Cookies from "js-cookie"
-import {getSessionFromCookies} from "@/web/helper/getSessionFromCookies"
 import {i18n} from "next-i18next"
 import {useRouter} from "next/router"
+import parseSession from "@/web/parseSession"
 
 const AppContext = createContext()
 
@@ -47,38 +47,22 @@ export const AppContextProvider = ({
 
   const signUp = signUpService({ api })
   const signIn = signInService({ api, setSession, setJWT })
-  const logout = () => {
-    clearCart()
-    setSession(null)
-    setJWT(null)
-    Cookies.remove(config.session.localStorageKey)
-  }
-
-  const contact = contactService({ api })
+  const logout = logoutService({ api, setSession, setJWT })
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const updateSessionFromCookies = () => {
-        const sessionFromCookies = getSessionFromCookies()
+    const jwt = localStorage.getItem(config.session.localStorageKey)
 
-        if (sessionFromCookies) {
-          setSession(sessionFromCookies)
-          const jwt = Cookies.get(config.session.localStorageKey)
-
-          if (jwt) {
-            setJWT(jwt)
-          }
-        }
-      }
-
-      updateSessionFromCookies()
-      window.addEventListener("storage", updateSessionFromCookies)
-
-      return () => {
-        window.removeEventListener("storage", updateSessionFromCookies)
-      }
+    if (!jwt) {
+      return
     }
+
+    const session = parseSession(jwt)
+
+    setSession(session)
+    setJWT({ jwt })
   }, [])
+
+  const contact = contactService({ api })
 
   const addCategory = createCategoryService({ api })
   const updateCategory = updateCategoryService({ api })
@@ -131,13 +115,10 @@ export const AppContextProvider = ({
       (item) => item.id === product.id
     )
 
-    let newCartItems = []
+    const newCartItems = existingItemIndex !== -1 ? [...currentCart] : [...currentCart, { ...product, product_quantity: 1 }]
 
     if (existingItemIndex !== -1) {
-      newCartItems = [...currentCart]
       newCartItems[existingItemIndex].product_quantity += 1
-    } else {
-      newCartItems = [...currentCart, { ...product, product_quantity: 1 }]
     }
 
     setCartItems(newCartItems)
@@ -148,11 +129,6 @@ export const AppContextProvider = ({
     const newCartItems = cartItems.filter((item) => item.id !== productId)
     setCartItems(newCartItems)
     localStorage.setItem("cart", JSON.stringify(newCartItems))
-  }
-
-  const clearCart = () => {
-    setCartItems([])
-    localStorage.removeItem("cart")
   }
 
   const updateCartQuantity = (productId, newQuantity) => {
@@ -194,6 +170,7 @@ export const AppContextProvider = ({
         actions: {
           signUp,
           signIn,
+          logout,
           contact,
           sendMail,
           resetPwd,
@@ -220,9 +197,7 @@ export const AppContextProvider = ({
           addSelectedProduct,
           deleteSelectedProduct,
           orderSelectedProduct,
-          logout,
           addToCart,
-          clearCart,
           updateCartQuantity,
           removeFromCart,
           changeLanguage

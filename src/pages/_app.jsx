@@ -4,16 +4,21 @@ import useAppContext, { AppContextProvider } from "@/web/hooks/useAppContext"
 import { appWithTranslation } from "next-i18next"
 import Layout from "@/components/layouts/Layout"
 
-const App = ({ Component, pageProps, session, cartItems }) => {
+const App = ({ Component, pageProps }) => {
+  const {
+    actions: { changeLanguage },
+  } = useAppContext()
+
   return (
-    <Layout session={session} cartItems={cartItems}>
+    <Layout>
       <Head>
         <title>Airneis</title>
       </Head>
-      <Component {...pageProps} />
+      <Component {...pageProps} changeLanguage={changeLanguage} />
     </Layout>
   )
 }
+
 
 const SyncApp = (props) => {
   return (
@@ -26,14 +31,11 @@ const SyncApp = (props) => {
 const AppWithAppContext = (props) => {
   const {
     actions: { changeLanguage },
-    state: { session, cartItems },
   } = useAppContext()
 
   return (
     <App
       {...props}
-      session={session}
-      cartItems={cartItems}
       changeLanguage={changeLanguage}
     />
   )

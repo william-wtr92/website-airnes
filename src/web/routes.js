@@ -6,6 +6,7 @@ const routes = {
   api: {
     signUp: () => "/sign-up",
     signIn: () => "/sign-in",
+    logout: () => "/logout",
     contact: () => "/contact",
     sendMail: () => "/reset_password",
     resetPwd: () => "/reset_password",

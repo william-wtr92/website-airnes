@@ -1,14 +1,16 @@
-import { useRouter } from "next/router"
+import {useRouter} from "next/router"
 import Admin from "@/components/layouts/navs/admin/Admin"
 import Users from "@/components/layouts/navs/Users"
 
-const Main = ({ className, session, cartItems }) => {
+const Main = (props) => {
+  const { className } = props
+
   const router = useRouter()
 
   return router.pathname.startsWith("/admin") ? (
-    <Admin session={session}/>
+    <Admin/>
   ) : (
-    <Users className={className} session={session} cartItems={cartItems}/>
+    <Users className={className}/>
   )
 }
 

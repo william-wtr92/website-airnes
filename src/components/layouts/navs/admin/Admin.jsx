@@ -9,18 +9,17 @@ import {
   Cog8ToothIcon
 } from "@heroicons/react/24/outline"
 import {UsersIcon} from "@heroicons/react/24/solid"
-import {useEffect, useState} from "react"
-import axios from "axios"
-import routes from "@/web/routes"
+import {useState} from "react"
 import {NavLink} from "@/components/utils/NavLink"
 import {Section} from "@/components/layouts/navs/admin/Section"
+import useAppContext from "@/web/hooks/useAppContext"
 
-const formatName = (str) => {
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
-}
-
-const Admin = ({ session }) => {
+const Admin = () => {
   const router = useRouter()
+
+  const {
+    state: { session },
+  } = useAppContext()
 
   const [burgerMenu, setBurgerMenu] = useState(false)
 
@@ -33,27 +32,8 @@ const Admin = ({ session }) => {
     { name: "users", icon: UsersIcon }
   ]
 
-  const [userName, setUserName] = useState("")
-
-  useEffect(() => {
-    if (session && session.user) {
-      const fetchUserData = async () => {
-        const data = await axios.get(
-          `/api${routes.api.user.userData(session.user.id)}`
-        )
-        setUserName(formatName(data.data.result.name))
-      }
-
-      fetchUserData()
-    }
-  }, [session])
-
   const handleBodyScroll = (disable) => {
-    if (disable) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = "auto"
-    }
+    document.body.style.overflow = disable ? "hidden" : "auto"
   }
 
   const handleBurgerMenu = () => {
@@ -74,7 +54,7 @@ const Admin = ({ session }) => {
         }h-screen space-y-10 sidebar bg-gray-100 font-semibold w-full lg:w-64 px-2 py-4 sticky top-0 left-0 z-50`}
       >
         <div className="p-4 flex flex-row justify-between items-center">
-          <NavLink href={`/admin/homepage`}>
+          <NavLink href={"/"}>
             <h1 className="font-bold hover:scale-105">AIRNEIS</h1>
           </NavLink>
         </div>
@@ -96,7 +76,7 @@ const Admin = ({ session }) => {
                 <NavLink href={`/user/${session.user.id}/settings`}>
                   <Cog8ToothIcon className="h-6 hover:scale-105"/>
                 </NavLink>
-                <span>{userName} - Admin</span>
+                <span className="uppercase">Admin</span>
               </div>
             </div>
           </>
