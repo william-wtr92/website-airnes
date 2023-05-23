@@ -21,7 +21,7 @@ const MyApp = ({ Component, pageProps }) => {
 
 const AppWithAppContext = ({ Component, ...props }) => {
   return (
-    <AppContextProvider restrictedTo={Component.restrictedTo}>
+    <AppContextProvider>
       <MyApp Component={Component} {...props} />
     </AppContextProvider>
   )

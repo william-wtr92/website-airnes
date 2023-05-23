@@ -9,6 +9,7 @@ import {
 } from "@/components/validation/validation"
 import {NotFoundError} from "objection"
 import config from "@/api/config"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   POST: [
@@ -24,6 +25,7 @@ const handler = mw({
         material: stringValidator.required()
       }
     }),
+    auth("admin"),
     async ({
              locals: {
                body: {
@@ -64,6 +66,7 @@ const handler = mw({
         col: stringValidator.optional()
       }
     }),
+    auth("admin"),
     async ({
              locals: {
                query: { page, order, col }

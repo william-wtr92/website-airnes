@@ -17,6 +17,7 @@ import { Doughnut, Bar } from "react-chartjs-2"
 import { faker } from "@faker-js/faker"
 import Image from "next/image"
 import { NavLink } from "@/components/utils/NavLink"
+import {getAuthorization} from "@/web/helper/getAuthorization"
 
 Chart.register(
   ArcElement,
@@ -74,6 +75,14 @@ const options = {
       position: "top",
     },
   },
+}
+
+export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("admin", context.req)
+
+  if (redirect) {
+    return redirect
+  }
 }
 
 const Dashboard = () => {
@@ -173,7 +182,5 @@ const Dashboard = () => {
     </>
   )
 }
-
-Dashboard.restrictedTo = "admin"
 
 export default Dashboard

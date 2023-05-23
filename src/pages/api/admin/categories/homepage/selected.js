@@ -3,6 +3,7 @@ import mw from "@/api/mw"
 import CategoryModel from "@/api/db/models/CategoryModel"
 import validate from "@/api/middlewares/validate"
 import {numberValidator} from "@/components/validation/validation"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
@@ -16,6 +17,7 @@ const handler = mw({
     validate({
       categoryId: numberValidator.required()
     }),
+    auth("admin"),
     async ({
              locals: {
                body: { categoryId }

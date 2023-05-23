@@ -5,6 +5,7 @@ import mw from "@/api/mw"
 import { stringValidator } from "@/components/validation/validation"
 import { NotFoundError } from "@/api/errors"
 import { getSessionFromCookiesServ } from "@/web/helper/getSessionFromCookiesServ"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   POST: [
@@ -19,6 +20,7 @@ const handler = mw({
         postal_code: stringValidator.required(),
       },
     }),
+    auth("user"),
     async ({
       req,
       locals: {

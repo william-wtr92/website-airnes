@@ -3,6 +3,7 @@ import ContactModel from "@/api/db/models/ContactModel"
 import { NotFoundError } from "@/api/errors"
 import { numberValidator } from "@/components/validation/validation"
 import mw from "@/api/mw"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
@@ -11,6 +12,7 @@ const handler = mw({
         contactId: numberValidator.required(),
       },
     }),
+    auth("admin"),
     async ({
       locals: {
         query: { contactId },
@@ -38,6 +40,7 @@ const handler = mw({
         contactId: numberValidator.required(),
       },
     }),
+    auth("admin"),
     async ({
       locals: {
         query: { contactId },
@@ -68,6 +71,7 @@ const handler = mw({
         contactId: numberValidator.required(),
       },
     }),
+    auth("admin"),
     async ({
       locals: {
         query: { contactId },

@@ -7,6 +7,7 @@ import {
   numberValidator,
 } from "@/components/validation/validation"
 import { NotFoundError } from "@/api/errors"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
@@ -15,6 +16,7 @@ const handler = mw({
         userId: numberValidator.required(),
       },
     }),
+    auth("user"),
     async ({
       locals: {
         query: { userId },
@@ -49,6 +51,7 @@ const handler = mw({
         mail: mailValidator.required(),
       },
     }),
+    auth("user"),
     async ({
       locals: {
         query: { userId },
@@ -81,6 +84,7 @@ const handler = mw({
         userId: numberValidator.required(),
       },
     }),
+    auth("user"),
     async ({
       locals: {
         query: { userId },

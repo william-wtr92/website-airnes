@@ -6,8 +6,15 @@ import {useCallback} from "react"
 import routes from "@/web/routes"
 import {useRouter} from "next/router"
 import getApi from "@/web/getAPI"
+import {getAuthorization} from "@/web/helper/getAuthorization"
 
 export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("admin", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+
   const { productId } = context.params
 
   const api = getApi(context)
@@ -84,7 +91,5 @@ const ShowProduct = (props) => {
     </div>
   )
 }
-
-ShowProduct.restrictedTo = "admin"
 
 export default ShowProduct

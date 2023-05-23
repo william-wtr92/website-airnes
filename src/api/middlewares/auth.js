@@ -1,9 +1,6 @@
 import jsonwebtoken from "jsonwebtoken"
 import config from "@/api/config.js"
-import knex from "knex"
 import { InvalidAccessError, InvalidCredentialsError } from "@/api/errors"
-
-const db = knex(config.db)
 
 const auth = (requiredRole) => async (ctx) => {
   const { req, next } = ctx
@@ -16,19 +13,27 @@ const auth = (requiredRole) => async (ctx) => {
 
   try {
     const { payload } = jsonwebtoken.verify(
-      jwt.slice(7),
+      jwt.slice(8),
       config.security.jwt.secret
     )
 
-    const userId = payload.user.id
+    const userRole = payload.user.role
 
-    const user = await db("user").where({ id: userId }).first()
-    const userRole = await db("role").where({ id: user.roleid }).first()
+    if (requiredRole === "user") {
+      const userRoleId = parseInt(payload.user.id, 10)
+      const paramsId = parseInt(req.query.userId, 10)
 
-    const hasPerms = requiredRole === userRole.right
+      if (userRoleId !== paramsId && userRole !== "admin") {
+        throw new InvalidAccessError()
+      }
+    }
 
-    if (!hasPerms) {
-      throw new InvalidAccessError()
+    if (requiredRole === "admin") {
+      const hasPerms = requiredRole === userRole
+
+      if (!hasPerms) {
+        throw new InvalidAccessError()
+      }
     }
 
     next()

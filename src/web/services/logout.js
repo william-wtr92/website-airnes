@@ -7,7 +7,7 @@ const logout =
       try {
         const { data } = await api.post(routes.api.logout())
 
-        setSession(false)
+        setSession(null)
         setJWT(null)
         localStorage.removeItem(config.session.localStorageKey)
 

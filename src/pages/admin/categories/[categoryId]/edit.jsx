@@ -4,9 +4,16 @@ import routes from "@/web/routes"
 import { useRouter } from "next/router"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback } from "react"
+import {getAuthorization} from "@/web/helper/getAuthorization"
 import getApi from "@/web/getAPI"
 
 export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("admin", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+
   const { categoryId } = context.params
 
   const api = getApi(context)
@@ -59,7 +66,5 @@ const EditCategory = (props) => {
     />
   )
 }
-
-EditCategory.restrictedTo = "admin"
 
 export default EditCategory

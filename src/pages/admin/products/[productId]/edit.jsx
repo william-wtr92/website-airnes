@@ -5,8 +5,15 @@ import { useCallback, useState } from "react"
 import { editProductValidationSchema } from "@/components/validation/admin/product"
 import ProductForm from "@/components/app/admin/ProductForm"
 import getApi from "@/web/getAPI"
+import {getAuthorization} from "@/web/helper/getAuthorization"
 
 export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("admin", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+
   const { productId } = context.params
 
   const api = getApi(context)
@@ -71,7 +78,5 @@ const EditProduct = (props) => {
     />
   )
 }
-
-EditProduct.restrictedTo = "admin"
 
 export default EditProduct

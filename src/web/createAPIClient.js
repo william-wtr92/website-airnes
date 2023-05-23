@@ -4,7 +4,7 @@ const createAPIClient = ({ baseURL, jwt }) =>
   axios.create({
     baseURL,
     headers: {
-      Authorization: `Bearer ${jwt}`,
+      Authorization: `${jwt}`,
     },
   })
 

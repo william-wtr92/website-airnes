@@ -2,6 +2,7 @@ import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import { numberValidator } from "@/components/validation/validation"
 import CarouselModel from "@/api/db/models/CarouselModel"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   DELETE: [
@@ -10,6 +11,7 @@ const handler = mw({
         imageId: numberValidator.required(),
       },
     }),
+    auth("admin"),
     async ({
       locals: {
         query: { imageId },
@@ -52,6 +54,7 @@ const handler = mw({
         direction: numberValidator.required(),
       },
     }),
+    auth("admin"),
     async ({
       locals: {
         query: { imageId },

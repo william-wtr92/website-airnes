@@ -3,8 +3,15 @@ import routes from "@/web/routes"
 import { useRouter } from "next/router"
 import useAppContext from "@/web/hooks/useAppContext"
 import getApi from "@/web/getAPI"
+import {getAuthorization} from "@/web/helper/getAuthorization"
 
 export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("admin", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+
   const { contactId } = context.params
 
   const api = getApi(context)
@@ -77,7 +84,5 @@ const ShowContact = (props) => {
     </div>
   )
 }
-
-ShowContact.restrictedTo = "admin"
 
 export default ShowContact

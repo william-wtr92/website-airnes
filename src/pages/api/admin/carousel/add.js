@@ -5,6 +5,7 @@ import {
   urlValidator,
   labelValidator,
 } from "@/components/validation/validation"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   POST: [
@@ -14,6 +15,7 @@ const handler = mw({
         label: labelValidator.required(),
       },
     }),
+    auth("admin"),
     async ({
       locals: {
         body: { url, label },

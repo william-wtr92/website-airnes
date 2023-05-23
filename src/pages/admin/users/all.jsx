@@ -3,8 +3,15 @@ import DisplayPage from "@/components/app/admin/DisplayPage"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback } from "react"
 import getApi from "@/web/getAPI"
+import {getAuthorization} from "@/web/helper/getAuthorization"
 
 export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("admin", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+
   const { page, order, column } = context.query
 
   const api = getApi(context)
@@ -60,7 +67,5 @@ const AllUsers = (props) => {
     />
   )
 }
-
-AllUsers.restrictedTo = "admin"
 
 export default AllUsers

@@ -7,6 +7,7 @@ import {
   queryPageValidator,
   stringValidator,
 } from "@/components/validation/validation"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
@@ -17,6 +18,7 @@ const handler = mw({
         col: stringValidator.optional(),
       },
     }),
+    auth("admin"),
     async ({
       locals: {
         query: { page, order, col },

@@ -8,7 +8,14 @@ import { useCallback, useState } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
 import routes from "@/web/routes"
 import getApi from "@/web/getAPI"
+import {getAuthorization} from "@/web/helper/getAuthorization"
 export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("admin", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+
   const api = getApi(context)
 
   const { data } = await api.get(
@@ -59,7 +66,5 @@ const CreateProduct = (props) => {
     />
   )
 }
-
-CreateProduct.restrictedTo = "admin"
 
 export default CreateProduct

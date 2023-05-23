@@ -8,8 +8,15 @@ import {useCallback, useEffect, useState} from "react"
 import useAppContext from "@/web/hooks/useAppContext"
 import routes from "@/web/routes"
 import getApi from "@/web/getAPI"
+import {getAuthorization} from "@/web/helper/getAuthorization"
 
 export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("admin", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+
   const { page } = context.query
 
   const api = getApi(context)
@@ -99,7 +106,5 @@ const AddSelectedProduct = (props) => {
     </>
   )
 }
-
-AddSelectedProduct.restrictedTo = "admin"
 
 export default AddSelectedProduct

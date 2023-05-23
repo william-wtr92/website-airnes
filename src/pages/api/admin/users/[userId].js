@@ -4,6 +4,7 @@ import { numberValidator } from "@/components/validation/validation"
 import { NotFoundError } from "@/api/errors"
 import UserModel from "@/api/db/models/UserModel"
 import RoleModel from "@/api/db/models/RoleModel"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
@@ -12,6 +13,7 @@ const handler = mw({
         userId: numberValidator.required(),
       },
     }),
+    auth("admin"),
     async ({
       locals: {
         query: { userId },
@@ -43,6 +45,7 @@ const handler = mw({
         roleid: numberValidator.required(),
       },
     }),
+    auth("admin"),
     async ({
       locals: {
         query: { userId },

@@ -19,9 +19,16 @@ import { useRouter } from "next/router"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 import getApi from "@/web/getAPI"
+import {getAuthorization} from "@/web/helper/getAuthorization"
 
 export const getServerSideProps = async (context) => {
   const { query, locale } = context
+
+  const redirect = getAuthorization("user", context, query)
+
+  if (redirect) {
+    return redirect
+  }
 
   const api = getApi(context)
 
@@ -244,7 +251,5 @@ const Settings = (props) => {
     </>
   )
 }
-
-Settings.restrictedTo = "user"
 
 export default Settings

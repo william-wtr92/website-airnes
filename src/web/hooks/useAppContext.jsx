@@ -1,4 +1,4 @@
-import {createContext, useContext, useState, useEffect} from "react"
+import { createContext, useContext, useState, useEffect } from "react"
 import createAPIClient from "@/web/createAPIClient"
 import signUpService from "@/web/services/signUp"
 import signInService from "@/web/services/signIn"
@@ -31,32 +31,21 @@ import orderSelectedProductService from "@/web/services/admin/homepage/orderSele
 import patchRoleService from "@/web/services/admin/users/updateRole"
 
 import config from "@/web/config"
-import {i18n} from "next-i18next"
-import {useRouter} from "next/router"
+import { i18n } from "next-i18next"
 import parseSession from "@/web/parseSession"
+import {useRouter} from "next/router"
 
 const AppContext = createContext()
 
 export const AppContextProvider = (props) => {
-  const {
-    restrictedTo,
-    cartItems: initialCartItems,
-    ...otherProps
-  } = props
+  const { cartItems: initialCartItems, ...otherProps } = props
 
   const [session, setSession] = useState(null)
-  const [loading, setLoading] = useState(true)
   const [jwt, setJWT] = useState(null)
   const api = createAPIClient({ jwt, baseURL: config.api.baseURL })
   const [cartItems, setCartItems] = useState(initialCartItems || [])
 
   const router = useRouter()
-  const redirectToLogin = () => {
-    router.push("/user/login")
-  }
-  const redirectToHome = () => {
-    router.push("/")
-  }
 
   const signUp = signUpService({ api })
   const signIn = signInService({ api, setSession, setJWT })
@@ -102,15 +91,12 @@ export const AppContextProvider = (props) => {
     const jwt = localStorage.getItem(config.session.localStorageKey)
 
     if (!jwt) {
-      setLoading(false)
-
       return
     }
 
     const session = parseSession(jwt)
 
     setSession(session)
-    setLoading(false)
   }, [])
 
   useEffect(() => {
@@ -121,22 +107,6 @@ export const AppContextProvider = (props) => {
       setCartItems(parsedCart)
     }
   }, [])
-
-  useEffect(() => {
-    if (!loading && restrictedTo) {
-      if (session === null) {
-        return redirectToLogin()
-      }
-
-      const {
-        user: { role }
-      } = session
-
-      if (restrictedTo !== "user" && role !== "admin") {
-        return redirectToHome()
-      }
-    }
-  }, [loading])
 
   const addToCart = (product) => {
     const currentCart = JSON.parse(localStorage.getItem("cart")) || []
@@ -230,13 +200,13 @@ export const AppContextProvider = (props) => {
           addToCart,
           updateCartQuantity,
           removeFromCart,
-          changeLanguage
+          changeLanguage,
         },
         state: {
           session,
           cartItems,
-          language
-        }
+          language,
+        },
       }}
     />
   )

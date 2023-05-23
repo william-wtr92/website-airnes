@@ -4,8 +4,15 @@ import {useCallback, useState, useEffect} from "react"
 import {useRouter} from "next/router"
 import getApi from "@/web/getAPI"
 import routes from "@/web/routes"
+import {getAuthorization} from "@/web/helper/getAuthorization"
 
 export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("admin", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+
   const api = getApi(context)
 
   const imagesRes = await api.get(
@@ -241,7 +248,5 @@ const Homepage = (props) => {
     </div>
   )
 }
-
-Homepage.restrictedTo = "admin"
 
 export default Homepage

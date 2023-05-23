@@ -8,8 +8,15 @@ import { useCallback, useState } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useRouter } from "next/router"
 import getApi from "@/web/getAPI"
+import {getAuthorization} from "@/web/helper/getAuthorization"
 
 export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("admin", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+
   const { categoryId } = context.params
 
   const api = getApi(context)
@@ -102,7 +109,5 @@ const ShowCategory = (props) => {
     </div>
   )
 }
-
-ShowCategory.restrictedTo = "admin"
 
 export default ShowCategory

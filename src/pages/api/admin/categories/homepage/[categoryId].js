@@ -2,6 +2,7 @@ import mw from "@/api/mw"
 import validate from "@/api/middlewares/validate"
 import { numberValidator } from "@/components/validation/validation"
 import SelectedCategoryModel from "@/api/db/models/SelectedCategoryModel"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   PATCH: [
@@ -13,6 +14,7 @@ const handler = mw({
         direction: numberValidator.required(),
       },
     }),
+    auth("admin"),
     async ({
       locals: {
         query: { categoryId },
@@ -66,6 +68,7 @@ const handler = mw({
         categoryId: numberValidator.required(),
       },
     }),
+    auth("admin"),
     async ({
       locals: {
         query: { categoryId },

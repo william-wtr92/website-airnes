@@ -4,8 +4,15 @@ import routes from "@/web/routes"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 import getApi from "@/web/getAPI"
+import {getAuthorization} from "@/web/helper/getAuthorization"
 
 export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("user", context.req, context.query)
+
+  if (redirect) {
+    return redirect
+  }
+
   const { query, locale } = context
 
   const api = getApi(context)

@@ -9,6 +9,7 @@ import CategoryModel from "@/api/db/models/CategoryModel"
 import { NotFoundError } from "@/api/errors"
 import ProductModel from "@/api/db/models/ProductModel"
 import { boolean } from "yup"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
@@ -18,6 +19,7 @@ const handler = mw({
         showProducts: boolean(),
       },
     }),
+    auth("admin"),
     async ({
       locals: {
         query: { categoryId, showProducts },
@@ -63,6 +65,7 @@ const handler = mw({
         description: stringValidator,
       },
     }),
+    auth("admin"),
     async ({
       locals: {
         query: { categoryId },
@@ -88,6 +91,7 @@ const handler = mw({
         categoryId: numberValidator.required(),
       },
     }),
+    auth("admin"),
     async ({
       locals: {
         query: { categoryId },

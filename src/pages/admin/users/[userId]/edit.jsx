@@ -7,8 +7,15 @@ import { Field, Form, Formik } from "formik"
 import Button from "@/components/app/ui/Button"
 import * as yup from "yup"
 import getApi from "@/web/getAPI"
+import {getAuthorization} from "@/web/helper/getAuthorization"
 
 export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("admin", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+
   const { userId } = context.params
 
   const api = getApi(context)
@@ -110,7 +117,5 @@ const EditUser = (props) => {
     </div>
   )
 }
-
-EditUser.restrictedTo = "admin"
 
 export default EditUser

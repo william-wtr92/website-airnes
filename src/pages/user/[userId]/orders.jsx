@@ -1,4 +1,13 @@
 import { NavLink } from "@/components/utils/NavLink"
+import {getAuthorization} from "@/web/helper/getAuthorization"
+
+export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("user", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+}
 
 const Orders = () => {
   return (

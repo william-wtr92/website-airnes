@@ -7,12 +7,18 @@ import {addressValidationSchema} from "@/components/validation/validationyup"
 import routes from "@/web/routes"
 import useAppContext from "@/web/hooks/useAppContext"
 import getApi from "@/web/getAPI"
+import {getAuthorization} from "@/web/helper/getAuthorization"
 
 export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("user", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+
   const { query } = context
 
   const api = getApi(context)
-
 
   const { data } = await api.get(routes.api.user.address.addressData(
     query.userId,
@@ -143,7 +149,5 @@ const EditAddress = (props) => {
     </>
   )
 }
-
-EditAddress.restrictedTo = "user"
 
 export default EditAddress

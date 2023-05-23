@@ -6,6 +6,15 @@ import { useRouter } from "next/router"
 import CarouselForm from "@/components/app/admin/CarouselForm"
 import { useCallback, useState } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
+import {getAuthorization} from "@/web/helper/getAuthorization"
+
+export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("admin", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+}
 
 const CreateCarousel = () => {
   const [error, setError] = useState(null)
@@ -44,7 +53,5 @@ const CreateCarousel = () => {
     </>
   )
 }
-
-CreateCarousel.restrictedTo = "admin"
 
 export default CreateCarousel

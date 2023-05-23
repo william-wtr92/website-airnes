@@ -1,4 +1,13 @@
 import ProductOrder from "@/components/app/content/ProductOrder"
+import {getAuthorization} from "@/web/helper/getAuthorization"
+
+export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("user", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+}
 
 const Order = () => {
   return (
@@ -117,7 +126,5 @@ export const example = [
     quantity: 1,
   },
 ]
-
-Order.restrictedTo = "user"
 
 export default Order

@@ -5,6 +5,7 @@ import {
   numberValidator,
   stringValidator,
 } from "@/components/validation/validation"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
@@ -13,6 +14,7 @@ const handler = mw({
         addressId: numberValidator.required(),
       },
     }),
+    auth("user"),
     async ({
       locals: {
         query: { addressId },
@@ -47,6 +49,7 @@ const handler = mw({
         postal_code: stringValidator.required(),
       },
     }),
+    auth("user"),
     async ({
       locals: {
         query: { addressId },
@@ -79,12 +82,12 @@ const handler = mw({
     },
   ],
   DELETE: [
-    //rajouter auth check query.useriD
     validate({
       query: {
         addressId: numberValidator.required(),
       },
     }),
+    auth("user"),
     async ({
       locals: {
         query: { addressId },

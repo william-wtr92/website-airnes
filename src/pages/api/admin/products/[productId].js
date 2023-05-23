@@ -3,6 +3,7 @@ import validate from "@/api/middlewares/validate"
 import {linkValidator, numberValidator, stringValidator} from "@/components/validation/validation"
 import {NotFoundError} from "@/api/errors"
 import ProductModel from "@/api/db/models/ProductModel"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
@@ -11,6 +12,7 @@ const handler = mw({
         productId: numberValidator.required()
       }
     }),
+    auth("admin"),
     async ({
              locals: {
                query: { productId }
@@ -48,6 +50,7 @@ const handler = mw({
         materialId: numberValidator.required()
       }
     }),
+    auth("admin"),
     async ({
              locals: {
                query: { productId },
@@ -78,6 +81,7 @@ const handler = mw({
         productId: numberValidator.required()
       }
     }),
+    auth("admin"),
     async ({
              locals: {
                query: { productId }
