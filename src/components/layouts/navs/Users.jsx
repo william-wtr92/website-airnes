@@ -223,13 +223,13 @@ const Users = ({ className, session, cartItems }) => {
                 </NavLink>
               </div>
 
-              {/* Promotions à update quand la feature sera faite */}
-
               <div>
-                <div className="flex gap-4">
-                  <ChevronRightIcon className="h-6 w-6" />
-                  <p className="hover:scale-105">{t(`promotions`)}</p>
-                </div>
+                <NavLink href="/search?promo=true&page=1">
+                  <div className="flex gap-4">
+                    <ChevronRightIcon className="h-6 w-6" />
+                    <p className="hover:scale-105">{t(`promotions`)}</p>
+                  </div>
+                </NavLink>
               </div>
             </div>
 
