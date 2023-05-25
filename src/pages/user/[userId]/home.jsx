@@ -7,13 +7,13 @@ import getApi from "@/web/getAPI"
 import {getAuthorization} from "@/web/helper/getAuthorization"
 
 export const getServerSideProps = async (context) => {
-  const redirect = getAuthorization("user", context.req, context.query)
+  const { req, query, locale } = context
+
+  const redirect = getAuthorization("user", req, query)
 
   if (redirect) {
     return redirect
   }
-
-  const { query, locale } = context
 
   const api = getApi(context)
 
@@ -66,7 +66,5 @@ const UserHome = (props) => {
     </>
   )
 }
-
-UserHome.restrictedTo = "user"
 
 export default UserHome

@@ -2,27 +2,25 @@ import ProductModel from "@/api/db/models/ProductModel"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import {
-  boolValidator,
-  queryPageValidator,
+  queryPageValidator, stringValidator
 } from "@/components/validation/validation"
-import { NotFoundError } from "objection"
-import config from "@/api/config"
+import {NotFoundError} from "objection"
 
 const handler = mw({
   GET: [
     validate({
       query: {
-        sale: boolValidator.optional(),
-        page: queryPageValidator.required(),
-      },
+        page: queryPageValidator.optional(),
+        search: stringValidator.optional()
+      }
     }),
     async ({
-      locals: {
-        query: { sale, page },
-      },
-      res,
-    }) => {
-      const limit = config.pagination.limit.default
+             locals: {
+               query: { search, page }
+             },
+             res
+           }) => {
+      const limit = 18
       page = parseInt(page, 10) || 1
       const offset = (page - 1) * limit
 
@@ -32,17 +30,14 @@ const handler = mw({
         .limit(limit)
         .offset(offset)
 
-      const allProductQuery = ProductModel.query()
-          .where("categoryId", "!=", 0)
-          .orderBy("id", "asc")
-
-      if (sale) {
-        productsQuery.andWhere("promotion", ">", 0)
+      if (search || search !== "") {
+        productsQuery.andWhere(function () {
+          this.where("name", "like", `%${search}%`)
+            .orWhere("description", "like", `%${search}%`)
+        })
       }
 
       const products = await productsQuery
-
-      const allProduct = await allProductQuery
 
       const totalCount = await ProductModel.query().count().first()
 
@@ -50,14 +45,13 @@ const handler = mw({
         page,
         limit,
         totalItems: parseInt(totalCount.count, 10),
-        totalPages: Math.ceil(totalCount.count / limit),
+        totalPages: Math.ceil(totalCount.count / limit)
       }
 
       if (products) {
         res.send({
           result: products,
-          pagination: pagination,
-          allProduct: allProduct,
+          pagination: pagination
         })
 
         return
@@ -66,8 +60,8 @@ const handler = mw({
       res.send({ result: "" })
 
       throw new NotFoundError()
-    },
-  ],
+    }
+  ]
 })
 
 export default handler

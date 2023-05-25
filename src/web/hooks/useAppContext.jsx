@@ -29,6 +29,8 @@ import addSelectedProductService from "@/web/services/admin/homepage/addSelected
 import deleteSelectedProductService from "@/web/services/admin/homepage/deleteSelectedProduct"
 import orderSelectedProductService from "@/web/services/admin/homepage/orderSelectedProduct"
 import patchRoleService from "@/web/services/admin/users/updateRole"
+import paymentService from "@/web/services/cart/payment"
+import confirmOrderService from "@/web/services/cart/confirmOrder"
 
 import config from "@/web/config"
 import { i18n } from "next-i18next"
@@ -86,6 +88,9 @@ export const AppContextProvider = (props) => {
   const deleteSelectedProduct = deleteSelectedProductService({ api })
   const orderSelectedProduct = orderSelectedProductService({ api })
   const addSelectedProduct = addSelectedProductService({ api })
+
+  const payment = paymentService({ api })
+  const confirmOrder = confirmOrderService({ api })
 
   useEffect(() => {
     const jwt = localStorage.getItem(config.session.localStorageKey)
@@ -201,6 +206,8 @@ export const AppContextProvider = (props) => {
           updateCartQuantity,
           removeFromCart,
           changeLanguage,
+          payment,
+          confirmOrder,
         },
         state: {
           session,

@@ -79,6 +79,4 @@ const Category = (props) => {
   )
 }
 
-Category.restrictedTo = null
-
 export default Category

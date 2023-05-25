@@ -127,6 +127,4 @@ const LoginForm = () => {
   )
 }
 
-LoginForm.restrictedTo = null
-
 export default LoginForm

@@ -181,6 +181,4 @@ const CguPage = () => {
   )
 }
 
-CguPage.isPublic = true
-
 export default CguPage

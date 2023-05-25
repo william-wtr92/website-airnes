@@ -37,6 +37,4 @@ const AllCategories = (props) => {
   )
 }
 
-AllCategories.restrictedTo = null
-
 export default AllCategories

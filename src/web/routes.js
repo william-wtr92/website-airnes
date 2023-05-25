@@ -14,6 +14,7 @@ const routes = {
       products: {
         getProduct: (productId) => `/app/products/${productId}`,
         getProducts: () => "/app/products/all",
+        searchProducts: () => "/app/products/search"
       },
       categories: {
         getCategories: () => "/app/categories/all",
@@ -82,8 +83,12 @@ const routes = {
         patchAddress: (userId, addressId) => `/user/${userId}/${addressId}`,
         deleteAddress: (userId, addressId) => `/user/${userId}/${addressId}`
       }
+    },
+    cart: {
+      payment: () => "/cart/payment",
+      confirmOrder: () => "/cart/confirmOrder"
     }
-  },
+  }
 }
 
 export default routes

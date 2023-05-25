@@ -2,11 +2,15 @@ import ProductOrder from "@/components/app/content/ProductOrder"
 import {getAuthorization} from "@/web/helper/getAuthorization"
 
 export const getServerSideProps = async (context) => {
-  const redirect = getAuthorization("user", context.req)
+  const { req, query } = context
+
+  const redirect = getAuthorization("user", req, query)
 
   if (redirect) {
     return redirect
   }
+
+  return { props: {} }
 }
 
 const Order = () => {

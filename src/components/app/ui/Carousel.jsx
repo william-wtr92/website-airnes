@@ -1,26 +1,19 @@
 import { useState, useEffect } from "react"
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs"
-import axios from "axios"
-import routes from "@/web/routes"
 
-const Carousel = () => {
+const Carousel = (props) => {
+  const { data = [] } = props
   const [slides, setSlides] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
-    const fetchImages = async () => {
-      const { data } = await axios.get(
-        `/api${routes.api.admin.carousel.getImages()}`
-      )
-
-      const sortedSlides = data.result.sort((a, b) => a.order - b.order)
+    if (data) {
+      const sortedSlides = data.sort((a, b) => a.order - b.order)
       setIsLoading(false)
       setSlides(sortedSlides)
     }
-
-    fetchImages()
-  }, [])
+  }, [data])
 
   const prevSlide = () =>
     setCurrentIndex(currentIndex === 0 ? slides.length - 1 : currentIndex - 1)

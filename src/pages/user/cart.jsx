@@ -183,7 +183,7 @@ const Cart = () => {
                   className="bg-[#615043] hover:bg-[#927864] hover:cursor-pointer
            active:bg-[#615043] border border-black px-10 py-4 font-semibold rounded-md text-[#fff]"
                 >
-                  <NavLink href={session ? `/payment/checkout` : `/user/login`}>
+                  <NavLink href={session ? `/payment/payment` : `/user/login`}>
                     {t(`command`)}
                   </NavLink>
                 </Button>
@@ -195,7 +195,5 @@ const Cart = () => {
     </>
   )
 }
-
-Cart.restrictedTo = null
 
 export default Cart

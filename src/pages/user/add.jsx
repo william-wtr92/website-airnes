@@ -126,6 +126,4 @@ const AddAddress = (props) => {
   )
 }
 
-AddAddress.restrictedTo = "user"
-
 export default AddAddress

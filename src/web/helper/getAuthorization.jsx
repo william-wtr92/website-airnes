@@ -21,7 +21,7 @@ export const getAuthorization = (restrictedTo, req, params) => {
     } = session
 
     if (params) {
-      const askedUser = parseInt(params.id, 10)
+      const askedUser = parseInt(params.userId, 10)
 
       if (askedUser !== id && role !== "admin") {
         return redirect("/")

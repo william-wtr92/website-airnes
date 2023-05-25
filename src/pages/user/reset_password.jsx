@@ -81,6 +81,4 @@ const ForgottenPassword = (props) => {
   )
 }
 
-ForgottenPassword.restrictedTo = null
-
 export default ForgottenPassword

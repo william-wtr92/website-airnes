@@ -4,14 +4,16 @@ import HomepageProducts from "@/components/app/content/HomepageProducts"
 import SlideProducts from "@/components/app/content/SlideProducts"
 import routes from "@/web/routes"
 import classNames from "classnames"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { useTranslation } from "next-i18next"
+import {serverSideTranslations} from "next-i18next/serverSideTranslations"
+import {useTranslation} from "next-i18next"
 import getApi from "@/web/getAPI"
 
 export const getServerSideProps = async (context) => {
   const { locale } = context
 
   const api = getApi(context)
+
+  const carouselQuery = await api.get(routes.api.admin.carousel.getImages())
 
   const categoryQuery = await api.get(routes.api.admin.selectCategory.getSelectCategory())
 
@@ -20,33 +22,34 @@ export const getServerSideProps = async (context) => {
   const saleQuery = await api.get(routes.api.app.products.getProducts(), {
     params: {
       sale: true,
-      page: 1,
-    },
+      page: 1
+    }
   })
 
   return {
     props: {
+      carousel: carouselQuery.data.result,
       products: productQuery.data.result,
       categories: categoryQuery.data.result,
       sales: saleQuery.data.result,
-      ...(await serverSideTranslations(locale, ["common", "footer", "navbar"])),
-    },
+      ...(await serverSideTranslations(locale, ["common", "footer", "navbar"]))
+    }
   }
 }
 
 const Main = (props) => {
-  const { categories, products, sales } = props
+  const { carousel, products, categories, sales } = props
   const { t } = useTranslation("common")
 
   return (
     <>
       <main>
-        <Carousel />
+        <Carousel data={carousel}/>
         <div className="flex flex-col gap-8">
           <div className="text-center text-[13px] font-bold lg:py-6 lg:text-xl">
             <p>
               {t("highlands")}
-              <br />
+              <br/>
               {t("ourFurniture")}
             </p>
           </div>
@@ -104,7 +107,5 @@ const Main = (props) => {
     </>
   )
 }
-
-Main.restrictedTo = null
 
 export default Main

@@ -22,9 +22,9 @@ import getApi from "@/web/getAPI"
 import {getAuthorization} from "@/web/helper/getAuthorization"
 
 export const getServerSideProps = async (context) => {
-  const { query, locale } = context
+  const { req, query, locale } = context
 
-  const redirect = getAuthorization("user", context, query)
+  const redirect = getAuthorization("user", req, query)
 
   if (redirect) {
     return redirect

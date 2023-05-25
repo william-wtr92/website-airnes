@@ -78,6 +78,4 @@ const ForgotPassword = (props) => {
   )
 }
 
-ForgotPassword.isPublic = true
-
 export default ForgotPassword

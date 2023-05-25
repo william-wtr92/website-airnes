@@ -66,6 +66,4 @@ const LegalPage = () => {
   )
 }
 
-LegalPage.isPublic = true
-
 export default LegalPage
