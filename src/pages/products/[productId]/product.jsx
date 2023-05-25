@@ -8,9 +8,10 @@ import SlideProducts from "@/components/app/content/SlideProducts"
 import useAppContext from "@/web/hooks/useAppContext"
 import {useTranslation} from "next-i18next"
 import getApi from "@/web/getAPI"
+import {serverSideTranslations} from "next-i18next/serverSideTranslations"
 
 export const getServerSideProps = async (context) => {
-  const { params } = context
+  const { params, locale } = context
 
   const api = getApi(context)
 
@@ -25,7 +26,8 @@ export const getServerSideProps = async (context) => {
   return {
     props: {
       product: data.product,
-      similarProducts: data.similarProducts
+      similarProducts: data.similarProducts,
+      ...(await serverSideTranslations(locale, ["product", "footer", "navbar"]))
     }
   }
 }

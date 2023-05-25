@@ -1,8 +1,11 @@
 import routes from "@/web/routes"
 import getApi from "@/web/getAPI"
 import Category from "@/components/app/content/Category"
+import {serverSideTranslations} from "next-i18next/serverSideTranslations"
 
 export const getServerSideProps = async (context) => {
+  const { locale } = context
+
   const api = getApi(context)
 
   const { data } = await api.get(routes.api.app.categories.getCategories())
@@ -10,6 +13,7 @@ export const getServerSideProps = async (context) => {
   return {
     props: {
       categories: data,
+      ...(await serverSideTranslations(locale, ["product", "footer", "navbar"]))
     },
   }
 }
