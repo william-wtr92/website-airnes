@@ -1,7 +1,7 @@
 import routes from "@/web/routes"
 
 const addProduct =
-  ({ api, jwt }) =>
+  ({ api }) =>
   async ({
     image,
     name,
@@ -28,7 +28,6 @@ const addProduct =
           material2,
           material3,
           quantity,
-          jwt,
         }
       )
 

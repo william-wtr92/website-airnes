@@ -7,6 +7,7 @@ import {
   stringValidator,
 } from "@/components/validation/validation"
 import { getSessionFromCookiesServ } from "@/web/helper/getSessionFromCookiesServ"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   POST: [
@@ -17,6 +18,7 @@ const handler = mw({
         cartItems: arrayValidator.required(),
       },
     }),
+    auth("user"),
     async ({
       req,
       locals: {

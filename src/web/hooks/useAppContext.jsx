@@ -54,7 +54,6 @@ export const AppContextProvider = (props) => {
   const logout = logoutService({ api, setSession, setJWT })
 
   const contact = contactService({ api })
-
   const addCategory = createCategoryService({ api })
   const updateCategory = updateCategoryService({ api })
   const deleteCategory = deleteCategoryService({ api })
@@ -102,6 +101,7 @@ export const AppContextProvider = (props) => {
     const session = parseSession(jwt)
 
     setSession(session)
+    setJWT(jwt)
   }, [])
 
   useEffect(() => {
@@ -112,6 +112,11 @@ export const AppContextProvider = (props) => {
       setCartItems(parsedCart)
     }
   }, [])
+
+  const clearCart = () => {
+    setCartItems([])
+    localStorage.removeItem("cart")
+  }
 
   const addToCart = (product) => {
     const currentCart = JSON.parse(localStorage.getItem("cart")) || []
@@ -205,6 +210,7 @@ export const AppContextProvider = (props) => {
           addToCart,
           updateCartQuantity,
           removeFromCart,
+          clearCart,
           changeLanguage,
           payment,
           confirmOrder,

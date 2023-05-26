@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const createAPIClient = ({ baseURL, jwt }) =>
+const createAPIClient = ({ jwt, baseURL }) =>
   axios.create({
     baseURL,
     headers: {

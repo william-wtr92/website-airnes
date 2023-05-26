@@ -1,14 +1,13 @@
 import routes from "@/web/routes"
 
 const addSelectedProduct =
-  ({ api, jwt }) =>
+  ({ api }) =>
   async ({ productId }) => {
     try {
       const { data } = await api.post(
         routes.api.admin.selectProduct.addSelectedProduct(),
         {
           productId,
-          jwt,
         }
       )
 

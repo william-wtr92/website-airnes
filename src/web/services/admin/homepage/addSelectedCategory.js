@@ -1,14 +1,13 @@
 import routes from "@/web/routes"
 
 const addSelectedCategory =
-  ({ api, jwt }) =>
+  ({ api }) =>
   async ({ categoryId }) => {
     try {
       const { data } = await api.post(
         routes.api.admin.selectCategory.addSelectedCategory(),
         {
           categoryId,
-          jwt,
         }
       )
 

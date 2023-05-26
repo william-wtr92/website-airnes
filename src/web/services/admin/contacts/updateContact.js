@@ -1,14 +1,13 @@
 import routes from "@/web/routes"
 
 const updateContact =
-  ({ api, jwt }) =>
+  ({ api }) =>
   async ({ contactId, status }) => {
     try {
       const { data } = await api.patch(
         routes.api.admin.contacts.updateContact(contactId),
         {
           status,
-          jwt,
         }
       )
 

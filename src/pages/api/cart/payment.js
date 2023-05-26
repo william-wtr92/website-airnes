@@ -1,6 +1,7 @@
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import { arrayValidator } from "@/components/validation/validation"
+import auth from "@/api/middlewares/auth"
 const stripe = require("stripe")(process.env.SK_STRIPE)
 
 const handler = mw({
@@ -10,6 +11,7 @@ const handler = mw({
         items: arrayValidator.required(),
       },
     }),
+    auth("user"),
     async ({
       locals: {
         body: { items },
