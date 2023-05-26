@@ -3,6 +3,8 @@ const Filters = (props) => {
     const {
         data,
         name,
+        handleClick,
+        query
     } = props
 
     return (
@@ -13,14 +15,16 @@ const Filters = (props) => {
                 {name}
             </header>
 
-            <ul>
+            <ul className="container overflow-y-scroll w-full h-52">
                 {data.map(val => (
-                    <li key={val.id} >
+                    <li key={val.id}>
                         <label className="text-black font-bold text-md flex content-center gap-4 text-xl pb-4 pl-4">
                             <input
-                                type="checkbox"
+                                type="radio"
                                 className="border border-black w-[25px] h-[25px]"
                                 value={val.id}
+                                name={name}
+                                onClick={(e) => handleClick(e.target.value, query)}
                             />
                             {val.name}
                         </label>

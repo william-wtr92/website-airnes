@@ -13,6 +13,7 @@ const routes = {
       products:{
         searchProducts: () => "/app/products/search",
         getProducts: () => "/app/products/products",
+        getFilter: () => "/app/products/filter",
       },
     },
     admin: {

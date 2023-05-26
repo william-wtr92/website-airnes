@@ -1,30 +1,44 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { FunnelIcon, AdjustmentsVerticalIcon } from "@heroicons/react/24/solid"
-import config from "@/api/config"
 import routes from "@/web/routes"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import axios from "axios"
 import ProductTemplate from "@/components/app/content/ProductTemplate"
 import Filters from "@/components/app/find/Filters"
 import { useRouter } from "next/router"
 import Pagination from "@/components/app/ui/Pagination"
+import getApi from "@/web/getAPI"
 
 export const getServerSideProps = async (context) => {
   const { locale } = context
-  const { searchQuery, page } = context.query
+  const { searchQuery, page, promo, stock, category, material, order, minPrice, maxPrice } = context.query
   const search = searchQuery || ""
   const pageQuery = page || 1
+  const promoQuery = promo || false
+  const stockQuery = stock || false
+  const categoryQ = category || 0
+  const materialQ = material || 0
+  const orderQ = order || ""
+  const minPriceQ = minPrice || 0
+  const maxPriceQ = maxPrice || 0
 
-  const [products, materialsAndCategories] = await Promise.all([
-    axios.get(
-        `${
-            config.path
-        }api${routes.api.app.products.searchProducts()}?page=${pageQuery}&search=${search}`
-    ),
-    axios.get(
-        `${config.path}api${routes.api.admin.materials.getMaterialsAndCategory()}`
-    ),
-  ])
+
+  const api = getApi(context)
+
+  const products = await api.get(routes.api.app.products.searchProducts(), {
+    params: {
+      page: pageQuery,
+      search,
+      promo: promoQuery,
+      stock: stockQuery,
+      category: categoryQ,
+      material: materialQ,
+      order: orderQ,
+      minPrice: minPriceQ,
+      maxPrice: maxPriceQ,
+    }
+  })
+
+  const filter = await api.get(routes.api.app.products.getFilter())
 
   return {
     props: {
@@ -35,9 +49,9 @@ export const getServerSideProps = async (context) => {
       ])),
       products: products.data.result,
       pagination: products.data.pagination,
-      categories: materialsAndCategories.data.categories,
-      materials: materialsAndCategories.data.materials,
-      query: { search, pageQuery },
+      categories: filter.data.categories,
+      materials: filter.data.materials,
+      query: {pageQuery},
     },
   }
 }
@@ -46,35 +60,35 @@ const SearchPage = (props) => {
   const { products, categories, materials, pagination, query } = props
 
   const [filterShow, setFilterShow] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("")
+  const [order, setOrder] = useState("asc")
+  const [stock, setStock] = useState(true)
+  const [promo, setPromo] = useState(true)
 
   const router = useRouter()
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearchQuery(searchQuery)
-    }, 500)
+  const changePriceOrder = () => {
+      setOrder(order === "asc" ? "desc" : "asc")
+      router.push({pathname: router.pathname, query: {...router.query, order: order, page: 1}})
+  }
+  const filterEvent = (value, query) => {
+    router.push({pathname: router.pathname, query: {...router.query, [query]: value, page: 1}})
+  }
 
-    return () => {
-      clearTimeout(handler)
-    }
-  }, [searchQuery])
-
-  useEffect(() => {
-    if (
-        debouncedSearchQuery !== "" &&
-        debouncedSearchQuery !== router.query.searchQuery
-    ) {
-      router.push({
-        pathname: router.pathname,
-        query: { ...router.query, searchQuery: debouncedSearchQuery, page: 1 },
-      })
-    }
-  }, [debouncedSearchQuery, router])
+  const filterStock = () => {
+    router.push({pathname: router.pathname, query: {...router.query, stock: stock, page: 1}})
+    setStock(!stock)
+  }
+  const filterPromo = () => {
+    router.push({pathname: router.pathname, query: {...router.query, promo: promo, page: 1}})
+    setPromo(!promo)
+  }
 
   const handleShowFilter = () => {
     setFilterShow(!filterShow)
+  }
+
+  const resetFilter = () => {
+    router.push({pathname: router.pathname, query: {page: 1}})
   }
 
   return (
@@ -82,11 +96,11 @@ const SearchPage = (props) => {
         <div className="flex flex-rows">
           <div
               className={`${
-                  filterShow ? `block ` : `hidden`
-              } flex flex-col border-r-2 p-4 fixed inset-0 top-[3.8125rem] left-[max(0px,calc(50%-45rem))] right-auto w-full md:w-[36%] pb-10 overflow-y-auto`}
+                  filterShow ? `block` : `hidden`
+              } flex flex-col border-r-2 p-8 absolute inset-0 top-[3.8125rem] left-[max(0px,calc(50%-45rem))] right-auto w-full h-full md:w-[36%] overflow-y-auto`}
           >
             <div className="flex justify-between pb-4">
-              <button className="underline text-xl" onClick={handleShowFilter}>
+              <button className="underline text-xl" onClick={resetFilter}>
                 Réintialiser
               </button>
               <button className="underline text-xl" onClick={handleShowFilter}>
@@ -100,8 +114,9 @@ const SearchPage = (props) => {
                 </div>
                 <input
                     className={` border rounded-full border-black bg-[#EDE5E0] text-black placeholder-[#443021] p-4 px-4 md:px-2 md:p-2 lg:px-4 lg:p-4`}
-                    type="search"
+                    type="number"
                     placeholder=". . . €"
+                    onChange={(e) => filterEvent(e.target.value, "minPrice")}
                 />
               </div>
               <div className="flex flex-col">
@@ -110,8 +125,9 @@ const SearchPage = (props) => {
                 </div>
                 <input
                     className={`border rounded-full border-black bg-[#EDE5E0] text-black placeholder-[#443021] p-4 px-4 md:px-2 md:p-2 lg:p-4 lg:px-4`}
-                    type="search"
+                    type="number"
                     placeholder=". . . €"
+                    onChange={(e) => filterEvent(e.target.value, "maxPrice")}
                 />
               </div>
             </div>
@@ -119,8 +135,32 @@ const SearchPage = (props) => {
                 id={"filtres"}
                 className="flex flex-col gap-6 relative leading-6"
             >
-              <Filters data={categories} name={"Catégories"} />
-              <Filters data={materials} name={"Matériaux"} />
+              <section
+                  className="filters"
+                  aria-labelledby="filters-header">
+                <header id="filters-header" className=" font-bold text-black text-xl py-6">
+                  Option
+                </header>
+
+                <label className="text-black font-bold text-md flex content-center gap-4 text-xl pb-4 pl-4">
+                  <input
+                      type="checkbox"
+                      className="border border-black w-[25px] h-[25px]"
+                      onChange={filterStock}
+                  />
+                  Stock
+                </label>
+                <label className="text-black font-bold text-md flex content-center gap-4 text-xl pb-4 pl-4">
+                  <input
+                      type="checkbox"
+                      className="border border-black w-[25px] h-[25px]"
+                      onChange={filterPromo}
+                  />
+                  Promo
+                </label>
+              </section>
+              <Filters data={categories} name={"Catégories"} handleClick={filterEvent} query={"category"}/>
+              <Filters data={materials} name={"Matériaux"} handleClick={filterEvent} query={"material"}/>
             </div>
           </div>
           <div
@@ -147,7 +187,7 @@ const SearchPage = (props) => {
                       className={`pl-6 md:pr-[35%] border border-gray-500 bg-transparent text-black placeholder-[#443021] py-2`}
                       type="search"
                       placeholder="Rechercher"
-                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onChange={(e) => filterEvent(e.target.value, "searchQuery")}
                   />
                 </div>
               </div>
@@ -156,8 +196,8 @@ const SearchPage = (props) => {
               Résultat
             </div>
             <div className="text-center flex justify-center gap-2 mt-5">
-              <FunnelIcon className="flex-none h-10 w-10 color-[#615043]" />
-              Trier par : (asc)
+              <FunnelIcon className={`${order === "asc" ? "" : "rotate-180 "}flex-none h-10 w-10 color-[#615043]`} onClick={changePriceOrder}/>
+              Trier par : ({order})
             </div>
             <div className="flex flex-col items-center">
               <div

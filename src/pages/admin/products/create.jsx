@@ -34,6 +34,10 @@ const CreateProduct = (props) => {
     async (values) => {
       setError(null)
 
+      if(!values.promotion) {
+        values.promotion = 0
+      }
+
       const [err] = await addProduct(values)
 
       if (err) {
