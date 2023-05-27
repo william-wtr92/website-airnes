@@ -12,6 +12,7 @@ import useAppContext from "@/web/hooks/useAppContext"
 import { redirectToHomeIfLoggedIn } from "@/web/helper/getServerSidePropsLog"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
+import Image from "next/image"
 
 export const getServerSideProps = async (context) => {
   const { locale } = context
@@ -65,64 +66,75 @@ const OnLoginForm = () => {
 
   return (
     <>
-      <main>
-        <Formik
-          onSubmit={handleLogin}
-          initialValues={loginInitialValues}
-          validationSchema={loginValidationSchema}
-          error={error}
-        >
-          <div>
-            <div className="flex justify-center mt-14 lg:my-12">
-              <h1 className="font-bold text-2xl hover:cursor-pointer hover:text-[#615043] lg:text-4xl">
-                {t(`loginText`)}
-              </h1>
-            </div>
-            <div className="flex justify-center mx-6 mt-6 py-10 px-6 border-2 lg:w-[600px] lg:px-10 lg:py-16 lg:mx-auto lg:rounded-md lg:mt-0">
-              <Form className="flex flex-col">
-                <Formfield
-                  type="email"
-                  name="mail"
-                  placeholder={t(`placeholderEmail`)}
-                  label={t(`labelEmail`)}
-                  className="mb-2"
-                />
-                <Formfield
-                  type="password"
-                  name="password"
-                  placeholder={t(`placeholderPwd`)}
-                  label={t(`labelPwd`)}
-                  className="mb-2"
-                />
-                <div className="flex justify-center gap-4 my-4 lg:gap-4">
-                  <div className="font-bold hover:text-[#927864] text-xs lg:text-sm">
-                    <NavLink href="/support/forgotten_password">
-                      {t(`forgotPassword`)}
-                    </NavLink>
+      <div className="flex flex-row gap-6">
+        <div className="hidden lg:block lg:w-[60%] lg:h-screen lg:border-r-2 lg:shadow-2xl">
+          <Image
+            src="https://airnes.blob.core.windows.net/airnes/login.jpeg?sp=r&st=2023-05-27T13:24:15Z&se=2023-10-01T21:24:15Z&sv=2022-11-02&sr=b&sig=zhwJVWqRT0pNOljKgvCz7N9%2Bg%2Ft8NjapseTTmtLQ9Wo%3D"
+            alt="meuble"
+            width={1000}
+            height={100}
+            className="lg:w-full lg:h-full"
+          />
+        </div>
+        <div className="lg:w-[40%]">
+          <Formik
+            onSubmit={handleLogin}
+            initialValues={loginInitialValues}
+            validationSchema={loginValidationSchema}
+            error={error}
+          >
+            <div>
+              <div className="flex justify-center mt-14 lg:mt-[20%]">
+                <h1 className="font-bold text-2xl hover:cursor-pointer hover:text-[#615043] lg:text-2xl">
+                  {t(`loginText`)}
+                </h1>
+              </div>
+              <div className="flex justify-center mx-6 mt-6 py-10 px-6 lg:w-[600px] lg:px-10 lg:py-16 lg:mx-auto lg:rounded-md lg:mt-0">
+                <Form className="flex flex-col">
+                  <Formfield
+                    type="email"
+                    name="mail"
+                    placeholder={t(`placeholderEmail`)}
+                    label={t(`labelEmail`)}
+                    className="mb-2"
+                  />
+                  <Formfield
+                    type="password"
+                    name="password"
+                    placeholder={t(`placeholderPwd`)}
+                    label={t(`labelPwd`)}
+                    className="mb-2"
+                  />
+                  <div className="flex justify-center gap-4 my-4 lg:gap-4">
+                    <div className="font-bold hover:text-[#927864] text-[10px] lg:text-sm">
+                      <NavLink href="/support/forgotten_password">
+                        {t(`forgotPassword`)}
+                      </NavLink>
+                    </div>
+                    <div className="font-bold hover:text-[#927864] text-[10px] lg:text-sm">
+                      <NavLink href="/signup">{t(`signup`)}</NavLink>
+                    </div>
                   </div>
-                  <div className="font-bold hover:text-[#927864] text-xs lg:text-sm">
-                    <NavLink href="/signup">{t(`signup`)}</NavLink>
-                  </div>
-                </div>
 
-                <div className="flex items-center justify-center mt-2">
-                  <Button
-                    className="bg-[#615043] hover:bg-[#927864] hover:cursor-pointer
-             active:bg-[#615043] border border-black p-3.5 font-semibold rounded-md px-10 text-xs lg:text-sm"
-                  >
-                    {t(`signin`)}
-                  </Button>
-                </div>
-                {error && (
-                  <div className="text-red-500 text-center my-4">
-                    {t(`error`)}
+                  <div className="flex items-center justify-center mt-2">
+                    <Button
+                      className="bg-[#615043] hover:bg-[#927864] hover:cursor-pointer
+             active:bg-[#615043] border border-black p-3.5 font-semibold rounded-md px-10 text-xs lg:px-24 lg:text-sm"
+                    >
+                      {t(`signin`)}
+                    </Button>
                   </div>
-                )}
-              </Form>
+                  {error && (
+                    <div className="text-red-500 text-center my-4">
+                      {t(`error`)}
+                    </div>
+                  )}
+                </Form>
+              </div>
             </div>
-          </div>
-        </Formik>
-      </main>
+          </Formik>
+        </div>
+      </div>
     </>
   )
 }

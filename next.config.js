@@ -5,7 +5,11 @@ const nextConfig = {
   reactStrictMode: true,
   // needs to get removed once the db/image link handler is set up
   images: {
-    domains: ["images.unsplash.com", "placeimg.com"],
+    domains: [
+      "images.unsplash.com",
+      "placeimg.com",
+      "airnes.blob.core.windows.net",
+    ],
   },
   experimental: {
     forceSwcTransforms: true,

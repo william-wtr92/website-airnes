@@ -96,7 +96,15 @@ const UserCart = () => {
         <div className="flex flex-col md:flex-col lg:flex-col xl:flex-row">
           {cartItems.length === 0 ? (
             <div className="flex justify-center lg:mt-10 xl:w-1/2">
-              <h2 className="font-bold text-xl">{t(`emptyCart`)}</h2>
+              <NavLink href="/categories/search">
+                <Image
+                  src="https://airnes.blob.core.windows.net/airnes/empty-cart.png?sp=r&st=2023-05-27T13:50:26Z&se=2023-11-15T22:50:26Z&sv=2022-11-02&sr=b&sig=4lxOHT795DIMUuHKWsmVELm2nYortbXeJDj9B9VIelE%3D"
+                  alt="emptycart"
+                  className="w-full h-60 object-cover hover:scale-105"
+                  width={500}
+                  height={500}
+                />
+              </NavLink>
             </div>
           ) : (
             <div className="flex flex-col justify-center xl:justify-start">
@@ -181,7 +189,7 @@ const UserCart = () => {
               <div className="my-6">
                 <Button
                   className="bg-[#615043] hover:bg-[#927864] hover:cursor-pointer
-           active:bg-[#615043] border border-black px-10 py-4 font-semibold rounded-md text-[#fff]"
+           active:bg-[#615043] border border-black px-10 lg:px-24 py-4 font-semibold rounded-md text-[#fff]"
                 >
                   <NavLink href={session ? `/payment/payment` : `/user/login`}>
                     {t(`command`)}
