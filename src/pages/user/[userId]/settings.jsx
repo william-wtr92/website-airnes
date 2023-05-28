@@ -12,14 +12,14 @@ import {
 import { NavLink } from "@/components/utils/NavLink"
 import classNames from "classnames"
 import { accountSettingsValidationSchema } from "@/components/validation/validationyup"
-import routes from "@/web/routes"
 import useAppContext from "@/web/hooks/useAppContext"
 import Confirm from "@/components/app/ui/Confirm"
 import { useRouter } from "next/router"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 import getApi from "@/web/getAPI"
-import {getAuthorization} from "@/web/helper/getAuthorization"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import userDataServices from "@/web/services/user/userData"
 
 export const getServerSideProps = async (context) => {
   const { req, query, locale } = context
@@ -32,9 +32,16 @@ export const getServerSideProps = async (context) => {
 
   const api = getApi(context)
 
-  const { data } = await api.get(
-    routes.api.user.userData(query.userId)
-  )
+  const userData = userDataServices({ api })
+  const [err, data] = await userData(query.userId)
+
+  if (err) {
+    return {
+      redirect: {
+        destination: "/",
+      },
+    }
+  }
 
   return {
     props: {

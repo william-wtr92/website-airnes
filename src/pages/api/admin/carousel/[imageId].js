@@ -6,12 +6,12 @@ import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   DELETE: [
+    auth("admin"),
     validate({
       query: {
         imageId: numberValidator.required(),
       },
     }),
-    auth("admin"),
     async ({
       locals: {
         query: { imageId },
@@ -46,6 +46,7 @@ const handler = mw({
     },
   ],
   PATCH: [
+    auth("admin"),
     validate({
       query: {
         imageId: numberValidator.required(),
@@ -54,7 +55,6 @@ const handler = mw({
         direction: numberValidator.required(),
       },
     }),
-    auth("admin"),
     async ({
       locals: {
         query: { imageId },

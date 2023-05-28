@@ -1,14 +1,16 @@
 import {
   selectedProductInitialValues,
-  selectedProductValidationSchema
+  selectedProductValidationSchema,
 } from "@/components/validation/admin/product"
-import {useRouter} from "next/router"
+import { useRouter } from "next/router"
 import SelectedForm from "@/components/app/admin/SelectedForm"
-import {useCallback, useEffect, useState} from "react"
+import { useCallback, useEffect, useState } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
-import routes from "@/web/routes"
 import getApi from "@/web/getAPI"
-import {getAuthorization} from "@/web/helper/getAuthorization"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import getSelectProductsServices from "@/web/services/admin/homepage/getSelectProducts"
+import getProductsServices from "@/web/services/admin/homepage/getProducts"
+import AdminErrorMessage from "@/components/utils/AdminErrorMessage"
 
 export const getServerSideProps = async (context) => {
   const redirect = getAuthorization("admin", context.req)
@@ -17,38 +19,50 @@ export const getServerSideProps = async (context) => {
     return redirect
   }
 
-  const { page } = context.query
-
   const api = getApi(context)
 
-  const allProducts = await api.get(
-    routes.api.admin.products.getProducts()
-  )
+  const getProducts = getProductsServices({ api })
+  const getSelectProducts = getSelectProductsServices({ api })
 
-  const selectedProducts = await api.get(
-    routes.api.admin.selectProduct.getSelectProducts()
-  )
+  const [errAllProducts, allProducts] = await getProducts()
+  const [errSelectedProducts, selectedProducts] = await getSelectProducts()
 
-  const isEmpty = allProducts.data.result.length === 0
+  const isEmpty = allProducts.result.length === 0
 
-  if (isEmpty && page !== "1") {
+  if (isEmpty) {
     return {
       redirect: {
-        destination: "/admin/homepage"
-      }
+        destination: "/admin/homepage",
+      },
+    }
+  }
+
+  if (errAllProducts && errSelectedProducts) {
+    return {
+      props: {
+        errorMessage: errAllProducts + " & " + errSelectedProducts,
+      },
+    }
+  }
+
+  if (errAllProducts || errSelectedProducts) {
+    return {
+      props: {
+        errorMessage: errAllProducts || errSelectedProducts,
+      },
     }
   }
 
   return {
     props: {
-      allProducts: allProducts.data.result,
-      selectedProducts: selectedProducts.data.result
-    }
+      allProducts: allProducts.result,
+      selectedProducts: selectedProducts.result,
+    },
   }
 }
 
 const AddSelectedProduct = (props) => {
-  const { allProducts, selectedProducts } = props
+  const { allProducts, selectedProducts, errorMessage } = props
 
   const [error, setError] = useState(null)
 
@@ -66,14 +80,14 @@ const AddSelectedProduct = (props) => {
 
     const options = unselectedProducts.map((item) => ({
       value: item.id,
-      label: item.name
+      label: item.name,
     }))
 
     setProducts(options)
   }, [selectedProducts, allProducts])
 
   const {
-    actions: { addSelectedProduct }
+    actions: { addSelectedProduct },
   } = useAppContext()
 
   const handlePostProduct = useCallback(
@@ -95,14 +109,20 @@ const AddSelectedProduct = (props) => {
 
   return (
     <>
-      {error && <p>{error}</p>}
-      <SelectedForm
-        initialValues={selectedProductInitialValues}
-        validationSchema={selectedProductValidationSchema}
-        onSubmit={handlePostProduct}
-        selectOptions={products}
-        formType="products"
-      />
+      {errorMessage ? (
+        <AdminErrorMessage errorMessage={errorMessage} />
+      ) : (
+        <>
+          {error && <p>{error}</p>}
+          <SelectedForm
+            initialValues={selectedProductInitialValues}
+            validationSchema={selectedProductValidationSchema}
+            onSubmit={handlePostProduct}
+            selectOptions={products}
+            formType="products"
+          />
+        </>
+      )}
     </>
   )
 }

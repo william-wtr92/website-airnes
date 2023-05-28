@@ -1,5 +1,4 @@
 import Return from "@/components/app/ui/Return"
-import routes from "@/web/routes"
 import { NavLink } from "@/components/utils/NavLink"
 import Image from "next/image"
 import Confirm from "@/components/app/ui/Confirm"
@@ -8,7 +7,9 @@ import { useCallback, useState } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useRouter } from "next/router"
 import getApi from "@/web/getAPI"
-import {getAuthorization} from "@/web/helper/getAuthorization"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import categoryDataServices from "@/web/services/admin/categories/categoryData"
+import AdminErrorMessage from "@/components/utils/AdminErrorMessage"
 
 export const getServerSideProps = async (context) => {
   const redirect = getAuthorization("admin", context.req)
@@ -21,15 +22,13 @@ export const getServerSideProps = async (context) => {
 
   const api = getApi(context)
 
-  const { data } = await api.get(
-    routes.api.admin.categories.categoryData(categoryId)
-  )
+  const categoryData = categoryDataServices({ api })
+  const [err, data] = await categoryData(categoryId)
 
-  if (!data.result) {
+  if (err) {
     return {
-      redirect: {
-        destination: "/admin/categories/all",
-        permanent: false,
+      props: {
+        errorMessage: err,
       },
     }
   }
@@ -42,7 +41,7 @@ export const getServerSideProps = async (context) => {
 }
 
 const ShowCategory = (props) => {
-  const { category } = props
+  const { category, errorMessage } = props
   const [itemToDelete, setItemToDelete] = useState(false)
   const router = useRouter()
 
@@ -69,44 +68,50 @@ const ShowCategory = (props) => {
   )
 
   return (
-    <div className="p-10 flex flex-col gap-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
-      <Return name="categories" back={"/admin/categories/all"} />
-      <Image
-        src={category.image}
-        alt={category.name}
-        className="object-cover md:w-96 md:h-64"
-        width={500}
-        height={500}
-      />
-      <div className="font-bold">{category.name}</div>
-      <div>{category.description}</div>
-      <div className="flex gap-5">
-        {!isNoCategory(category) && (
-          <>
-            <NavLink href={`/admin/categories/${category.id}/edit`}>
-              <button className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
-                Edit
-              </button>
-            </NavLink>
-            <>
-              <button
-                className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1"
-                onClick={() => onDeleteClick(category.id)}
-              >
-                Delete
-              </button>
-              <Confirm
-                className={classNames(itemToDelete ? "block" : "hidden")}
-                display={setItemToDelete}
-                action={handleDeletion}
-                textValue="Are you sure you want to delete this item?"
-                params={itemToDelete}
-              />
-            </>
-          </>
-        )}
-      </div>
-    </div>
+    <>
+      {errorMessage ? (
+        <AdminErrorMessage errorMessage={errorMessage} />
+      ) : (
+        <div className="p-10 flex flex-col gap-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
+          <Return name="categories" back={"/admin/categories/all"} />
+          <Image
+            src={category.image}
+            alt={category.name}
+            className="object-cover md:w-96 md:h-64"
+            width={500}
+            height={500}
+          />
+          <div className="font-bold">{category.name}</div>
+          <div>{category.description}</div>
+          <div className="flex gap-5">
+            {!isNoCategory(category) && (
+              <>
+                <NavLink href={`/admin/categories/${category.id}/edit`}>
+                  <button className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1">
+                    Edit
+                  </button>
+                </NavLink>
+                <>
+                  <button
+                    className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1"
+                    onClick={() => onDeleteClick(category.id)}
+                  >
+                    Delete
+                  </button>
+                  <Confirm
+                    className={classNames(itemToDelete ? "block" : "hidden")}
+                    display={setItemToDelete}
+                    action={handleDeletion}
+                    textValue="Are you sure you want to delete this item?"
+                    params={itemToDelete}
+                  />
+                </>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 

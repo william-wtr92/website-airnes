@@ -6,6 +6,7 @@ import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   PATCH: [
+    auth("admin"),
     validate({
       query: {
         productId: numberValidator.required(),
@@ -14,7 +15,6 @@ const handler = mw({
         direction: numberValidator.required(),
       },
     }),
-    auth("admin"),
     async ({
       locals: {
         query: { productId },
@@ -63,12 +63,12 @@ const handler = mw({
     },
   ],
   DELETE: [
+    auth("admin"),
     validate({
       query: {
         productId: numberValidator.required(),
       },
     }),
-    auth("admin"),
     async ({
       locals: {
         query: { productId },

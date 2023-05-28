@@ -1,9 +1,10 @@
 import Return from "@/components/app/ui/Return"
-import routes from "@/web/routes"
 import { useRouter } from "next/router"
 import useAppContext from "@/web/hooks/useAppContext"
 import getApi from "@/web/getAPI"
-import {getAuthorization} from "@/web/helper/getAuthorization"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import contactDataServices from "@/web/services/admin/contacts/contactData"
+import AdminErrorMessage from "@/components/utils/AdminErrorMessage"
 
 export const getServerSideProps = async (context) => {
   const redirect = getAuthorization("admin", context.req)
@@ -15,16 +16,14 @@ export const getServerSideProps = async (context) => {
   const { contactId } = context.params
 
   const api = getApi(context)
+  const contactData = contactDataServices({ api })
 
-  const { data } = await api.get(
-    routes.api.admin.contacts.contactData(contactId)
-  )
+  const [err, data] = await contactData(contactId)
 
-  if (!data.result) {
+  if (err) {
     return {
-      redirect: {
-        destination: "/admin/contacts/all",
-        permanent: false,
+      props: {
+        errorMessage: err,
       },
     }
   }
@@ -37,7 +36,7 @@ export const getServerSideProps = async (context) => {
 }
 
 const ShowContact = (props) => {
-  const { contact } = props
+  const { contact, errorMessage } = props
 
   const formatDate = (dateString) => {
     const date = new Date(dateString)
@@ -64,24 +63,30 @@ const ShowContact = (props) => {
   }
 
   return (
-    <div className="p-10 flex flex-col gap-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
-      <Return name="contacts" back={"/admin/contacts/all"} />
-      <div>{contact.mail}</div>
-      <div>
-        {formatDate(contact.createdAt)}
-        {contact.updatedAt !== contact.createdAt
-          ? `(Last udpdate: ${formatDate(contact.updatedAt)}`
-          : null}
-      </div>
-      <div className="font-bold">{contact.topic}</div>
-      <div>{contact.content}</div>
-      <button
-        className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1"
-        onClick={handleClick}
-      >
-        {contact.read ? "Mark it as new" : "Mark it as open"}
-      </button>
-    </div>
+    <>
+      {errorMessage ? (
+        <AdminErrorMessage errorMessage={errorMessage} />
+      ) : (
+        <div className="p-10 flex flex-col gap-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
+          <Return name="contacts" back={"/admin/contacts/all"} />
+          <div>{contact.mail}</div>
+          <div>
+            {formatDate(contact.createdAt)}
+            {contact.updatedAt !== contact.createdAt
+              ? `(Last udpdate: ${formatDate(contact.updatedAt)}`
+              : null}
+          </div>
+          <div className="font-bold">{contact.topic}</div>
+          <div>{contact.content}</div>
+          <button
+            className="uppercase bg-white text-gray-500 font-bold rounded-full border-2 px-4 py-1"
+            onClick={handleClick}
+          >
+            {contact.read ? "Mark it as new" : "Mark it as open"}
+          </button>
+        </div>
+      )}
+    </>
   )
 }
 

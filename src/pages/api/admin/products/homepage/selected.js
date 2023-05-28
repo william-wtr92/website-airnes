@@ -2,28 +2,35 @@ import SelectedProductModel from "@/api/db/models/SeletedProductModel"
 import mw from "@/api/mw"
 import ProductModel from "@/api/db/models/ProductModel"
 import validate from "@/api/middlewares/validate"
-import {numberValidator} from "@/components/validation/validation"
+import { numberValidator } from "@/components/validation/validation"
 import auth from "@/api/middlewares/auth"
+import { NotFoundError } from "@/api/errors"
 
 const handler = mw({
   GET: [
     async ({ res }) => {
-      const products = await SelectedProductModel.query().withGraphFetched("product")
+      const products = await SelectedProductModel.query().withGraphFetched(
+        "product"
+      )
+
+      if (!products) {
+        throw new NotFoundError()
+      }
 
       res.send({ result: products })
-    }
+    },
   ],
   POST: [
-    validate({
-      productId: numberValidator.required()
-    }),
     auth("admin"),
+    validate({
+      productId: numberValidator.required(),
+    }),
     async ({
-             locals: {
-               body: { productId }
-             },
-             res
-           }) => {
+      locals: {
+        body: { productId },
+      },
+      res,
+    }) => {
       const product = await ProductModel.query().findById(productId)
 
       if (!product) {
@@ -36,7 +43,7 @@ const handler = mw({
 
       if (existingSelectedProduct) {
         return res.status(400).send({
-          error: "HomepageProducts already add"
+          error: "HomepageProducts already add",
         })
       }
 
@@ -48,12 +55,12 @@ const handler = mw({
 
       const newSelectedProduct = await SelectedProductModel.query().insert({
         order: newOrder,
-        product_id: productId
+        product_id: productId,
       })
 
       res.status(201).send({ result: newSelectedProduct })
-    }
-  ]
+    },
+  ],
 })
 
 export default handler

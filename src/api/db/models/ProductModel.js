@@ -11,9 +11,17 @@ class ProductModel extends BaseModel {
         modelClass: CategoryModel,
         join: {
           from: "product.category_id",
-          to: "category.id"
-        }
-      }
+          to: "category.id",
+        },
+      },
+    }
+  }
+
+  static get modifiers() {
+    return {
+      sanitize(builder) {
+        builder.select("id", "name")
+      },
     }
   }
 }

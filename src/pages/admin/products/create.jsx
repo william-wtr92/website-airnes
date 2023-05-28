@@ -6,9 +6,11 @@ import { useRouter } from "next/router"
 import ProductForm from "@/components/app/admin/ProductForm"
 import { useCallback, useState } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
-import routes from "@/web/routes"
 import getApi from "@/web/getAPI"
-import {getAuthorization} from "@/web/helper/getAuthorization"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import getMaterialsAndCategoryServices from "@/web/services/admin/materials/getMaterialsAndCategory"
+import AdminErrorMessage from "@/components/utils/AdminErrorMessage"
+
 export const getServerSideProps = async (context) => {
   const redirect = getAuthorization("admin", context.req)
 
@@ -18,9 +20,16 @@ export const getServerSideProps = async (context) => {
 
   const api = getApi(context)
 
-  const { data } = await api.get(
-    routes.api.admin.materials.getMaterialsAndCategory()
-  )
+  const getMaterialsAndCategory = getMaterialsAndCategoryServices({ api })
+  const [err, data] = await getMaterialsAndCategory()
+
+  if (err) {
+    return {
+      props: {
+        errorMessage: err,
+      },
+    }
+  }
 
   return {
     props: {
@@ -30,7 +39,7 @@ export const getServerSideProps = async (context) => {
   }
 }
 const CreateProduct = (props) => {
-  const { categories, materials } = props
+  const { categories, materials, errorMessage } = props
   const [error, setError] = useState(null)
   const router = useRouter()
 
@@ -56,14 +65,20 @@ const CreateProduct = (props) => {
   )
 
   return (
-    <ProductForm
-      initialValues={productInitialValues}
-      validationSchema={productValidationSchema}
-      onSubmit={handlePost}
-      categories={categories}
-      materials={materials}
-      error={error}
-    />
+    <>
+      {errorMessage ? (
+        <AdminErrorMessage errorMessage={errorMessage} />
+      ) : (
+        <ProductForm
+          initialValues={productInitialValues}
+          validationSchema={productValidationSchema}
+          onSubmit={handlePost}
+          categories={categories}
+          materials={materials}
+          error={error}
+        />
+      )}
+    </>
   )
 }
 

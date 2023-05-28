@@ -7,12 +7,12 @@ import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
+    auth("admin"),
     validate({
       query: {
         contactId: numberValidator.required(),
       },
     }),
-    auth("admin"),
     async ({
       locals: {
         query: { contactId },
@@ -24,8 +24,6 @@ const handler = mw({
       const contact = await ContactModel.query().findOne({ id })
 
       if (!contact) {
-        res.send({ result: null })
-
         throw new NotFoundError()
       }
 
@@ -35,12 +33,12 @@ const handler = mw({
     },
   ],
   PATCH: [
+    auth("admin"),
     validate({
       query: {
         contactId: numberValidator.required(),
       },
     }),
-    auth("admin"),
     async ({
       locals: {
         query: { contactId },
@@ -52,7 +50,6 @@ const handler = mw({
       const contact = await ContactModel.query().findOne({ id })
 
       if (!contact) {
-        res.send({ result: null })
         throw new NotFoundError()
       }
 
@@ -66,12 +63,12 @@ const handler = mw({
     },
   ],
   DELETE: [
+    auth("admin"),
     validate({
       query: {
         contactId: numberValidator.required(),
       },
     }),
-    auth("admin"),
     async ({
       locals: {
         query: { contactId },

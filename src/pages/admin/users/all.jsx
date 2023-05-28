@@ -1,9 +1,10 @@
-import routes from "@/web/routes"
 import DisplayPage from "@/components/app/admin/DisplayPage"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback } from "react"
 import getApi from "@/web/getAPI"
-import {getAuthorization} from "@/web/helper/getAuthorization"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import getUsersServices from "@/web/services/admin/users/getUsers"
+import AdminErrorMessage from "@/components/utils/AdminErrorMessage"
 
 export const getServerSideProps = async (context) => {
   const redirect = getAuthorization("admin", context.req)
@@ -20,13 +21,17 @@ export const getServerSideProps = async (context) => {
   const clearOrder = order || "asc"
   const clearColumn = (column === "right" ? "roleid" : column) || "id"
 
-  const { data } = await api.get(routes.api.admin.users.getUsers(), {
-    params: {
-      page: clearPage,
-      order: clearOrder,
-      col: clearColumn,
+  const getUsers = getUsersServices({ api })
+
+  const [err, data] = await getUsers(clearPage, clearOrder, clearColumn)
+
+  if (err) {
+    return {
+      props: {
+        errorMessage: err,
+      },
     }
-  })
+  }
 
   return {
     props: {
@@ -38,7 +43,7 @@ export const getServerSideProps = async (context) => {
 }
 
 const AllUsers = (props) => {
-  const { users, pagination, query } = props
+  const { users, pagination, query, errorMessage } = props
 
   const {
     actions: { deleteUser },
@@ -54,17 +59,23 @@ const AllUsers = (props) => {
   )
 
   return (
-    <DisplayPage
-      sections={"users"}
-      items={users}
-      pagination={pagination}
-      canAdd={false}
-      canEdit={true}
-      deleteRoute={handleDelete}
-      columns={["id", "Name", "Mail", "Right"]}
-      fields={["id", "name", "mail", "right"]}
-      query={query}
-    />
+    <>
+      {errorMessage ? (
+        <AdminErrorMessage errorMessage={errorMessage} />
+      ) : (
+        <DisplayPage
+          sections={"users"}
+          items={users}
+          pagination={pagination}
+          canAdd={false}
+          canEdit={true}
+          deleteRoute={handleDelete}
+          columns={["id", "Name", "Mail", "Right"]}
+          fields={["id", "name", "mail", "right"]}
+          query={query}
+        />
+      )}
+    </>
   )
 }
 

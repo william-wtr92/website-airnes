@@ -9,12 +9,12 @@ import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
+    auth("user"),
     validate({
       query: {
         addressId: numberValidator.required(),
       },
     }),
-    auth("user"),
     async ({
       locals: {
         query: { addressId },
@@ -25,16 +25,17 @@ const handler = mw({
 
       const query = await AddressModel.query().findOne({ id })
 
-      if (query) {
-        res.send({
-          result: query,
-        })
-      } else {
+      if (!query) {
         res.send({ result: null })
       }
+
+      res.send({
+        result: query,
+      })
     },
   ],
   PATCH: [
+    auth("user"),
     validate({
       query: {
         addressId: numberValidator.required(),
@@ -49,7 +50,6 @@ const handler = mw({
         postal_code: stringValidator.required(),
       },
     }),
-    auth("user"),
     async ({
       locals: {
         query: { addressId },
@@ -82,12 +82,12 @@ const handler = mw({
     },
   ],
   DELETE: [
+    auth("user"),
     validate({
       query: {
         addressId: numberValidator.required(),
       },
     }),
-    auth("user"),
     async ({
       locals: {
         query: { addressId },

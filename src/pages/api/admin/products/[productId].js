@@ -1,43 +1,46 @@
 import mw from "@/api/mw"
 import validate from "@/api/middlewares/validate"
-import {linkValidator, numberValidator, stringValidator} from "@/components/validation/validation"
-import {NotFoundError} from "@/api/errors"
+import {
+  linkValidator,
+  numberValidator,
+  stringValidator,
+} from "@/components/validation/validation"
+import { NotFoundError } from "@/api/errors"
 import ProductModel from "@/api/db/models/ProductModel"
 import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
+    auth("admin"),
     validate({
       query: {
-        productId: numberValidator.required()
-      }
+        productId: numberValidator.required(),
+      },
     }),
-    auth("admin"),
     async ({
-             locals: {
-               query: { productId }
-             },
-             res
-           }) => {
+      locals: {
+        query: { productId },
+      },
+      res,
+    }) => {
       const id = productId
 
       const product = await ProductModel.query().findOne({ id })
 
       if (!product) {
-        res.send({ result: null })
-
         throw new NotFoundError()
       }
 
       res.send({
-        result: product
+        result: product,
       })
-    }
+    },
   ],
   PATCH: [
+    auth("admin"),
     validate({
       query: {
-        productId: numberValidator.required()
+        productId: numberValidator.required(),
       },
       body: {
         image: linkValidator.required(),
@@ -47,17 +50,25 @@ const handler = mw({
         promotion: numberValidator.required(),
         quantity: numberValidator.required(),
         description: stringValidator.required(),
-        materialId: numberValidator.required()
-      }
+        materialId: numberValidator.required(),
+      },
     }),
-    auth("admin"),
     async ({
-             locals: {
-               query: { productId },
-               body: { image, name, description, categoryId, price, promotion, quantity, materialId }
-             },
-             res
-           }) => {
+      locals: {
+        query: { productId },
+        body: {
+          image,
+          name,
+          description,
+          categoryId,
+          price,
+          promotion,
+          quantity,
+          materialId,
+        },
+      },
+      res,
+    }) => {
       const id = productId
       const product = await ProductModel.query().findOne({ id })
 
@@ -69,30 +80,30 @@ const handler = mw({
         ...(product.price !== price ? { price } : {}),
         ...(product.promotion !== promotion ? { promotion } : {}),
         ...(product.quantity !== quantity ? { quantity } : {}),
-        ...(product.materialId !== materialId ? { materialId } : {})
+        ...(product.materialId !== materialId ? { materialId } : {}),
       })
 
       res.send({ result: true })
-    }
+    },
   ],
   DELETE: [
+    auth("admin"),
     validate({
       query: {
-        productId: numberValidator.required()
-      }
+        productId: numberValidator.required(),
+      },
     }),
-    auth("admin"),
     async ({
-             locals: {
-               query: { productId }
-             },
-             res
-           }) => {
+      locals: {
+        query: { productId },
+      },
+      res,
+    }) => {
       await ProductModel.query().deleteById(productId)
 
       res.send({ result: true })
-    }
-  ]
+    },
+  ],
 })
 
 export default handler

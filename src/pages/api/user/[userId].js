@@ -11,12 +11,12 @@ import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
+    auth("user"),
     validate({
       query: {
         userId: numberValidator.required(),
       },
     }),
-    auth("user"),
     async ({
       locals: {
         query: { userId },
@@ -30,18 +30,17 @@ const handler = mw({
         .select("mail", "name")
         .withGraphFetched("allData")
 
-      if (query) {
-        res.send({
-          result: query,
-        })
-      } else {
-        res.send({ result: null })
-
+      if (!query) {
         throw new NotFoundError()
       }
+
+      res.send({
+        result: query,
+      })
     },
   ],
   PATCH: [
+    auth("user"),
     validate({
       query: {
         userId: numberValidator.required(),
@@ -51,7 +50,6 @@ const handler = mw({
         mail: mailValidator.required(),
       },
     }),
-    auth("user"),
     async ({
       locals: {
         query: { userId },
@@ -79,12 +77,12 @@ const handler = mw({
     },
   ],
   DELETE: [
+    auth("user"),
     validate({
       query: {
         userId: numberValidator.required(),
       },
     }),
-    auth("user"),
     async ({
       locals: {
         query: { userId },

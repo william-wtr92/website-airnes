@@ -1,12 +1,13 @@
-import {useEffect, useState} from "react"
-import {FunnelIcon, AdjustmentsVerticalIcon} from "@heroicons/react/24/solid"
-import routes from "@/web/routes"
-import {serverSideTranslations} from "next-i18next/serverSideTranslations"
+import { useEffect, useState } from "react"
+import { FunnelIcon, AdjustmentsVerticalIcon } from "@heroicons/react/24/solid"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import ProductTemplate from "@/components/app/content/ProductTemplate"
 import Filters from "@/components/app/find/Filters"
-import {useRouter} from "next/router"
+import { useRouter } from "next/router"
 import Pagination from "@/components/app/ui/Pagination"
 import getApi from "@/web/getAPI"
+import getMaterialsAndCategoryServices from "@/web/services/admin/materials/getMaterialsAndCategory"
+import searchProductsServices from "@/web/services/app/products/searchProducts"
 
 export const getServerSideProps = async (context) => {
   const { locale } = context
@@ -16,28 +17,34 @@ export const getServerSideProps = async (context) => {
 
   const api = getApi(context)
 
-  const products = await api.get(routes.api.app.products.searchProducts(), {
-    params: {
-      page: pageQuery,
-      search,
-    }
-  })
+  const getMaterialsAndCategory = getMaterialsAndCategoryServices({ api })
+  const searchProducts = searchProductsServices({ api })
 
-  const materialsAndCategories = await api.get(routes.api.admin.materials.getMaterialsAndCategory())
+  const [errProducts, products] = await searchProducts(pageQuery, search)
+  const [errMaterialsAndCategories, materialsAndCategories] =
+    await getMaterialsAndCategory()
+
+  if (errProducts || errMaterialsAndCategories) {
+    return {
+      redirect: {
+        destination: "/",
+      },
+    }
+  }
 
   return {
     props: {
       ...(await serverSideTranslations(locale, [
         "products",
         "navbar",
-        "footer"
+        "footer",
       ])),
-      products: products.data.result,
-      pagination: products.data.pagination,
-      categories: materialsAndCategories.data.categories,
-      materials: materialsAndCategories.data.materials,
-      query: { search, pageQuery }
-    }
+      products: products.result,
+      pagination: products.pagination,
+      categories: materialsAndCategories.categories,
+      materials: materialsAndCategories.materials,
+      query: { search, pageQuery },
+    },
   }
 }
 
@@ -67,7 +74,7 @@ const SearchPage = (props) => {
     ) {
       router.push({
         pathname: router.pathname,
-        query: { ...router.query, searchQuery: debouncedSearchQuery, page: 1 }
+        query: { ...router.query, searchQuery: debouncedSearchQuery, page: 1 },
       })
     }
   }, [debouncedSearchQuery, router])
@@ -118,8 +125,8 @@ const SearchPage = (props) => {
             id={"filtres"}
             className="flex flex-col gap-6 relative leading-6"
           >
-            <Filters data={categories} name={"Catégories"}/>
-            <Filters data={materials} name={"Matériaux"}/>
+            <Filters data={categories} name={"Catégories"} />
+            <Filters data={materials} name={"Matériaux"} />
           </div>
         </div>
         <div
@@ -155,7 +162,7 @@ const SearchPage = (props) => {
             Résultat
           </div>
           <div className="text-center flex justify-center gap-2 mt-5">
-            <FunnelIcon className="flex-none h-10 w-10 color-[#615043]"/>
+            <FunnelIcon className="flex-none h-10 w-10 color-[#615043]" />
             Trier par : (asc)
           </div>
           <div className="flex flex-col items-center">
@@ -165,7 +172,7 @@ const SearchPage = (props) => {
               } w-5/6 grid gap-8 grid-cols-1 md:grid-cols-2 mb-20 mt-10 `}
             >
               {products.map((product) => (
-                <ProductTemplate key={product.id} product={product}/>
+                <ProductTemplate key={product.id} product={product} />
               ))}
             </div>
             {products.length === 0 && <div>AUNCUN RÉSULTAT</div>}

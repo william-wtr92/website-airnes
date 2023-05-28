@@ -1,14 +1,14 @@
 import Button from "@/components/app/ui/Button"
 import ProductCarousel from "@/components/app/ui/ProductCarrousel"
-import routes from "@/web/routes"
-import {useCallback, useEffect, useState} from "react"
-import {NavLink} from "@/components/utils/NavLink"
+import { useCallback, useEffect, useState } from "react"
+import { NavLink } from "@/components/utils/NavLink"
 import classNames from "classnames"
 import SlideProducts from "@/components/app/content/SlideProducts"
 import useAppContext from "@/web/hooks/useAppContext"
-import {useTranslation} from "next-i18next"
+import { useTranslation } from "next-i18next"
 import getApi from "@/web/getAPI"
-import {serverSideTranslations} from "next-i18next/serverSideTranslations"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import getProductServices from "@/web/services/app/products/getProduct"
 
 export const getServerSideProps = async (context) => {
   const { params, locale } = context
@@ -16,19 +16,29 @@ export const getServerSideProps = async (context) => {
   const api = getApi(context)
 
   const productId = params.productId
+  const withSimilarProducts = true
 
-  const { data } = await api.get(routes.api.app.products.getProduct(productId), {
-    params: {
-      withSimilarProducts: true
+  const getProduct = getProductServices({ api })
+  const [err, data] = await getProduct(productId, withSimilarProducts)
+
+  if (err) {
+    return {
+      redirect: {
+        destination: "/",
+      },
     }
-  })
+  }
 
   return {
     props: {
       product: data.product,
       similarProducts: data.similarProducts,
-      ...(await serverSideTranslations(locale, ["product", "footer", "navbar"]))
-    }
+      ...(await serverSideTranslations(locale, [
+        "product",
+        "footer",
+        "navbar",
+      ])),
+    },
   }
 }
 
@@ -49,7 +59,7 @@ const ProductPage = (props) => {
 
   const {
     actions: { addToCart },
-    state: { cartItems }
+    state: { cartItems },
   } = useAppContext()
 
   const handleAddToCart = useCallback(() => {
@@ -75,7 +85,7 @@ const ProductPage = (props) => {
         <div className="w-full lg:w-3/5 ">
           <div className="flex flex-col lg:flex-row lg:justify-between items-center">
             <div className="w-full mt-7 lg:w-1/2 flex justify-center lg:mt-0 lg:border-2 lg:border-black">
-              <ProductCarousel imageState={product.image}/>
+              <ProductCarousel imageState={product.image} />
             </div>
             <div className="w-4/5 lg:w-2/5 flex flex-col gap-8 h-[500px] mt-10  justify-center">
               <div className="flex justify-between font-semibold">

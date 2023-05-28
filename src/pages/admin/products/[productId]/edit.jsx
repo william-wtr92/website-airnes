@@ -1,11 +1,13 @@
-import routes from "@/web/routes"
 import { useRouter } from "next/router"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback, useState } from "react"
 import { editProductValidationSchema } from "@/components/validation/admin/product"
 import ProductForm from "@/components/app/admin/ProductForm"
 import getApi from "@/web/getAPI"
-import {getAuthorization} from "@/web/helper/getAuthorization"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import getMaterialsAndCategoryServices from "@/web/services/admin/materials/getMaterialsAndCategory"
+import productDataServices from "@/web/services/admin/products/productData"
+import AdminErrorMessage from "@/components/utils/AdminErrorMessage"
 
 export const getServerSideProps = async (context) => {
   const redirect = getAuthorization("admin", context.req)
@@ -18,16 +20,29 @@ export const getServerSideProps = async (context) => {
 
   const api = getApi(context)
 
-  const productRes = await api.get(
-    routes.api.admin.products.productData(productId)
-  )
+  const productData = productDataServices({ api })
+  const getMaterialsAndCategory = getMaterialsAndCategoryServices({ api })
 
-  const materialsAndCategoriesRes = await api.get(
-    routes.api.admin.materials.getMaterialsAndCategory()
-  )
+  const [errProduct, product] = await productData(productId)
 
-  const product = await productRes.json()
-  const materialsAndCategories = await materialsAndCategoriesRes.json()
+  const [errRaterialsAndCategories, materialsAndCategories] =
+    await getMaterialsAndCategory()
+
+  if (errProduct && errRaterialsAndCategories) {
+    return {
+      props: {
+        errorMessage: errProduct + " & " + errRaterialsAndCategories,
+      },
+    }
+  }
+
+  if (errProduct || errRaterialsAndCategories) {
+    return {
+      props: {
+        errorMessage: errProduct || errRaterialsAndCategories,
+      },
+    }
+  }
 
   return {
     props: {
@@ -39,7 +54,7 @@ export const getServerSideProps = async (context) => {
 }
 
 const EditProduct = (props) => {
-  const { product, categories, materials } = props
+  const { product, categories, materials, errorMessage } = props
 
   const productInitialValues = product
   const [error, setError] = useState(null)
@@ -68,14 +83,20 @@ const EditProduct = (props) => {
   )
 
   return (
-    <ProductForm
-      initialValues={productInitialValues}
-      validationSchema={editProductValidationSchema}
-      onSubmit={handlePost}
-      categories={categories}
-      materials={materials}
-      error={error}
-    />
+    <>
+      {errorMessage ? (
+        <AdminErrorMessage errorMessage={errorMessage} />
+      ) : (
+        <ProductForm
+          initialValues={productInitialValues}
+          validationSchema={editProductValidationSchema}
+          onSubmit={handlePost}
+          categories={categories}
+          materials={materials}
+          error={error}
+        />
+      )}
+    </>
   )
 }
 

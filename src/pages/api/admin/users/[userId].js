@@ -8,12 +8,12 @@ import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
+    auth("admin"),
     validate({
       query: {
         userId: numberValidator.required(),
       },
     }),
-    auth("admin"),
     async ({
       locals: {
         query: { userId },
@@ -25,8 +25,6 @@ const handler = mw({
       const role = await RoleModel.query()
 
       if (!user) {
-        res.send({ result: null })
-
         throw new NotFoundError()
       }
 
@@ -37,6 +35,7 @@ const handler = mw({
     },
   ],
   PATCH: [
+    auth("admin"),
     validate({
       query: {
         userId: numberValidator.required(),
@@ -45,7 +44,6 @@ const handler = mw({
         roleid: numberValidator.required(),
       },
     }),
-    auth("admin"),
     async ({
       locals: {
         query: { userId },

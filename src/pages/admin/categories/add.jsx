@@ -6,9 +6,11 @@ import { useRouter } from "next/router"
 import SelectedForm from "@/components/app/admin/SelectedForm"
 import { useCallback, useEffect, useState } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
-import routes from "@/web/routes"
 import getApi from "@/web/getAPI"
-import {getAuthorization} from "@/web/helper/getAuthorization"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import getSelectCategoryServices from "@/web/services/admin/homepage/getSelectCategory"
+import getCategoriesServices from "@/web/services/admin/homepage/getCategories"
+import AdminErrorMessage from "@/components/utils/AdminErrorMessage"
 
 export const getServerSideProps = async (context) => {
   const redirect = getAuthorization("admin", context.req)
@@ -17,47 +19,56 @@ export const getServerSideProps = async (context) => {
     return redirect
   }
 
-  const { page } = context.query
-
   const api = getApi(context)
+
+  const getSelectCategory = getSelectCategoryServices({ api })
+  const getCategories = getCategoriesServices({ api })
 
   const redirectToInitial = () => {
     return {
       redirect: {
-        destination: "/admin/homepage?page=1",
+        destination: "/admin/homepage",
         permanent: false,
       },
     }
   }
 
-  try {
-    const allCategories = await api.get(
-      routes.api.admin.categories.getCategories()
-    )
+  const [errAllCategories, allCategories] = await getCategories()
 
-    const selectedCategories = await api.get(
-      routes.api.admin.selectCategory.getSelectCategory()
-    )
+  const [errSelectedCategories, selectedCategories] = await getSelectCategory()
 
-    const isEmpty = allCategories.data.result.length === 0
+  const isEmpty = allCategories.result.length === 0
 
-    if (isEmpty && page !== "1") {
-      return redirectToInitial()
-    }
+  if (isEmpty) {
+    return redirectToInitial()
+  }
 
+  if (errAllCategories && errSelectedCategories) {
     return {
       props: {
-        allCategories: allCategories.data.result,
-        selectedCategories: selectedCategories.data.result,
+        errorMessage: errAllCategories + " & " + errSelectedCategories,
       },
     }
-  } catch (error) {
-    return redirectToInitial()
+  }
+
+  if (errAllCategories || errSelectedCategories) {
+    return {
+      props: {
+        errorMessage: errAllCategories || errSelectedCategories,
+      },
+    }
+  }
+
+  return {
+    props: {
+      allCategories: allCategories.result,
+      selectedCategories: selectedCategories.result,
+    },
   }
 }
 
 const AddSelectedCategory = (props) => {
-  const { allCategories, selectedCategories } = props
+  const { allCategories, selectedCategories, errorMessage } = props
 
   const [error, setError] = useState(null)
 
@@ -104,14 +115,20 @@ const AddSelectedCategory = (props) => {
 
   return (
     <>
-      {error && <p>{error}</p>}
-      <SelectedForm
-        initialValues={selectedCategoryInitialValues}
-        validationSchema={selectedCategoryValidationSchema}
-        onSubmit={handlePost}
-        selectOptions={categories}
-        formType="category"
-      />
+      {errorMessage ? (
+        <AdminErrorMessage errorMessage={errorMessage} />
+      ) : (
+        <>
+          {error && <p>{error}</p>}
+          <SelectedForm
+            initialValues={selectedCategoryInitialValues}
+            validationSchema={selectedCategoryValidationSchema}
+            onSubmit={handlePost}
+            selectOptions={categories}
+            formType="category"
+          />
+        </>
+      )}
     </>
   )
 }

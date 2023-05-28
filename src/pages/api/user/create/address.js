@@ -9,6 +9,7 @@ import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   POST: [
+    auth("user"),
     validate({
       body: {
         name: stringValidator.required(),
@@ -20,7 +21,6 @@ const handler = mw({
         postal_code: stringValidator.required(),
       },
     }),
-    auth("user"),
     async ({
       req,
       locals: {

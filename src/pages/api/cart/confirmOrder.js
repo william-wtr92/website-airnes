@@ -11,6 +11,7 @@ import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   POST: [
+    auth("user"),
     validate({
       body: {
         payment_intent: stringValidator.required(),
@@ -18,7 +19,6 @@ const handler = mw({
         cartItems: arrayValidator.required(),
       },
     }),
-    auth("user"),
     async ({
       req,
       locals: {

@@ -13,13 +13,13 @@ import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
+    auth("admin"),
     validate({
       query: {
         categoryId: numberValidator.required(),
         showProducts: boolean(),
       },
     }),
-    auth("admin"),
     async ({
       locals: {
         query: { categoryId, showProducts },
@@ -30,6 +30,10 @@ const handler = mw({
 
       const category = await CategoryModel.query().findOne({ id })
 
+      if (!category) {
+        throw new NotFoundError()
+      }
+
       if (showProducts) {
         const products = await ProductModel.query().where({ categoryId: id })
 
@@ -39,14 +43,6 @@ const handler = mw({
             products,
           },
         })
-
-        return
-      }
-
-      if (!category) {
-        res.send({ result: null })
-
-        throw new NotFoundError()
       }
 
       res.send({
@@ -55,6 +51,7 @@ const handler = mw({
     },
   ],
   PATCH: [
+    auth("admin"),
     validate({
       query: {
         categoryId: numberValidator.required(),
@@ -65,7 +62,6 @@ const handler = mw({
         description: stringValidator,
       },
     }),
-    auth("admin"),
     async ({
       locals: {
         query: { categoryId },
@@ -86,12 +82,12 @@ const handler = mw({
     },
   ],
   DELETE: [
+    auth("admin"),
     validate({
       query: {
         categoryId: numberValidator.required(),
       },
     }),
-    auth("admin"),
     async ({
       locals: {
         query: { categoryId },

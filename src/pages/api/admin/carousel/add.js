@@ -9,13 +9,13 @@ import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   POST: [
+    auth("admin"),
     validate({
       body: {
         url: urlValidator.required(),
         label: labelValidator.required(),
       },
     }),
-    auth("admin"),
     async ({
       locals: {
         body: { url, label },

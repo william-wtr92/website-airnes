@@ -1,9 +1,10 @@
-import routes from "@/web/routes"
 import DisplayPage from "@/components/app/admin/DisplayPage"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback } from "react"
 import getApi from "@/web/getAPI"
-import {getAuthorization} from "@/web/helper/getAuthorization"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import getCategoriesServices from "@/web/services/admin/categories/getCategories"
+import AdminErrorMessage from "@/components/utils/AdminErrorMessage"
 
 export const getServerSideProps = async (context) => {
   const redirect = getAuthorization("admin", context.req)
@@ -20,13 +21,16 @@ export const getServerSideProps = async (context) => {
 
   const api = getApi(context)
 
-  const { data } = await api.get(routes.api.admin.categories.getCategories(), {
-    params: {
-      page: clearPage,
-      order: clearOrder,
-      col: clearColumn,
-    },
-  })
+  const getCategories = getCategoriesServices({ api })
+  const [err, data] = await getCategories(clearPage, clearOrder, clearColumn)
+
+  if (err) {
+    return {
+      props: {
+        errorMessage: err,
+      },
+    }
+  }
 
   return {
     props: {
@@ -38,7 +42,7 @@ export const getServerSideProps = async (context) => {
 }
 
 const AllCategories = (props) => {
-  const { categories, pagination, query } = props
+  const { categories, pagination, query, errorMessage } = props
 
   const {
     actions: { deleteCategory },
@@ -54,19 +58,25 @@ const AllCategories = (props) => {
   )
 
   return (
-    <DisplayPage
-      sections={"categories"}
-      section={"category"}
-      items={categories}
-      pagination={pagination}
-      canAdd={true}
-      canEdit={true}
-      canDelete={true}
-      deleteRoute={handleDelete}
-      columns={["id", "name"]}
-      fields={["id", "name"]}
-      query={query}
-    />
+    <>
+      {errorMessage ? (
+        <AdminErrorMessage errorMessage={errorMessage} />
+      ) : (
+        <DisplayPage
+          sections={"categories"}
+          section={"category"}
+          items={categories}
+          pagination={pagination}
+          canAdd={true}
+          canEdit={true}
+          canDelete={true}
+          deleteRoute={handleDelete}
+          columns={["id", "name"]}
+          fields={["id", "name"]}
+          query={query}
+        />
+      )}
+    </>
   )
 }
 

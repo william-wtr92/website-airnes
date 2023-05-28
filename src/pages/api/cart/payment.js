@@ -6,12 +6,12 @@ const stripe = require("stripe")(process.env.SK_STRIPE)
 
 const handler = mw({
   POST: [
+    auth("user"),
     validate({
       body: {
         items: arrayValidator.required(),
       },
     }),
-    auth("user"),
     async ({
       locals: {
         body: { items },

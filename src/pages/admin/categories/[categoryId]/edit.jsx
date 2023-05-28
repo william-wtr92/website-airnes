@@ -1,11 +1,12 @@
 import CategoryForm from "@/components/app/admin/CategoryForm"
 import { categoryValidationSchema } from "@/components/validation/admin/category"
-import routes from "@/web/routes"
 import { useRouter } from "next/router"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback } from "react"
-import {getAuthorization} from "@/web/helper/getAuthorization"
+import { getAuthorization } from "@/web/helper/getAuthorization"
 import getApi from "@/web/getAPI"
+import categoryDataServices from "@/web/services/admin/categories/categoryData"
+import AdminErrorMessage from "@/components/utils/AdminErrorMessage"
 
 export const getServerSideProps = async (context) => {
   const redirect = getAuthorization("admin", context.req)
@@ -18,15 +19,13 @@ export const getServerSideProps = async (context) => {
 
   const api = getApi(context)
 
-  const { data } = await api.get(
-    routes.api.admin.categories.categoryData(categoryId)
-  )
+  const categoryData = categoryDataServices({ api })
+  const [err, data] = await categoryData(categoryId)
 
-  if (!data.result) {
+  if (err) {
     return {
-      redirect: {
-        destination: "/admin/categories/all",
-        permanent: false,
+      props: {
+        errorMessage: err,
       },
     }
   }
@@ -39,7 +38,7 @@ export const getServerSideProps = async (context) => {
 }
 
 const EditCategory = (props) => {
-  const { category } = props
+  const { category, errorMessage } = props
 
   const categoryInitialValues = category
 
@@ -59,11 +58,17 @@ const EditCategory = (props) => {
   )
 
   return (
-    <CategoryForm
-      initialValues={categoryInitialValues}
-      validationSchema={categoryValidationSchema}
-      onSubmit={handlePost}
-    />
+    <>
+      {errorMessage ? (
+        <AdminErrorMessage errorMessage={errorMessage} />
+      ) : (
+        <CategoryForm
+          initialValues={categoryInitialValues}
+          validationSchema={categoryValidationSchema}
+          onSubmit={handlePost}
+        />
+      )}
+    </>
   )
 }
 
