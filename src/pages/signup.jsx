@@ -63,9 +63,9 @@ const SignUp = () => {
   return (
     <>
       <div className="flex flex-row gap-6">
-        <div className="hidden lg:block lg:w-[60%] lg:h-screen lg:border-r-2 lg:shadow-2xl">
+        <div className="hidden lg:block lg:w-[70%] lg:h-screen lg:border-r-2 lg:shadow-2xl">
           <Image
-            src="https://airnes.blob.core.windows.net/airnes/login.jpeg?sp=r&st=2023-05-27T13:24:15Z&se=2023-10-01T21:24:15Z&sv=2022-11-02&sr=b&sig=zhwJVWqRT0pNOljKgvCz7N9%2Bg%2Ft8NjapseTTmtLQ9Wo%3D"
+            src="https://airnes.blob.core.windows.net/airnes/login3.jpg?sp=r&st=2023-05-28T10:08:49Z&se=2023-11-15T19:08:49Z&sv=2022-11-02&sr=b&sig=x%2Fk%2BxhFVq7v7z8Feh6f4c%2B9WpaFM9sSuU8z4UVONhww%3D"
             alt="meuble"
             width={1000}
             height={1}
