@@ -12,21 +12,36 @@ import {
 import { NavLink } from "@/components/utils/NavLink"
 import classNames from "classnames"
 import { accountSettingsValidationSchema } from "@/components/validation/validationyup"
-import axios from "axios"
-import routes from "@/web/routes"
 import useAppContext from "@/web/hooks/useAppContext"
 import Confirm from "@/components/app/ui/Confirm"
 import { useRouter } from "next/router"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import userDataServices from "@/web/services/user/userData"
 
 export const getServerSideProps = async (context) => {
-  const { query, locale } = context
+  const { req, query, locale } = context
 
-  const { data } = await axios.get(
-    `${config.path}api${routes.api.user.userData(query.userId)}`
-  )
+  const redirect = getAuthorization("user", req, query)
+
+  if (redirect) {
+    return redirect
+  }
+
+  const api = getApi(context)
+
+  const userData = userDataServices({ api })
+  const [err, data] = await userData(query.userId)
+
+  if (err) {
+    return {
+      redirect: {
+        destination: "/",
+      },
+    }
+  }
 
   return {
     props: {
@@ -178,7 +193,7 @@ const Settings = (props) => {
                   </span>
                 </span>
 
-                {data.result.alldata.map((data) => (
+                {data.result.allData.map((data) => (
                   <div
                     key={data.id}
                     className={classNames(

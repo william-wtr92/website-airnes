@@ -6,54 +6,69 @@ import { useRouter } from "next/router"
 import SelectedForm from "@/components/app/admin/SelectedForm"
 import { useCallback, useEffect, useState } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
-import routes from "@/web/routes"
-import axios from "axios"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import getSelectCategoryServices from "@/web/services/admin/homepage/getSelectCategory"
+import getCategoriesServices from "@/web/services/admin/homepage/getCategories"
+import AdminErrorMessage from "@/components/utils/AdminErrorMessage"
 
 export const getServerSideProps = async (context) => {
-  const { page } = context.query
+  const redirect = getAuthorization("admin", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+
+  const api = getApi(context)
+
+  const getSelectCategory = getSelectCategoryServices({ api })
+  const getCategories = getCategoriesServices({ api })
 
   const redirectToInitial = () => {
     return {
       redirect: {
-        destination: "/admin/homepage?page=1",
+        destination: "/admin/homepage",
         permanent: false,
       },
     }
   }
 
-  try {
-    const [allCategories, selectCategories] = await Promise.all([
-      axios.get(
-        `${config.path}api${routes.api.admin.categories.getCategories()}`
-      ),
+  const [errAllCategories, allCategories] = await getCategories()
 
-      axios.get(
-        `${
-          config.path
-        }api${routes.api.admin.selectCategory.getSelectCategory()}`
-      ),
-    ])
+  const [errSelectedCategories, selectedCategories] = await getSelectCategory()
 
-    const isEmpty = allCategories.data.result.length === 0
+  const isEmpty = allCategories.result.length === 0
 
-    if (isEmpty && page !== "1") {
-      return redirectToInitial()
-    }
+  if (isEmpty) {
+    return redirectToInitial()
+  }
 
+  if (errAllCategories && errSelectedCategories) {
     return {
       props: {
-        allCategories: allCategories.data.result,
-        selectCategories: selectCategories.data.result,
+        errorMessage: errAllCategories + " & " + errSelectedCategories,
       },
     }
-  } catch (error) {
-    return redirectToInitial()
+  }
+
+  if (errAllCategories || errSelectedCategories) {
+    return {
+      props: {
+        errorMessage: errAllCategories || errSelectedCategories,
+      },
+    }
+  }
+
+  return {
+    props: {
+      allCategories: allCategories.result,
+      selectedCategories: selectedCategories.result,
+    },
   }
 }
 
 const AddSelectedCategory = (props) => {
-  const { allCategories, selectCategories } = props
+  const { allCategories, selectedCategories, errorMessage } = props
 
   const [error, setError] = useState(null)
 
@@ -63,7 +78,7 @@ const AddSelectedCategory = (props) => {
 
   useEffect(() => {
     const selectedCategoryIds = new Set(
-      selectCategories.map((item) => item.category_id)
+      selectedCategories.map((item) => item.category_id)
     )
     const unselectedCategories = allCategories.filter(
       (category) => !selectedCategoryIds.has(category.id)
@@ -75,7 +90,7 @@ const AddSelectedCategory = (props) => {
     }))
 
     setCategories(options)
-  }, [selectCategories, allCategories])
+  }, [selectedCategories, allCategories])
 
   const {
     actions: { addSelectedCategory },
@@ -100,14 +115,20 @@ const AddSelectedCategory = (props) => {
 
   return (
     <>
-      {error && <p>{error}</p>}
-      <SelectedForm
-        initialValues={selectedCategoryInitialValues}
-        validationSchema={selectedCategoryValidationSchema}
-        onSubmit={handlePost}
-        selectOptions={categories}
-        formType="category"
-      />
+      {errorMessage ? (
+        <AdminErrorMessage errorMessage={errorMessage} />
+      ) : (
+        <>
+          {error && <p>{error}</p>}
+          <SelectedForm
+            initialValues={selectedCategoryInitialValues}
+            validationSchema={selectedCategoryValidationSchema}
+            onSubmit={handlePost}
+            selectOptions={categories}
+            formType="category"
+          />
+        </>
+      )}
     </>
   )
 }

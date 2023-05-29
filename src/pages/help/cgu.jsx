@@ -1,4 +1,4 @@
-const cguPage = () => {
+const CguPage = () => {
   return (
     <div>
       <h1 className="flex justify-center my-20 font-bold lg:text-2xl">
@@ -181,4 +181,4 @@ const cguPage = () => {
   )
 }
 
-export default cguPage
+export default CguPage

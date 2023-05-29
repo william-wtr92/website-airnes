@@ -3,42 +3,34 @@ import mw from "@/api/mw"
 import ProductModel from "@/api/db/models/ProductModel"
 import validate from "@/api/middlewares/validate"
 import { numberValidator } from "@/components/validation/validation"
-import UserModel from "@/api/db/models/UserModel"
-import { getSessionFromCookiesServ } from "@/web/helper/getSessionFromCookiesServ"
+import auth from "@/api/middlewares/auth"
+import { NotFoundError } from "@/api/errors"
 
 const handler = mw({
   GET: [
     async ({ res }) => {
       const products = await SelectedProductModel.query().withGraphFetched(
-        "user"
+        "product"
       )
+
+      if (!products) {
+        throw new NotFoundError()
+      }
 
       res.send({ result: products })
     },
   ],
   POST: [
+    auth("admin"),
     validate({
       productId: numberValidator.required(),
     }),
     async ({
-      req,
       locals: {
         body: { productId },
       },
       res,
     }) => {
-      const sessionFromCookies = getSessionFromCookiesServ(req)
-
-      const id = sessionFromCookies.user.id
-
-      const user = await UserModel.query().findOne({ id })
-
-      if (user.roleid !== 1) {
-        res.status(403).send({ error: "You are not admin" })
-
-        return
-      }
-
       const product = await ProductModel.query().findById(productId)
 
       if (!product) {
