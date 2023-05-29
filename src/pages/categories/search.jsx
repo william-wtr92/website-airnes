@@ -6,8 +6,8 @@ import Filters from "@/components/app/find/Filters"
 import { useRouter } from "next/router"
 import Pagination from "@/components/app/ui/Pagination"
 import getApi from "@/web/getAPI"
-import getMaterialsAndCategoryServices from "@/web/services/admin/materials/getMaterialsAndCategory"
 import searchProductsServices from "@/web/services/app/products/searchProducts"
+import getFilterServices from "@/web/services/app/products/getFilter"
 
 export const getServerSideProps = async (context) => {
   const { locale } = context
@@ -24,14 +24,14 @@ export const getServerSideProps = async (context) => {
   
   const api = getApi(context)
 
-  const getMaterialsAndCategory = getMaterialsAndCategoryServices({ api })
+  const getFilter = getFilterServices({api})
   const searchProducts = searchProductsServices({ api })
 
   const [errProducts, products] = await searchProducts(pageQuery, search, promoQuery, stockQuery, categoryQ, materialQ, orderQ, minPriceQ, maxPriceQ)
-  const [errMaterialsAndCategories, materialsAndCategories] =
-    await getMaterialsAndCategory()
+  const [errFilter, filter] =
+    await getFilter()
 
-  if (errProducts || errMaterialsAndCategories) {
+  if (errProducts || errFilter) {
     return {
       redirect: {
         destination: "/",
@@ -48,8 +48,8 @@ export const getServerSideProps = async (context) => {
       ])),
       products: products.result,
       pagination: products.pagination,
-      categories: materialsAndCategories.categories,
-      materials: materialsAndCategories.materials,
+      categories: filter.categories,
+      materials: filter.materials,
       query: { search, pageQuery },
     },
   }
