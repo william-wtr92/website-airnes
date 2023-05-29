@@ -7,13 +7,13 @@ import {
   queryPageValidator,
   stringValidator,
 } from "@/components/validation/validation"
-import UserModel from "@/api/db/models/UserModel"
 import { NotFoundError } from "objection"
 import config from "@/api/config"
-import { getSessionFromCookiesServ } from "@/web/helper/getSessionFromCookiesServ"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   POST: [
+    auth("admin"),
     validate({
       body: {
         image: linkValidator.required(),
@@ -27,7 +27,6 @@ const handler = mw({
       },
     }),
     async ({
-      req,
       locals: {
         body: {
           image,
@@ -42,35 +41,25 @@ const handler = mw({
       },
       res,
     }) => {
-      const sessionFromCookies = getSessionFromCookiesServ(req)
-
-      const id = sessionFromCookies.user.id
-
-      const user = await UserModel.query().findOne({ id })
-
       const categoryId = parseInt(category)
       const materialId = parseInt(material)
 
-      if (user.roleid !== 1) {
-        res.status(403).send({ error: "You are not admin" })
-
-        return
-      }
-
       await ProductModel.query().insertAndFetch({
+        name,
+        description,
         image,
-        categoryId,
         price,
         promotion,
         quantity,
-        name,
-        description,
+        categoryId,
         materialId,
       })
+
       res.send({ result: true })
     },
   ],
   GET: [
+    auth("admin"),
     validate({
       query: {
         page: queryPageValidator.optional(),
@@ -104,7 +93,10 @@ const handler = mw({
           totalPages: Math.ceil(totalCount.count / limit),
         }
       } else {
-        products = await ProductModel.query().orderBy(col, order)
+        products = await ProductModel.query().orderBy(
+          col ? col : "id",
+          order ? order : "asc"
+        )
       }
 
       if (products) {

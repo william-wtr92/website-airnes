@@ -7,9 +7,11 @@ import {
   stringValidator,
 } from "@/components/validation/validation"
 import { getSessionFromCookiesServ } from "@/web/helper/getSessionFromCookiesServ"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   POST: [
+    auth("user"),
     validate({
       body: {
         payment_intent: stringValidator.required(),

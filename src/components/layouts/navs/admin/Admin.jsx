@@ -1,4 +1,4 @@
-import { Section } from "@/components/layouts/navs/admin/Section"
+import {useRouter} from "next/router"
 import {
   Bars4Icon,
   ChartBarSquareIcon,
@@ -6,42 +6,34 @@ import {
   EnvelopeIcon,
   FolderIcon,
   HomeIcon,
-  Cog8ToothIcon,
+  Cog8ToothIcon
 } from "@heroicons/react/24/outline"
-import { UsersIcon } from "@heroicons/react/24/solid"
-import { useEffect, useState } from "react"
-import axios from "axios"
-import routes from "@/web/routes"
-import { NavLink } from "@/components/utils/NavLink"
+import {UsersIcon} from "@heroicons/react/24/solid"
+import {useState} from "react"
+import {NavLink} from "@/components/utils/NavLink"
+import {Section} from "@/components/layouts/navs/admin/Section"
+import useAppContext from "@/web/hooks/useAppContext"
 
-const formatName = (str) => {
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
-}
+const Admin = () => {
+  const router = useRouter()
 
-const Admin = ({ session }) => {
+  const {
+    state: { session },
+  } = useAppContext()
+
   const [burgerMenu, setBurgerMenu] = useState(false)
 
-  const [userName, setUserName] = useState("")
-
-  useEffect(() => {
-    if (session && session.user) {
-      const fetchUserData = async () => {
-        const data = await axios.get(
-          `/api${routes.api.user.userData(session.user.id)}`
-        )
-        setUserName(formatName(data.data.result.name))
-      }
-
-      fetchUserData()
-    }
-  }, [session])
+  const sections = [
+    { name: "dashboard", icon: ChartBarSquareIcon },
+    { name: "homepage", icon: HomeIcon },
+    { name: "contacts", icon: EnvelopeIcon },
+    { name: "categories", icon: FolderIcon },
+    { name: "products", icon: ClipboardDocumentCheckIcon },
+    { name: "users", icon: UsersIcon }
+  ]
 
   const handleBodyScroll = (disable) => {
-    if (disable) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = "auto"
-    }
+    document.body.style.overflow = disable ? "hidden" : "auto"
   }
 
   const handleBurgerMenu = () => {
@@ -53,7 +45,7 @@ const Admin = ({ session }) => {
     <>
       <div className="h-full bg-gray-100 lg:hidden">
         <button onClick={handleBurgerMenu} className="right-0 p-4">
-          <Bars4Icon className="h-6 w-6" />
+          <Bars4Icon className="h-6 w-6"/>
         </button>
       </div>
       <div
@@ -62,44 +54,29 @@ const Admin = ({ session }) => {
         }h-screen space-y-10 sidebar bg-gray-100 font-semibold w-full lg:w-64 px-2 py-4 sticky top-0 left-0 z-50`}
       >
         <div className="p-4 flex flex-row justify-between items-center">
-          <NavLink href={`/admin/homepage`}>
+          <NavLink href={"/"}>
             <h1 className="font-bold hover:scale-105">AIRNEIS</h1>
           </NavLink>
         </div>
-        <nav className="px-4 flex flex-col gap-8 uppercase">
-          <div className="flex flex-row gap-4 hover:scale-105">
-            <ChartBarSquareIcon className="h-6 w-6" />
-            <Section name="dashboard" />
-          </div>
-          <div className="flex flex-row gap-4 hover:scale-105">
-            <HomeIcon className="h-6 w-6" />
-            <Section name="homepage" />
-          </div>
-          <div className="flex flex-row gap-4 hover:scale-105">
-            <EnvelopeIcon className="h-6 w-6" />
-            <Section name="contacts" />
-          </div>
-          <div className="flex flex-row gap-4 hover:scale-105">
-            <FolderIcon className="h-6 w-6" />
-            <Section name="categories" />
-          </div>
-          <div className="flex flex-row gap-4 hover:scale-105">
-            <ClipboardDocumentCheckIcon className="h-6 w-6" />
-            <Section name="products" />
-          </div>
-          <div className="flex flex-row gap-4 hover:scale-105">
-            <UsersIcon className="h-6 w-6" />
-            <Section name="users" />
-          </div>
+        <nav className="px-2 flex flex-col gap-4 uppercase">
+          {sections.map((section) => (
+            <Section
+              key={section.name}
+              section={section}
+              router={router}
+              handleBurgerMenu={handleBurgerMenu}
+            />
+          ))}
         </nav>
+
         {session && session.user && (
           <>
             <div className="fixed lg:absolute bottom-0 left-0 w-full">
               <div className="flex flex-row gap-6 p-4 border-t-2 border-gray-200">
                 <NavLink href={`/user/${session.user.id}/settings`}>
-                  <Cog8ToothIcon className="h-6 hover:scale-105" />
+                  <Cog8ToothIcon className="h-6 hover:scale-105"/>
                 </NavLink>
-                <span>{userName} - Admin</span>
+                <span className="uppercase">Admin</span>
               </div>
             </div>
           </>

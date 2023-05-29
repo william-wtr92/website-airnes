@@ -6,7 +6,7 @@ class SelectedCategoryModel extends BaseModel {
 
   static relationMappings() {
     return {
-      user: {
+      category: {
         relation: BaseModel.BelongsToOneRelation,
         modelClass: CategoryModel,
         join: {

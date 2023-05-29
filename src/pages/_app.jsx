@@ -1,42 +1,30 @@
 import Head from "next/head"
-import Layout from "@/components/layouts/Layout"
 import "./styles.css"
 import useAppContext, { AppContextProvider } from "@/web/hooks/useAppContext"
 import { appWithTranslation } from "next-i18next"
+import Layout from "@/components/layouts/Layout"
 
-const App = ({ Component, pageProps, session, cartItems }) => {
+const MyApp = ({ Component, pageProps }) => {
+  const {
+    actions: { changeLanguage },
+  } = useAppContext()
+
   return (
-    <Layout session={session} cartItems={cartItems}>
+    <Layout>
       <Head>
         <title>Airneis</title>
       </Head>
-      <Component {...pageProps} />
+      <Component {...pageProps} changeLanguage={changeLanguage}/>
     </Layout>
   )
 }
 
-const SyncApp = (props) => {
+const AppWithAppContext = ({ Component, ...props }) => {
   return (
     <AppContextProvider>
-      <AppWithAppContext {...props} />
+      <MyApp Component={Component} {...props} />
     </AppContextProvider>
   )
 }
 
-const AppWithAppContext = (props) => {
-  const {
-    actions: { changeLanguage },
-    state: { session, cartItems },
-  } = useAppContext()
-
-  return (
-    <App
-      {...props}
-      session={session}
-      cartItems={cartItems}
-      changeLanguage={changeLanguage}
-    />
-  )
-}
-
-export default appWithTranslation(SyncApp)
+export default appWithTranslation(AppWithAppContext)

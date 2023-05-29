@@ -6,13 +6,13 @@ import {
   queryPageValidator,
   stringValidator,
 } from "@/components/validation/validation"
-import UserModel from "@/api/db/models/UserModel"
 import { NotFoundError } from "@/api/errors"
 import config from "@/api/config"
-import { getSessionFromCookiesServ } from "@/web/helper/getSessionFromCookiesServ"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   POST: [
+    auth("admin"),
     validate({
       body: {
         image: linkValidator.required(),
@@ -21,33 +21,22 @@ const handler = mw({
       },
     }),
     async ({
-      req,
       locals: {
         body: { image, name, description },
       },
       res,
     }) => {
-      const sessionFromCookies = getSessionFromCookiesServ(req)
-
-      const id = sessionFromCookies.user.id
-
-      const user = await UserModel.query().findOne({ id })
-
-      if (user.roleid !== 1) {
-        res.status(403).send({ error: "You are not admin" })
-
-        return
-      }
-
       await CategoryModel.query().insertAndFetch({
         image,
         name,
         description,
       })
+
       res.send({ result: true })
     },
   ],
   GET: [
+    auth("admin"),
     validate({
       query: {
         page: queryPageValidator.optional(),
@@ -87,16 +76,14 @@ const handler = mw({
         categories = await CategoryModel.query().orderBy(column, orderCol)
       }
 
-      if (categories) {
-        res.send({
-          result: categories,
-          pagination: pagination,
-        })
-      } else {
-        res.send({ result: "" })
-
+      if (!categories) {
         throw new NotFoundError()
       }
+
+      res.send({
+        result: categories,
+        pagination: pagination,
+      })
     },
   ],
 })

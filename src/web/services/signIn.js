@@ -1,7 +1,6 @@
-import Cookies from "js-cookie"
-import config from "../config"
-import parseSession from "../parseSession"
 import routes from "../routes"
+import parseSession from "@/web/parseSession"
+import config from "@/web/config"
 
 const signIn =
   ({ api, setSession, setJWT }) =>
@@ -16,15 +15,14 @@ const signIn =
 
       setSession(parseSession(jwt))
       setJWT(jwt)
+      localStorage.setItem(config.session.localStorageKey, jwt)
 
-      Cookies.set(config.session.localStorageKey, jwt, { expires: 30 })
+        return [null, true]
+      } catch (err) {
+        const error = err.response?.data?.error || "Oops. Something went wrong"
 
-      return [null, true]
-    } catch (err) {
-      const error = err.response?.data?.error || "Oops. Something went wrong"
-
-      return [Array.isArray(error) ? error : [error]]
+        return [Array.isArray(error) ? error : [error]]
+      }
     }
-  }
 
 export default signIn

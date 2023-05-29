@@ -1,28 +1,43 @@
-import axios from "axios"
-import routes from "@/web/routes"
+import getApi from "@/web/getAPI"
 import Category from "@/components/app/content/Category"
-import config from "@/api/config"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import getCategoriesServices from "@/web/services/app/categories/getCategories"
 
-export const getServerSideProps = async () => {
-  const request = await axios.get(
-    `${config.path}api${routes.api.admin.categories.getCategories()}`
-  )
+export const getServerSideProps = async (context) => {
+  const { locale } = context
 
-  const categories = request.data.result
+  const api = getApi(context)
 
-  const filteredCategories = categories.filter(
-    (category) => category.name !== "No category"
-  )
+  const getCategories = getCategoriesServices({ api })
+  const [err, data] = await getCategories()
+
+  if (err) {
+    return {
+      props: {
+        err: err,
+        ...(await serverSideTranslations(locale, [
+          "product",
+          "footer",
+          "navbar",
+        ])),
+      },
+    }
+  }
 
   return {
     props: {
-      categories: filteredCategories,
+      categories: data,
+      ...(await serverSideTranslations(locale, [
+        "product",
+        "footer",
+        "navbar",
+      ])),
     },
   }
 }
 
-const allCategories = (props) => {
-  const { categories } = props
+const AllCategories = (props) => {
+  const { categories, err } = props
 
   return (
     <>
@@ -30,13 +45,13 @@ const allCategories = (props) => {
         Toutes nos catégories
       </h1>
       <div className="flex flex-wrap justify-center gap-10">
-        {categories.length === 0 ? (
+        {categories.length === 0 || err ? (
           <div>
             <p className="text-center">Aucune catégorie n'a été trouvée.</p>
           </div>
         ) : (
           <div className="flex flex-col gap-5 items-center justify-center p-4">
-            <Category categories={categories} />
+            <Category categories={categories.data} />
           </div>
         )}
       </div>
@@ -44,4 +59,4 @@ const allCategories = (props) => {
   )
 }
 
-export default allCategories
+export default AllCategories

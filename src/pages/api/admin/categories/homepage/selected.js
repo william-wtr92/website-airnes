@@ -3,42 +3,34 @@ import mw from "@/api/mw"
 import CategoryModel from "@/api/db/models/CategoryModel"
 import validate from "@/api/middlewares/validate"
 import { numberValidator } from "@/components/validation/validation"
-import UserModel from "@/api/db/models/UserModel"
-import { getSessionFromCookiesServ } from "@/web/helper/getSessionFromCookiesServ"
+import auth from "@/api/middlewares/auth"
+import { NotFoundError } from "@/api/errors"
 
 const handler = mw({
   GET: [
     async ({ res }) => {
-      const categories = await SelectedCategoryModel.query().withGraphFetched(
-        "user"
-      )
+      const categories = await SelectedCategoryModel.query()
+        .withGraphJoined("category")
+        .orderBy("order")
+
+      if (!categories) {
+        throw new NotFoundError()
+      }
 
       res.send({ result: categories })
     },
   ],
   POST: [
+    auth("admin"),
     validate({
       categoryId: numberValidator.required(),
     }),
     async ({
-      req,
       locals: {
         body: { categoryId },
       },
       res,
     }) => {
-      const sessionFromCookies = getSessionFromCookiesServ(req)
-
-      const id = sessionFromCookies.user.id
-
-      const user = await UserModel.query().findOne({ id })
-
-      if (user.roleid !== 1) {
-        res.status(403).send({ error: "You are not admin" })
-
-        return
-      }
-
       const category = await CategoryModel.query().findById(categoryId)
 
       if (!category) {

@@ -4,9 +4,11 @@ import { numberValidator } from "@/components/validation/validation"
 import { NotFoundError } from "@/api/errors"
 import UserModel from "@/api/db/models/UserModel"
 import RoleModel from "@/api/db/models/RoleModel"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
+    auth("admin"),
     validate({
       query: {
         userId: numberValidator.required(),
@@ -23,8 +25,6 @@ const handler = mw({
       const role = await RoleModel.query()
 
       if (!user) {
-        res.send({ result: null })
-
         throw new NotFoundError()
       }
 
@@ -35,6 +35,7 @@ const handler = mw({
     },
   ],
   PATCH: [
+    auth("admin"),
     validate({
       query: {
         userId: numberValidator.required(),
@@ -56,7 +57,7 @@ const handler = mw({
 
       try {
         await UserModel.query().updateAndFetchById(id, {
-          ...(user.roleid != roleid ? { roleid } : {}),
+          ...(user.roleid !== roleid ? { roleid } : {}),
         })
       } catch {
         res.status(500).send({ error: "Oops. Something went wrong." })

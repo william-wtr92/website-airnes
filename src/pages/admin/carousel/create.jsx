@@ -1,11 +1,22 @@
 import {
   carouselInitialValues,
-  carouselValidationSchema,
+  carouselValidationSchema
 } from "@/components/validation/admin/carousel"
-import { useRouter } from "next/router"
+import {useRouter} from "next/router"
 import CarouselForm from "@/components/app/admin/CarouselForm"
-import { useCallback, useState } from "react"
+import {useCallback, useState} from "react"
 import useAppContext from "@/web/hooks/useAppContext"
+import {getAuthorization} from "@/web/helper/getAuthorization"
+
+export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("admin", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+
+  return { props: {} }
+}
 
 const CreateCarousel = () => {
   const [error, setError] = useState(null)
@@ -13,7 +24,7 @@ const CreateCarousel = () => {
   const router = useRouter()
 
   const {
-    actions: { addCarousel },
+    actions: { addCarousel }
   } = useAppContext()
 
   const handlePost = useCallback(

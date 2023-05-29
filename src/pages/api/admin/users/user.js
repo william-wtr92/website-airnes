@@ -7,9 +7,11 @@ import {
   queryPageValidator,
   stringValidator,
 } from "@/components/validation/validation"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
+    auth("admin"),
     validate({
       query: {
         page: queryPageValidator.optional(),
@@ -30,31 +32,29 @@ const handler = mw({
         .limit(limit)
         .offset(offset)
         .modify("sanitize")
-        .withGraphFetched("roledata")
+        .withGraphFetched("roleData")
         .orderBy(col, order)
 
       const totalCount = await UserModel.query().count().first()
 
       const newUser = user.map((item) => ({
         ...item,
-        right: item.roledata.right,
+        right: item.roleData.right,
       }))
 
-      if (newUser) {
-        res.send({
-          result: newUser,
-          pagination: {
-            page,
-            limit,
-            totalItems: parseInt(totalCount.count, 10),
-            totalPages: Math.ceil(totalCount.count / limit),
-          },
-        })
-      } else {
-        res.send({ result: "" })
-
+      if (!newUser) {
         throw new NotFoundError()
       }
+
+      res.send({
+        result: newUser,
+        pagination: {
+          page,
+          limit,
+          totalItems: parseInt(totalCount.count, 10),
+          totalPages: Math.ceil(totalCount.count / limit),
+        },
+      })
     },
   ],
 })

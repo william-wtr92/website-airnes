@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react"
-import { loadStripe } from "@stripe/stripe-js"
-import { Elements } from "@stripe/react-stripe-js"
+import React, {useState, useEffect} from "react"
+import {loadStripe} from "@stripe/stripe-js"
+import {Elements} from "@stripe/react-stripe-js"
 import CheckoutForm from "@/components/app/cart/checkoutform"
 import useAppContext from "@/web/hooks/useAppContext"
 import config from "@/api/config"
@@ -10,8 +10,8 @@ export const getServerSideProps = async () => {
 
   return {
     props: {
-      dynamicPath,
-    },
+      dynamicPath
+    }
   }
 }
 
@@ -23,7 +23,7 @@ const Payment = (props) => {
   const { dynamicPath } = props
   const {
     state: { cartItems },
-    actions: { payment },
+    actions: { payment }
   } = useAppContext()
 
   const [clientSecret, setClientSecret] = useState("")
@@ -43,18 +43,18 @@ const Payment = (props) => {
   }, [payment, cartItems])
 
   const appearance = {
-    theme: "stripe",
+    theme: "stripe"
   }
   const options = {
     clientSecret,
-    appearance,
+    appearance
   }
 
   return (
     <div>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm price={price} dynamicPath={dynamicPath} />
+          <CheckoutForm price={price} dynamicPath={dynamicPath}/>
         </Elements>
       )}
     </div>

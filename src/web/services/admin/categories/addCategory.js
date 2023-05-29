@@ -1,7 +1,7 @@
 import routes from "@/web/routes"
 
 const addCategory =
-  ({ api, jwt }) =>
+  ({ api }) =>
   async ({ image, name, description }) => {
     try {
       const { data } = await api.post(
@@ -10,7 +10,6 @@ const addCategory =
           image,
           name,
           description,
-          jwt,
         }
       )
 
