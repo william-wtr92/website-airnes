@@ -12,6 +12,14 @@ import {
 export const getServerSideProps = async (context) => {
   const { tokken } = context.query
 
+  if (!tokken) {
+    return {
+      redirect: {
+        destination: "/",
+      },
+    }
+  }
+
   return {
     props: {
       tokken,
