@@ -42,6 +42,7 @@ export const getServerSideProps = async (context) => {
 
 const ShowCategory = (props) => {
   const { category, errorMessage } = props
+
   const [itemToDelete, setItemToDelete] = useState(false)
   const router = useRouter()
 
@@ -50,7 +51,7 @@ const ShowCategory = (props) => {
   } = useAppContext()
 
   const isNoCategory = (category) => {
-    return category.name === "No categories"
+    return category.id === 0
   }
 
   const onDeleteClick = (id) => {

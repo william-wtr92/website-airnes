@@ -22,6 +22,16 @@ export const getServerSideProps = async (context) => {
   const categoryData = categoryDataServices({ api })
   const [err, data] = await categoryData(categoryId)
 
+  const isNoCategory = data.result.id === 0
+
+  if (isNoCategory || !data) {
+    return {
+      redirect: {
+        destination: "/admin/categories/all",
+      },
+    }
+  }
+
   if (err) {
     return {
       props: {
