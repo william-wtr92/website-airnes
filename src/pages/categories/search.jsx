@@ -141,7 +141,7 @@ const SearchPage = (props) => {
                 Réintialiser
               </button>
               <button
-                // type="button"
+                type="button"
                 className="underline text-xl"
                 onClick={handleShowFilter}
               >
