@@ -10,6 +10,7 @@ import { NotFoundError } from "@/api/errors"
 import ProductModel from "@/api/db/models/ProductModel"
 import { boolean } from "yup"
 import auth from "@/api/middlewares/auth"
+import SelectedCategoryModel from "@/api/db/models/SelectedCategoryModel"
 
 const handler = mw({
   GET: [
@@ -121,7 +122,13 @@ const handler = mw({
         return
       }
 
-      await ProductModel.query().update({ categoryId: noCategoryId })
+      await ProductModel.query()
+        .update({ categoryId: noCategoryId })
+        .where({ categoryId: id })
+
+      await SelectedCategoryModel.query()
+        .where({ category_id: id })
+        .del()
 
       await CategoryModel.query().findOne({ id }).del()
 

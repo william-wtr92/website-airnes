@@ -8,6 +8,7 @@ import {
 import { NotFoundError } from "@/api/errors"
 import ProductModel from "@/api/db/models/ProductModel"
 import auth from "@/api/middlewares/auth"
+import SelectedProductModel from "@/api/db/models/SeletedProductModel"
 
 const handler = mw({
   GET: [
@@ -99,7 +100,13 @@ const handler = mw({
       },
       res,
     }) => {
-      await ProductModel.query().deleteById(productId)
+      const id = productId
+
+      await SelectedProductModel.query()
+        .where({ product_id: id })
+        .del()
+
+      await ProductModel.query().deleteById(id)
 
       res.send({ result: true })
     },
