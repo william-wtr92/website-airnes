@@ -35,7 +35,7 @@ const allCategories = (props) => {
             <p className="text-center">Aucune catégorie n'a été trouvée.</p>
           </div>
         ) : (
-          <div className="flex flex-col gap-5 items-center justify-center p-4">
+          <div className="grid gap-2 grid-cols-1 lg:grid-cols-3">
             <Category categories={categories} />
           </div>
         )}
