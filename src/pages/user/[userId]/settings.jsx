@@ -143,7 +143,7 @@ const Settings = (props) => {
                   className=" mb-2"
                 />
                 <div className="my-4">
-                  <NavLink href="/user/reset_password">
+                  <NavLink href="/support/forgotten_password">
                     <Button className="py-2">{t(`changePwd`)}</Button>
                   </NavLink>
                 </div>
