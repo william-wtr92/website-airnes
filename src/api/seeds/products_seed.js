@@ -36,7 +36,7 @@ const insertSelectedCategories = async (db, categories) => {
     selectedCategories.map((category, index) => ({
       id: index + 1,
       category_id: category.id,
-      order: index + 1,
+      order: index + 1
     }))
   )
 }
@@ -48,7 +48,7 @@ const insertSelectedProducts = async (db, products) => {
     selectedProducts.map((product, index) => ({
       id: index + 1,
       product_id: product.id,
-      order: index + 1,
+      order: index + 1
     }))
   )
 }
@@ -63,7 +63,7 @@ const insertProducts = async (db) => {
     promotion: faker.datatype.number({ min: 0, max: 100 }),
     quantity: faker.datatype.number({ min: 0, max: 100 }),
     categoryId: faker.datatype.number({ min: 1, max: 10 }),
-    materialId: faker.datatype.number({ min: 1, max: 10 }),
+    materialId: faker.datatype.number({ min: 1, max: 10 })
   }))
 
   await db("product").insert(products)
@@ -82,7 +82,7 @@ const insertCategories = async (db) => {
     "étagère",
     "lit",
     "meuble TV",
-    "buffet",
+    "buffet"
   ]
 
   const getRandomCategoryName = () =>
@@ -92,8 +92,17 @@ const insertCategories = async (db) => {
     id: index + 1,
     name: getRandomCategoryName(),
     description: faker.lorem.sentence(),
-    image: faker.image.imageUrl(),
+    image: faker.image.imageUrl()
   }))
+
+  await db("category").insert({
+    id: 0,
+    name: "No category",
+    description: "No categories",
+    // needs to be changed once the db and image link handler are set up
+    image:
+      "https://images.unsplash.com/photo-1630699144339-420f59b4747b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+  })
 
   await db("category").insert(categories)
 
@@ -111,7 +120,7 @@ const insertMaterials = async (db) => {
     "plastique",
     "verre",
     "pierre",
-    "béton",
+    "béton"
   ]
 
   const getRandomMaterialName = () =>
@@ -119,7 +128,7 @@ const insertMaterials = async (db) => {
 
   const materials = Array.from({ length: 10 }, (_, index) => ({
     id: index + 1,
-    name: getRandomMaterialName(),
+    name: getRandomMaterialName()
   }))
 
   await db("material").insert(materials)
@@ -130,12 +139,12 @@ const insertCarousel = async (db) => {
     id: index + 1,
     label: faker.commerce.productName(),
     url: faker.image.imageUrl(),
-    order: index + 1,
+    order: index + 1
   }))
 
   await db("carousel_image").insert(images)
 }
 
 module.exports = {
-  seed,
+  seed
 }

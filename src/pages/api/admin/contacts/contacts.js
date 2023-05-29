@@ -7,9 +7,11 @@ import {
   queryPageValidator,
   stringValidator,
 } from "@/components/validation/validation"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
+    auth("admin"),
     validate({
       query: {
         page: queryPageValidator.optional(),
@@ -30,23 +32,21 @@ const handler = mw({
         .orderBy(col, order)
         .limit(limit)
         .offset(offset)
-      const totalCount = await ContactModel.query().count().first()
 
-      if (contacts) {
-        res.send({
-          result: contacts,
-          pagination: {
-            page,
-            limit,
-            totalItems: parseInt(totalCount.count, 10),
-            totalPages: Math.ceil(totalCount.count / limit),
-          },
-        })
-      } else {
-        res.send({ result: "" })
-
+      if (!contacts) {
         throw new NotFoundError()
       }
+
+      const totalCount = await ContactModel.query().count().first()
+      res.send({
+        result: contacts,
+        pagination: {
+          page,
+          limit,
+          totalItems: parseInt(totalCount.count, 10),
+          totalPages: Math.ceil(totalCount.count / limit),
+        },
+      })
     },
   ],
 })

@@ -3,7 +3,7 @@ const config = {
     baseURL: "/api",
   },
   session: {
-    localStorageKey: "airness_storage",
+    localStorageKey: "session",
   },
 }
 

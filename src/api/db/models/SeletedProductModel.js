@@ -6,7 +6,7 @@ class SelectedProductModel extends BaseModel {
 
   static relationMappings() {
     return {
-      user: {
+      product: {
         relation: BaseModel.BelongsToOneRelation,
         modelClass: ProductModel,
         join: {

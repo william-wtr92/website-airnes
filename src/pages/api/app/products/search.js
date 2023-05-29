@@ -41,14 +41,17 @@ const handler = mw({
                 .orderBy(orderColumn, orderBy)
                 .limit(limit)
                 .offset(offset)
-
-            if (search || search !== "") {
-                productsQuery.andWhere(function() {
-                    this.where("name", "like", `%${search}%`)
-                        .orWhere("description", "like", `%${search}%`)
-                })
-            }
-
+            
+      if (search || search !== "") {
+        productsQuery.andWhere(function () {
+          this.where("name", "like", `%${search}%`).orWhere(
+            "description",
+            "like",
+            `%${search}%`
+          )
+        })
+      }
+          
             if (promo === true) {
                 productsQuery.where("promotion", "!=", 0)
             }
@@ -76,29 +79,25 @@ const handler = mw({
 
             const products = await productsQuery
 
-            const totalCount = await ProductModel.query().count().first()
+      const totalCount = await ProductModel.query().count().first()
 
-            const pagination = {
-                page,
-                limit,
-                totalItems: parseInt(totalCount.count, 10),
-                totalPages: Math.ceil(totalCount.count / limit),
-            }
+      const pagination = {
+        page,
+        limit,
+        totalItems: parseInt(totalCount.count, 10),
+        totalPages: Math.ceil(totalCount.count / limit),
+      }
 
-            if (products) {
-                res.send({
-                    result: products,
-                    pagination: pagination,
-                })
+      if (!products) {
+        throw new NotFoundError()
+      }
 
-                return
-            }
-
-            res.send({ result: "" })
-
-            throw new NotFoundError()
-        },
-    ],
+      res.send({
+        result: products,
+        pagination: pagination,
+      })
+    },
+  ],
 })
 
 export default handler

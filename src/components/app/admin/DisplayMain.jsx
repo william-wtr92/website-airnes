@@ -1,10 +1,10 @@
-import { NavLink } from "@/components/utils/NavLink"
+import {NavLink} from "@/components/utils/NavLink"
 import {
   TrashIcon,
   PlusIcon,
   Bars3Icon,
   ArrowDownIcon,
-  ArrowUpIcon,
+  ArrowUpIcon
 } from "@heroicons/react/24/solid"
 import classNames from "classnames"
 
@@ -16,7 +16,7 @@ const DisplayMain = (props) => {
     onDelete,
     onMove,
     renderContent,
-    className,
+    className
   } = props
 
   const path =
@@ -42,11 +42,11 @@ const DisplayMain = (props) => {
             {contents.map((content) => {
               return (
                 <li key={content.id} className="flex gap-6 items-center">
-                  <Bars3Icon className="h-6" />
+                  <Bars3Icon className="h-6"/>
                   <p className="truncate w-24">
-                    {renderContent === "carousel"
-                      ? content.label
-                      : content.user.name}
+                    {renderContent === "carousel" && content.label}
+                    {renderContent === "category" && content.category.name}
+                    {renderContent === "products" && content.product.name}
                   </p>
                   <div className="ml-auto flex gap-6 items-center">
                     <div className="flex flex-row">
@@ -69,7 +69,7 @@ const DisplayMain = (props) => {
             })}
             <li className="flex gap-6 mt-4 items-center">
               <NavLink href={`/admin/${sectionLink}${path}`}>
-                <PlusIcon className="h-6 text-gray-500" />
+                <PlusIcon className="h-6 text-gray-500"/>
               </NavLink>
               <p className="font-bold">Add an item</p>
             </li>

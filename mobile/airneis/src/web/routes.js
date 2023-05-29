@@ -36,8 +36,8 @@ const routes = {
         deleteContact: (contactId) => `/admin/contacts/${contactId}`,
       },
       categories: {
-        createCategory: () => "/admin/categories/category",
-        getCategories: () => "/admin/categories/category",
+        createCategory: () => "/admin/categories/categories",
+        getCategories: () => "/admin/categories/categories",
         deleteCategory: (categoryId) => `/admin/categories/${categoryId}`,
         updateCategory: (categoryId) => `/admin/categories/${categoryId}`,
         categoryData: (categoryId) => `/admin/categories/${categoryId}`,

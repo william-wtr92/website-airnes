@@ -1,4 +1,4 @@
-const legalPage = () => {
+const LegalPage = () => {
   return (
     <div>
       <h1 className="flex justify-center my-20 font-bold lg:text-2xl">
@@ -66,4 +66,4 @@ const legalPage = () => {
   )
 }
 
-export default legalPage
+export default LegalPage

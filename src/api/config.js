@@ -51,7 +51,9 @@ const config = {
       default: 0,
     },
   },
-  path: isProduction ? `https://${vercelUrl}/` : process.env.HOST_PATH,
+  baseURL: `${
+    isProduction ? `https://${vercelUrl}/` : process.env.HOST_PATH
+  }/api`,
 }
 
 module.exports = config

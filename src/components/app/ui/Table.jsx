@@ -23,7 +23,7 @@ const Table = (props) => {
   const [order, setOrder] = useState(lastorder)
 
   const isNoCategory = (content) => {
-    return section === "categories" && content.name === "No category"
+    return section === "categories" && content.name === "No categories"
   }
 
   const onDeleteClick = (id) => {
@@ -42,8 +42,8 @@ const Table = (props) => {
 
   const handlePageChange = useCallback(
     async (column) => {
-      const samecolumn = column == lastcolumn && order == "asc"
-      const newOrder = samecolumn ? "desc" : "asc"
+      const sameColumn = column === lastcolumn && order === "asc"
+      const newOrder = sameColumn ? "desc" : "asc"
       setOrder(newOrder)
       setLastcolumn(column)
 
@@ -55,7 +55,7 @@ const Table = (props) => {
   )
 
   const renderFieldContent = (field, content, section) => {
-    if ((section != "users" && field === "name") || field === "topic") {
+    if ((section !== "users" && field === "name") || field === "topic") {
       return (
         <NavLink href={`/admin/${section}/${content.id}/show`}>
           {content[field]}
@@ -71,7 +71,7 @@ const Table = (props) => {
   }
 
   return (
-    <table className="table-auto">
+    <table className="table-fixed">
       <thead className="bg-white border-b">
         <tr>
           {columns.map((column, id) => {

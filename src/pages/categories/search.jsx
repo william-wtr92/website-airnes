@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { FunnelIcon, AdjustmentsVerticalIcon } from "@heroicons/react/24/solid"
-import routes from "@/web/routes"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import ProductTemplate from "@/components/app/content/ProductTemplate"
 import Filters from "@/components/app/find/Filters"
 import { useRouter } from "next/router"
 import Pagination from "@/components/app/ui/Pagination"
 import getApi from "@/web/getAPI"
+import getMaterialsAndCategoryServices from "@/web/services/admin/materials/getMaterialsAndCategory"
+import searchProductsServices from "@/web/services/app/products/searchProducts"
 
 export const getServerSideProps = async (context) => {
   const { locale } = context
@@ -20,25 +21,23 @@ export const getServerSideProps = async (context) => {
   const orderQ = order || ""
   const minPriceQ = minPrice || 0
   const maxPriceQ = maxPrice || 0
-
-
+  
   const api = getApi(context)
 
-  const products = await api.get(routes.api.app.products.searchProducts(), {
-    params: {
-      page: pageQuery,
-      search,
-      promo: promoQuery,
-      stock: stockQuery,
-      category: categoryQ,
-      material: materialQ,
-      order: orderQ,
-      minPrice: minPriceQ,
-      maxPrice: maxPriceQ,
-    }
-  })
+  const getMaterialsAndCategory = getMaterialsAndCategoryServices({ api })
+  const searchProducts = searchProductsServices({ api })
 
-  const filter = await api.get(routes.api.app.products.getFilter())
+  const [errProducts, products] = await searchProducts(pageQuery, search, promoQuery, stockQuery, categoryQ, materialQ, orderQ, minPriceQ, maxPriceQ)
+  const [errMaterialsAndCategories, materialsAndCategories] =
+    await getMaterialsAndCategory()
+
+  if (errProducts || errMaterialsAndCategories) {
+    return {
+      redirect: {
+        destination: "/",
+      },
+    }
+  }
 
   return {
     props: {
@@ -47,11 +46,11 @@ export const getServerSideProps = async (context) => {
         "navbar",
         "footer",
       ])),
-      products: products.data.result,
-      pagination: products.data.pagination,
-      categories: filter.data.categories,
-      materials: filter.data.materials,
-      query: {pageQuery},
+      products: products.result,
+      pagination: products.pagination,
+      categories: materialsAndCategories.categories,
+      materials: materialsAndCategories.materials,
+      query: { search, pageQuery },
     },
   }
 }
@@ -92,8 +91,43 @@ const SearchPage = (props) => {
   }
 
   return (
-      <>
-        <div className="flex flex-rows">
+    <>
+      <div className="flex flex-rows">
+        <div
+          className={`${
+            filterShow ? `block ` : `hidden`
+          } flex flex-col border-r-2 p-4 fixed inset-0 top-[3.8125rem] left-[max(0px,calc(50%-45rem))] right-auto w-full md:w-[36%] pb-10 overflow-y-auto`}
+        >
+          <div className="flex justify-between pb-4">
+            <button className="underline text-xl" onClick={handleShowFilter}>
+              Réintialiser
+            </button>
+            <button className="underline text-xl" onClick={handleShowFilter}>
+              Fermer
+            </button>
+          </div>
+          <div className={`flex flex-col lg:flex-row justify-between mt-2`}>
+            <div className="flex flex-col">
+              <div className="font-bold pb-2 text-2xl text-black">
+                Prix min €
+              </div>
+              <input
+                className={` border rounded-full border-black bg-[#EDE5E0] text-black placeholder-[#443021] p-4 px-4 md:px-2 md:p-2 lg:px-4 lg:p-4`}
+                type="search"
+                placeholder=". . . €"
+              />
+            </div>
+            <div className="flex flex-col">
+              <div className="font-bold pb-2 text-2xl text-black">
+                Prix max €
+              </div>
+              <input
+                className={`border rounded-full border-black bg-[#EDE5E0] text-black placeholder-[#443021] p-4 px-4 md:px-2 md:p-2 lg:p-4 lg:px-4`}
+                type="search"
+                placeholder=". . . €"
+              />
+            </div>
+          </div>
           <div
               className={`${
                   filterShow ? `block` : `hidden`
@@ -119,10 +153,7 @@ const SearchPage = (props) => {
                     onChange={(e) => filterEvent(e.target.value, "minPrice")}
                 />
               </div>
-              <div className="flex flex-col">
-                <div className="font-bold pb-2 text-2xl text-black">
-                  Prix max €
-                </div>
+              <div className="flex-1">
                 <input
                     className={`border rounded-full border-black bg-[#EDE5E0] text-black placeholder-[#443021] p-4 px-4 md:px-2 md:p-2 lg:p-4 lg:px-4`}
                     type="number"
@@ -163,21 +194,29 @@ const SearchPage = (props) => {
               <Filters data={materials} name={"Matériaux"} handleClick={filterEvent} query={"material"}/>
             </div>
           </div>
-          <div
+          <div className="text-center text-3xl font-bold text-black mt-5">
+            Résultat
+          </div>
+          <div className="text-center flex justify-center gap-2 mt-5">
+            <FunnelIcon className="flex-none h-10 w-10 color-[#615043]" />
+            Trier par : (asc)
+          </div>
+          <div className="flex flex-col items-center">
+            <div
               className={`${
-                  filterShow
-                      ? `hidden md:ml-[36%] md:block w-full `
-                      : `block mx-auto w-full`
-              } gap-4 flex flex-col justify-center mx-6 mt-20 pb-10 px-6  lg:mt-8`}
-          >
-            <div className="text-center text-3xl text-black font-bold pb-6">
-              Recherche
+                filterShow ? `lg:grid-cols-2` : `lg:grid-cols-3`
+              } w-5/6 grid gap-8 grid-cols-1 md:grid-cols-2 mb-20 mt-10 `}
+            >
+              {products.map((product) => (
+                <ProductTemplate key={product.id} product={product} />
+              ))}
             </div>
-            <div className="flex justify-center gap-4">
-              <div className="flex justify-center gap-4 ">
-                <AdjustmentsVerticalIcon
-                    className=" h-10 w-10 color-[#615043]"
-                    onClick={handleShowFilter}
+            {products.length === 0 && <div>AUNCUN RÉSULTAT</div>}
+            {query.pageQuery === "1" ? (
+              products.length === 18 && (
+                <Pagination
+                  totalPages={pagination.totalPages}
+                  currentPage={pagination.page}
                 />
                 <div className="hidden md:block text-xl flex-none text-center">
                   Filtrer
@@ -226,7 +265,9 @@ const SearchPage = (props) => {
             </div>
           </div>
         </div>
-      </>
+      </div>
+    </>
   )
 }
+
 export default SearchPage

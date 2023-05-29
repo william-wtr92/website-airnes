@@ -1,50 +1,35 @@
 import ProductThumbnail from "@/components/app/content/ProductThumbnail"
 import Image from "next/image"
-import axios from "axios"
-import routes from "@/web/routes"
 import { NavLink } from "@/components/utils/NavLink"
 import Button from "@/components/app/ui/Button"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
+import getCategoryServices from "@/web/services/app/categories/getCategory"
 
 export const getServerSideProps = async (context) => {
   const { categoryId } = context.params
 
-  const returnCategories = () => {
+  const api = getApi(context)
+
+  const getCategory = getCategoryServices({ api })
+  const [err, data] = await getCategory(categoryId)
+
+  if (err) {
     return {
-      redirect: {
-        destination: "/categories/all",
-        permanent: false,
+      props: {
+        err: err,
       },
     }
   }
 
-  const noCategoryId = 0
-
-  if (!categoryId || categoryId === noCategoryId) {
-    returnCategories()
-  }
-
-  const { data } = await axios.get(
-    `${config.path}api${routes.api.admin.categories.categoryData(
-      categoryId
-    )}?showProducts=true`
-  )
-
-  if (!data.result) {
-    returnCategories()
-  }
-
-  const categoryData = data.result
-
   return {
     props: {
-      category: categoryData,
+      category: data.result,
     },
   }
 }
 
 const Category = (props) => {
-  const { category } = props
+  const { category, err } = props
 
   const products = category.products
 
@@ -66,7 +51,7 @@ const Category = (props) => {
       </div>
       <div className="flex flex-col items-center py-5">
         <div className="px-10 py-10">{category.description}</div>
-        {products.length === 0 ? (
+        {products.length === 0 || err ? (
           <div className="flex flex-col gap-5">
             <p className="text-center">Aucun produit n'a été trouvé.</p>
             <NavLink href="/categories/all">

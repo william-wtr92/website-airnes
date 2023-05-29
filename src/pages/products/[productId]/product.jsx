@@ -1,69 +1,50 @@
 import Button from "@/components/app/ui/Button"
 import ProductCarousel from "@/components/app/ui/ProductCarrousel"
-import axios from "axios"
-import routes from "@/web/routes"
 import { useCallback, useEffect, useState } from "react"
 import { NavLink } from "@/components/utils/NavLink"
 import classNames from "classnames"
 import SlideProducts from "@/components/app/content/SlideProducts"
 import useAppContext from "@/web/hooks/useAppContext"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import getProductServices from "@/web/services/app/products/getProduct"
 
 export const getServerSideProps = async (context) => {
-  const { locale, params } = context
+  const { params, locale } = context
 
-  const redirectToInitial = () => {
+  const api = getApi(context)
+
+  const productId = params.productId
+  const withSimilarProducts = true
+
+  const getProduct = getProductServices({ api })
+  const [err, data] = await getProduct(productId, withSimilarProducts)
+
+  if (err) {
     return {
       redirect: {
         destination: "/",
-        permanent: false,
       },
     }
   }
 
-  const productId = params.productId
-
-  try {
-    const [products, productData] = await Promise.all([
-      axios.get(`${config.path}api${routes.api.app.products.getProducts()}?page=1`),
-
-      axios.get(
-        `${config.path}api${routes.api.admin.products.productData(productId)}`
-      ),
-    ])
-
-    const isEmpty = productData.data.result.length === 0
-
-    if (isEmpty) {
-      return redirectToInitial()
-    }
-
-    const similarProducts = products.data.allProduct.filter(
-      (product) =>
-        product.id != productId &&
-        product.categoryId === productData.data.result.categoryId
-    )
-
-    return {
-      props: {
-        ...(await serverSideTranslations(locale, [
-          "product",
-          "navbar",
-          "footer",
-        ])),
-        similarProducts: similarProducts,
-        product: productData.data.result,
-      },
-    }
-  } catch (error) {
-    return redirectToInitial()
+  return {
+    props: {
+      product: data.product,
+      similarProducts: data.similarProducts,
+      ...(await serverSideTranslations(locale, [
+        "product",
+        "footer",
+        "navbar",
+      ])),
+    },
   }
 }
 
 const ProductPage = (props) => {
   const { product, similarProducts } = props
+
   const [showPopup, setShowPopup] = useState(false)
   const [showError, setShowError] = useState(false)
 
@@ -73,7 +54,7 @@ const ProductPage = (props) => {
 
   useEffect(() => {
     setAddToCartText(t("addCart"))
-    setSimilarText(t(`similarProducts`))
+    setSimilarText(t("similarProducts"))
   }, [t])
 
   const {
@@ -135,22 +116,20 @@ const ProductPage = (props) => {
                   similarProducts.length < 3 && "justify-center"
                 )}
               >
-                {similarProducts
-                  .sort((a, b) => a.id - b.id)
-                  .slice(0, 6)
-                  .map((product) => (
-                    <div
-                      key={product.id}
-                      className="flex-none w-full md:w-1/2 lg:w-1/3"
-                    >
-                      <SlideProducts
-                        image={product.image}
-                        productName={product.name}
-                        productPrice={product.price}
-                        promotion={product.promotion}
-                      />
-                    </div>
-                  ))}
+                {similarProducts.map((product) => (
+                  <div
+                    key={product.id}
+                    className="flex-none w-full md:w-1/2 lg:w-1/3"
+                  >
+                    <SlideProducts
+                      image={product.image}
+                      productId={product.id}
+                      productName={product.name}
+                      productPrice={product.price}
+                      promotion={product.promotion}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           )}

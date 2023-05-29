@@ -1,21 +1,37 @@
-import axios from "axios"
-import routes from "@/web/routes"
 import DisplayPage from "@/components/app/admin/DisplayPage"
 import { useCallback } from "react"
 import useAppContext from "@/web/hooks/useAppContext"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import getContactsServices from "@/web/services/admin/contacts/getContacts"
+import AdminErrorMessage from "@/components/utils/AdminErrorMessage"
 
 export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("admin", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+
   const { page, order, column } = context.query
+
   const clearPage = page || 1
   const clearOrder = order || "asc"
   const clearColumn = column || "id"
 
-  const { data } = await axios.get(
-    `${
-      config.path
-    }api${routes.api.admin.contacts.getContacts()}?page=${clearPage}&order=${clearOrder}&col=${clearColumn}`
-  )
+  const api = getApi(context)
+
+  const getContacts = getContactsServices({ api })
+
+  const [err, data] = await getContacts(clearPage, clearOrder, clearColumn)
+
+  if (err) {
+    return {
+      props: {
+        errorMessage: err,
+      },
+    }
+  }
 
   return {
     props: {
@@ -27,11 +43,11 @@ export const getServerSideProps = async (context) => {
 }
 
 const AllContacts = (props) => {
+  const { contacts, pagination, query, errorMessage } = props
+
   const {
     actions: { deleteContact },
   } = useAppContext()
-
-  const { contacts, pagination, query } = props
 
   const handleDelete = useCallback(
     async (id) => {
@@ -43,18 +59,24 @@ const AllContacts = (props) => {
   )
 
   return (
-    <DisplayPage
-      sections={"contacts"}
-      section={"contact"}
-      items={contacts}
-      pagination={pagination}
-      canAdd={false}
-      canEdit={false}
-      deleteRoute={handleDelete}
-      columns={["id", "topic", "state"]}
-      fields={["id", "topic", "read"]}
-      query={query}
-    />
+    <>
+      {errorMessage ? (
+        <AdminErrorMessage errorMessage={errorMessage} />
+      ) : (
+        <DisplayPage
+          sections={"contacts"}
+          section={"contact"}
+          items={contacts}
+          pagination={pagination}
+          canAdd={false}
+          canEdit={false}
+          deleteRoute={handleDelete}
+          columns={["id", "topic", "state"]}
+          fields={["id", "topic", "read"]}
+          query={query}
+        />
+      )}
+    </>
   )
 }
 

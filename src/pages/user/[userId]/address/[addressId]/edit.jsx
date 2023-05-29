@@ -4,20 +4,32 @@ import Button from "@/components/app/ui/Button"
 import { useRouter } from "next/router"
 import { useCallback, useState } from "react"
 import { addressValidationSchema } from "@/components/validation/validationyup"
-import axios from "axios"
-import routes from "@/web/routes"
 import useAppContext from "@/web/hooks/useAppContext"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import addressDataServices from "@/web/services/user/address/addressData"
 
 export const getServerSideProps = async (context) => {
-  const { query } = context
+  const { req, query } = context
 
-  const { data } = await axios.get(
-    `${config.path}api${routes.api.user.address.addressData(
-      query.userId,
-      query.addressId
-    )}`
-  )
+  const redirect = getAuthorization("user", req, query)
+
+  if (redirect) {
+    return redirect
+  }
+
+  const api = getApi(context)
+
+  const addressData = addressDataServices({ api })
+  const [err, data] = await addressData(query.userId, query.addressId)
+
+  if (err) {
+    return {
+      redirect: {
+        destination: "/",
+      },
+    }
+  }
 
   if (!data.result) {
     return {
