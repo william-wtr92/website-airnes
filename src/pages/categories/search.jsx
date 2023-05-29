@@ -140,7 +140,11 @@ const SearchPage = (props) => {
               >
                 Réintialiser
               </button>
-              <button className="underline text-xl" onClick={handleShowFilter}>
+              <button
+                // type="button"
+                className="underline text-xl"
+                onClick={handleShowFilter}
+              >
                 Fermer
               </button>
             </div>
