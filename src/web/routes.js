@@ -15,6 +15,7 @@ const routes = {
         getProduct: (productId) => `/app/products/${productId}`,
         getProducts: () => "/app/products/all",
         searchProducts: () => "/app/products/search",
+        getFilter: () => "/app/products/filter",
       },
       categories: {
         getCategories: () => "/app/categories/all",
