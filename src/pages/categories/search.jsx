@@ -1,4 +1,4 @@
-import { useState } from "react"
+import {useState} from "react"
 import { FunnelIcon, AdjustmentsVerticalIcon } from "@heroicons/react/24/solid"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import ProductTemplate from "@/components/app/content/ProductTemplate"
@@ -60,8 +60,8 @@ const SearchPage = (props) => {
 
   const [filterShow, setFilterShow] = useState(false)
   const [order, setOrder] = useState("asc")
-  const [stock, setStock] = useState(true)
-  const [promo, setPromo] = useState(true)
+  const [stock, setStock] = useState(false)
+  const [promo, setPromo] = useState(false)
 
   const router = useRouter()
 
@@ -74,11 +74,11 @@ const SearchPage = (props) => {
   }
 
   const filterStock = () => {
-    router.push({pathname: router.pathname, query: {...router.query, stock: stock, page: 1}})
+    router.push({pathname: router.pathname, query: {...router.query, stock: !stock, page: 1}})
     setStock(!stock)
   }
   const filterPromo = () => {
-    router.push({pathname: router.pathname, query: {...router.query, promo: promo, page: 1}})
+    router.push({pathname: router.pathname, query: {...router.query, promo: !promo, page: 1}})
     setPromo(!promo)
   }
 
@@ -87,19 +87,23 @@ const SearchPage = (props) => {
   }
 
   const resetFilter = () => {
-    router.push({pathname: router.pathname, query: {page: 1}})
+    router.push(router.pathname)
+    setStock(false)
+    setPromo(false)
   }
+
 
   return (
       <>
-        <div className="flex flex-rows">
+        <form>
+          <div className="flex flex-rows">
           <div
               className={`${
                   filterShow ? `block` : `hidden`
               } flex flex-col border-r-2 p-8 absolute inset-0 top-[3.8125rem] left-[max(0px,calc(50%-45rem))] right-auto w-full h-full md:w-[36%] overflow-y-auto`}
           >
             <div className="flex justify-between pb-4">
-              <button className="underline text-xl" onClick={resetFilter}>
+              <button className="underline text-xl" onClick={resetFilter} type={"reset"}>
                 Réintialiser
               </button>
               <button className="underline text-xl" onClick={handleShowFilter}>
@@ -140,10 +144,10 @@ const SearchPage = (props) => {
                 <header id="filters-header" className=" font-bold text-black text-xl py-6">
                   Option
                 </header>
-
                 <label className="text-black font-bold text-md flex content-center gap-4 text-xl pb-4 pl-4">
                   <input
                       type="checkbox"
+                      checked={stock}
                       className="border border-black w-[25px] h-[25px]"
                       onChange={filterStock}
                   />
@@ -152,6 +156,7 @@ const SearchPage = (props) => {
                 <label className="text-black font-bold text-md flex content-center gap-4 text-xl pb-4 pl-4">
                   <input
                       type="checkbox"
+                      checked={promo}
                       className="border border-black w-[25px] h-[25px]"
                       onChange={filterPromo}
                   />
@@ -225,6 +230,7 @@ const SearchPage = (props) => {
             </div>
           </div>
         </div>
+        </form>
       </>
   )
 }
