@@ -70,6 +70,19 @@ const handler = mw({
       res,
     }) => {
       const id = categoryId
+
+      const noCategory = await CategoryModel.query().findOne({
+        name: "No category",
+      })
+
+      const noCategoryId = parseInt(noCategory.id, 10)
+
+      if (id === noCategoryId) {
+        res.status(400).send({ error: "Can't delete this category" })
+
+        return
+      }
+
       const category = await CategoryModel.query().findOne({ id })
 
       await CategoryModel.query().updateAndFetchById(id, {
@@ -99,11 +112,16 @@ const handler = mw({
       const noCategory = await CategoryModel.query().findOne({
         name: "No category",
       })
+
       const noCategoryId = parseInt(noCategory.id, 10)
 
-      await ProductModel.query()
-        .update({ categoryId: noCategoryId })
-        .where({ categoryId: id })
+      if (id === noCategoryId) {
+        res.status(400).send({ error: "Can't delete this category" })
+
+        return
+      }
+
+      await ProductModel.query().update({ categoryId: noCategoryId })
 
       await CategoryModel.query().findOne({ id }).del()
 
