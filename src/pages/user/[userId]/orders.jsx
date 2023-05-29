@@ -1,6 +1,19 @@
-import { NavLink } from "@/components/utils/NavLink"
+import {NavLink} from "@/components/utils/NavLink"
+import {getAuthorization} from "@/web/helper/getAuthorization"
 
-const UserOrderView = () => {
+export const getServerSideProps = async (context) => {
+  const { req, query } = context
+
+  const redirect = getAuthorization("user", req, query)
+
+  if (redirect) {
+    return redirect
+  }
+
+  return { props: {} }
+}
+
+const Orders = () => {
   return (
     <>
       <main>
@@ -17,7 +30,8 @@ const UserOrderView = () => {
               </h2>
             </div>
             <div className="flex items-center flex-col my-6">
-              <div className="grid grid-cols-2 gap-8 my-6 shadow-xl shadow-[#dad0c9] rounded-md p-6 hover:cursor-pointer">
+              <div
+                className="grid grid-cols-2 gap-8 my-6 shadow-xl shadow-[#dad0c9] rounded-md p-6 hover:cursor-pointer">
                 <NavLink href="/">
                   <p className="flex justify-start font-bold  hover:text-[#b3825c] lg:text-xl">
                     2022/09/10 - #365255412
@@ -29,7 +43,8 @@ const UserOrderView = () => {
                 </p>
                 <p className="flex justify-end font-bold">1200 €</p>
               </div>
-              <div className="grid grid-cols-2 gap-8 my-6 shadow-xl shadow-[#dad0c9] rounded-md p-6 hover:cursor-pointer">
+              <div
+                className="grid grid-cols-2 gap-8 my-6 shadow-xl shadow-[#dad0c9] rounded-md p-6 hover:cursor-pointer">
                 <NavLink href="/">
                   <p className="flex justify-start font-bold  hover:text-[#b3825c] lg:text-xl">
                     2022/09/10 - #365255412
@@ -50,7 +65,8 @@ const UserOrderView = () => {
               </h2>
             </div>
             <div className="flex items-center flex-col my-6">
-              <div className="grid grid-cols-2 gap-8 my-6 shadow-xl shadow-[#dad0c9] rounded-md p-6 hover:cursor-pointer">
+              <div
+                className="grid grid-cols-2 gap-8 my-6 shadow-xl shadow-[#dad0c9] rounded-md p-6 hover:cursor-pointer">
                 <NavLink href="/">
                   <p className="flex justify-start font-bold  hover:text-[#b3825c] lg:text-xl">
                     2022/09/10 - #365255412
@@ -62,7 +78,8 @@ const UserOrderView = () => {
                 </p>
                 <p className="flex justify-end font-bold">1200 €</p>
               </div>
-              <div className="grid grid-cols-2 gap-8 my-6 shadow-xl shadow-[#dad0c9] rounded-md p-6 hover:cursor-pointer">
+              <div
+                className="grid grid-cols-2 gap-8 my-6 shadow-xl shadow-[#dad0c9] rounded-md p-6 hover:cursor-pointer">
                 <NavLink href="/">
                   <p className="flex justify-start font-bold  hover:text-[#b3825c] lg:text-xl">
                     2022/09/10 - #365255412
@@ -82,4 +99,4 @@ const UserOrderView = () => {
   )
 }
 
-export default UserOrderView
+export default Orders

@@ -1,7 +1,7 @@
 import routes from "@/web/routes"
 
 const updateCategory =
-  ({ api, jwt }) =>
+  ({ api }) =>
   async ({ categoryId, image, name, description }) => {
     try {
       const { data } = await api.patch(
@@ -10,7 +10,6 @@ const updateCategory =
           image,
           name,
           description,
-          jwt,
         }
       )
 

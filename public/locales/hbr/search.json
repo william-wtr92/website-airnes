@@ -10,5 +10,10 @@
   "searchPlaceholder": "חפש",
   "result": "תוצאה",
   "asc": "מיין לפי: (asc)",
-  "noresult": "אין תוצאות"
+  "noresult": "אין תוצאות",
+  "option": "אופציה",
+  "stock": "מלאי",
+  "promo": "מבצעים",
+  "categories": "קטגוריות",
+  "materials": "חומרים"
 }

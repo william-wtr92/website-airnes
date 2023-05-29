@@ -1,53 +1,48 @@
-import routes from "@/web/routes"
 import DisplayPage from "@/components/app/admin/DisplayPage"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback } from "react"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import getProductsServices from "@/web/services/admin/products/getProducts"
+import AdminErrorMessage from "@/components/utils/AdminErrorMessage"
 
 export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("admin", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+
   const { page, order, column } = context.query
+
+  const api = getApi(context)
+
   const clearPage = page || 1
   const clearOrder = order || "asc"
   const clearColumn = column || "id"
 
-  const [productsRes, materialsAndCategoriesRes] = await Promise.all([
-    fetch(
-      `${
-        config.path
-      }api${routes.api.admin.products.getProducts()}?page=${clearPage}&order=${clearOrder}&col=${clearColumn}`
-    ),
-    fetch(
-      `${config.path}api${routes.api.admin.materials.getMaterialsAndCategory()}`
-    ),
-  ])
+  const getProducts = getProductsServices({ api })
+  const [err, data] = await getProducts(clearPage, clearOrder, clearColumn)
 
-  const [products, materialsAndCategories] = await Promise.all([
-    productsRes.json(),
-    materialsAndCategoriesRes.json(),
-  ])
+  if (err) {
+    return {
+      props: {
+        errorMessage: err,
+      },
+    }
+  }
 
   return {
     props: {
-      products: products.result,
-      pagination: products.pagination,
-      categories: materialsAndCategories.categories,
+      products: data.result,
+      pagination: data.pagination,
       query: { clearPage, clearOrder, clearColumn },
     },
   }
 }
 
-const All = (props) => {
-  const { products, pagination, categories, query } = props
-
-  products.forEach((product) => {
-    const category = categories.find(
-      (category) => category.id === product.categoryId
-    )
-
-    if (category) {
-      product.categoryId = category.name
-    }
-  })
+const AllProducts = (props) => {
+  const { products, pagination, query, errorMessage } = props
 
   const {
     actions: { deleteProduct },
@@ -63,19 +58,25 @@ const All = (props) => {
   )
 
   return (
-    <DisplayPage
-      sections={"products"}
-      section={"products"}
-      items={products}
-      pagination={pagination}
-      canAdd={true}
-      canEdit={true}
-      deleteRoute={handleDelete}
-      columns={["id", "name", "category", "price", "quantity"]}
-      fields={["id", "name", "categoryId", "price", "quantity"]}
-      query={query}
-    />
+    <>
+      {errorMessage ? (
+        <AdminErrorMessage errorMessage={errorMessage} />
+      ) : (
+        <DisplayPage
+          sections={"products"}
+          section={"products"}
+          items={products}
+          pagination={pagination}
+          canAdd={true}
+          canEdit={true}
+          deleteRoute={handleDelete}
+          columns={["id", "name", "category", "price", "quantity"]}
+          fields={["id", "name", "categoryId", "price", "quantity"]}
+          query={query}
+        />
+      )}
+    </>
   )
 }
 
-export default All
+export default AllProducts

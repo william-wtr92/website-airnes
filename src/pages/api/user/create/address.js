@@ -5,9 +5,11 @@ import mw from "@/api/mw"
 import { stringValidator } from "@/components/validation/validation"
 import { NotFoundError } from "@/api/errors"
 import { getSessionFromCookiesServ } from "@/web/helper/getSessionFromCookiesServ"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   POST: [
+    auth("user"),
     validate({
       body: {
         name: stringValidator.required(),

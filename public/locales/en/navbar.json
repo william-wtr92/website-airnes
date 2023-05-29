@@ -1,6 +1,6 @@
 {
-  "welcome": "Hello,",
-  "mycommand": "My orders",
+  "welcome": "Welcome, ",
+  "mycommands": "My orders",
   "logout": "Logout",
   "confirmLogout": "Do you confirm ?",
   "signin": "Log in",

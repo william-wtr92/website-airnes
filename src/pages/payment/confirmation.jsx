@@ -1,9 +1,13 @@
 import Button from "@/components/app/ui/Button"
-import { NavLink } from "@/components/utils/NavLink"
+import {NavLink} from "@/components/utils/NavLink"
 import useAppContext from "@/web/hooks/useAppContext"
+<<<<<<< HEAD
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 import { useEffect } from "react"
+=======
+import {useEffect} from "react"
+>>>>>>> main
 
 export const getServerSideProps = async (context) => {
   const { payment_intent, redirect_status } = context.query
@@ -18,16 +22,21 @@ export const getServerSideProps = async (context) => {
   return {
     props: {
       payment_intent,
+<<<<<<< HEAD
       redirect_status,
       ...translations,
     },
+=======
+      redirect_status
+    }
+>>>>>>> main
   }
 }
 
 const Confirmation = (props) => {
   const {
     state: { cartItems },
-    actions: { confirmOrder, clearCart },
+    actions: { confirmOrder, clearCart }
   } = useAppContext()
   const { payment_intent, redirect_status } = props
 

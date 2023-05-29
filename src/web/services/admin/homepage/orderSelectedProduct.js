@@ -1,14 +1,13 @@
 import routes from "@/web/routes"
 
 const orderSelectedProduct =
-  ({ api, jwt }) =>
+  ({ api }) =>
   async (productId, direction) => {
     try {
       const { data } = await api.patch(
         `${routes.api.admin.selectProduct.orderSelectedProduct(productId)}`,
         {
           direction,
-          jwt,
         }
       )
 

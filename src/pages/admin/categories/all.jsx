@@ -1,21 +1,36 @@
-import axios from "axios"
-import routes from "@/web/routes"
 import DisplayPage from "@/components/app/admin/DisplayPage"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback } from "react"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import getCategoriesServices from "@/web/services/admin/categories/getCategories"
+import AdminErrorMessage from "@/components/utils/AdminErrorMessage"
 
 export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("admin", context.req)
+
+  if (redirect) {
+    return redirect
+  }
+
   const { page, order, column } = context.query
+
   const clearPage = page || 1
   const clearOrder = order || "asc"
   const clearColumn = column || "id"
 
-  const { data } = await axios.get(
-    `${
-      config.path
-    }api${routes.api.admin.categories.getCategories()}?page=${clearPage}&order=${clearOrder}&col=${clearColumn}`
-  )
+  const api = getApi(context)
+
+  const getCategories = getCategoriesServices({ api })
+  const [err, data] = await getCategories(clearPage, clearOrder, clearColumn)
+
+  if (err) {
+    return {
+      props: {
+        errorMessage: err,
+      },
+    }
+  }
 
   return {
     props: {
@@ -26,8 +41,8 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-const All = (props) => {
-  const { categories, pagination, query } = props
+const AllCategories = (props) => {
+  const { categories, pagination, query, errorMessage } = props
 
   const {
     actions: { deleteCategory },
@@ -43,20 +58,26 @@ const All = (props) => {
   )
 
   return (
-    <DisplayPage
-      sections={"categories"}
-      section={"category"}
-      items={categories}
-      pagination={pagination}
-      canAdd={true}
-      canEdit={true}
-      canDelete={true}
-      deleteRoute={handleDelete}
-      columns={["id", "name"]}
-      fields={["id", "name"]}
-      query={query}
-    />
+    <>
+      {errorMessage ? (
+        <AdminErrorMessage errorMessage={errorMessage} />
+      ) : (
+        <DisplayPage
+          sections={"categories"}
+          section={"category"}
+          items={categories}
+          pagination={pagination}
+          canAdd={true}
+          canEdit={true}
+          canDelete={true}
+          deleteRoute={handleDelete}
+          columns={["id", "name"]}
+          fields={["id", "name"]}
+          query={query}
+        />
+      )}
+    </>
   )
 }
 
-export default All
+export default AllCategories

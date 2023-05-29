@@ -10,5 +10,10 @@
   "searchPlaceholder": "Rechercher",
   "result": "Résultat",
   "asc": "Trier par : (asc)",
-  "noresult": "AUCUN RÉSULTAT"
+  "noresult": "AUCUN RÉSULTAT",
+  "option": "Option",
+  "stock": "Stock",
+  "promo": "Promotions",
+  "categories": "Catégories",
+  "materials": "Matériaux"
 }

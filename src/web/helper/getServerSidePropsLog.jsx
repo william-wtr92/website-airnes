@@ -1,12 +1,12 @@
-import { getSessionFromContext } from "../session"
+import {getSessionFromContext} from "../session"
 
 export const redirectToHomeIfLoggedIn = async (context) => {
-  const session = getSessionFromContext(context)
+  const session = await getSessionFromContext(context)
 
-  if (
-    session &&
-    (context.req.url === "/signup" || context.req.url === "/user/login")
-  ) {
+  const isSignUp = context.req.url === "/signup"
+  const isLogin = context.req.url === "/user/login"
+
+  if (session && (isSignUp || isLogin)) {
     const { locale } = context
 
     const destination = locale ? `/${locale}` : "/"
@@ -14,8 +14,8 @@ export const redirectToHomeIfLoggedIn = async (context) => {
     return {
       redirect: {
         destination: destination,
-        permanent: false,
-      },
+        permanent: false
+      }
     }
   }
 

@@ -33,8 +33,8 @@ const handler = mw({
         .offset(offset)
 
       const allProductQuery = ProductModel.query()
-          .where("categoryId", "!=", 0)
-          .orderBy("id", "asc")
+        .where("categoryId", "!=", 0)
+        .orderBy("id", "asc")
 
       if (sale) {
         productsQuery.andWhere("promotion", ">", 0)
@@ -53,19 +53,15 @@ const handler = mw({
         totalPages: Math.ceil(totalCount.count / limit),
       }
 
-      if (products) {
-        res.send({
-          result: products,
-          pagination: pagination,
-          allProduct: allProduct,
-        })
-
-        return
+      if (!products) {
+        throw new NotFoundError()
       }
 
-      res.send({ result: "" })
-
-      throw new NotFoundError()
+      res.send({
+        result: products,
+        pagination: pagination,
+        allProduct: allProduct,
+      })
     },
   ],
 })

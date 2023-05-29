@@ -5,10 +5,11 @@ import {
   numberValidator,
   stringValidator,
 } from "@/components/validation/validation"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
-    //rajouter auth check query.useriD
+    auth("user"),
     validate({
       query: {
         addressId: numberValidator.required(),
@@ -24,17 +25,17 @@ const handler = mw({
 
       const query = await AddressModel.query().findOne({ id })
 
-      if (query) {
-        res.send({
-          result: query,
-        })
-      } else {
+      if (!query) {
         res.send({ result: null })
       }
+
+      res.send({
+        result: query,
+      })
     },
   ],
   PATCH: [
-    //rajouter auth check query.useriD
+    auth("user"),
     validate({
       query: {
         addressId: numberValidator.required(),
@@ -81,7 +82,7 @@ const handler = mw({
     },
   ],
   DELETE: [
-    //rajouter auth check query.useriD
+    auth("user"),
     validate({
       query: {
         addressId: numberValidator.required(),

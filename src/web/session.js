@@ -1,10 +1,13 @@
-import parseSession from "./parseSession"
-import config from "./config"
+import parseSession from "@/web/parseSession"
 
 export const getSessionFromContext = (context) => {
-  const jwt = context.req.cookies[config.session.localStorageKey]
+  const jwt = context.req.cookies.session
 
-  const session = jwt ? parseSession(jwt) : null
+  if (jwt) {
+    const session = parseSession(jwt)
 
-  return session
+    return session
+  }
+
+  return null
 }

@@ -21,6 +21,14 @@ export const getServerSideProps = async (context) => {
     "footer",
   ])
 
+  if (!tokken) {
+    return {
+      redirect: {
+        destination: "/",
+      },
+    }
+  }
+
   return {
     props: {
       ...translations,
@@ -29,7 +37,7 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-const OnForgotPassword = (props) => {
+const ForgottenPassword = (props) => {
   const {
     actions: { resetPwd },
   } = useAppContext()
@@ -91,4 +99,4 @@ const OnForgotPassword = (props) => {
   )
 }
 
-export default OnForgotPassword
+export default ForgottenPassword

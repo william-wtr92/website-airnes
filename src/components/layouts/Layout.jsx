@@ -12,13 +12,13 @@ const windsong = WindSong({
   subsets: ["latin"],
 })
 
-const Layout = ({ children, session, cartItems }) => {
+const Layout = (props) => {
+  const { children } = props
+
   return (
     <>
       <Main
         className={windsong.className}
-        session={session}
-        cartItems={cartItems}
       />
       <div className="flex flex-col min-h-screen">
         <main className="flex-grow">

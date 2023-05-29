@@ -1,6 +1,6 @@
 {
-  "welcome": "Bonjour,",
-  "mycommand": "Mes commandes",
+  "welcome": "Bonjour, ",
+  "mycommands": "Mes commandes",
   "logout": "Déconnexion",
   "confirmLogout": "Confirmez-vous ?",
   "signin": "Se connecter",

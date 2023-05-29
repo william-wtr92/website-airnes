@@ -39,8 +39,8 @@ const handler = mw({
       const [passwordHash, passwordSalt] = await hashPassword(password)
 
       await UserModel.query().insertAndFetch({
-        name,
         mail,
+        name,
         passwordHash,
         passwordSalt,
       })

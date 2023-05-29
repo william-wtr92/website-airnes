@@ -1,39 +1,44 @@
-import axios from "axios"
-import routes from "@/web/routes"
+import getApi from "@/web/getAPI"
 import Category from "@/components/app/content/Category"
-import config from "@/api/config"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
+import getCategoriesServices from "@/web/services/app/categories/getCategories"
 
 export const getServerSideProps = async (context) => {
   const { locale } = context
 
-  const request = await axios.get(
-    `${config.path}api${routes.api.admin.categories.getCategories()}`
-  )
+  const api = getApi(context)
 
-  const categories = request.data.result
+  const getCategories = getCategoriesServices({ api })
+  const [err, data] = await getCategories()
 
-  const filteredCategories = categories.filter(
-    (category) => category.name !== "No category"
-  )
-
-  const translations = await serverSideTranslations(locale, [
-    "categories",
-    "navbar",
-    "footer",
-  ])
+  if (err) {
+    return {
+      props: {
+        err: err,
+        ...(await serverSideTranslations(locale, [
+          "categories",
+          "footer",
+          "navbar",
+        ])),
+      },
+    }
+  }
 
   return {
     props: {
-      categories: filteredCategories,
-      ...translations,
+      categories: data,
+      ...(await serverSideTranslations(locale, [
+        "categories",
+        "footer",
+        "navbar",
+      ])),
     },
   }
 }
 
 const AllCategories = (props) => {
-  const { categories } = props
+  const { categories, err } = props
 
   const { t } = useTranslation("categories")
 
@@ -43,13 +48,13 @@ const AllCategories = (props) => {
         {t(`all`)}
       </h1>
       <div className="flex flex-wrap justify-center gap-10">
-        {categories.length === 0 ? (
+        {categories.length === 0 || err ? (
           <div>
             <p className="text-center">{t(`notfound`)}</p>
           </div>
         ) : (
           <div className="flex flex-col gap-5 items-center justify-center p-4">
-            <Category categories={categories} />
+            <Category categories={categories.data} />
           </div>
         )}
       </div>

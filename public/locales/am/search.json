@@ -10,5 +10,10 @@
   "searchPlaceholder": "Որոնել",
   "result": "արդյունք",
   "asc": "Դասավորել ըստ: (asc)",
-  "noresult": "ՈՒՂԵՐԱՐԿ ՉԿԱ"
+  "noresult": "ՈՒՂԵՐԱՐԿ ՉԿԱ",
+  "option": "Ընտրանք",
+  "stock": "Պաշար",
+  "promo": "Ակցիաներ",
+  "categories": "Կատեգորիաներ",
+  "materials": "նյութեր"
 }

@@ -1,33 +1,37 @@
 import Button from "@/components/app/ui/Button"
 import { NavLink } from "@/components/utils/NavLink"
-import axios from "axios"
-import routes from "@/web/routes"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import userDataServices from "@/web/services/user/userData"
 
 export const getServerSideProps = async (context) => {
-  const { query, locale } = context
+  const { req, query, locale } = context
 
-  const { data } = await axios.get(
-    `${config.path}api${routes.api.user.userData(query.userId)}`
-  )
+  const redirect = getAuthorization("user", req, query)
 
-  if (!data.result) {
+  if (redirect) {
+    return redirect
+  }
+
+  const api = getApi(context)
+
+  const userData = userDataServices({ api })
+  const [err, data] = await userData(query.userId)
+
+  if (err) {
     return {
       redirect: {
         destination: "/",
-        permanent: false,
       },
     }
   }
 
-  const userId = query.userId
-
   return {
     props: {
       data,
-      userId,
+      userId: query.userId,
       ...(await serverSideTranslations(locale, ["home", "navbar", "footer"])),
     },
   }
