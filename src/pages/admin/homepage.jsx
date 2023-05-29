@@ -1,9 +1,9 @@
 import DisplayMain from "@/components/app/admin/DisplayMain"
 import useAppContext from "@/web/hooks/useAppContext"
-import { useCallback, useState, useEffect } from "react"
-import { useRouter } from "next/router"
+import {useCallback, useState, useEffect} from "react"
+import {useRouter} from "next/router"
 import getApi from "@/web/getAPI"
-import { getAuthorization } from "@/web/helper/getAuthorization"
+import {getAuthorization} from "@/web/helper/getAuthorization"
 import getImageServices from "@/web/services/admin/homepage/getImages"
 import getSelectCategoryServices from "@/web/services/admin/homepage/getSelectCategory"
 import getSelectProductsServices from "@/web/services/admin/homepage/getSelectProducts"
@@ -46,7 +46,7 @@ const Homepage = (props) => {
     products,
     errorMessageImages,
     errorMessageCategories,
-    errorMessageProducts,
+    errorMessageProducts
   } = props
 
   const [error, setError] = useState(null)
@@ -78,13 +78,13 @@ const Homepage = (props) => {
       deleteSelectedCategory,
       orderSelectedCategory,
       deleteSelectedProduct,
-      orderSelectedProduct,
-    },
+      orderSelectedProduct
+    }
   } = useAppContext()
 
   const handleDeleteCarousel = useCallback(
     async (imageId) => {
-      setError(null)
+      setError(false)
 
       const [err] = await deleteCarousel(imageId)
 
@@ -101,7 +101,7 @@ const Homepage = (props) => {
 
   const handleDeleteCategory = useCallback(
     async (categoryId) => {
-      setError(null)
+      setError(false)
 
       const [err] = await deleteSelectedCategory(categoryId)
 
@@ -118,7 +118,7 @@ const Homepage = (props) => {
 
   const handleDeleteProduct = useCallback(
     async (productId) => {
-      setError(null)
+      setError(false)
 
       const [err] = await deleteSelectedProduct(productId)
 
@@ -135,6 +135,7 @@ const Homepage = (props) => {
 
   const handleMoveCarousel = useCallback(
     async (imageId, direction) => {
+      setError(false)
       const [err] = await orderCarousel(imageId, direction === "up" ? -1 : 1)
 
       if (err) {
@@ -160,6 +161,7 @@ const Homepage = (props) => {
 
   const handleMoveCategory = useCallback(
     async (categoryId, direction) => {
+      setError(false)
       const [err] = await orderSelectedCategory(
         categoryId,
         direction === "up" ? -1 : 1
@@ -192,6 +194,7 @@ const Homepage = (props) => {
 
   const handleMoveProduct = useCallback(
     async (productId, direction) => {
+      setError(false)
       const [err] = await orderSelectedProduct(
         productId,
         direction === "up" ? -1 : 1
@@ -224,9 +227,7 @@ const Homepage = (props) => {
   return (
     <div className="lg:absolute lg:top-0 lg:left-[20%]">
       {error && (
-        <div className="text-red-500 mb-4">
-          <p>Error: {error}</p>
-        </div>
+        <AdminErrorMessage errorMessage={error}/>
       )}
       <>
         {errorMessageImages ? (

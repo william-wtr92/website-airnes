@@ -2,8 +2,8 @@ const AdminErrorMessage = (props) => {
   const { errorMessage } = props
 
   return (
-    <div className="absolute top-[5%] left-[30%]">
-      <p className=" text-red-600">Message d'erreur :{errorMessage}</p>
+    <div className="p-5 m-5 bg-red-400 rounded">
+      <p className="text-white">{errorMessage}</p>
     </div>
   )
 }

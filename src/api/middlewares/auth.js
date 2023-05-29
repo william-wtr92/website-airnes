@@ -13,7 +13,7 @@ const auth = (requiredRole) => async (ctx) => {
 
   try {
     const { payload } = jsonwebtoken.verify(
-      jwt.slice(8),
+      jwt,
       config.security.jwt.secret
     )
 
