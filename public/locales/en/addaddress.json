@@ -1,0 +1,18 @@
+{
+  "addText": "Add an address",
+  "firstnameLabel": "First name",
+  "firstnamePlaceholder": "Enter your first name",
+  "lastnameLabel": "Last name",
+  "lastnamePlaceholder": "Enter your last name",
+  "addressNameLabel": "Address name",
+  "addressNamePlaceholder": "Home",
+  "addressFullLabel": "Full address",
+  "addressFullPlaceholder": "01 street of ...",
+  "addressComplementLabel": "Address complement",
+  "addressComplementPlaceholder": "Building, Street, ...",
+  "postalLabel": "Postal code",
+  "postalPlaceholder": "92400",
+  "cityLabel": "City",
+  "cityPlaceholder": "Paris",
+  "buttonText": "SAVE"
+}

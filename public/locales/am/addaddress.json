@@ -1,0 +1,18 @@
+{
+  "addText": "Ավելացնել հասցե",
+  "firstnameLabel": "Անուն",
+  "firstnamePlaceholder": "Մուտքագրեք ձեր անունը",
+  "lastnameLabel": "Ազգանուն",
+  "lastnamePlaceholder": "Մուտքագրեք ձեր ազգանունը",
+  "addressNameLabel": "Հասցեի անվանում",
+  "addressNamePlaceholder": "Գերակայություն",
+  "addressFullLabel": "Հասցե",
+  "addressFullPlaceholder": "01 փողոց ...",
+  "addressComplementLabel": "Հասցեի լրացուցիչ",
+  "addressComplementPlaceholder": "Շենք, փողոց, ...",
+  "postalLabel": "Փոստային կոդ",
+  "postalPlaceholder": "92400",
+  "cityLabel": "Քաղաք",
+  "cityPlaceholder": "Փարիզ",
+  "buttonText": "Պահպանել"
+}

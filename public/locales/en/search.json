@@ -1,0 +1,19 @@
+{
+  "reset": "Reset",
+  "close": "Close",
+  "min": "Min price €",
+  "minPlaceholder": ". . . €",
+  "max": "Max price €",
+  "maxPlaceholder": ". . . €",
+  "search": "Search",
+  "filter": "Filter",
+  "searchPlaceholder": "Search",
+  "result": "Result",
+  "asc": "Sort by: (asc)",
+  "noresult": "NO RESULT",
+  "option": "Option",
+  "stock": "Stock",
+  "promo": "Promotions",
+  "categories": "Categories",
+  "materials": "Materials"
+}

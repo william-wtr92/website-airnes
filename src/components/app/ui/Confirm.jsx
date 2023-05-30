@@ -1,5 +1,6 @@
 import classNames from "classnames"
 import Button from "./Button"
+import { useTranslation } from "next-i18next"
 
 const Confirm = (props) => {
   const { className, display, action, params, textValue } = props
@@ -18,6 +19,8 @@ const Confirm = (props) => {
     display(false)
   }
 
+  const { t } = useTranslation("navbar")
+
   return (
     <div
       className={classNames(
@@ -31,10 +34,10 @@ const Confirm = (props) => {
         </h1>
         <div className="flex justify-around">
           <Button variant="reverse" className="w-2/5" onClick={handleFalse}>
-            Non
+            {t(`no`)}
           </Button>
           <Button className="w-2/5" onClick={handleYes}>
-            Oui
+            {t(`yes`)}
           </Button>
         </div>
       </div>

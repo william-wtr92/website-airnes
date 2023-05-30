@@ -1,17 +1,27 @@
-import React, {useState, useEffect} from "react"
-import {loadStripe} from "@stripe/stripe-js"
-import {Elements} from "@stripe/react-stripe-js"
+import React, { useState, useEffect } from "react"
+import { loadStripe } from "@stripe/stripe-js"
+import { Elements } from "@stripe/react-stripe-js"
 import CheckoutForm from "@/components/app/cart/checkoutform"
 import useAppContext from "@/web/hooks/useAppContext"
 import config from "@/api/config"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-export const getServerSideProps = async () => {
-  const dynamicPath = config.path
+export const getServerSideProps = async (context) => {
+  const { locale } = context
+
+  const translations = await serverSideTranslations(locale, [
+    "checkout",
+    "navbar",
+    "footer",
+  ])
+
+  const dynamicPath = `${config.path}${locale}/`
 
   return {
     props: {
-      dynamicPath
-    }
+      dynamicPath,
+      ...translations,
+    },
   }
 }
 
@@ -23,7 +33,7 @@ const Payment = (props) => {
   const { dynamicPath } = props
   const {
     state: { cartItems },
-    actions: { payment }
+    actions: { payment },
   } = useAppContext()
 
   const [clientSecret, setClientSecret] = useState("")
@@ -43,18 +53,18 @@ const Payment = (props) => {
   }, [payment, cartItems])
 
   const appearance = {
-    theme: "stripe"
+    theme: "stripe",
   }
   const options = {
     clientSecret,
-    appearance
+    appearance,
   }
 
   return (
     <div>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm price={price} dynamicPath={dynamicPath}/>
+          <CheckoutForm price={price} dynamicPath={dynamicPath} />
         </Elements>
       )}
     </div>

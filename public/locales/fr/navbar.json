@@ -1,4 +1,5 @@
 {
+  "welcome": "Bonjour, ",
   "mycommands": "Mes commandes",
   "logout": "Déconnexion",
   "confirmLogout": "Confirmez-vous ?",
@@ -14,5 +15,7 @@
   "en": "Anglais",
   "fr": "Français",
   "am": "Arménien",
-  "hbr": "Hébreux"
+  "hbr": "Hébreux",
+  "yes": "Oui",
+  "no": "Non"
 }

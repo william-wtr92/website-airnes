@@ -86,7 +86,7 @@ const Users = (props) => {
                 color={"#615043"}
               />
             </NavLink>
-            <NavLink href="/categories/search">
+            <NavLink href="/products/search">
               <MagnifyingGlassIcon
                 className={`h-6 hover:scale-110 hover:text-[#b3825c]`}
                 color={"#615043"}
