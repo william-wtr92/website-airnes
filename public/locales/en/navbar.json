@@ -1,0 +1,21 @@
+{
+  "welcome": "Welcome, ",
+  "mycommands": "My orders",
+  "logout": "Logout",
+  "confirmLogout": "Do you confirm ?",
+  "signin": "Log in",
+  "signup": "Sign up",
+  "categories": "Categories",
+  "promotions": "Promotions",
+  "cgu": "CGU",
+  "legal": "Legal Notice",
+  "contact": "Contact",
+  "about": "About Airneis",
+  "languageChange": "Change the language",
+  "en": "English",
+  "fr": "French",
+  "am": "Armenian",
+  "hbr": "Hebrew",
+  "yes": "Yes",
+  "no": "No"
+}

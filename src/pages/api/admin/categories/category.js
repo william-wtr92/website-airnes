@@ -6,13 +6,13 @@ import {
   queryPageValidator,
   stringValidator,
 } from "@/components/validation/validation"
-import parseSession from "@/web/parseSession"
-import UserModel from "@/api/db/models/UserModel"
 import { NotFoundError } from "@/api/errors"
 import config from "@/api/config"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   POST: [
+    auth("admin"),
     validate({
       body: {
         image: linkValidator.required(),
@@ -22,64 +22,68 @@ const handler = mw({
     }),
     async ({
       locals: {
-        body: { image, name, description, jwt },
+        body: { image, name, description },
       },
       res,
     }) => {
-      const session = parseSession(jwt.jwt)
-      const id = session.user.id
-      const user = await UserModel.query().findOne({ id })
-
-      if (user.roleid !== 1) {
-        res.status(403).send({ error: "You are not admin" })
-
-        return
-      }
-
       await CategoryModel.query().insertAndFetch({
         image,
         name,
         description,
       })
+
       res.send({ result: true })
     },
   ],
   GET: [
+    auth("admin"),
     validate({
       query: {
-        page: queryPageValidator,
+        page: queryPageValidator.optional(),
+        order: stringValidator.optional(),
+        col: stringValidator.optional(),
       },
     }),
     async ({
       locals: {
-        query: { page },
+        query: { page, order, col },
       },
       res,
     }) => {
-      const limit = config.pagination.limit.default
-      const offset = (page - 1) * limit
+      let categories
+      let pagination
 
-      const categories = await CategoryModel.query()
-        .orderBy("id", "asc")
-        .limit(limit)
-        .offset(offset)
-      const totalCount = await CategoryModel.query().count().first()
+      const column = col || "id"
+      const orderCol = order || "asc"
 
-      if (categories) {
-        res.send({
-          result: categories,
-          pagination: {
-            page,
-            limit,
-            totalItems: parseInt(totalCount.count, 10),
-            totalPages: Math.ceil(totalCount.count / limit),
-          },
-        })
+      if (page) {
+        const limit = config.pagination.limit.default
+        const offset = (page - 1) * limit
+
+        categories = await CategoryModel.query()
+          .orderBy(column, orderCol)
+          .limit(limit)
+          .offset(offset)
+        const totalCount = await CategoryModel.query().count().first()
+
+        pagination = {
+          page,
+          limit,
+          totalItems: parseInt(totalCount.count, 10),
+          totalPages: Math.ceil(totalCount.count / limit),
+        }
       } else {
-        res.send({ result: "" })
+        categories = await CategoryModel.query().orderBy(column, orderCol)
+      }
 
+      if (!categories) {
         throw new NotFoundError()
       }
+
+      res.send({
+        result: categories,
+        pagination: pagination,
+      })
     },
   ],
 })

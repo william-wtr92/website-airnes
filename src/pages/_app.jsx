@@ -1,19 +1,30 @@
 import Head from "next/head"
-import Layout from "@/components/layouts/Layout"
 import "./styles.css"
-import { AppContextProvider } from "@/web/hooks/useAppContext"
+import useAppContext, { AppContextProvider } from "@/web/hooks/useAppContext"
+import { appWithTranslation } from "next-i18next"
+import Layout from "@/components/layouts/Layout"
 
-const App = ({ Component, pageProps }) => {
+const MyApp = ({ Component, pageProps }) => {
+  const {
+    actions: { changeLanguage },
+  } = useAppContext()
+
   return (
     <Layout>
       <Head>
-        <title>Airnes</title>
+        <title>Airneis</title>
       </Head>
-      <AppContextProvider>
-        <Component {...pageProps} />
-      </AppContextProvider>
+      <Component {...pageProps} changeLanguage={changeLanguage}/>
     </Layout>
   )
 }
 
-export default App
+const AppWithAppContext = ({ Component, ...props }) => {
+  return (
+    <AppContextProvider>
+      <MyApp Component={Component} {...props} />
+    </AppContextProvider>
+  )
+}
+
+export default appWithTranslation(AppWithAppContext)

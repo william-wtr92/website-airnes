@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "airneis",
+    "slug": "airneis",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "74e6521c-fdd6-4da7-9a3a-6bc93c26bf0f"
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "addText": "Ajouter une address",
+  "firstnameLabel": "Prénom",
+  "firstnamePlaceholder": "Entrez votre prénom",
+  "lastnameLabel": "Nom",
+  "lastnamePlaceholder": "Entrez votre nom",
+  "addressNameLabel": "Nom de l'adresse",
+  "addressNamePlaceholder": "Domicile",
+  "addressFullLabel": "Adresse",
+  "addressFullPlaceholder": "01 rue de ..." ,
+  "addressComplementLabel": "Complément d'adresse",
+  "addressComplementPlaceholder": "Bâtiment, Rue, ...",
+  "postalLabel": "Code Postal",
+  "postalPlaceholder": "92400",
+  "cityLabel": "Vile",
+  "cityPlaceholder": "Paris",
+  "buttonText": "ENREGISTRER"
+
+}

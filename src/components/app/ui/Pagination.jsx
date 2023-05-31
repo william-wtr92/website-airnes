@@ -2,14 +2,13 @@ import { useRouter } from "next/router"
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid"
 
 const Pagination = (props) => {
-  const { totalPages, currentPage, pathname } = props
+  const { totalPages, currentPage } = props
 
   const router = useRouter()
 
   const handlePageChange = (page) => {
     router.push({
-      pathname: pathname,
-      query: { page },
+      query: { ...router.query, page },
     })
   }
 

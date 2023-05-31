@@ -12,6 +12,7 @@ export const boolValidator = yup.bool()
 export const stringValidator = yup.string()
 export const linkValidator = yup.string().url()
 export const numberValidator = yup.number()
+export const arrayValidator = yup.array()
 
 // users
 export const NameValidator = yup.string().min(1).label("name")
@@ -34,3 +35,9 @@ export const urlValidator = yup
   .required("URL is required")
 
 export const labelValidator = yup.string()
+
+// website
+export const categoryValidator = yup
+  .number()
+  .integer()
+  .min(1)

@@ -5,11 +5,11 @@ import {
   urlValidator,
   labelValidator,
 } from "@/components/validation/validation"
-import parseSession from "@/web/parseSession"
-import UserModel from "@/api/db/models/UserModel"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   POST: [
+    auth("admin"),
     validate({
       body: {
         url: urlValidator.required(),
@@ -18,20 +18,10 @@ const handler = mw({
     }),
     async ({
       locals: {
-        body: { url, label, jwt },
+        body: { url, label },
       },
       res,
     }) => {
-      const session = parseSession(jwt.jwt)
-      const id = session.user.id
-      const user = await UserModel.query().findOne({ id })
-
-      if (user.roleid !== 1) {
-        res.status(403).send({ error: "You are not admin" })
-
-        return
-      }
-
       const maxOrder = await CarouselModel.query()
         .max("order as maxOrder")
         .first()

@@ -1,0 +1,16 @@
+{
+"signupText": "Գրանցում",
+"labelName": "Անուն և Ազգանուն",
+"placeholderName": "Մուտքագրեք ձեր անունը",
+"labelEmail": "Էլ. փոստ*",
+"placeholderEmail": "Մուտքագրեք ձեր էլ. փոստը",
+"labelPwd": "Գաղտնաբառ*",
+"placeholderPwd": "Մուտքագրեք ձեր գաղտնաբառը",
+"labelConfirmPwd": "Գաղտնաբառի հաստատում",
+"placeholderConfirmPwd": "Մուտքագրեք ձեր գաղտնաբառը",
+"acceptText": "Ես համաձայն եմ",
+"conditionText": "օգտագործման պայմանների",
+"haveAccount": "Երկարաժամկետ ունեք հաշիվ",
+"signin": "Մուտք",
+"btnSignup": "Գրանցվել"
+}

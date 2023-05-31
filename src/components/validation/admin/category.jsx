@@ -14,3 +14,10 @@ export const categoryInitialValues = {
   name: "",
   description: "",
 }
+
+export const selectedCategoryValidationSchema = yup.object().shape({
+  category: yup.string().required("Category required").label("Category"),
+})
+export const selectedCategoryInitialValues = {
+  category: "",
+}

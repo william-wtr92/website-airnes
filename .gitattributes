@@ -1,2 +1,7 @@
 *.js text eol=lf
 *.jsx text eol=lf
+*.css text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.babelrc text eol=lf
+*.snap text eol=lf

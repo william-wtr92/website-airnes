@@ -1,0 +1,16 @@
+{
+  "myAccount": "My account",
+  "myInfo": "My Informations",
+  "changePwd": "Change password",
+  "btnModify": "MODIFY",
+  "address": "My addresses",
+  "orderAddress": "Delivery address",
+  "addressCp": "Additional address:",
+  "dltAccount": "Delete account",
+  "labelName": "Full name*",
+  "labelEmail": "Mail*",
+  "placeholderEmail": "Enter ur mail",
+  "placeholderName": "Enter ur name",
+  "confirmAddress": "Do you really want to delete the address?",
+  "confirmDeleteAccount": "Are you sure you want to delete your account? This action is irreversible."
+}

@@ -17,9 +17,39 @@ import { Doughnut, Bar } from "react-chartjs-2"
 import { faker } from "@faker-js/faker"
 import Image from "next/image"
 import { NavLink } from "@/components/utils/NavLink"
-import React, { useEffect, useState } from "react"
-import axios from "axios"
-import routes from "@/web/routes"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import getApi from "@/web/getAPI"
+import getStatsService from "@/web/services/admin/dashboard/getStats"
+
+export const getServerSideProps = async (context) => {
+  const redirect = getAuthorization("admin", context.req)
+  const api = getApi(context)
+
+  if (redirect) {
+    return redirect
+  }
+
+  const getStats = getStatsService({ api })
+
+  const [err, data] = await getStats()
+
+  if (err) {
+    return {
+      props: {
+        errorMessage: err,
+      },
+    }
+  }
+
+  return {
+    props: {
+      users: data.user,
+      products: data.product,
+      total: data.sell,
+      topSell: data.topSell,
+    },
+  }
+}
 
 Chart.register(
   ArcElement,
@@ -79,22 +109,8 @@ const options = {
   },
 }
 
-const StatisticsView = () => {
-  const [userCount, setUserCount] = useState(0)
-  const [productCount, setProductCount] = useState(0)
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      const { data } = await axios.get(
-        `http://localhost:3000/api${routes.api.dashboard.getStats()}`
-      )
-
-      setUserCount(data.user)
-      setProductCount(data.product)
-    }
-
-    fetchStats()
-  }, [])
+const Dashboard = (props) => {
+  const { users, products, total, topSell } = props
 
   return (
     <>
@@ -105,8 +121,8 @@ const StatisticsView = () => {
               <BanknotesIcon className="h-4 lg:h-6" />
               <p className="text-xs lg:text-md">Ventes</p>
             </div>
-            <div className="font-black text-md flex justify-center relative top-[20%] lg:text-5xl">
-              4521
+            <div className="font-black text-md flex justify-center relative top-[20%] lg:text-3xl">
+              {total} €
             </div>
           </div>
           <div className="bg-gray-200 h-20 w-24 lg:h-40 lg:w-64 rounded-xl p-2 lg:p-4">
@@ -115,7 +131,7 @@ const StatisticsView = () => {
               <p className="text-xs lg:text-md">Produits</p>
             </div>
             <div className="font-black text-md flex justify-center relative top-[20%] lg:text-5xl">
-              {productCount}
+              {products}
             </div>
           </div>
           <div className="bg-gray-200 h-20 w-24 lg:h-40 lg:w-64 rounded-xl p-2 lg:p-4">
@@ -124,7 +140,7 @@ const StatisticsView = () => {
               <p className="text-xs lg:text-md">Utilisateurs</p>
             </div>
             <div className="font-black text-md flex justify-center relative top-[20%] lg:text-5xl">
-              {userCount}
+              {users}
             </div>
           </div>
         </div>
@@ -170,19 +186,25 @@ const StatisticsView = () => {
               </thead>
               <tbody className="overflow-y-auto">
                 <tr className="text-black border-b bg-gray-100 hover:bg-gray-200 hover:cursor-pointer">
-                  <td className="px-4 py-2">
-                    <NavLink href="/productid/product">
-                      <Image
-                        src="/images/meuble3.png"
-                        alt="meuble"
-                        width={100}
-                        height={1}
-                        className="w-12 h-12 lg:h-16 lg:w-16 hover:cursor-pointer"
-                      />
-                    </NavLink>
-                  </td>
-                  <td className="px-6 whitespace-nowrap">Armoire en liège</td>
-                  <td className="flex justify-center px-6 pt-8">12</td>
+                  {topSell.map((item) => (
+                    <>
+                      <td key={item.id} className="px-4 py-2">
+                        <NavLink href="/productid/product">
+                          <Image
+                            src={item.image}
+                            alt="meuble"
+                            width={100}
+                            height={1}
+                            className="w-12 h-12 lg:h-16 lg:w-16 hover:cursor-pointer"
+                          />
+                        </NavLink>
+                      </td>
+                      <td className="px-6 whitespace-nowrap">{item.name}</td>
+                      <td className="flex justify-center px-6 pt-8">
+                        {item.sales}
+                      </td>
+                    </>
+                  ))}
                 </tr>
               </tbody>
             </table>
@@ -193,4 +215,4 @@ const StatisticsView = () => {
   )
 }
 
-export default StatisticsView
+export default Dashboard

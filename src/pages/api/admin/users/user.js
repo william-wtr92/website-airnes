@@ -3,18 +3,25 @@ import UserModel from "@/api/db/models/UserModel"
 import { NotFoundError } from "@/api/errors"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
-import { queryPageValidator } from "@/components/validation/validation"
+import {
+  queryPageValidator,
+  stringValidator,
+} from "@/components/validation/validation"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   GET: [
+    auth("admin"),
     validate({
       query: {
-        page: queryPageValidator,
+        page: queryPageValidator.optional(),
+        order: stringValidator.optional(),
+        col: stringValidator.optional(),
       },
     }),
     async ({
       locals: {
-        query: { page },
+        query: { page, order, col },
       },
       res,
     }) => {
@@ -22,34 +29,32 @@ const handler = mw({
       const offset = (page - 1) * limit
 
       const user = await UserModel.query()
-        .orderBy("id", "asc")
         .limit(limit)
         .offset(offset)
         .modify("sanitize")
-        .withGraphFetched("roledata")
+        .withGraphFetched("roleData")
+        .orderBy(col, order)
 
       const totalCount = await UserModel.query().count().first()
 
       const newUser = user.map((item) => ({
         ...item,
-        right: item.roledata.right,
+        right: item.roleData.right,
       }))
 
-      if (newUser) {
-        res.send({
-          result: newUser,
-          pagination: {
-            page,
-            limit,
-            totalItems: parseInt(totalCount.count, 10),
-            totalPages: Math.ceil(totalCount.count / limit),
-          },
-        })
-      } else {
-        res.send({ result: "" })
-
+      if (!newUser) {
         throw new NotFoundError()
       }
+
+      res.send({
+        result: newUser,
+        pagination: {
+          page,
+          limit,
+          totalItems: parseInt(totalCount.count, 10),
+          totalPages: Math.ceil(totalCount.count / limit),
+        },
+      })
     },
   ],
 })

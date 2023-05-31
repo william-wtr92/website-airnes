@@ -1,4 +1,5 @@
 import * as yup from "yup"
+import { NotFoundError } from "../errors"
 
 const validate = ({ body, params, query }) => {
   const validator = yup.object().shape({
@@ -9,7 +10,6 @@ const validate = ({ body, params, query }) => {
 
   return async (ctx) => {
     const { req, res, next } = ctx
-
 
     try {
       const { body, params, query } = await validator.validate(
@@ -31,6 +31,12 @@ const validate = ({ body, params, query }) => {
     } catch (err) {
       if (err instanceof yup.ValidationError) {
         res.status(422).send({ error: err.errors })
+
+        return
+      }
+
+      if (err instanceof NotFoundError) {
+        res.status(404).send({ error: err.errors[0] })
 
         return
       }

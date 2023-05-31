@@ -1,67 +1,90 @@
-import axios from "axios"
-import routes from "@/web/routes"
 import DisplayMain from "@/components/app/admin/DisplayMain"
 import useAppContext from "@/web/hooks/useAppContext"
-import { useCallback, useState, useEffect } from "react"
-import { useRouter } from "next/router"
+import {useCallback, useState, useEffect} from "react"
+import {useRouter} from "next/router"
+import getApi from "@/web/getAPI"
+import {getAuthorization} from "@/web/helper/getAuthorization"
+import getImageServices from "@/web/services/admin/homepage/getImages"
+import getSelectCategoryServices from "@/web/services/admin/homepage/getSelectCategory"
+import getSelectProductsServices from "@/web/services/admin/homepage/getSelectProducts"
+import AdminErrorMessage from "@/components/utils/AdminErrorMessage"
 
 export const getServerSideProps = async (context) => {
-  const { page, deletedImageId } = context.query
+  const redirect = getAuthorization("admin", context.req)
 
-  const redirectToInitial = () => {
-    return {
-      redirect: {
-        destination: "/admin/homepage?page=1",
-        permanent: false,
-      },
-    }
+  if (redirect) {
+    return redirect
   }
 
-  try {
-    const { data } = await axios.get(
-      `http://localhost:3000/api${routes.api.carousel.getImages()}?page=${
-        page || 1
-      }`
-    )
+  const api = getApi(context)
+  const getImage = getImageServices({ api })
+  const getSelectCategory = getSelectCategoryServices({ api })
+  const getSelectProducts = getSelectProductsServices({ api })
 
-    const isEmpty = data.result.length === 0
+  const [errImagesRes, imagesRes] = await getImage()
 
-    if (isEmpty && page !== "1") {
-      return redirectToInitial()
-    }
+  const [errCategoriesRes, categoriesRes] = await getSelectCategory()
 
-    return {
-      props: {
-        images: data.result,
-        deletedImageId: deletedImageId || null,
-      },
-    }
-  } catch (error) {
-    return redirectToInitial()
+  const [errProductsRes, productsRes] = await getSelectProducts()
+
+  return {
+    props: {
+      images: errImagesRes ? null : imagesRes.result,
+      categories: errCategoriesRes ? null : categoriesRes.result,
+      products: errProductsRes ? null : productsRes.result,
+      errorMessageImages: errImagesRes || null,
+      errorMessageCategories: errCategoriesRes || null,
+      errorMessageProducts: errProductsRes || null,
+    },
   }
 }
 
 const Homepage = (props) => {
-  const { images } = props
+  const {
+    images,
+    categories,
+    products,
+    errorMessageImages,
+    errorMessageCategories,
+    errorMessageProducts
+  } = props
 
   const [error, setError] = useState(null)
+
   const [sortedImages, setSortedImages] = useState(
     [...images].sort((a, b) => a.order - b.order)
   )
 
+  const [sortedCategories, setSortedCategories] = useState(
+    [...categories].sort((a, b) => a.order - b.order)
+  )
+
+  const [sortedProducts, setSortedProducts] = useState(
+    [...products].sort((a, b) => a.order - b.order)
+  )
+
   useEffect(() => {
     setSortedImages([...images].sort((a, b) => a.order - b.order))
-  }, [images])
+    setSortedCategories([...categories].sort((a, b) => a.order - b.order))
+    setSortedProducts([...products].sort((a, b) => a.order - b.order))
+  }, [images, categories, products])
 
   const router = useRouter()
 
   const {
-    actions: { deleteCarousel, orderCarousel },
+    actions: {
+      deleteCarousel,
+      orderCarousel,
+      deleteSelectedCategory,
+      orderSelectedCategory,
+      deleteSelectedProduct,
+      orderSelectedProduct
+    }
   } = useAppContext()
 
-  const handleDelete = useCallback(
+  const handleDeleteCarousel = useCallback(
     async (imageId) => {
-      setError(null)
+      setError(false)
 
       const [err] = await deleteCarousel(imageId)
 
@@ -71,13 +94,48 @@ const Homepage = (props) => {
         return
       }
 
-      router.push(`/admin/homepage?deletedImageId=${imageId}`)
+      router.push(`/admin/homepage`)
     },
     [deleteCarousel, router]
   )
 
-  const handleMove = useCallback(
+  const handleDeleteCategory = useCallback(
+    async (categoryId) => {
+      setError(false)
+
+      const [err] = await deleteSelectedCategory(categoryId)
+
+      if (err) {
+        setError(categoryId)
+
+        return
+      }
+
+      router.push(`/admin/homepage?deletedCategoryId=${categoryId}`)
+    },
+    [deleteSelectedCategory, router]
+  )
+
+  const handleDeleteProduct = useCallback(
+    async (productId) => {
+      setError(false)
+
+      const [err] = await deleteSelectedProduct(productId)
+
+      if (err) {
+        setError(productId)
+
+        return
+      }
+
+      router.push(`/admin/homepage?deletedProductId=${productId}`)
+    },
+    [deleteSelectedProduct, router]
+  )
+
+  const handleMoveCarousel = useCallback(
     async (imageId, direction) => {
+      setError(false)
       const [err] = await orderCarousel(imageId, direction === "up" ? -1 : 1)
 
       if (err) {
@@ -101,20 +159,121 @@ const Homepage = (props) => {
     [orderCarousel, sortedImages]
   )
 
+  const handleMoveCategory = useCallback(
+    async (categoryId, direction) => {
+      setError(false)
+      const [err] = await orderSelectedCategory(
+        categoryId,
+        direction === "up" ? -1 : 1
+      )
+
+      if (err) {
+        setError(err)
+
+        return
+      }
+
+      const updatedCategories = [...sortedCategories]
+
+      const currentIndex = updatedCategories.findIndex(
+        (cat) => cat.id === categoryId
+      )
+      const newIndex = currentIndex + (direction === "up" ? -1 : 1)
+
+      if (newIndex >= 0 && newIndex < updatedCategories.length) {
+        const temp = updatedCategories[currentIndex].order
+        updatedCategories[currentIndex].order =
+          updatedCategories[newIndex].order
+        updatedCategories[newIndex].order = temp
+
+        setSortedCategories(updatedCategories.sort((a, b) => a.order - b.order))
+      }
+    },
+    [orderSelectedCategory, sortedCategories]
+  )
+
+  const handleMoveProduct = useCallback(
+    async (productId, direction) => {
+      setError(false)
+      const [err] = await orderSelectedProduct(
+        productId,
+        direction === "up" ? -1 : 1
+      )
+
+      if (err) {
+        setError(err)
+
+        return
+      }
+
+      const updatedProducts = [...sortedProducts]
+
+      const currentIndex = updatedProducts.findIndex(
+        (pdt) => pdt.id === productId
+      )
+      const newIndex = currentIndex + (direction === "up" ? -1 : 1)
+
+      if (newIndex >= 0 && newIndex < updatedProducts.length) {
+        const temp = updatedProducts[currentIndex].order
+        updatedProducts[currentIndex].order = updatedProducts[newIndex].order
+        updatedProducts[newIndex].order = temp
+
+        setSortedProducts(updatedProducts.sort((a, b) => a.order - b.order))
+      }
+    },
+    [orderSelectedProduct, sortedProducts]
+  )
+
   return (
-    <div className="p-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
+    <div className="lg:absolute lg:top-0 lg:left-[20%]">
       {error && (
-        <div className="text-red-500 mb-4">
-          <p>Error: {error}</p>
-        </div>
+        <AdminErrorMessage errorMessage={error}/>
       )}
-      <DisplayMain
-        sectionName={"Carousel"}
-        sectionLink={"carousel"}
-        contents={sortedImages}
-        onDelete={handleDelete}
-        onMove={handleMove}
-      />
+      <>
+        {errorMessageImages ? (
+          <AdminErrorMessage errorMessage={errorMessageImages} />
+        ) : (
+          <DisplayMain
+            sectionName={"Carousel"}
+            sectionLink={"carousel"}
+            contents={sortedImages}
+            onDelete={handleDeleteCarousel}
+            onMove={handleMoveCarousel}
+            renderContent={"carousel"}
+            className={"mt-10"}
+          />
+        )}
+      </>
+      <>
+        {errorMessageCategories ? (
+          <AdminErrorMessage errorMessage={errorMessageCategories} />
+        ) : (
+          <DisplayMain
+            sectionName={"Categories"}
+            sectionLink={"categories"}
+            contents={sortedCategories}
+            onDelete={handleDeleteCategory}
+            onMove={handleMoveCategory}
+            renderContent={"category"}
+            className={"mt-28"}
+          />
+        )}
+      </>
+      <>
+        {errorMessageProducts ? (
+          <AdminErrorMessage errorMessage={errorMessageProducts} />
+        ) : (
+          <DisplayMain
+            sectionName={"Products"}
+            sectionLink={"products"}
+            contents={sortedProducts}
+            onDelete={handleDeleteProduct}
+            onMove={handleMoveProduct}
+            renderContent={"products"}
+            className={"mt-28 mb-6"}
+          />
+        )}
+      </>
     </div>
   )
 }

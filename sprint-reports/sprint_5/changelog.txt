@@ -1,0 +1,133 @@
+[william] 50328bb 2023-02-05 | Merge pull request #35 from william-wtr92/SDV-68-all-fix (HEAD -> main, origin/main, origin/HEAD)
+[Charlotte] 69d606a 2023-02-05 | Flex instead of grid (origin/SDV-68-all-fix, SDV-68-all-fix)
+[Charlotte] 1f8843e 2023-02-05 | Unecessary space
+[Charlotte] 053553a 2023-02-05 | Unecessary divs removed
+[Charlotte] dda44dc 2023-02-05 | Fixed typo + flex instead of grid
+[Charlotte] 3946b34 2023-02-05 | Merge pull request #34 from william-wtr92/SDV-81-fix-nav-menu-admin
+[William] 2e3b1f1 2023-02-05 | User tab view
+[Charlotte] d548bb0 2023-02-05 | Merge pull request #33 from william-wtr92/SDV-69-handle-select-page-checkout
+[Charlotte] 81b1a18 2023-02-05 | Merge pull request #32 from william-wtr92/SDV-82-correction-font-linter
+[Charlotte] cb2f1dc 2023-02-05 | Merge branch 'main' into SDV-69-handle-select-page-checkout
+[Charlotte] e60aa4d 2023-02-05 | onSubmit function needs to be done once the back-end is set. done for now
+[Charlotte] 958e635 2023-02-05 | enableReinitiliaze missing fixed
+[Charlotte] 0b5f291 2023-02-04 | Updated the initial values using useEffect but the initialValues are not re-rendering... - needs to be fixed
+[William] d36cb8c 2023-02-03 | Fix Admin / userView responsive / burger menu
+[William] af04b0a 2023-02-03 | Fix's font linter warning
+[William] eae083a 2023-02-03 | Merge branch 'main' of https://github.com/william-wtr92/website-airnes into SDV-82-correction-font-linter
+[William] 4cd24b1 2023-02-03 | Fix backoffice view
+[William] 47e9769 2023-02-03 | Admin Responsive
+[Charlotte] 619016e 2023-02-03 | Merge pull request #31 from william-wtr92/SDV-47-page-mot-de-passe-oublie
+[Tom OLLIVIER] a45cf82 2023-02-03 | SDV 47 setting Page Mots de passe Oublié
+[Hugo] 2663a65 2023-02-02 | Merge pull request #30 from william-wtr92/SDV-74-admin-page-users
+[William] 5fad461 2023-02-02 | BackOffice users some tailwind fix's
+[William] 019916d 2023-02-02 | Merge branch 'main' of https://github.com/william-wtr92/website-airnes into SDV-74-admin-page-users
+[Hugo] a93194d 2023-02-02 | Merge pull request #29 from william-wtr92/SDV-73-connexion-bdd
+[william] fcf1e08 2023-02-02 | Merge pull request #21 from william-wtr92/SDV-58-page-produit
+[William] 13760ab 2023-02-02 | Admin fix's
+[William] 2db21ff 2023-02-02 | Change db connection
+[vaillanh] c26a9ba 2023-02-02 | Correction review
+[William] 38f53ac 2023-02-02 | Resolve conflict's
+[Charlotte] db16f7f 2023-02-02 | Merge pull request #28 from william-wtr92/SDV-68-all-fix
+[William] 0bf8eed 2023-02-02 | Fix's
+[William] 8f93ef1 2023-02-02 | Fix conflict's
+[William] 860e771 2023-02-02 | Fix conflict's
+[William] 8d3062e 2023-02-02 | Fix conflict's
+[William] 6eb31e4 2023-01-27 | Recup commit
+[William] 57f2266 2023-01-26 | Some fix's Footer & link
+[William] c0fd0a8 2023-02-02 | Recup commit
+[Charlotte] 785d318 2023-02-02 | Last fix
+[William] 3a5fe43 2023-02-02 | Recup commit
+[William] b70c5c7 2023-02-02 | Recup commit
+[William] bd5cfea 2023-02-02 | Merge branch 'SDV-68-all-fix' of https://github.com/william-wtr92/website-airnes into SDV-68-all-fix
+[William] 1a7fa9b 2023-02-02 | Revert "Merge pull request #20 from william-wtr92/SDV-68-all-fix"
+[Charlotte] 7d0e9cb 2023-02-02 | Fixed button
+[Charlotte] a9c6cfc 2023-02-02 | Fixed similar products
+[Hugo] 462332e 2023-02-02 | Merge pull request #26 from william-wtr92/revert-25-SDV-68-all-fix
+[Hugo] 0a5ba04 2023-02-02 | Revert "Sdv 68 all fix"
+[Charlotte] a0e3cc6 2023-02-02 | Merge pull request #25 from william-wtr92/SDV-68-all-fix
+[William] 5f65c43 2023-02-02 | Remove .env
+[William] 8f4f61a 2023-02-02 | Merge branch 'SDV-68-all-fix' of https://github.com/william-wtr92/website-airnes into SDV-68-all-fix
+[William] a64898c 2023-02-02 | Change gitignore
+[Charlotte] a82ec16 2023-02-02 | Merge pull request #24 from william-wtr92/SDV-68-all-fix
+[William] eb337ec 2023-02-02 | Patch vercel deployement
+[vaillanh] 987615e 2023-02-02 | Correction
+[Charlotte] a44517f 2023-02-02 | Merge pull request #23 from william-wtr92/revert-20-SDV-68-all-fix
+[Hugo] 22b46bb 2023-02-02 | Revert "Sdv 68 all fix"
+[vaillanh] 7ac5c99 2023-02-02 | Correction 2
+[vaillanh] dd83257 2023-02-02 | Correction
+[vaillanh] c763e53 2023-02-02 | Creation Product and carrousel
+[Charlotte] 1a5c300 2023-02-02 | Merge pull request #20 from william-wtr92/SDV-68-all-fix
+[William] 9eab046 2023-02-02 | Fix PR comment's
+[William] 9fdd8dd 2023-02-02 | BDD connection
+[William] 7b67524 2023-02-02 | Fix conflict's
+[William] ae188b2 2023-02-02 | Fixed by Charlotte
+[William] fc52461 2023-02-02 | Resolve conflict's
+[William] db9220e 2023-02-02 | Fix Carousel / Main / Delete component's
+[Hugo] 8009e37 2023-02-02 | Merge pull request #19 from william-wtr92/SDV-59-page-categories
+[Charlotte] 878bda6 2023-02-02 | error
+[Charlotte] b6885e3 2023-02-01 | All page
+[Hugo] ac87885 2023-02-01 | Merge pull request #18 from william-wtr92/SDV-70-handle-select-page-paiement
+[William] 2d0f38f 2023-02-01 | Add bdd variable in env
+[Charlotte] c48e9f0 2023-02-01 | Fixed tailwind + removed the select div since it's not relevant for this page
+[William] eeed9af 2023-02-01 | Users View finished v2
+[William] 09fa33a 2023-02-01 | Users View finished
+[Charlotte] cd1d37b 2023-02-01 | Changed function
+[Charlotte] 7deadde 2023-01-31 | Merge pull request #16 from william-wtr92/SDV-49-page-parametres-du-compte
+[Charlotte] ba89931 2023-01-31 | variables typos
+[Charlotte] 18b8ddd 2023-01-31 | variables typos
+[vaillanh] 5e2856f 2023-01-31 | Review correction
+[vaillanh] 738d284 2023-01-31 | Correction rewiew and new functionality
+[william] 3fc5f8c 2023-01-31 | Merge pull request #17 from william-wtr92/SDV-48-page-mon-compte
+[Tom OLLIVIER] 1541f10 2023-01-31 | SDV 48 setting Page Mon Compte
+[William] c3fbd15 2023-01-31 | Admin Navbar & Search Input & Routing Navbar
+[vaillanh] 0b4bd79 2023-01-31 | Création page
+[Charlotte] 6a1f6a9 2023-01-31 | default values need to be fixed
+[Charlotte] 80b522c 2023-01-31 | needs to be fixed with default values
+[William] 88203a1 2023-01-31 | Fix tailwind
+[William] 0e03cb2 2023-01-27 | fix's tailwind
+[William] 204382f 2023-01-27 | Merge branch 'main' of https://github.com/william-wtr92/website-airnes into SDV-68-all-fix
+[William] 705f195 2023-01-27 | fix's tailwind
+[William] 4a30abf 2023-01-27 | some tailwind fixe's
+[william] 7552473 2023-01-27 | Merge pull request #15 from william-wtr92/SDV-53-page-checkout
+[Charlotte] cbda0e0 2023-01-26 | Fixed semicolon
+[Charlotte] e24ef7a 2023-01-26 | Fixed buttons links
+[Charlotte] 646febb 2023-01-26 | checkout page done
+[william] 0faf33e 2023-01-26 | Merge pull request #14 from william-wtr92/SDV-54-page-paiement
+[Charlotte] 268b22f 2023-01-26 | Quick fix linter
+[Charlotte] 7c8e076 2023-01-26 | Quick fix
+[Charlotte] 68d10b5 2023-01-26 | Merge branch 'main' into SDV-54-page-paiement
+[Charlotte] 10e3ff4 2023-01-26 | Modified tailwind breakpoints + Lil' changes to the button and the form field + payment page's first version done
+[William] a3065ff 2023-01-26 | Some fix's Footer & link
+[william] 3495177 2023-01-25 | Merge pull request #10 from william-wtr92/SDV-55-page-confirmation-paiement
+[Charlotte] 1712f84 2023-01-25 | Merge pull request #13 from william-wtr92/SDV-66-importer-une-font
+[William] fd9c7c5 2023-01-25 | Add font
+[Charlotte] 19f2e5d 2023-01-25 | Merge pull request #12 from william-wtr92/SDV-52-page-panier
+[Charlotte] 53e456c 2023-01-25 | Merge pull request #11 from william-wtr92/SDV-45-page-inscription-contact
+[William] fa4ac1c 2023-01-25 | Fix Responsive
+[William] 65b1200 2023-01-25 | Responsive Cart
+[William] 4b275d8 2023-01-25 | Desktop design
+[William] 258a399 2023-01-25 | Merge branch 'main' of https://github.com/william-wtr92/website-airnes into SDV-52-page-panier
+[vaillanh] 7d93796 2023-01-25 | Add Signin and correction Contact
+[vaillanh] 1f01592 2023-01-25 | Revert "Correction contact and add signin"
+[vaillanh] e672e79 2023-01-25 | Correction contact and add signin
+[Charlotte] 38add9d 2023-01-25 | Fixed palette issues + changed the button design; added the payment confirmation page
+[Charlotte] 8fb90af 2023-01-25 | Confirmation page
+[Hugo] bb87766 2023-01-25 | Merge pull request #7 from william-wtr92/SDV-44-page-connexion
+[William] 15f9c54 2023-01-25 | .js to .jsx
+[William] afaf763 2023-01-25 | Fix conflicts
+[William] 1b45a7c 2023-01-25 | Fix conflict
+[William] 74f58b5 2023-01-24 | Linter fix's v2
+[William] 9cb49e5 2023-01-24 | Linter fix's
+[Hugo] 980628f 2023-01-24 | Merge pull request #9 from william-wtr92/linter-setup
+[William] dfc70c9 2023-01-24 | Add dependencies / Lint & patch error's
+[Charlotte] ff3c5db 2023-01-24 | Merge pull request #8 from william-wtr92/SDV-51-page-commande-deroulement-de-la-page-mes-commandes
+[William] 92822dd 2023-01-24 | PR comment patch
+[William] d541c07 2023-01-24 | Start Cart Page
+[William] 8d34948 2023-01-24 | Resolve PR conflict
+[William] f5dfcfa 2023-01-24 | Component modif name
+[William] 8268ca7 2023-01-24 | Add new logo to NavBar
+[William] ee6f7ce 2023-01-24 | Add new logo to NavBar
+[William] 98429ef 2023-01-24 | Some fix's & Responsive
+[William] 7632dc7 2023-01-24 | Order View Page + Organisation of folder's
+[William] d0c5a62 2023-01-24 | Responsive Login
+[William] aded5a7 2023-01-23 | Login Page

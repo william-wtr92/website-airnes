@@ -12,24 +12,33 @@ import {
 import { NavLink } from "@/components/utils/NavLink"
 import classNames from "classnames"
 import { accountSettingsValidationSchema } from "@/components/validation/validationyup"
-import axios from "axios"
-import routes from "@/web/routes"
 import useAppContext from "@/web/hooks/useAppContext"
-import Comfirm from "@/components/app/ui/Comfirm"
+import Confirm from "@/components/app/ui/Confirm"
 import { useRouter } from "next/router"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "next-i18next"
+import getApi from "@/web/getAPI"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import userDataServices from "@/web/services/user/userData"
 
 export const getServerSideProps = async (context) => {
-  const { query } = context
+  const { req, query, locale } = context
 
-  const { data } = await axios.get(
-    `http://localhost:3000/api${routes.api.user.userData(query.userId)}`
-  )
+  const redirect = getAuthorization("user", req, query)
 
-  if (!data.result) {
+  if (redirect) {
+    return redirect
+  }
+
+  const api = getApi(context)
+
+  const userData = userDataServices({ api })
+  const [err, data] = await userData(query.userId)
+
+  if (err) {
     return {
       redirect: {
         destination: "/",
-        permanent: false,
       },
     }
   }
@@ -38,6 +47,11 @@ export const getServerSideProps = async (context) => {
     props: {
       data: data,
       userId: query.userId,
+      ...(await serverSideTranslations(locale, [
+        "settingsAccount",
+        "navbar",
+        "footer",
+      ])),
     },
   }
 }
@@ -45,11 +59,11 @@ export const getServerSideProps = async (context) => {
 const Settings = (props) => {
   const { data, userId } = props
   const {
-    actions: { patchUser, deleteAddress, deleteUser },
+    actions: { patchUser, deleteAddress, deleteUser, logout },
   } = useAppContext()
   const [viewAddressL, setViewAddressL] = useState(false)
-  const [comfirmeDelUser, setComfirmeDelUser] = useState(false)
-  const [comfirmeDelAddress, setComfirmeDelAddress] = useState(false)
+  const [confirmDelUser, setConfirmDelUser] = useState(false)
+  const [confirmDelAddress, setConfirmDelAddress] = useState(false)
 
   const [error, setError] = useState(null)
   const router = useRouter()
@@ -75,7 +89,7 @@ const Settings = (props) => {
     },
     [patchUser, userId]
   )
-  const handledeleteAddress = useCallback(
+  const handleDeleteAddress = useCallback(
     async (addressId) => {
       setError(null)
       const [err] = await deleteAddress(userId, addressId)
@@ -90,7 +104,7 @@ const Settings = (props) => {
     },
     [deleteAddress, userId]
   )
-  const handledeleteUser = useCallback(async () => {
+  const handleDeleteUser = useCallback(async () => {
     setError(null)
     const [err] = await deleteUser(userId)
 
@@ -101,24 +115,27 @@ const Settings = (props) => {
     }
 
     localStorage.clear()
+    logout()
     router.push("/")
-  }, [deleteUser, userId, router])
+  }, [deleteUser, userId, router, logout])
 
-  const handleComfirmAddress = useCallback(async () => {
-    setComfirmeDelAddress(true)
-  }, [setComfirmeDelAddress])
+  const handleConfirmAddress = useCallback(async () => {
+    setConfirmDelAddress(true)
+  }, [setConfirmDelAddress])
 
-  const handleComfirmUser = useCallback(async () => {
-    setComfirmeDelUser(true)
-  }, [setComfirmeDelUser])
+  const handleConfirmUser = useCallback(async () => {
+    setConfirmDelUser(true)
+  }, [setConfirmDelUser])
+
+  const { t } = useTranslation("settingsAccount")
 
   return (
     <>
       <div className="flex justify-center mt-8 ">
         <div className=" w-4/5 lg:w-3/5 ">
-          <h1 className="text-center  text-3xl font-bold ">Mon Compte</h1>
+          <h1 className="text-center  text-3xl font-bold ">{t(`myAccount`)}</h1>
           <div className="flex flex-col lg:flex-row gap-2 lg:gap-16 mt-4 lg:mt-20">
-            <h2 className="text-2xl font-bold">Mes Informations</h2>
+            <h2 className="text-2xl font-bold">{t(`myInfo`)}</h2>
             <Formik
               onSubmit={handleModify}
               initialValues={accountSettingsInitialValues}
@@ -129,27 +146,30 @@ const Settings = (props) => {
                 <FormField
                   type="text"
                   name="name"
-                  label="Nom complet*"
+                  placeholder={t(`placeholderName`)}
+                  label={t(`labelName`)}
                   className=" mb-2"
                 />
                 <FormField
                   type="email"
                   name="mail"
-                  placeholder="Entrez votre e-mail"
-                  label="E-mail*"
+                  placeholder={t(`placeholderEmail`)}
+                  label={t(`labelEmail`)}
                   className=" mb-2"
                 />
                 <div className="">
-                  <NavLink href="#"> Changer de mdp</NavLink>
+                  <NavLink href="#">{t(`changePwd`)}</NavLink>
                 </div>
                 <Button type="submit" className="w-2/3 ml-8 lg:ml-20 ">
-                  MODIFIER
+                  {t(`btnModify`)}
                 </Button>
               </Form>
             </Formik>
           </div>
           <div className="flex flex-col lg:flex-row gap-2 lg:gap-16 mt-4 lg:mt-12">
-            <h2 className="text-2xl font-bold">Mes adresses</h2>
+            <h2 className="text-2xl font-bold whitespace-nowrap">
+              {t(`address`)}
+            </h2>
             <div className="w-4/5">
               <div>
                 <span className="flex justify-between">
@@ -159,7 +179,7 @@ const Settings = (props) => {
                     ) : (
                       <ChevronRightIcon className="w-6" />
                     )}
-                    Adresse de livraison
+                    {t(`orderAddress`)}
                   </span>
                   <span
                     className={classNames(
@@ -173,7 +193,7 @@ const Settings = (props) => {
                   </span>
                 </span>
 
-                {data.result.alldata.map((data) => (
+                {data.result.allData.map((data) => (
                   <div
                     key={data.id}
                     className={classNames(
@@ -184,7 +204,9 @@ const Settings = (props) => {
                     <div className="flex flex-col ">
                       <span className="font-bold">{data.addressName}:</span>
                       <span>{data.address}</span>
-                      <span>Complément d'adresse: {data.complete}</span>
+                      <span>
+                        {t(`addressCp`)} {data.complete}
+                      </span>
                       <span>
                         {data.postal_code}, {data.city}
                       </span>
@@ -196,19 +218,20 @@ const Settings = (props) => {
                       <button
                         key={data.id}
                         className="text-red-600 "
-                        onClick={() => handleComfirmAddress()}
+                        onClick={() => handleConfirmAddress()}
                       >
                         <TrashIcon className="w-4" />
                       </button>
                     </div>
-                    <Comfirm
+                    <Confirm
                       className={classNames(
-                        comfirmeDelAddress ? "block" : "hidden"
+                        confirmDelAddress ? "block" : "hidden"
                       )}
-                      affichage={setComfirmeDelAddress}
-                      action={handledeleteAddress}
-                      textValue="l'adresse'"
+                      show={setConfirmDelAddress}
+                      action={handleDeleteAddress}
+                      textValue={t(`confirmAddress`)}
                       params={data.id}
+                      display={setConfirmDelAddress}
                     />
                   </div>
                 ))}
@@ -217,17 +240,17 @@ const Settings = (props) => {
           </div>
           <div className="flex flex-row-reverse">
             <Button
-              variant="suppr"
+              variant="danger"
               className="mt-16"
-              onClick={() => handleComfirmUser()}
+              onClick={() => handleConfirmUser()}
             >
-              Supprimer le compte
+              {t(`dltAccount`)}
             </Button>
-            <Comfirm
-              className={classNames(comfirmeDelUser ? "block" : "hidden")}
-              affichage={setComfirmeDelUser}
-              action={handledeleteUser}
-              textValue="l'utilisateur connecté"
+            <Confirm
+              className={classNames(confirmDelUser ? "block" : "hidden")}
+              display={setConfirmDelUser}
+              action={handleDeleteUser}
+              textValue={t(`confirmDeleteAccount`)}
             />
           </div>
         </div>

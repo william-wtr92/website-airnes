@@ -1,61 +1,104 @@
-import Product from "@/components/app/content/Product"
+import ProductThumbnail from "@/components/app/content/ProductThumbnail"
 import Image from "next/image"
+import { NavLink } from "@/components/utils/NavLink"
+import Button from "@/components/app/ui/Button"
 
-const example = [
-  {
-    id: 0,
-    name: "Chaise",
-    price: 123,
-    image: "/images/chair.png",
-  },
-  {
-    id: 1,
-    name: "Chaise 2",
-    price: 456,
-    image: "/images/chair.png",
-  },
-  {
-    id: 2,
-    name: "Chaise 3",
-    price: 789,
-    image: "/images/chair.png",
-  },
-  {
-    id: 3,
-    name: "Chaise 4",
-    price: 987,
-    image: "/images/chair.png",
-  },
-  {
-    id: 4,
-    name: "Chaise 5",
-    price: 654,
-    image: "/images/chair.png",
-  },
-]
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "next-i18next"
 
-const Category = () => {
+import getApi from "@/web/getAPI"
+import getCategoryServices from "@/web/services/app/categories/getCategory"
+
+export const getServerSideProps = async (context) => {
+  const { categoryId } = context.params
+  const { locale } = context
+
+  const api = getApi(context)
+
+  const getCategory = getCategoryServices({ api })
+  const [err, data] = await getCategory(categoryId)
+
+  if (err) {
+    return {
+      props: {
+        err: err,
+      },
+    }
+  }
+
+  const categoryData = data.result
+
+  const translations = await serverSideTranslations(locale, [
+    "categories",
+    "navbar",
+    "footer",
+  ])
+
+  return {
+    props: {
+      category: categoryData,
+      ...translations,
+    },
+  }
+}
+
+const Category = (props) => {
+  const { category, err } = props
+
+  const products = category.products
+
+  const { t } = useTranslation("categories")
+
   return (
     <>
-      <Image
-        src="/images/categories.png"
-        alt=""
-        className="w-full h-72 object-cover"
-        height={500}
-        width={500}
-      />
-      <div className="flex flex-col items-center">
-        <div className="w-5/6 grid gap-16 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 my-20">
-          {example.map((product) => (
-            <Product
-              key={product.id}
-              alt="test"
-              image={product.image}
-              productName={product.name}
-              productPrice={product.price}
-            />
-          ))}
+      <div className="relative">
+        <Image
+          src={category.image}
+          alt={category.name}
+          className="w-full h-72 object-cover blur-[1px]"
+          height={500}
+          width={500}
+        />
+        <div className="absolute inset-0 bg-primary bg-opacity-30 flex items-center justify-center">
+          <h1 className="text-3xl font-black text-white tracking-widest drop-shadow-xl">
+            {category.name}
+          </h1>
         </div>
+      </div>
+      <div className="flex flex-col items-center py-5">
+        <div className="px-10 py-10">{category.description}</div>
+        {products.length === 0 || err ? (
+          <div className="flex flex-col gap-5">
+            <p className="text-center">{t(`notfound2`)}</p>
+            <NavLink href="/categories/all">
+              <Button>{t(`buttonText`)}</Button>
+            </NavLink>
+          </div>
+        ) : (
+          <div className="w-5/6 grid gap-16 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {products.map((product) =>
+              product.quantity > 0 ? (
+                <ProductThumbnail
+                  key={product.id}
+                  alt={product.name}
+                  image={product.image}
+                  productId={product.id}
+                  productName={product.name}
+                  productPrice={product.price}
+                />
+              ) : (
+                <>
+                  <div className="flex flex-col gap-5 absolute md:left-[40%]">
+                    <p className="text-center">{t(`notfound2`)}</p>
+                    <NavLink href="/categories/all">
+                      <Button>{t(`buttonText`)}</Button>
+                    </NavLink>
+                  </div>
+                </>
+              )
+            )}
+          </div>
+        )}
       </div>
     </>
   )

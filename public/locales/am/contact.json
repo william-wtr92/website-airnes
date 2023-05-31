@@ -1,0 +1,10 @@
+{
+"contactUs": "Հետադարձ կապ",
+"labelEmail": "Էլ. փոստ*",
+"placeholderEmail": "Մուտքագրեք ձեր էլ. փոստը",
+"labelSubject": "Թեմա*",
+"placeholderSubject": "Մուտքագրեք ձեր թեման",
+"labelContent": "Հաղորդագրություն*",
+"placeholderContent": "Մուտքագրեք ձեր հաղորդագրությունը",
+"send": "Ուղարկել"
+}

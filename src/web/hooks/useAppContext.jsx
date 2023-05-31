@@ -1,34 +1,97 @@
-import { createContext, useContext, useEffect, useState } from "react"
-import createAPIClient from "../createAPIClient"
-import signUpService from "../services/signUp"
-import signInService from "../services/signIn"
+import { createContext, useContext, useState, useEffect } from "react"
+import createAPIClient from "@/web/createAPIClient"
+import signUpService from "@/web/services/signUp"
+import signInService from "@/web/services/signIn"
+import logoutService from "@/web/services/logout"
 import contactService from "@/web/services/contact.js"
-import updateContactService from "@/web/services/admin/updateContact"
-import createCategoryService from "@/web/services/admin/addCategory"
-import updateCategoryService from "@/web/services/admin/updateCategory"
-import addAddressService from "../services/user/address/addAddress"
-import patchUserService from "../services/user/patchUser"
-import deleteUserService from "../services/user/deleteUser"
-import patchAddressService from "../services/user/address/patchAddress"
-import deleteAddressService from "../services/user/address/deleteAddress"
-import addCarouselService from "../services/admin/addCarousel"
-import deleteCarouselService from "../services/admin/deleteCarousel"
-import orderCarouselService from "../services/admin/orderCarousel"
-import parseSession from "../parseSession"
-import createProductService from "@/web/services/admin/addProduct"
+import sendMailService from "@/web/services/sendMail"
+import resetPwdService from "@/web/services/resetPwd"
+import updateContactService from "@/web/services/admin/contacts/updateContact"
+import createCategoryService from "@/web/services/admin/categories/addCategory"
+import updateCategoryService from "@/web/services/admin/categories/updateCategory"
+import deleteCategoryService from "@/web/services/admin/categories/deleteCategory"
+import deleteContactService from "@/web/services/admin/contacts/deleteContact"
+import addAddressService from "@/web/services/user/address/addAddress"
+import patchUserService from "@/web/services/user/patchUser"
+import deleteUserService from "@/web/services/user/deleteUser"
+import patchAddressService from "@/web/services/user/address/patchAddress"
+import deleteAddressService from "@/web/services/user/address/deleteAddress"
+import addCarouselService from "@/web/services/admin/homepage/addCarousel"
+import deleteCarouselService from "@/web/services/admin/homepage/deleteCarousel"
+import orderCarouselService from "@/web/services/admin/homepage/orderCarousel"
+import createProductService from "@/web/services/admin/products/addProduct"
+import updateProductService from "@/web/services/admin/products/updateProduct"
+import deleteProductService from "@/web/services/admin/products/deleteProduct"
+import deleteSelectedCategoryService from "@/web/services/admin/homepage/deleteSelectedCategory"
+import orderSelectedCategoryService from "@/web/services/admin/homepage/orderSelectedCategory"
+import addSelectedCategoryService from "@/web/services/admin/homepage/addSelectedCategory"
+import addSelectedProductService from "@/web/services/admin/homepage/addSelectedProduct"
+import deleteSelectedProductService from "@/web/services/admin/homepage/deleteSelectedProduct"
+import orderSelectedProductService from "@/web/services/admin/homepage/orderSelectedProduct"
+import patchRoleService from "@/web/services/admin/users/updateRole"
+import paymentService from "@/web/services/cart/payment"
+import confirmOrderService from "@/web/services/cart/confirmOrder"
+import getAddressServices from "@/web/services/cart/getAddress"
 
-import config from "../config"
+import config from "@/web/config"
+import { i18n } from "next-i18next"
+import parseSession from "@/web/parseSession"
+import { useRouter } from "next/router"
 
 const AppContext = createContext()
 
 export const AppContextProvider = (props) => {
+  const { cartItems: initialCartItems, ...otherProps } = props
+
   const [session, setSession] = useState(null)
   const [jwt, setJWT] = useState(null)
-  const api = createAPIClient({ jwt })
+  const api = createAPIClient({ jwt, baseURL: config.api.baseURL })
+  const [cartItems, setCartItems] = useState(initialCartItems || [])
+
+  const router = useRouter()
 
   const signUp = signUpService({ api })
   const signIn = signInService({ api, setSession, setJWT })
+  const logout = logoutService({ api, setSession, setJWT })
+
   const contact = contactService({ api })
+  const addCategory = createCategoryService({ api })
+  const updateCategory = updateCategoryService({ api })
+  const deleteCategory = deleteCategoryService({ api })
+
+  const addProduct = createProductService({ api })
+  const updateProduct = updateProductService({ api })
+  const deleteProduct = deleteProductService({ api })
+
+  const updateContact = updateContactService({ api })
+  const deleteContact = deleteContactService({ api })
+
+  const sendMail = sendMailService({ api })
+  const resetPwd = resetPwdService({ api })
+
+  const addAddress = addAddressService({ api })
+  const patchUser = patchUserService({ api })
+  const patchRole = patchRoleService({ api })
+  const patchAddress = patchAddressService({ api })
+
+  const deleteUser = deleteUserService({ api })
+  const deleteAddress = deleteAddressService({ api })
+
+  const addCarousel = addCarouselService({ api })
+  const deleteCarousel = deleteCarouselService({ api })
+  const orderCarousel = orderCarouselService({ api })
+
+  const deleteSelectedCategory = deleteSelectedCategoryService({ api })
+  const orderSelectedCategory = orderSelectedCategoryService({ api })
+  const addSelectedCategory = addSelectedCategoryService({ api })
+
+  const deleteSelectedProduct = deleteSelectedProductService({ api })
+  const orderSelectedProduct = orderSelectedProductService({ api })
+  const addSelectedProduct = addSelectedProductService({ api })
+
+  const payment = paymentService({ api })
+  const confirmOrder = confirmOrderService({ api })
+  const getAddress = getAddressServices({ api })
 
   useEffect(() => {
     const jwt = localStorage.getItem(config.session.localStorageKey)
@@ -40,37 +103,103 @@ export const AppContextProvider = (props) => {
     const session = parseSession(jwt)
 
     setSession(session)
-    setJWT({ jwt })
+    setJWT(jwt)
   }, [])
 
-  const addCategory = createCategoryService({ api, jwt })
-  const updateCategory = updateCategoryService({ api, jwt })
-  const updateContact = updateContactService({ api })
-  const addProduct = createProductService({ api, jwt })
-  const addAddress = addAddressService({ api, jwt })
-  const patchUser = patchUserService({ api })
-  const patchAddress = patchAddressService({ api })
+  useEffect(() => {
+    const storedCart = localStorage.getItem("cart")
 
-  const deleteUser = deleteUserService({ api })
-  const deleteAddress = deleteAddressService({ api })
+    if (storedCart) {
+      const parsedCart = JSON.parse(storedCart)
+      setCartItems(parsedCart)
+    }
+  }, [])
 
-  const addCarousel = addCarouselService({ api, jwt })
-  const deleteCarousel = deleteCarouselService({ api })
-  const orderCarousel = orderCarouselService({ api })
+  const clearCart = () => {
+    setCartItems([])
+    localStorage.removeItem("cart")
+  }
+
+  const addToCart = (product) => {
+    const currentCart = JSON.parse(localStorage.getItem("cart")) || []
+    const existingItemIndex = currentCart.findIndex(
+      (item) => item.id === product.id
+    )
+
+    const newCartItems =
+      existingItemIndex !== -1
+        ? [...currentCart]
+        : [
+            ...currentCart,
+            {
+              ...product,
+              product_quantity: 1,
+            },
+          ]
+
+    if (existingItemIndex !== -1) {
+      newCartItems[existingItemIndex].product_quantity += 1
+    }
+
+    setCartItems(newCartItems)
+    localStorage.setItem("cart", JSON.stringify(newCartItems))
+  }
+
+  const removeFromCart = (productId) => {
+    const newCartItems = cartItems.filter((item) => item.id !== productId)
+    setCartItems(newCartItems)
+    localStorage.setItem("cart", JSON.stringify(newCartItems))
+  }
+
+  const updateCartQuantity = (productId, newQuantity) => {
+    if (newQuantity >= 1) {
+      const updatedCartItems = cartItems.map((item) => {
+        if (item.id === productId) {
+          return { ...item, product_quantity: newQuantity }
+        }
+
+        return item
+      })
+      setCartItems(updatedCartItems)
+      localStorage.setItem("cart", JSON.stringify(updatedCartItems))
+    }
+  }
+
+  const language = i18n ? i18n.language : "fr"
+
+  const saveLanguageToLocalStorage = (language) => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("userLanguage", language)
+    }
+  }
+
+  const changeLanguage = (language) => {
+    if (i18n && language !== i18n.language) {
+      i18n.changeLanguage(language)
+      saveLanguageToLocalStorage(language)
+      router.push(router.pathname, router.asPath, { locale: language })
+    }
+  }
 
   return (
     <AppContext.Provider
-      {...props}
+      {...otherProps}
       value={{
         actions: {
           signUp,
           signIn,
+          logout,
           contact,
+          sendMail,
+          resetPwd,
           updateContact,
           addCategory,
           updateCategory,
+          deleteCategory,
+          deleteContact,
           addAddress,
           patchUser,
+          patchRole,
           patchAddress,
           deleteUser,
           deleteAddress,
@@ -78,9 +207,27 @@ export const AppContextProvider = (props) => {
           deleteCarousel,
           orderCarousel,
           addProduct,
+          updateProduct,
+          deleteProduct,
+          deleteSelectedCategory,
+          orderSelectedCategory,
+          addSelectedCategory,
+          addSelectedProduct,
+          deleteSelectedProduct,
+          orderSelectedProduct,
+          addToCart,
+          updateCartQuantity,
+          removeFromCart,
+          clearCart,
+          changeLanguage,
+          payment,
+          confirmOrder,
+          getAddress,
         },
         state: {
           session,
+          cartItems,
+          language,
         },
       }}
     />

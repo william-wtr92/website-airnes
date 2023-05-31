@@ -1,0 +1,18 @@
+{
+  "addText": "Հասցեի փոփոխություն",
+  "firstnameLabel": "Անուն",
+  "firstnamePlaceholder": "Մուտքագրեք ձեր անունը",
+  "lastnameLabel": "Ազգանուն",
+  "lastnamePlaceholder": "Մուտքագրեք ձեր ազգանունը",
+  "addressNameLabel": "Հասցեի անվանում",
+  "addressNamePlaceholder": "Տուն",
+  "addressFullLabel": "Ամբողջական հասցե",
+  "addressFullPlaceholder": "01 փողոցը ...",
+  "addressComplementLabel": "Հասցեի լրացուցիչ",
+  "addressComplementPlaceholder": "Շենք, փողոց, ...",
+  "postalLabel": "Փոստային կոդ",
+  "postalPlaceholder": "92400",
+  "cityLabel": "Քաղաք",
+  "cityPlaceholder": "Փարիզ",
+  "buttonText": "ԳՐԱՆՑԵԼ"
+}

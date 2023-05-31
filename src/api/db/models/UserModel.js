@@ -1,14 +1,14 @@
 import BaseModel from "@/api/db/models/BaseModel.js"
-import hashPassword from "../hashPassword"
 import AddressModel from "./AddressModel"
 import RoleModel from "./RoleModel"
+const { hashPassword } = require("@/api/db/hashPassword")
 
 class UserModel extends BaseModel {
   static tableName = "user"
 
   static relationMappings() {
     return {
-      alldata: {
+      allData: {
         relation: BaseModel.HasManyRelation,
         modelClass: AddressModel,
         join: {
@@ -17,7 +17,7 @@ class UserModel extends BaseModel {
           modify: (query) => query.select("id"),
         },
       },
-      roledata: {
+      roleData: {
         relation: BaseModel.BelongsToOneRelation,
         modelClass: RoleModel,
         filter: (query) => query.select("right"),
