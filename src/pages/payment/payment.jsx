@@ -1,17 +1,18 @@
-import React, {useState, useEffect} from "react"
-import {loadStripe} from "@stripe/stripe-js"
-import {Elements} from "@stripe/react-stripe-js"
+import React, { useState, useEffect } from "react"
+import { loadStripe } from "@stripe/stripe-js"
+import { Elements } from "@stripe/react-stripe-js"
 import CheckoutForm from "@/components/app/cart/checkoutform"
 import useAppContext from "@/web/hooks/useAppContext"
 import config from "@/api/config"
+import { useRouter } from "next/router"
 
 export const getServerSideProps = async () => {
   const dynamicPath = config.path
 
   return {
     props: {
-      dynamicPath
-    }
+      dynamicPath,
+    },
   }
 }
 
@@ -22,14 +23,19 @@ const stripePromise = loadStripe(
 const Payment = (props) => {
   const { dynamicPath } = props
   const {
-    state: { cartItems },
-    actions: { payment }
+    state: { cartItems, cartAddress },
+    actions: { payment },
   } = useAppContext()
 
   const [clientSecret, setClientSecret] = useState("")
   const [price, setPrice] = useState("")
+  const router = useRouter()
 
   useEffect(() => {
+    if (!cartAddress) {
+      router.push(`/user/cart`)
+    }
+
     async function fetchData() {
       const items = cartItems
       const paymentIntent = await payment(items)
@@ -40,21 +46,25 @@ const Payment = (props) => {
     if (cartItems.length != 0) {
       fetchData()
     }
-  }, [payment, cartItems])
+  }, [payment, cartItems, cartAddress, router])
 
   const appearance = {
-    theme: "stripe"
+    theme: "stripe",
   }
   const options = {
     clientSecret,
-    appearance
+    appearance,
   }
 
   return (
     <div>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm price={price} dynamicPath={dynamicPath}/>
+          <CheckoutForm
+            price={price}
+            dynamicPath={dynamicPath}
+            address_id={cartAddress}
+          />
         </Elements>
       )}
     </div>

@@ -1,36 +1,44 @@
 import Button from "@/components/app/ui/Button"
-import {NavLink} from "@/components/utils/NavLink"
+import { NavLink } from "@/components/utils/NavLink"
 import useAppContext from "@/web/hooks/useAppContext"
-import {useEffect} from "react"
+import { useEffect } from "react"
 
 export const getServerSideProps = async (context) => {
-  const { payment_intent, redirect_status } = context.query
+  const { payment_intent, redirect_status, address_id } = context.query
 
   return {
     props: {
       payment_intent,
-      redirect_status
-    }
+      redirect_status,
+      address_id,
+    },
   }
 }
 
 const Confirmation = (props) => {
   const {
     state: { cartItems },
-    actions: { confirmOrder, clearCart }
+    actions: { confirmOrder, clearCart },
   } = useAppContext()
-  const { payment_intent, redirect_status } = props
+  const { payment_intent, redirect_status, address_id } = props
 
   useEffect(() => {
     async function fetchData() {
-      await confirmOrder(payment_intent, redirect_status, cartItems)
+      await confirmOrder(payment_intent, redirect_status, cartItems, address_id)
       await clearCart()
     }
 
     if (cartItems.length != 0) {
       fetchData()
     }
-  }, [payment_intent, redirect_status, cartItems, confirmOrder, clearCart])
+  }, [
+    payment_intent,
+    redirect_status,
+    cartItems,
+    confirmOrder,
+    clearCart,
+    address_id,
+  ])
 
   return (
     <>
@@ -41,7 +49,6 @@ const Confirmation = (props) => {
           <p className="font-semibold">
             Votre commande a bien été enregistrée sous le numéro
             <span className="font-medium underline">
-              {" "}
               {payment_intent.substring(3)}
             </span>
             .
