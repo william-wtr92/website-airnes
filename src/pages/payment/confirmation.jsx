@@ -6,7 +6,7 @@ import { useTranslation } from "next-i18next"
 import { useEffect } from "react"
 
 export const getServerSideProps = async (context) => {
-  const { payment_intent, redirect_status } = context.query
+  const { payment_intent, redirect_status, address_id } = context.query
   const { locale } = context
 
   const translations = await serverSideTranslations(locale, [
@@ -15,10 +15,12 @@ export const getServerSideProps = async (context) => {
     "footer",
   ])
 
+
   return {
     props: {
       payment_intent,
       redirect_status,
+      address_id,
       ...translations,
     },
   }
@@ -29,18 +31,25 @@ const Confirmation = (props) => {
     state: { cartItems },
     actions: { confirmOrder, clearCart },
   } = useAppContext()
-  const { payment_intent, redirect_status } = props
+  const { payment_intent, redirect_status, address_id } = props
 
   useEffect(() => {
     async function fetchData() {
-      await confirmOrder(payment_intent, redirect_status, cartItems)
+      await confirmOrder(payment_intent, redirect_status, cartItems, address_id)
       await clearCart()
     }
 
     if (cartItems.length != 0) {
       fetchData()
     }
-  }, [payment_intent, redirect_status, cartItems, confirmOrder, clearCart])
+  }, [
+    payment_intent,
+    redirect_status,
+    cartItems,
+    confirmOrder,
+    clearCart,
+    address_id,
+  ])
 
   const { t } = useTranslation("confirmation")
 
@@ -53,7 +62,6 @@ const Confirmation = (props) => {
           <p className="font-semibold">
             {t(`confirmNum`)}
             <span className="font-medium underline">
-              {" "}
               {payment_intent.substring(3)}
             </span>
             .

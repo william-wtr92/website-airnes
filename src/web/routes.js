@@ -90,6 +90,7 @@ const routes = {
     cart: {
       payment: () => "/cart/payment",
       confirmOrder: () => "/cart/confirmOrder",
+      getaddress: (userId) => `/cart/${userId}`,
     },
   },
 }

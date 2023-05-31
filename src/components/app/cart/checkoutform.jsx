@@ -4,7 +4,7 @@ import Button from "../ui/Button"
 import { useTranslation } from "next-i18next"
 
 export default function CheckoutForm(props) {
-  const { price, dynamicPath } = props
+  const { price, dynamicPath, address_id } = props
   const stripe = useStripe()
   const elements = useElements()
 
@@ -23,7 +23,7 @@ export default function CheckoutForm(props) {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${dynamicPath}payment/confirmation`,
+        return_url: `${dynamicPath}payment/confirmation?address_id=${address_id}`,
       },
     })
 

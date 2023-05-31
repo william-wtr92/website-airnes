@@ -31,11 +31,12 @@ import orderSelectedProductService from "@/web/services/admin/homepage/orderSele
 import patchRoleService from "@/web/services/admin/users/updateRole"
 import paymentService from "@/web/services/cart/payment"
 import confirmOrderService from "@/web/services/cart/confirmOrder"
+import getAddressServices from "@/web/services/cart/getAddress"
 
 import config from "@/web/config"
 import { i18n } from "next-i18next"
 import parseSession from "@/web/parseSession"
-import {useRouter} from "next/router"
+import { useRouter } from "next/router"
 
 const AppContext = createContext()
 
@@ -90,6 +91,7 @@ export const AppContextProvider = (props) => {
 
   const payment = paymentService({ api })
   const confirmOrder = confirmOrderService({ api })
+  const getAddress = getAddressServices({ api })
 
   useEffect(() => {
     const jwt = localStorage.getItem(config.session.localStorageKey)
@@ -124,10 +126,16 @@ export const AppContextProvider = (props) => {
       (item) => item.id === product.id
     )
 
-    const newCartItems = existingItemIndex !== -1 ? [...currentCart] : [...currentCart, {
-      ...product,
-      product_quantity: 1
-    }]
+    const newCartItems =
+      existingItemIndex !== -1
+        ? [...currentCart]
+        : [
+            ...currentCart,
+            {
+              ...product,
+              product_quantity: 1,
+            },
+          ]
 
     if (existingItemIndex !== -1) {
       newCartItems[existingItemIndex].product_quantity += 1
@@ -214,6 +222,7 @@ export const AppContextProvider = (props) => {
           changeLanguage,
           payment,
           confirmOrder,
+          getAddress,
         },
         state: {
           session,

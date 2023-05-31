@@ -4,6 +4,7 @@ import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import {
   arrayValidator,
+  numberValidator,
   stringValidator,
 } from "@/components/validation/validation"
 import { getSessionFromCookiesServ } from "@/web/helper/getSessionFromCookiesServ"
@@ -17,12 +18,13 @@ const handler = mw({
         payment_intent: stringValidator.required(),
         redirect_status: stringValidator.required(),
         cartItems: arrayValidator.required(),
+        address_id: numberValidator.required(),
       },
     }),
     async ({
       req,
       locals: {
-        body: { payment_intent, redirect_status, cartItems },
+        body: { payment_intent, redirect_status, cartItems, address_id },
       },
       res,
     }) => {
@@ -30,10 +32,16 @@ const handler = mw({
 
       const id = sessionFromCookies.user.id
 
+      const price = cartItems.reduce((accumulator, element) => {
+        return accumulator + element.price * element.product_quantity
+      }, 0)
+
       const order = await OrderModel.query().insertAndFetch({
         user_id: id,
+        address_id,
         payment_state: redirect_status,
         payment_intent,
+        price,
       })
 
       cartItems.forEach(async (element) => {
