@@ -1,4 +1,4 @@
-import {NavLink} from "@/components/utils/NavLink"
+import { NavLink } from "@/components/utils/NavLink"
 import {
   Bars3Icon,
   MagnifyingGlassIcon,
@@ -6,20 +6,20 @@ import {
   UserIcon,
   XMarkIcon,
   ChevronRightIcon,
-  GlobeAltIcon
+  GlobeAltIcon,
 } from "@heroicons/react/24/solid"
-import {useState, useEffect, useCallback} from "react"
-import {useRouter} from "next/router"
+import { useState, useEffect, useCallback } from "react"
+import { useRouter } from "next/router"
 import Button from "@/components/app/ui/Button"
 import useAppContext from "@/web/hooks/useAppContext"
-import {useTranslation} from "next-i18next"
+import { useTranslation } from "next-i18next"
 
 const Users = (props) => {
   const { className } = props
 
   const {
     actions: { logout, changeLanguage },
-    state: { session, cartItems }
+    state: { session, cartItems },
   } = useAppContext()
 
   const router = useRouter()
@@ -86,7 +86,7 @@ const Users = (props) => {
                 color={"#615043"}
               />
             </NavLink>
-            <NavLink href="/categories/search">
+            <NavLink href="/products/search">
               <MagnifyingGlassIcon
                 className={`h-6 hover:scale-110 hover:text-[#b3825c]`}
                 color={"#615043"}
@@ -134,49 +134,51 @@ const Users = (props) => {
                 <div className="flex flex-col gap-4">
                   <NavLink href={`/user/${session.user.id}/orders`}>
                     <div className="flex gap-4 hover:text-[#6f5e3f]">
-                      <ChevronRightIcon className="h-6 w-6"/>
+                      <ChevronRightIcon className="h-6 w-6" />
                       <p className="hover:scale-105">{t("mycommands")}</p>
                     </div>
                   </NavLink>
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
-                    <ChevronRightIcon className="h-6 w-6"/>
-                    <p className="hover:scale-105" onClick={handleLogout}>{t("logout")}</p>
+                    <ChevronRightIcon className="h-6 w-6" />
+                    <p className="hover:scale-105" onClick={handleLogout}>
+                      {t("logout")}
+                    </p>
                   </div>
                 </div>
               ) : (
                 <div className="flex flex-col gap-4">
-                    <NavLink href="/user/login">
-                      <div className="flex gap-4 hover:text-[#6f5e3f]">
-                        <ChevronRightIcon className="h-6 w-6"/>
-                        <p className="hover:scale-105">{t("signin")}</p>
-                      </div>
-                    </NavLink>
-                    <NavLink href="/signup">
-                      <div className="flex gap-4 hover:text-[#6f5e3f]">
-                        <ChevronRightIcon className="h-6 w-6"/>
-                        <p className="hover:scale-105">{t("signup")}</p>
-                      </div>
-                    </NavLink>
+                  <NavLink href="/user/login">
+                    <div className="flex gap-4 hover:text-[#6f5e3f]">
+                      <ChevronRightIcon className="h-6 w-6" />
+                      <p className="hover:scale-105">{t("signin")}</p>
+                    </div>
+                  </NavLink>
+                  <NavLink href="/signup">
+                    <div className="flex gap-4 hover:text-[#6f5e3f]">
+                      <ChevronRightIcon className="h-6 w-6" />
+                      <p className="hover:scale-105">{t("signup")}</p>
+                    </div>
+                  </NavLink>
                 </div>
               )}
             </div>
-            <div
-              className={"flex flex-col mx-12 my-20 gap-4"}
-            >
+            <div className={"flex flex-col mx-12 my-20 gap-4"}>
               <div>
                 <NavLink href="/categories/all">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
-                    <ChevronRightIcon className="h-6 w-6"/>
+                    <ChevronRightIcon className="h-6 w-6" />
                     <p className="hover:scale-105">{t("categories")}</p>
                   </div>
                 </NavLink>
               </div>
 
               <div>
-                <div className="flex gap-4">
-                  <ChevronRightIcon className="h-6 w-6"/>
-                  <p className="hover:scale-105">{t("promotions")}</p>
-                </div>
+                <NavLink href="/products/search?promo=true&page=1">
+                  <div className="flex gap-4">
+                    <ChevronRightIcon className="h-6 w-6" />
+                    <p className="hover:scale-105">{t(`promotions`)}</p>
+                  </div>
+                </NavLink>
               </div>
             </div>
 
@@ -184,7 +186,7 @@ const Users = (props) => {
               <div>
                 <NavLink href="/help/cgu">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
-                    <ChevronRightIcon className="h-6 w-6"/>
+                    <ChevronRightIcon className="h-6 w-6" />
                     <p className="hover:scale-105">{t("cgu")}</p>
                   </div>
                 </NavLink>
@@ -192,7 +194,7 @@ const Users = (props) => {
               <div>
                 <NavLink href="/help/legal">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
-                    <ChevronRightIcon className="h-6 w-6"/>
+                    <ChevronRightIcon className="h-6 w-6" />
                     <p className="hover:scale-105">{t("legal")}</p>
                   </div>
                 </NavLink>
@@ -200,7 +202,7 @@ const Users = (props) => {
               <div>
                 <NavLink href="/support/contact">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
-                    <ChevronRightIcon className="h-6 w-6"/>
+                    <ChevronRightIcon className="h-6 w-6" />
                     <p className="hover:scale-105">{t("contact")}</p>
                   </div>
                 </NavLink>
@@ -208,7 +210,7 @@ const Users = (props) => {
               <div>
                 <NavLink href="/">
                   <div className="flex gap-4 hover:text-[#6f5e3f]">
-                    <ChevronRightIcon className="h-6 w-6"/>
+                    <ChevronRightIcon className="h-6 w-6" />
                     <p className="hover:scale-105">{t("about")}</p>
                   </div>
                 </NavLink>
@@ -219,7 +221,7 @@ const Users = (props) => {
                   className="w-60 flex gap-4 whitespace-nowrap hover:text-[#e8e1d4]"
                   onClick={toggleLanguageMenu}
                 >
-                  <GlobeAltIcon className="h-6"/>
+                  <GlobeAltIcon className="h-6" />
                   <p className="text-sm">{t("languageChange")}</p>
                 </Button>
                 <div

@@ -2,11 +2,16 @@ import ProductThumbnail from "@/components/app/content/ProductThumbnail"
 import Image from "next/image"
 import { NavLink } from "@/components/utils/NavLink"
 import Button from "@/components/app/ui/Button"
+
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "next-i18next"
+
 import getApi from "@/web/getAPI"
 import getCategoryServices from "@/web/services/app/categories/getCategory"
 
 export const getServerSideProps = async (context) => {
   const { categoryId } = context.params
+  const { locale } = context
 
   const api = getApi(context)
 
@@ -21,9 +26,18 @@ export const getServerSideProps = async (context) => {
     }
   }
 
+  const categoryData = data.result
+
+  const translations = await serverSideTranslations(locale, [
+    "categories",
+    "navbar",
+    "footer",
+  ])
+
   return {
     props: {
-      category: data.result,
+      category: categoryData,
+      ...translations,
     },
   }
 }
@@ -32,6 +46,8 @@ const Category = (props) => {
   const { category, err } = props
 
   const products = category.products
+
+  const { t } = useTranslation("categories")
 
   return (
     <>
@@ -53,25 +69,33 @@ const Category = (props) => {
         <div className="px-10 py-10">{category.description}</div>
         {products.length === 0 || err ? (
           <div className="flex flex-col gap-5">
-            <p className="text-center">Aucun produit n'a été trouvé.</p>
+            <p className="text-center">{t(`notfound2`)}</p>
             <NavLink href="/categories/all">
-              <Button>Retour aux catégories</Button>
+              <Button>{t(`buttonText`)}</Button>
             </NavLink>
           </div>
         ) : (
           <div className="w-5/6 grid gap-16 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {products.map(
-              (product) =>
-                product.quantity && (
-                  <ProductThumbnail
-                    key={product.id}
-                    alt={product.name}
-                    image={product.image}
-                    productId={product.id}
-                    productName={product.name}
-                    productPrice={product.price}
-                  />
-                )
+            {products.map((product) =>
+              product.quantity > 0 ? (
+                <ProductThumbnail
+                  key={product.id}
+                  alt={product.name}
+                  image={product.image}
+                  productId={product.id}
+                  productName={product.name}
+                  productPrice={product.price}
+                />
+              ) : (
+                <>
+                  <div className="flex flex-col gap-5 absolute md:left-[40%]">
+                    <p className="text-center">{t(`notfound2`)}</p>
+                    <NavLink href="/categories/all">
+                      <Button>{t(`buttonText`)}</Button>
+                    </NavLink>
+                  </div>
+                </>
+              )
             )}
           </div>
         )}

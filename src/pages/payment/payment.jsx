@@ -5,13 +5,24 @@ import CheckoutForm from "@/components/app/cart/checkoutform"
 import useAppContext from "@/web/hooks/useAppContext"
 import config from "@/api/config"
 import { useRouter } from "next/router"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-export const getServerSideProps = async () => {
-  const dynamicPath = config.path
+
+export const getServerSideProps = async (context) => {
+  const { locale } = context
+
+  const translations = await serverSideTranslations(locale, [
+    "checkout",
+    "navbar",
+    "footer",
+  ])
+
+  const dynamicPath = `${config.path}${locale}/`
 
   return {
     props: {
       dynamicPath,
+      ...translations,
     },
   }
 }
