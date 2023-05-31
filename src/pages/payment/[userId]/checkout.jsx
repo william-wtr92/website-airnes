@@ -75,7 +75,7 @@ const Checkout = (props) => {
   const [popupDisplay, setPopupDisplay] = useState(false)
 
   const {
-    actions: { setCartAddress, getAddress },
+    actions: { getAddress },
   } = useAppContext()
 
   const router = useRouter()
@@ -115,11 +115,12 @@ const Checkout = (props) => {
 
   const handleSelect = useCallback(
     async (values) => {
-      setCartAddress(values.id)
-
-      router.push("/payment/payment")
+      router.push({
+        pathname: "/payment/payment",
+        query: { data: values.id },
+      })
     },
-    [setCartAddress, router]
+    [router]
   )
 
   return (

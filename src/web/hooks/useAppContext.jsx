@@ -47,7 +47,6 @@ export const AppContextProvider = (props) => {
   const [jwt, setJWT] = useState(null)
   const api = createAPIClient({ jwt, baseURL: config.api.baseURL })
   const [cartItems, setCartItems] = useState(initialCartItems || [])
-  const [cartAddress, setCartAddress] = useState(null)
 
   const router = useRouter()
 
@@ -224,13 +223,11 @@ export const AppContextProvider = (props) => {
           payment,
           confirmOrder,
           getAddress,
-          setCartAddress,
         },
         state: {
           session,
           cartItems,
           language,
-          cartAddress,
         },
       }}
     />

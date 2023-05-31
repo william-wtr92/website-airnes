@@ -5,6 +5,7 @@ export const up = async (knex) => {
     table.integer("address_id").references("id").inTable("address")
     table.text("payment_state").notNullable()
     table.text("payment_intent").notNullable()
+    table.text("price").notNullable()
   })
 
   await knex.schema.createTable("order_product", (table) => {

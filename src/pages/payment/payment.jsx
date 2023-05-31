@@ -7,7 +7,6 @@ import config from "@/api/config"
 import { useRouter } from "next/router"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-
 export const getServerSideProps = async (context) => {
   const { locale } = context
 
@@ -34,16 +33,17 @@ const stripePromise = loadStripe(
 const Payment = (props) => {
   const { dynamicPath } = props
   const {
-    state: { cartItems, cartAddress },
+    state: { cartItems },
     actions: { payment },
   } = useAppContext()
 
   const [clientSecret, setClientSecret] = useState("")
   const [price, setPrice] = useState("")
   const router = useRouter()
+  const { data } = router.query
 
   useEffect(() => {
-    if (!cartAddress) {
+    if (!data) {
       router.push(`/user/cart`)
     }
 
@@ -57,7 +57,7 @@ const Payment = (props) => {
     if (cartItems.length != 0) {
       fetchData()
     }
-  }, [payment, cartItems, cartAddress, router])
+  }, [payment, cartItems, data, router])
 
   const appearance = {
     theme: "stripe",
@@ -74,7 +74,7 @@ const Payment = (props) => {
           <CheckoutForm
             price={price}
             dynamicPath={dynamicPath}
-            address_id={cartAddress}
+            address_id={data}
           />
         </Elements>
       )}

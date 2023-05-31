@@ -32,11 +32,16 @@ const handler = mw({
 
       const id = sessionFromCookies.user.id
 
+      const price = cartItems.reduce((accumulator, element) => {
+        return accumulator + element.price * element.product_quantity
+      }, 0)
+
       const order = await OrderModel.query().insertAndFetch({
         user_id: id,
         address_id,
         payment_state: redirect_status,
         payment_intent,
+        price,
       })
 
       cartItems.forEach(async (element) => {
