@@ -61,24 +61,6 @@ Chart.register(
   Legend
 )
 
-const ctgLabels = ["Cat 1", "Cat 2", "Cat 3", "Cat 4"]
-
-const ctgData = {
-  labels: ctgLabels,
-  datasets: [
-    {
-      label: "Ventes: ",
-      data: ctgLabels.map(() => faker.datatype.number({ min: 0, max: 100 })),
-      backgroundColor: [
-        "rgba(0, 0, 0, 0.67)",
-        "rgba(130, 124, 127, 0.67)",
-        "rgba(119, 99, 51, 0.67)",
-        "rgba(74, 63, 35, 0.95)",
-      ],
-    },
-  ],
-}
-
 const dayLabels = [
   "Lundi",
   "Mardi",
@@ -111,6 +93,24 @@ const options = {
 
 const Dashboard = (props) => {
   const { users, products, total, topSell } = props
+
+  const topProducts = topSell.map((item) => item.name)
+
+  const ctgData = {
+    labels: topProducts,
+    datasets: [
+      {
+        label: "Ventes: ",
+        data: topProducts.map((item) => item.sales),
+        backgroundColor: [
+          "rgba(0, 0, 0, 0.67)",
+          "rgba(130, 124, 127, 0.67)",
+          "rgba(119, 99, 51, 0.67)",
+          "rgba(74, 63, 35, 0.95)",
+        ],
+      },
+    ],
+  }
 
   return (
     <>
@@ -147,7 +147,7 @@ const Dashboard = (props) => {
 
         <div className="mt-10 lg:absolute lg:right-[10%] lg:top-[30%]">
           <h1 className="flex justify-center text-gray-600 font-black mb-6">
-            Répartition des ventes par catégorie
+            Répartition des ventes par produits
           </h1>
           <div className="flex justify-center">
             <div className="h-64 w-64">
@@ -185,10 +185,13 @@ const Dashboard = (props) => {
                 </tr>
               </thead>
               <tbody className="overflow-y-auto">
-                <tr className="text-black border-b bg-gray-100 hover:bg-gray-200 hover:cursor-pointer">
-                  {topSell.map((item) => (
-                    <>
-                      <td key={item.id} className="px-4 py-2">
+                {topSell.map((item) => (
+                  <>
+                    <tr
+                      key={item.id}
+                      className="text-black border-b bg-gray-100 hover:bg-gray-200 hover:cursor-pointer"
+                    >
+                      <td className="px-4 py-2">
                         <NavLink href="/productid/product">
                           <Image
                             src={item.image}
@@ -203,9 +206,9 @@ const Dashboard = (props) => {
                       <td className="flex justify-center px-6 pt-8">
                         {item.sales}
                       </td>
-                    </>
-                  ))}
-                </tr>
+                    </tr>
+                  </>
+                ))}
               </tbody>
             </table>
           </div>
