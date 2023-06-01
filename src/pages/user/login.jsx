@@ -76,7 +76,7 @@ const OnLoginForm = () => {
             className="object-cover lg:w-full lg:h-full"
           />
         </div>
-        <div className="lg:w-[40%]">
+        <div className="w-full lg:w-[40%]">
           <Formik
             onSubmit={handleLogin}
             initialValues={loginInitialValues}

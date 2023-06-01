@@ -96,7 +96,7 @@ const Cart = () => {
         <div className="flex flex-col md:flex-col lg:flex-col xl:flex-row">
           {cartItems.length === 0 ? (
             <div className="flex justify-center lg:mt-10 xl:w-1/2">
-              <NavLink href="/categories/search">
+              <NavLink href="/products/search">
                 <Image
                   src="https://airnes.blob.core.windows.net/airnes/empty-cart.png?sp=r&st=2023-05-27T13:50:26Z&se=2023-11-15T22:50:26Z&sv=2022-11-02&sr=b&sig=4lxOHT795DIMUuHKWsmVELm2nYortbXeJDj9B9VIelE%3D"
                   alt="emptycart"

@@ -73,7 +73,7 @@ const SignUp = () => {
             className="lg:w-full lg:h-full"
           />
         </div>
-        <div className="lg:w-[40%]">
+        <div className="w-full lg:w-[40%]">
           <Formik
             initialValues={inscriptionInitialValues}
             validationSchema={inscriptionValidationSchema}
