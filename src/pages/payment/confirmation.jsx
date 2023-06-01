@@ -3,7 +3,7 @@ import { NavLink } from "@/components/utils/NavLink"
 import useAppContext from "@/web/hooks/useAppContext"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 export const getServerSideProps = async (context) => {
   const { payment_intent, redirect_status, address_id } = context.query
@@ -14,7 +14,6 @@ export const getServerSideProps = async (context) => {
     "navbar",
     "footer",
   ])
-
 
   return {
     props: {
@@ -33,10 +32,21 @@ const Confirmation = (props) => {
   } = useAppContext()
   const { payment_intent, redirect_status, address_id } = props
 
+  const [orderId, setOrderId] = useState(null)
+  const [userId, setUserId] = useState(null)
+
   useEffect(() => {
     async function fetchData() {
-      await confirmOrder(payment_intent, redirect_status, cartItems, address_id)
+      const data = await confirmOrder(
+        payment_intent,
+        redirect_status,
+        cartItems,
+        address_id
+      )
       await clearCart()
+
+      setOrderId(data[1].result)
+      setUserId(data[1].userId)
     }
 
     if (cartItems.length != 0) {
@@ -61,9 +71,11 @@ const Confirmation = (props) => {
           <h2 className="font-bold text-lg">{t(`thanks`)}</h2>
           <p className="font-semibold">
             {t(`confirmNum`)}
-            <span className="font-medium underline">
-              {payment_intent.substring(3)}
-            </span>
+            <NavLink href={`/user/${userId}/orders/${orderId}/order`}>
+              <span className="font-medium underline">
+                {payment_intent.substring(3)}
+              </span>
+            </NavLink>
             .
           </p>
           <NavLink href="/">

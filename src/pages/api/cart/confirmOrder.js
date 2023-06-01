@@ -58,7 +58,8 @@ const handler = mw({
       })
 
       res.send({
-        result: true,
+        result: order.id,
+        userId: id,
       })
     },
   ],
