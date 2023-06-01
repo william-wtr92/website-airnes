@@ -36,18 +36,24 @@ const handler = mw({
         return accumulator + element.price * element.product_quantity
       }, 0)
 
+      const date = new Date(Date.now())
+
       const order = await OrderModel.query().insertAndFetch({
         user_id: id,
         address_id,
         payment_state: redirect_status,
         payment_intent,
+        payment_method: "CARD",
         price,
+        date: date.toLocaleDateString(),
+        status: "en attente",
       })
 
       cartItems.forEach(async (element) => {
         await OrderProductModel.query().insertAndFetch({
           order_id: order.id,
           product_id: element.id,
+          product_quantity: element.product_quantity,
         })
       })
 
