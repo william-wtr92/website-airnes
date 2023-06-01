@@ -53,7 +53,7 @@ const AllCategories = (props) => {
             <p className="text-center">{t(`notfound`)}</p>
           </div>
         ) : (
-          <div className="flex flex-col gap-5 items-center justify-center p-4">
+          <div className="grid gap-2 grid-cols-1 lg:grid-cols-3">
             <Category categories={categories.data} />
           </div>
         )}
