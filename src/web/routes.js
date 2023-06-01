@@ -81,6 +81,8 @@ const routes = {
       userData: (userId) => `/user/${userId}`,
       patchUser: (userId) => `/user/${userId}`,
       deleteUser: (userId) => `/user/${userId}`,
+      getOrder: (userId) => `/user/${userId}/getOrder`,
+      orderData: (userId, orderId) => `/user/${userId}/order/${orderId}`,
       address: {
         addressData: (userId, addressId) => `/user/${userId}/${addressId}`,
         patchAddress: (userId, addressId) => `/user/${userId}/${addressId}`,
