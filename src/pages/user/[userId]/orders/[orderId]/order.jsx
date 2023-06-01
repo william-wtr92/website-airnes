@@ -60,13 +60,13 @@ const Order = (props) => {
                   <div className="flex place-content-between">
                     <p className="font-bold text-md lg:text-2xl">TOTAL</p>
                     <p className="font-bold text-md lg:text-2xl ">
-                      {data.price}
+                      {data.price} €
                     </p>
                   </div>
                   <div className="flex place-content-between">
                     <p className="text-gray-500 text-md lg:text-xl">TVA</p>
                     <p className="text-gray-500 text-md lg:text-xl">
-                      {data.price * 0.2} €
+                      {(data.price * 0.2).toFixed(2)} €
                     </p>
                   </div>
                 </div>
