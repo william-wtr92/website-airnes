@@ -18,7 +18,7 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-const UserCart = () => {
+const Cart = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 1000px)" })
 
   const {
@@ -191,7 +191,13 @@ const UserCart = () => {
                   className="bg-[#615043] hover:bg-[#927864] hover:cursor-pointer
            active:bg-[#615043] border border-black px-10 lg:px-24 py-4 font-semibold rounded-md text-[#fff]"
                 >
-                  <NavLink href={session ? `/payment/payment` : `/user/login`}>
+                  <NavLink
+                    href={
+                      session
+                        ? `/payment/${session.user.id}/checkout`
+                        : `/user/login`
+                    }
+                  >
                     {t(`command`)}
                   </NavLink>
                 </Button>
@@ -204,4 +210,4 @@ const UserCart = () => {
   )
 }
 
-export default UserCart
+export default Cart

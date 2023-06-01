@@ -9,9 +9,12 @@ import CategoryModel from "@/api/db/models/CategoryModel"
 import { NotFoundError } from "@/api/errors"
 import ProductModel from "@/api/db/models/ProductModel"
 import { boolean } from "yup"
+import auth from "@/api/middlewares/auth"
+import SelectedCategoryModel from "@/api/db/models/SelectedCategoryModel"
 
 const handler = mw({
   GET: [
+    auth("admin"),
     validate({
       query: {
         categoryId: numberValidator.required(),
@@ -28,6 +31,10 @@ const handler = mw({
 
       const category = await CategoryModel.query().findOne({ id })
 
+      if (!category) {
+        throw new NotFoundError()
+      }
+
       if (showProducts) {
         const products = await ProductModel.query().where({ categoryId: id })
 
@@ -37,14 +44,6 @@ const handler = mw({
             products,
           },
         })
-
-        return
-      }
-
-      if (!category) {
-        res.send({ result: null })
-
-        throw new NotFoundError()
       }
 
       res.send({
@@ -53,6 +52,7 @@ const handler = mw({
     },
   ],
   PATCH: [
+    auth("admin"),
     validate({
       query: {
         categoryId: numberValidator.required(),
@@ -71,6 +71,19 @@ const handler = mw({
       res,
     }) => {
       const id = categoryId
+
+      const noCategory = await CategoryModel.query().findOne({
+        name: "No category",
+      })
+
+      const noCategoryId = parseInt(noCategory.id, 10)
+
+      if (id === noCategoryId) {
+        res.status(400).send({ error: "Can't delete this category" })
+
+        return
+      }
+
       const category = await CategoryModel.query().findOne({ id })
 
       await CategoryModel.query().updateAndFetchById(id, {
@@ -83,6 +96,7 @@ const handler = mw({
     },
   ],
   DELETE: [
+    auth("admin"),
     validate({
       query: {
         categoryId: numberValidator.required(),
@@ -99,13 +113,24 @@ const handler = mw({
       const noCategory = await CategoryModel.query().findOne({
         name: "No category",
       })
+
       const noCategoryId = parseInt(noCategory.id, 10)
+
+      if (id === noCategoryId) {
+        res.status(400).send({ error: "Can't delete this category" })
+
+        return
+      }
 
       await ProductModel.query()
         .update({ categoryId: noCategoryId })
         .where({ categoryId: id })
 
-      await CategoryModel.query().deleteById(id)
+      await SelectedCategoryModel.query()
+        .where({ category_id: id })
+        .del()
+
+      await CategoryModel.query().findOne({ id }).del()
 
       res.send({ result: true })
     },

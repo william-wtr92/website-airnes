@@ -6,19 +6,28 @@ const routes = {
   api: {
     signUp: () => "/sign-up",
     signIn: () => "/sign-in",
+    logout: () => "/logout",
     contact: () => "/contact",
     sendMail: () => "/reset_password",
     resetPwd: () => "/reset_password",
     app: {
-      products:{
+      products: {
+        getProduct: (productId) => `/app/products/${productId}`,
+        getProducts: () => "/app/products/all",
         searchProducts: () => "/app/products/search",
-        getProducts: () => "/app/products/products",
+        getFilter: () => "/app/products/filter",
+      },
+      categories: {
+        getCategories: () => "/app/categories/all",
+        getCategory: (categoryId) => `/app/categories/${categoryId}`,
       },
     },
     admin: {
       carousel: {
         addImage: () => "/admin/carousel/add",
         getImages: () => "/admin/carousel/images",
+        getProducts: () => "/admin/carousel/products",
+        getCategories: () => "/admin/carousel/categories",
         deleteImage: (imageId) => `/admin/carousel/${imageId}`,
         changeOrder: (imageId) => `/admin/carousel/${imageId}`,
       },
@@ -41,6 +50,7 @@ const routes = {
       contacts: {
         getContacts: () => "/admin/contacts/contacts",
         contactData: (contactId) => `/admin/contacts/${contactId}`,
+        updateContact: (contactId) => `/admin/contacts/${contactId}`,
         deleteContact: (contactId) => `/admin/contacts/${contactId}`,
       },
       categories: {
@@ -71,6 +81,8 @@ const routes = {
       userData: (userId) => `/user/${userId}`,
       patchUser: (userId) => `/user/${userId}`,
       deleteUser: (userId) => `/user/${userId}`,
+      getOrder: (userId) => `/user/${userId}/getOrder`,
+      orderData: (userId, orderId) => `/user/${userId}/order/${orderId}`,
       address: {
         addressData: (userId, addressId) => `/user/${userId}/${addressId}`,
         patchAddress: (userId, addressId) => `/user/${userId}/${addressId}`,
@@ -80,6 +92,7 @@ const routes = {
     cart: {
       payment: () => "/cart/payment",
       confirmOrder: () => "/cart/confirmOrder",
+      getaddress: (userId) => `/cart/${userId}`,
     },
   },
 }

@@ -14,6 +14,18 @@ export class AppError extends Error {
     this.#httpCode = httpCode
     this.#errorCode = errorCode
   }
+
+  get errors() {
+    return this.#errors
+  }
+
+  get httpCode() {
+    return this.#httpCode
+  }
+
+  get errorCode() {
+    return this.#errorCode
+  }
 }
 
 export class NotFoundError extends AppError {

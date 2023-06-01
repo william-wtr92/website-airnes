@@ -2,50 +2,51 @@ import Carousel from "@/components/app/ui/Carousel"
 import HomepageCategories from "@/components/app/content/HomepageCategories"
 import HomepageProducts from "@/components/app/content/HomepageProducts"
 import SlideProducts from "@/components/app/content/SlideProducts"
-import axios from "axios"
-import routes from "@/web/routes"
 import classNames from "classnames"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
-import config from "@/api/config"
+import getApi from "@/web/getAPI"
+import getImageServices from "@/web/services/admin/homepage/getImages"
+import getSelectCategoryServices from "@/web/services/admin/homepage/getSelectCategory"
+import getSelectProductsServices from "@/web/services/admin/homepage/getSelectProducts"
+import getProductsServices from "@/web/services/app/products/getProducts"
 
-export const getServerSideProps = async ({ locale }) => {
-  const [productsRes, carouselRes, categoriesRes, selectedProductRes] =
-    await Promise.all([
-      axios.get(
-        `${
-          config.path
-        }api${routes.api.app.products.getProducts()}?sale=true&page=1`
-      ),
-      axios.get(`${config.path}api${routes.api.admin.carousel.getImages()}`),
-      axios.get(
-        `${
-          config.path
-        }api${routes.api.admin.selectCategory.getSelectCategory()}`
-      ),
-      axios.get(
-        `${config.path}api${routes.api.admin.selectProduct.getSelectProducts()}`
-      ),
-    ])
+export const getServerSideProps = async (context) => {
+  const { locale } = context
 
-  const products = productsRes.data.result
-  const carousel = carouselRes.data.result
-  const categories = categoriesRes.data.result
-  const selectedProduct = selectedProductRes.data.result
+  const api = getApi(context)
+
+  const getImage = getImageServices({ api })
+  const getSelectCategory = getSelectCategoryServices({ api })
+  const getSelectProducts = getSelectProductsServices({ api })
+  const getProducts = getProductsServices({ api })
+
+  const [errCarouselQuery, carouselQuery] = await getImage()
+  const [errCategoryQuery, categoryQuery] = await getSelectCategory()
+  const [errProductQuery, productQuery] = await getSelectProducts()
+  const [errSaleQuery, saleQuery] = await getProducts()
+
+  if (errCarouselQuery || errCategoryQuery || errProductQuery || errSaleQuery) {
+    return {
+      redirect: {
+        destination: "/categories/all",
+      },
+    }
+  }
 
   return {
     props: {
-      carousel: carousel,
-      categories: categories,
-      selectedProduct: selectedProduct,
-      products: products,
+      carousel: carouselQuery.result,
+      products: productQuery.result,
+      categories: categoryQuery.result,
+      sales: saleQuery.result,
       ...(await serverSideTranslations(locale, ["common", "footer", "navbar"])),
     },
   }
 }
 
 const Main = (props) => {
-  const { products, carousel, categories, selectedProduct } = props
+  const { carousel, products, categories, sales } = props
   const { t } = useTranslation("common")
 
   return (
@@ -62,7 +63,7 @@ const Main = (props) => {
           </div>
           <div className="flex flex-wrap justify-center">
             <div className="flex flex-wrap justify-center lg:justify-between">
-              <HomepageCategories data={categories} />
+              <HomepageCategories categories={categories} />
             </div>
           </div>
         </div>
@@ -72,7 +73,7 @@ const Main = (props) => {
           </div>
           <div className="flex flex-wrap justify-center">
             <div className="flex flex-wrap justify-center lg:justify-between">
-              <HomepageProducts data={selectedProduct} />
+              <HomepageProducts products={products} />
             </div>
           </div>
         </div>
@@ -85,10 +86,10 @@ const Main = (props) => {
               <div
                 className={classNames(
                   "overflow-x-auto scrollbar w-full flex gap-10 p-4",
-                  products.length < 3 && "justify-center"
+                  sales.length < 3 && "justify-center"
                 )}
               >
-                {products.map((product) => (
+                {sales.map((product) => (
                   <div
                     key={product.id}
                     className="flex-none w-full md:w-1/2 lg:w-1/3"

@@ -2,9 +2,11 @@ import mw from "@/api/mw"
 import validate from "@/api/middlewares/validate"
 import { numberValidator } from "@/components/validation/validation"
 import SelectedCategoryModel from "@/api/db/models/SelectedCategoryModel"
+import auth from "@/api/middlewares/auth"
 
 const handler = mw({
   PATCH: [
+    auth("admin"),
     validate({
       query: {
         categoryId: numberValidator.required(),
@@ -61,6 +63,7 @@ const handler = mw({
     },
   ],
   DELETE: [
+    auth("admin"),
     validate({
       query: {
         categoryId: numberValidator.required(),

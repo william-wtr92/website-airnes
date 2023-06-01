@@ -1,7 +1,7 @@
 import routes from "../../../routes"
 
 const addAddress =
-  ({ api, jwt }) =>
+  ({ api }) =>
   async ({
     name,
     lastName,
@@ -20,7 +20,6 @@ const addAddress =
         complete,
         city,
         postal_code,
-        jwt,
       })
 
       return [null, data]

@@ -4,13 +4,24 @@ import { Elements } from "@stripe/react-stripe-js"
 import CheckoutForm from "@/components/app/cart/checkoutform"
 import useAppContext from "@/web/hooks/useAppContext"
 import config from "@/api/config"
+import { useRouter } from "next/router"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-export const getServerSideProps = async () => {
-  const dynamicPath = config.path
+export const getServerSideProps = async (context) => {
+  const { locale } = context
+
+  const translations = await serverSideTranslations(locale, [
+    "checkout",
+    "navbar",
+    "footer",
+  ])
+
+  const dynamicPath = `${config.path}${locale}/`
 
   return {
     props: {
       dynamicPath,
+      ...translations,
     },
   }
 }
@@ -28,8 +39,14 @@ const Payment = (props) => {
 
   const [clientSecret, setClientSecret] = useState("")
   const [price, setPrice] = useState("")
+  const router = useRouter()
+  const { data } = router.query
 
   useEffect(() => {
+    if (!data) {
+      router.push(`/user/cart`)
+    }
+
     async function fetchData() {
       const items = cartItems
       const paymentIntent = await payment(items)
@@ -40,7 +57,7 @@ const Payment = (props) => {
     if (cartItems.length != 0) {
       fetchData()
     }
-  }, [payment, cartItems])
+  }, [payment, cartItems, data, router])
 
   const appearance = {
     theme: "stripe",
@@ -54,7 +71,11 @@ const Payment = (props) => {
     <div>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm price={price} dynamicPath={dynamicPath} />
+          <CheckoutForm
+            price={price}
+            dynamicPath={dynamicPath}
+            address_id={data}
+          />
         </Elements>
       )}
     </div>

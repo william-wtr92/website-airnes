@@ -1,6 +1,6 @@
 {
-  "welcome": "Bonjour,",
-  "mycommand": "Mes commandes",
+  "welcome": "Bonjour, ",
+  "mycommands": "Mes commandes",
   "logout": "Déconnexion",
   "confirmLogout": "Confirmez-vous ?",
   "signin": "Se connecter",
@@ -15,5 +15,7 @@
   "en": "Anglais",
   "fr": "Français",
   "am": "Arménien",
-  "hbr": "Hébreux"
+  "hbr": "Hébreux",
+  "yes": "Oui",
+  "no": "Non"
 }

@@ -1,13 +1,12 @@
 import routes from "@/web/routes"
 
 const addCarousel =
-  ({ api, jwt }) =>
+  ({ api }) =>
   async ({ url, label }) => {
     try {
       const { data } = await api.post(routes.api.admin.carousel.addImage(), {
         url,
         label,
-        jwt,
       })
 
       return [null, data]

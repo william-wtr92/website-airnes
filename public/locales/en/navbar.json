@@ -1,6 +1,6 @@
 {
-  "welcome": "Hello,",
-  "mycommand": "My orders",
+  "welcome": "Welcome, ",
+  "mycommands": "My orders",
   "logout": "Logout",
   "confirmLogout": "Do you confirm ?",
   "signin": "Log in",
@@ -15,5 +15,7 @@
   "en": "English",
   "fr": "French",
   "am": "Armenian",
-  "hbr": "Hebrew"
+  "hbr": "Hebrew",
+  "yes": "Yes",
+  "no": "No"
 }

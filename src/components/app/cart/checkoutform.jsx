@@ -1,9 +1,10 @@
 import React, { useState } from "react"
 import { PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import Button from "../ui/Button"
+import { useTranslation } from "next-i18next"
 
 export default function CheckoutForm(props) {
-  const { price, dynamicPath } = props
+  const { price, dynamicPath, address_id } = props
   const stripe = useStripe()
   const elements = useElements()
 
@@ -22,7 +23,7 @@ export default function CheckoutForm(props) {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${dynamicPath}payment/confirmation`,
+        return_url: `${dynamicPath}payment/confirmation?address_id=${address_id}`,
       },
     })
 
@@ -39,18 +40,22 @@ export default function CheckoutForm(props) {
     layout: "tabs",
   }
 
+  const { t } = useTranslation("checkout")
+
   return (
     <form
       id="payment-form"
       className="max-w-md mx-auto xl:mt-52 mt-36 flex flex-col "
       onSubmit={handleSubmit}
     >
-      <label className="mb-4 font-semibold">Prix: {price} $</label>
+      <label className="mb-4 font-semibold">
+        {t(`price`)} {price} $
+      </label>
       <div className="mb-4">
         <PaymentElement id="payment-element" options={paymentElementOptions} />
       </div>
       <Button disabled={isLoading || !stripe || !elements} id="submit">
-        Pay now
+        {t(`buttonText`)}
       </Button>
       {message && (
         <div id="payment-message" className="mt-4 text-red-500">
