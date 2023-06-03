@@ -90,9 +90,7 @@ const Table = (props) => {
       <table className="table-fixed">
         <thead className="bg-white border-b">
         <tr>
-          <th>
-
-          </th>
+          <th/>
           {columns.map((column, id) => {
             return (
               <th
@@ -120,16 +118,14 @@ const Table = (props) => {
           return (
             <tr className="border-b" key={content.id}>
               <td>
-                {
-                  !isNoCategory(content) && (
-                    <input type="checkbox"
-                           value=""
-                           className="h-4 w-4 appearance-none hover:cursor-pointer border-2 checked:bg-primary duration-1000"
-                           onChange={() => selectMassDeletion(content.id)}
-                           checked={massDeletionList.includes(content.id)}
-                    />
-                  )
-                }
+                {!isNoCategory(content) && (
+                  <input type="checkbox"
+                         value=""
+                         className="h-4 w-4 appearance-none hover:cursor-pointer border-2 checked:bg-primary duration-1000"
+                         onChange={() => selectMassDeletion(content.id)}
+                         checked={massDeletionList.includes(content.id)}
+                  />
+                )}
               </td>
               {fields.map((field) => {
                 return (
@@ -147,7 +143,7 @@ const Table = (props) => {
                     <PencilSquareIcon className="h-6 w-6"/>
                   </NavLink>
                 )}
-                {deleteRoute && !isNoCategory(content) && (
+                {!isNoCategory(content) && (
                   <>
                     <TrashIcon
                       className="h-6 w-6"

@@ -69,7 +69,6 @@ const AllCategories = (props) => {
           pagination={pagination}
           canAdd={true}
           canEdit={true}
-          canDelete={true}
           deleteRoute={handleDelete}
           columns={["id", "name"]}
           fields={["id", "name"]}
