@@ -1,10 +1,11 @@
-import {NavLink} from "@/components/utils/NavLink"
-import {PencilSquareIcon, TrashIcon} from "@heroicons/react/24/outline"
+import { NavLink } from "@/components/utils/NavLink"
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline"
 import classNames from "classnames"
 import Confirm from "@/components/app/ui/Confirm"
-import {useCallback, useState} from "react"
-import {useRouter} from "next/router"
-import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/24/solid"
+import { useCallback, useState } from "react"
+import { useRouter } from "next/router"
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid"
+import useAppContext from "@/web/hooks/useAppContext"
 
 const Table = (props) => {
   const {
@@ -15,10 +16,11 @@ const Table = (props) => {
     deleteRoute,
     fields,
     page,
-    lastorder,
+    lastorder
   } = props
 
   const [itemToDelete, setItemToDelete] = useState(false)
+  const [massDeletionList, setMassDeletionList] = useState([])
   const [lastcolumn, setLastcolumn] = useState("id")
   const [order, setOrder] = useState(lastorder)
 
@@ -70,10 +72,26 @@ const Table = (props) => {
     return content[field]
   }
 
+  const selectMassDeletion = (id) => {
+    setMassDeletionList([...massDeletionList, id])
+  }
+
+  const handleMassDeletion = () => {
+    massDeletionList.map((id) => {
+      deleteRoute(id)
+    })
+  }
+
   return (
     <table className="table-fixed">
       <thead className="bg-white border-b">
       <tr>
+        <th>{massDeletionList.length !== 0 && (
+          <TrashIcon
+            className="h-6 w-6"
+            onClick={handleMassDeletion}
+          />)
+        }</th>
         {columns.map((column, id) => {
           return (
             <th
@@ -103,6 +121,17 @@ const Table = (props) => {
       {contents.map((content) => {
         return (
           <tr className="border-b" key={content.id}>
+            {
+              !isNoCategory(content) ? (
+                <input type="checkbox"
+                       value=""
+                       onChange={() => selectMassDeletion(content.id)}
+                       checked={massDeletionList.includes(content.id)}
+                />
+              ) : (
+                <div/>
+              )
+            }
             {fields.map((field) => {
               return (
                 <td
