@@ -82,6 +82,7 @@ const Table = (props) => {
     massDeletionList.map((id) => {
       deleteRoute(id)
     })
+    setItemToDelete(false)
   }
 
   return (
@@ -155,7 +156,7 @@ const Table = (props) => {
                     <Confirm
                       className={classNames(itemToDelete ? "block" : "hidden")}
                       display={setItemToDelete}
-                      action={handleDeletion}
+                      action={massDeletionList.length > 0 ? handleMassDeletion : handleDeletion}
                       textValue="Are you sure you want to delete this item?"
                       params={itemToDelete}
                     />
@@ -171,7 +172,7 @@ const Table = (props) => {
         <div className="flex gap-4">
           <TrashIcon
             className="h-6 w-6"
-            onClick={handleMassDeletion}
+            onClick={() => onDeleteClick(massDeletionList)}
           />
           <div>Delete all the selected items</div>
         </div>
