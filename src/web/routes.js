@@ -76,6 +76,9 @@ const routes = {
         patchRole: (userId) => `/admin/users/${userId}`,
       },
     },
+    dashboard: {
+      getStats: () => "/admin/dashboard/stats",
+    },
     user: {
       addAddress: () => "/user/create/address",
       userData: (userId) => `/user/${userId}`,
