@@ -85,7 +85,7 @@ const ProductPage = (props) => {
         <div className="w-full lg:w-3/5 ">
           <div className="flex flex-col lg:flex-row lg:justify-between items-center">
             <div className="w-full mt-7 lg:w-1/2 flex justify-center lg:mt-0 lg:border-2 lg:border-black">
-              <ProductCarousel images={product.image[0].url} />
+              <ProductCarousel images={product.image} />
             </div>
             <div className="w-4/5 lg:w-2/5 flex flex-col gap-8 h-[500px] mt-10  justify-center">
               <div className="flex justify-between font-semibold">
