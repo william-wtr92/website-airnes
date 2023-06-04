@@ -48,7 +48,7 @@ const ProductForm = (props) => {
                   <fieldset name={fieldName} key={fieldName} className="flex">
                     <FormField
                         type="text"
-                        name={`${fieldName}.image`}
+                        name={`${fieldName}.url`}
                         placeholder="Enter the image link"
                         label= {`Image ${index + 1}`}
                         className="w-96"

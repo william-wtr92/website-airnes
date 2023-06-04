@@ -58,7 +58,7 @@ const insertProducts = async (db) => {
     id: index + 1,
     name: faker.commerce.productName(),
     description: faker.lorem.sentence(),
-    image: faker.image.imageUrl(),
+    image: JSON.stringify(Array.from({ length: 3 }, () => ({ url: faker.image.imageUrl() }))),
     price: faker.datatype.number({ min: 100, max: 1000 }),
     promotion: faker.datatype.number({ min: 0, max: 100 }),
     quantity: faker.datatype.number({ min: 0, max: 100 }),

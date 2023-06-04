@@ -25,7 +25,7 @@ const ProductCarousel = (props) => {
         <div
             className="flex bg-cover w-full h-80"
             style={{
-                backgroundImage: `url(${images[currentImageIndex].image})`,
+                backgroundImage: `url(${images[currentImageIndex].url})`,
             }}
         >
             <div className="flex justify-between w-full">

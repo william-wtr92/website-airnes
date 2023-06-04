@@ -3,7 +3,7 @@ import * as yup from "yup"
 export const productValidationSchema = yup.object().shape({
   image: yup.array().of(
       yup.object().shape({
-        image: yup.string().required().label("image")
+        url: yup.string().required().label("image")
       })
   ).min(1, "At least 1 image required").required("Image list required"),
   name: yup.string().required("Name required").label("name"),
@@ -35,7 +35,7 @@ export const productInitialValues = {
 export const editProductValidationSchema = yup.object().shape({
   image: yup.array().of(
       yup.object().shape({
-        image: yup.string().required().label("image")
+        url: yup.string().required().label("image")
       })
   ).min(1, "At least 1 image required").required("Image list required"),
   name: yup.string().required("Name required").label("name"),
