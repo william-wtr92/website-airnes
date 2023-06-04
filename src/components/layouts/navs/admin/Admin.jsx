@@ -76,7 +76,7 @@ const Admin = () => {
                 <NavLink href={`/user/${session.user.id}/settings`}>
                   <Cog8ToothIcon className="h-6 hover:scale-105"/>
                 </NavLink>
-                <span className="uppercase">Admin</span>
+                <span className="uppercase">{session.user.name} - Admin</span>
               </div>
             </div>
           </>

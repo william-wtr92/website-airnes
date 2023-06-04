@@ -4,15 +4,17 @@ import ProductModel from "./ProductModel"
 class OrderProductModel extends BaseModel {
   static tableName = "order_product"
 
-  static relationMappings = {
-    product: {
-      relation: BaseModel.BelongsToOneRelation,
-      modelClass: ProductModel,
-      join: {
-        from: "order_product.product_id",
-        to: "product.id",
+  static relationMappings() {
+    return {
+      productData: {
+        relation: BaseModel.BelongsToOneRelation,
+        modelClass: ProductModel,
+        join: {
+          from: "order_product.product_id",
+          to: "product.id",
+        },
       },
-    },
+    }
   }
 }
 

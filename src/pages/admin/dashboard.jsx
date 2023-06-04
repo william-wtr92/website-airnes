@@ -14,12 +14,12 @@ import {
   Legend,
 } from "chart.js"
 import { Doughnut, Bar } from "react-chartjs-2"
-import { faker } from "@faker-js/faker"
 import Image from "next/image"
 import { NavLink } from "@/components/utils/NavLink"
 import { getAuthorization } from "@/web/helper/getAuthorization"
 import getApi from "@/web/getAPI"
 import getStatsService from "@/web/services/admin/dashboard/getStats"
+import { format } from "date-fns"
 
 export const getServerSideProps = async (context) => {
   const redirect = getAuthorization("admin", context.req)
@@ -47,6 +47,7 @@ export const getServerSideProps = async (context) => {
       products: data.product,
       total: data.sell,
       topSell: data.topSell,
+      salesDay: data.salesDay,
     },
   }
 }
@@ -61,27 +62,6 @@ Chart.register(
   Legend
 )
 
-const dayLabels = [
-  "Lundi",
-  "Mardi",
-  "Mercredi",
-  "Jeudi",
-  "Vendredi",
-  "Samedi",
-  "Dimanche",
-]
-
-const sellData = {
-  labels: dayLabels,
-  datasets: [
-    {
-      label: "Ventes",
-      data: dayLabels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: "rgba(139, 134, 137, 0.67)",
-    },
-  ],
-}
-
 const options = {
   responsive: true,
   plugins: {
@@ -92,22 +72,54 @@ const options = {
 }
 
 const Dashboard = (props) => {
-  const { users, products, total, topSell } = props
+  const { users, products, total, topSell, salesDay } = props
 
-  const topProducts = topSell.map((item) => item.name)
+  const totalSales = topSell.reduce((total, item) => total + item.sales, 0)
 
-  const ctgData = {
-    labels: topProducts,
+  const prodData = {
+    labels: topSell.map((item) => item.name),
     datasets: [
       {
         label: "Ventes: ",
-        data: topProducts.map((item) => item.sales),
+        data: topSell.map((item) => (item.sales / totalSales) * 100),
         backgroundColor: [
           "rgba(0, 0, 0, 0.67)",
           "rgba(130, 124, 127, 0.67)",
           "rgba(119, 99, 51, 0.67)",
           "rgba(74, 63, 35, 0.95)",
         ],
+      },
+    ],
+  }
+
+  const dayLabels = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ]
+
+  const formatSales = salesDay.map((sale) => {
+    return {
+      ...sale,
+      date: format(new Date(sale.date), "eeee"),
+    }
+  })
+
+  const sellData = {
+    labels: dayLabels,
+    datasets: [
+      {
+        label: "Ventes",
+        data: dayLabels.map((label) => {
+          const daySale = formatSales.find((sale) => sale.date === label)
+
+          return daySale ? daySale.sales : 0
+        }),
+        backgroundColor: "rgba(139, 134, 137, 0.67)",
       },
     ],
   }
@@ -151,7 +163,7 @@ const Dashboard = (props) => {
           </h1>
           <div className="flex justify-center">
             <div className="h-64 w-64">
-              <Doughnut data={ctgData} />
+              <Doughnut data={prodData} />
             </div>
           </div>
         </div>

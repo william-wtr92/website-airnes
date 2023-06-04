@@ -157,8 +157,10 @@ const Settings = (props) => {
                   label={t(`labelEmail`)}
                   className=" mb-2"
                 />
-                <div className="">
-                  <NavLink href="#">{t(`changePwd`)}</NavLink>
+                <div className="my-4">
+                  <NavLink href="/support/forgotten_password">
+                    <Button className="py-2">{t(`changePwd`)}</Button>
+                  </NavLink>
                 </div>
                 <Button type="submit" className="w-2/3 ml-8 lg:ml-20 ">
                   {t(`btnModify`)}

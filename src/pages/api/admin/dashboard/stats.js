@@ -14,7 +14,7 @@ const handler = mw({
       const sellCount = await OrderModel.query().sum("price as total").first()
 
       const topSell = await OrderProductModel.query()
-        .withGraphFetched("product")
+        .withGraphFetched("productData")
         .select("product_id")
         .count("product_id as sales")
         .groupBy("product_id")
@@ -30,15 +30,27 @@ const handler = mw({
             name: product.name,
             image: product.image,
             sales: item.sales,
+            date: item.date,
           }
         })
       )
+
+      const salesDay = await OrderModel.query()
+        .select(
+          OrderModel.knex().raw("DATE_TRUNC('day', \"created_at\") as date")
+        )
+        .count("* as sales")
+        .where(
+          OrderModel.knex().raw("\"created_at\" >= (NOW() - INTERVAL '7 DAY')")
+        )
+        .groupBy(OrderModel.knex().raw("DATE_TRUNC('day', \"created_at\")"))
 
       res.send({
         user: userCount.count,
         product: productCount.count,
         sell: sellCount.total,
         topSell: productDetails,
+        salesDay: salesDay,
       })
     },
   ],

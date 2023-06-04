@@ -1,5 +1,7 @@
-import {NavLink} from "@/components/utils/NavLink"
-import {getAuthorization} from "@/web/helper/getAuthorization"
+import { NavLink } from "@/components/utils/NavLink"
+import getApi from "@/web/getAPI"
+import { getAuthorization } from "@/web/helper/getAuthorization"
+import getOrderServices from "@/web/services/user/getOrder"
 
 export const getServerSideProps = async (context) => {
   const { req, query } = context
@@ -10,10 +12,25 @@ export const getServerSideProps = async (context) => {
     return redirect
   }
 
-  return { props: {} }
+  const api = getApi(context)
+
+  const getOrder = getOrderServices({ api })
+  const [err, data] = await getOrder(query.userId)
+
+  if (err) {
+    return {
+      redirect: {
+        destination: "/",
+      },
+    }
+  }
+
+  return { props: { data: data.result, userId: query.userId } }
 }
 
-const Orders = () => {
+const Orders = (props) => {
+  const { data, userId } = props
+
   return (
     <>
       <main>
@@ -24,73 +41,23 @@ const Orders = () => {
             </h1>
           </div>
           <div>
-            <div className="py-4 border-b-2 shadow-md shadow-[#615043] font-bold text-xl lg:text-3xl">
-              <h2 className="ml-6 hover:text-[#b3825c] hover:cursor-pointer lg:ml-80">
-                2022
-              </h2>
-            </div>
             <div className="flex items-center flex-col my-6">
-              <div
-                className="grid grid-cols-2 gap-8 my-6 shadow-xl shadow-[#dad0c9] rounded-md p-6 hover:cursor-pointer">
-                <NavLink href="/">
-                  <p className="flex justify-start font-bold  hover:text-[#b3825c] lg:text-xl">
-                    2022/09/10 - #365255412
+              {data.map((data, i) => (
+                <div
+                  className="grid grid-cols-2 gap-8 my-6 shadow-xl shadow-[#dad0c9] rounded-md p-6 hover:cursor-pointer"
+                  key={i}
+                >
+                  <NavLink href={`/user/${userId}/orders/${data.id}/order`}>
+                    <p className="flex justify-start font-bold  hover:text-[#b3825c] lg:text-xl">
+                      {data.date} - #{data.payment_intent.substring(3)}
+                    </p>
+                  </NavLink>
+                  <p className="flex justify-end font-bold text-xl">
+                    {data.status}
                   </p>
-                </NavLink>
-                <p className="flex justify-end font-bold text-xl">Annulée</p>
-                <p className="flex justify-start text-md text-[#7c7b81] font-bold lg:ml-5">
-                  5 articles
-                </p>
-                <p className="flex justify-end font-bold">1200 €</p>
-              </div>
-              <div
-                className="grid grid-cols-2 gap-8 my-6 shadow-xl shadow-[#dad0c9] rounded-md p-6 hover:cursor-pointer">
-                <NavLink href="/">
-                  <p className="flex justify-start font-bold  hover:text-[#b3825c] lg:text-xl">
-                    2022/09/10 - #365255412
-                  </p>
-                </NavLink>
-                <p className="flex justify-end font-bold text-xl">Annulée</p>
-                <p className="flex justify-start text-md text-[#7c7b81] font-bold lg:ml-5">
-                  5 articles
-                </p>
-                <p className="flex justify-end font-bold">1200 €</p>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="py-4 border-b-2 shadow-md shadow-[#615043] font-bold text-xl lg:text-3xl">
-              <h2 className="ml-6 hover:text-[#b3825c] hover:cursor-pointer lg:ml-80">
-                2023
-              </h2>
-            </div>
-            <div className="flex items-center flex-col my-6">
-              <div
-                className="grid grid-cols-2 gap-8 my-6 shadow-xl shadow-[#dad0c9] rounded-md p-6 hover:cursor-pointer">
-                <NavLink href="/">
-                  <p className="flex justify-start font-bold  hover:text-[#b3825c] lg:text-xl">
-                    2022/09/10 - #365255412
-                  </p>
-                </NavLink>
-                <p className="flex justify-end font-bold text-xl">Annulée</p>
-                <p className="flex justify-start text-md text-[#7c7b81] font-bold lg:ml-5">
-                  5 articles
-                </p>
-                <p className="flex justify-end font-bold">1200 €</p>
-              </div>
-              <div
-                className="grid grid-cols-2 gap-8 my-6 shadow-xl shadow-[#dad0c9] rounded-md p-6 hover:cursor-pointer">
-                <NavLink href="/">
-                  <p className="flex justify-start font-bold  hover:text-[#b3825c] lg:text-xl">
-                    2022/09/10 - #365255412
-                  </p>
-                </NavLink>
-                <p className="flex justify-end font-bold text-xl">Annulée</p>
-                <p className="flex justify-start text-md text-[#7c7b81] font-bold lg:ml-5">
-                  5 articles
-                </p>
-                <p className="flex justify-end font-bold">1200 €</p>
-              </div>
+                  <p className=" font-bold">{data.price} €</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>

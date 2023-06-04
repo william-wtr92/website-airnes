@@ -132,6 +132,7 @@ const Users = (props) => {
             <div className="flex flex-col mx-12 my-10 gap-4">
               {session ? (
                 <div className="flex flex-col gap-4">
+                  <p>{t("welcome")} {session.user.name}</p>
                   <NavLink href={`/user/${session.user.id}/orders`}>
                     <div className="flex gap-4 hover:text-[#6f5e3f]">
                       <ChevronRightIcon className="h-6 w-6" />

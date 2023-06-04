@@ -41,18 +41,22 @@ const handler = mw({
         address_id,
         payment_state: redirect_status,
         payment_intent,
+        payment_method: "CARD",
         price,
+        status: "en attente",
       })
 
       cartItems.forEach(async (element) => {
         await OrderProductModel.query().insertAndFetch({
           order_id: order.id,
           product_id: element.id,
+          product_quantity: element.product_quantity,
         })
       })
 
       res.send({
-        result: true,
+        result: order.id,
+        userId: id,
       })
     },
   ],
