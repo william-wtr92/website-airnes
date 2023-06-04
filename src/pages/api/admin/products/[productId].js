@@ -1,7 +1,7 @@
 import mw from "@/api/mw"
 import validate from "@/api/middlewares/validate"
 import {
-  linkValidator,
+  arrayValidator,
   numberValidator,
   stringValidator,
 } from "@/components/validation/validation"
@@ -44,7 +44,7 @@ const handler = mw({
         productId: numberValidator.required(),
       },
       body: {
-        image: linkValidator.required(),
+        image: arrayValidator.required(),
         categoryId: numberValidator.required(),
         name: stringValidator.required(),
         price: numberValidator.required(),
@@ -73,8 +73,9 @@ const handler = mw({
       const id = productId
       const product = await ProductModel.query().findOne({ id })
 
+
       await ProductModel.query().updateAndFetchById(id, {
-        ...(product.image !== image ? { image } : {}),
+        ...(JSON.stringify(product.image) !== JSON.stringify(image) ? { image } : {}),
         ...(product.name !== name ? { name } : {}),
         ...(product.description !== description ? { description } : {}),
         ...(product.categoryId !== categoryId ? { categoryId } : {}),
@@ -83,6 +84,7 @@ const handler = mw({
         ...(product.quantity !== quantity ? { quantity } : {}),
         ...(product.materialId !== materialId ? { materialId } : {}),
       })
+
 
       res.send({ result: true })
     },

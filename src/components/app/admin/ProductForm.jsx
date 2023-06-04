@@ -2,15 +2,11 @@ import Return from "@/components/app/ui/Return"
 import {Field, Form, Formik} from "formik"
 import FormField from "@/components/utils/FormField"
 import Button from "@/components/app/ui/Button"
-import React, {useState} from "react"
-import {TrashIcon} from "@heroicons/react/24/solid"
+import React from "react"
+import {ImagesInput} from "@/components/utils/ImagesInputField"
 
 const ProductForm = (props) => {
   const { initialValues, validationSchema, onSubmit, categories, materials, error } = props
-
-  const [image, setImage] = useState(
-      initialValues.image && initialValues.image.length > 0 ? initialValues.image : []
-  )
 
   const defaultValueCategory = categories.find(({ id }) => id === initialValues.categoryId)
   const filteredEditDefaultCategories = categories.filter((item) => item.id !== initialValues.categoryId)
@@ -19,17 +15,6 @@ const ProductForm = (props) => {
 
   const initialCategories = initialValues.categoryId ? filteredEditDefaultCategories : categories
   const initialMaterials = initialValues.materialId ? filteredEditDefaultMaterials : materials
-
-  const addImage = async () => {
-    setImage([...image, initialValues.image])
-  }
-
-  const removeImage = (i) => () => {
-    setImage(prevImage => prevImage.filter((_, index) => index !== i))
-  }
-  const clearImages = () => {
-    setImage([])
-  }
 
   return (
       <div className="p-10 flex flex-col gap-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
@@ -41,28 +26,7 @@ const ProductForm = (props) => {
             error={error}
         >
           <Form className="flex flex-col gap-5">
-            {image.map((_, index) => {
-              const fieldName = `image[${index}]`
-
-              return (
-                  <fieldset name={fieldName} key={fieldName} className="flex">
-                    <FormField
-                        type="text"
-                        name={`${fieldName}.url`}
-                        placeholder="Enter the image link"
-                        label= {`Image ${index + 1}`}
-                        className="w-96"
-                    />
-                    <TrashIcon className="h-6 w-6 mt-10" onClick={removeImage(index)} />
-                  </fieldset>
-              )
-            })}
-            <button type="button" onClick={addImage}>
-              Add Image
-            </button>
-            <button type="button" onClick={clearImages}>
-              Clear Images
-            </button>
+           <ImagesInput />
             <span className="text-md font-semibold">Category</span>
             <Field as="select"
                    name={initialValues.categoryId && initialValues.categoryId !== 0 ? "categoryId" : "category"}
