@@ -2,6 +2,7 @@ import ProductOrder from "@/components/app/content/ProductOrder"
 import getApi from "@/web/getAPI"
 import { getAuthorization } from "@/web/helper/getAuthorization"
 import orderDataServices from "@/web/services/user/order/orderData"
+import { format } from "date-fns"
 
 export const getServerSideProps = async (context) => {
   const { req, query } = context
@@ -31,13 +32,15 @@ export const getServerSideProps = async (context) => {
 const Order = (props) => {
   const { data, productData } = props
 
+  const formatDate = format(new Date(data.created_at), "yyyy-MM-dd")
+
   return (
     <>
       <main>
         <div>
           <div className="flex justify-center mx-6 my-8 lg:my-16">
             <h1 className="font-bold text-2xl hover:cursor-pointer hover:text-[#615043] lg:mr-14 lg:text-4xl">
-              Commande {data.payment_intent.substring(3)} - {data.date} -
+              Commande {data.payment_intent.substring(3)} - {formatDate} -{" "}
               {data.status}
             </h1>
           </div>

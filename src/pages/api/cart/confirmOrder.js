@@ -36,8 +36,6 @@ const handler = mw({
         return accumulator + element.price * element.product_quantity
       }, 0)
 
-      const date = new Date(Date.now())
-
       const order = await OrderModel.query().insertAndFetch({
         user_id: id,
         address_id,
@@ -45,7 +43,6 @@ const handler = mw({
         payment_intent,
         payment_method: "CARD",
         price,
-        date: date.toLocaleDateString(),
         status: "en attente",
       })
 
