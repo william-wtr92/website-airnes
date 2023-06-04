@@ -5,7 +5,7 @@ export const up = async (knex) => {
     table.integer("address_id").references("id").inTable("address")
     table.text("payment_state").notNullable()
     table.text("payment_intent").notNullable()
-    table.integer("price").notNullable()
+    table.float("price").notNullable()
     table.timestamps(true, true)
     table.text("status").notNullable()
     table.text("payment_method").notNullable()
