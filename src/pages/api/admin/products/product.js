@@ -2,7 +2,7 @@ import ProductModel from "@/api/db/models/ProductModel"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import {
-  linkValidator,
+  arrayValidator,
   numberValidator,
   queryPageValidator,
   stringValidator,
@@ -16,7 +16,7 @@ const handler = mw({
     auth("admin"),
     validate({
       body: {
-        image: linkValidator.required(),
+        image: arrayValidator.required(),
         category: numberValidator.required(),
         name: stringValidator.required(),
         price: numberValidator.required(),
@@ -47,7 +47,7 @@ const handler = mw({
       await ProductModel.query().insertAndFetch({
         name,
         description,
-        image,
+        image: JSON.stringify(image),
         price,
         promotion,
         quantity,

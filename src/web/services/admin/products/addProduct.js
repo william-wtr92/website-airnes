@@ -10,8 +10,6 @@ const addProduct =
     price,
     promotion,
     material,
-    material2,
-    material3,
     quantity,
   }) => {
     try {
@@ -25,15 +23,13 @@ const addProduct =
           price,
           promotion,
           material,
-          material2,
-          material3,
           quantity,
         }
       )
 
       return [null, data]
     } catch (err) {
-      const error = err.response?.data?.error || "Oops. Something went wrong"
+      const error = err.response?.data?.error || "Oopsy. Something went wrong"
 
       return [Array.isArray(error) ? error : [error]]
     }

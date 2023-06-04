@@ -9,7 +9,7 @@ export const up = async (knex) => {
       table.increments("id")
       table.text("name").notNullable()
       table.text("description").notNullable()
-      table.text("image").notNullable()
+      table.json("image").notNullable()
       table.float("price").notNullable()
       table.float("promotion")
       table.integer("quantity").notNullable()
