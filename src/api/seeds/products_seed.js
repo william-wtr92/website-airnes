@@ -54,8 +54,7 @@ const insertSelectedProducts = async (db, products) => {
 }
 
 const insertProducts = async (db) => {
-  const products = Array.from({ length: 20 }, (_, index) => ({
-    id: index + 1,
+  const products = Array.from({ length: 20 }, () => ({
     name: faker.commerce.productName(),
     description: faker.lorem.sentence(),
     image: JSON.stringify(Array.from({ length: 3 }, () => ({ url: faker.image.imageUrl() }))),
