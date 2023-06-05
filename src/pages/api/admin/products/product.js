@@ -23,37 +23,46 @@ const handler = mw({
         promotion: numberValidator.required(),
         quantity: numberValidator.required(),
         description: stringValidator.required(),
-        material: stringValidator.required(),
+        material: numberValidator.required(),
       },
     }),
     async ({
-      locals: {
-        body: {
-          image,
-          name,
-          description,
-          category,
-          price,
-          promotion,
-          quantity,
-          material,
-        },
-      },
-      res,
-    }) => {
+             locals: {
+               body: {
+                 image,
+                 name,
+                 description,
+                 category,
+                 price,
+                 promotion,
+                 quantity,
+                 material,
+               },
+             },
+             res,
+           }) => {
       const categoryId = parseInt(category)
       const materialId = parseInt(material)
 
-      await ProductModel.query().insertAndFetch({
-        name,
-        description,
-        image: JSON.stringify(image),
-        price,
-        promotion,
-        quantity,
-        categoryId,
-        materialId,
-      })
+      try {
+        const product = await ProductModel.query().insertAndFetch({
+          name,
+          description,
+          price,
+          image: JSON.stringify([]),
+          promotion,
+          quantity,
+          categoryId,
+          materialId,
+        })
+
+        await ProductModel.query().patchAndFetchById(product.id, {
+          image: JSON.stringify(image),
+        })
+      } catch (e) {
+        // handle error
+      }
+
 
       res.send({ result: true })
     },

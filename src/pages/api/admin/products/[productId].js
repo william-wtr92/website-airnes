@@ -55,36 +55,41 @@ const handler = mw({
       },
     }),
     async ({
-      locals: {
-        query: { productId },
-        body: {
-          image,
-          name,
-          description,
-          categoryId,
-          price,
-          promotion,
-          quantity,
-          materialId,
-        },
-      },
-      res,
-    }) => {
+             locals: {
+               query: { productId },
+               body: {
+                 image,
+                 name,
+                 description,
+                 categoryId,
+                 price,
+                 promotion,
+                 quantity,
+                 materialId,
+               },
+             },
+             res,
+           }) => {
       const id = productId
       const product = await ProductModel.query().findOne({ id })
 
+      try {
+        await ProductModel.query().patchAndFetchById(id, {
+          ...(product.name !== name ? { name } : {}),
+          ...(product.description !== description ? { description } : {}),
+          ...(product.categoryId !== categoryId ? { categoryId } : {}),
+          ...(product.price !== price ? { price } : {}),
+          ...(product.promotion !== promotion ? { promotion } : {}),
+          ...(product.quantity !== quantity ? { quantity } : {}),
+          ...(product.materialId !== materialId ? { materialId } : {}),
+        })
 
-      await ProductModel.query().updateAndFetchById(id, {
-        ...(JSON.stringify(product.image) !== JSON.stringify(image) ? { image } : {}),
-        ...(product.name !== name ? { name } : {}),
-        ...(product.description !== description ? { description } : {}),
-        ...(product.categoryId !== categoryId ? { categoryId } : {}),
-        ...(product.price !== price ? { price } : {}),
-        ...(product.promotion !== promotion ? { promotion } : {}),
-        ...(product.quantity !== quantity ? { quantity } : {}),
-        ...(product.materialId !== materialId ? { materialId } : {}),
-      })
-
+        if(JSON.stringify(product.image) !== JSON.stringify(image)) {
+          await ProductModel.query().patchAndFetchById(id, {
+            image: JSON.stringify(image),
+          })
+        }
+      } catch (e) { /* empty */ }
 
       res.send({ result: true })
     },

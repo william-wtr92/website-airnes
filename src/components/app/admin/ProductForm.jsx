@@ -93,7 +93,7 @@ const ProductForm = (props) => {
                     )
               }
             </Field>
-            <Button type="submit" className="mt-10 bg-white">Save</Button>
+            <Button type="submit" className="mt-10 ">Save</Button>
           </Form>
         </Formik>
       </div>
