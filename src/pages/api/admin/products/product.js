@@ -10,6 +10,7 @@ import {
 import { NotFoundError } from "objection"
 import config from "@/api/config"
 import auth from "@/api/middlewares/auth"
+import {InvalidArgumentError} from "@/api/errors"
 
 const handler = mw({
   POST: [
@@ -59,8 +60,8 @@ const handler = mw({
         await ProductModel.query().patchAndFetchById(product.id, {
           image: JSON.stringify(image),
         })
-      } catch (e) {
-        // handle error
+      } catch {
+        throw new InvalidArgumentError()
       }
 
 

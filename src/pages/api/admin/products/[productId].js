@@ -5,7 +5,7 @@ import {
   numberValidator,
   stringValidator,
 } from "@/components/validation/validation"
-import { NotFoundError } from "@/api/errors"
+import {InvalidArgumentError, NotFoundError} from "@/api/errors"
 import ProductModel from "@/api/db/models/ProductModel"
 import auth from "@/api/middlewares/auth"
 import SelectedProductModel from "@/api/db/models/SeletedProductModel"
@@ -89,7 +89,9 @@ const handler = mw({
             image: JSON.stringify(image),
           })
         }
-      } catch (e) { /* empty */ }
+      } catch {
+        throw new InvalidArgumentError()
+      }
 
       res.send({ result: true })
     },

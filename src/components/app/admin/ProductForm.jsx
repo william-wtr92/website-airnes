@@ -17,7 +17,7 @@ const ProductForm = (props) => {
   const initialMaterials = initialValues.materialId ? filteredEditDefaultMaterials : materials
 
   return (
-      <div className="p-10 flex flex-col gap-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
+      <div className="p-10 flex flex-col gap-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64 overflow-y-scroll">
         <Return name="products" back={"/admin/products/all"}/>
         <Formik
             initialValues={initialValues}
