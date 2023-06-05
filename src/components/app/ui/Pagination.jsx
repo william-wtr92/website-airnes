@@ -19,7 +19,7 @@ const Pagination = (props) => {
   const pages = [
     1,
     totalPages > 2 ? middlePage : null,
-    totalPages
+    totalPages > 1 ? totalPages : null,
   ].filter(Boolean)
 
   const handlePageClick = (e, page) => {
