@@ -15,11 +15,10 @@ const Pagination = (props) => {
   const previousPage = Math.max(1, currentPage - 1)
   const nextPage = Math.min(totalPages, currentPage + 1)
 
+  const middlePage = totalPages > 2 && (currentPage !== 1 && currentPage !== totalPages) ? currentPage : "..."
   const pages = [
     1,
-    totalPages > 2 ? 2 : null,
-    currentPage > 2 && currentPage < totalPages - 1 ? currentPage : "...",
-    totalPages > 3 ? totalPages - 1 : null,
+    totalPages > 2 ? middlePage : null,
     totalPages > 1 ? totalPages : null,
   ].filter(Boolean)
 
