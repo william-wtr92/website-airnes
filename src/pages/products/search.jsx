@@ -1,4 +1,4 @@
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import { FunnelIcon, AdjustmentsVerticalIcon } from "@heroicons/react/24/solid"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
@@ -120,6 +120,21 @@ const SearchPage = (props) => {
     setPromo(false)
   }
 
+  const [isBottom, setIsBottom] = useState(false)
+
+  useEffect(() => {
+    function handleScroll() {
+      const isBottom = window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight
+      setIsBottom(isBottom)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [])
+
   const { t } = useTranslation("search")
 
   return (
@@ -129,7 +144,7 @@ const SearchPage = (props) => {
           <div
             className={`${
               filterShow ? `block` : `hidden`
-            } flex flex-col border-r-2 p-8 absolute inset-0 top-[3.8125rem] left-[max(0px,calc(50%-45rem))] right-auto w-full h-full md:w-[36%] overflow-y-auto`}
+            } flex flex-col border-r-2 p-4 fixed inset-x-0 ${isBottom? `bottom-14` : `bottom-O`} top-[3.8125rem] left-[max(0px,calc(50%-45rem))] right-auto w-full md:w-[36%] pb-10 overflow-y-auto z-10`}
           >
             <div className="flex justify-between pb-4">
               <button
@@ -218,9 +233,9 @@ const SearchPage = (props) => {
           <div
             className={`${
               filterShow
-                ? `hidden md:ml-[36%] md:block w-full `
-                : `block mx-auto w-full`
-            } gap-4 flex flex-col justify-center mx-6 mt-20 pb-10 px-6  lg:mt-8`}
+                ? `md:ml-[36%] md:block w-full mr-0`
+                : `mx-auto w-full`
+            } gap-4 flex flex-col justify-center mx-6 mt-20 pb-10 px-6 lg:mt-8 overflow-y-auto`}
           >
             <div className="text-center text-3xl text-black font-bold pb-6">
               {t("search")}
