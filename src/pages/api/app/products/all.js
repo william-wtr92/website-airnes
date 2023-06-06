@@ -28,7 +28,7 @@ const handler = mw({
 
       const productsQuery = ProductModel.query()
         .where("categoryId", "!=", 0)
-        .orderBy("id", "asc")
+        .orderBy("quantity", "desc")
         .limit(limit)
         .offset(offset)
 
