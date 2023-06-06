@@ -1,0 +1,8 @@
+{
+  "orders": "Orders",
+  "order": "Order",
+  "total": "TOTAL",
+  "tva": "VAT",
+  "delivery": "Delivery address",
+  "payment": "Payment method"
+}

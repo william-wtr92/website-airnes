@@ -1,0 +1,10 @@
+{
+  "delivery": "Առաքում",
+  "choice": "Ընտրեք գրանցված հասցե",
+  "labelFirstName": "Անուն",
+  "labelLastName": "Ազգանուն",
+  "labelAddress": "Հասցե",
+  "labelComp": "Հասցեի լրացուցիչ",
+  "labelCity": "Քաղաք",
+  "next": "Գնալ վճարման"
+}

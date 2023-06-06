@@ -1,0 +1,10 @@
+{
+  "delivery": "Livraison",
+  "choice": "Choisir une adresse enregistrée",
+  "labelFirstName": "Prénom",
+  "labelLastName": "Nom",
+  "labelAddress": "Adresse",
+  "labelComp": "Complément d'adresse",
+  "labelCity": "Ville",
+  "next": "Passer au paiement"
+}

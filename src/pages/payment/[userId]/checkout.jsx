@@ -11,9 +11,11 @@ import classNames from "classnames"
 import AddAddressForm from "@/components/app/content/AddAddress"
 import { useRouter } from "next/router"
 import useAppContext from "@/web/hooks/useAppContext"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "next-i18next"
 
 export const getServerSideProps = async (context) => {
-  const { req, query } = context
+  const { req, query, locale } = context
 
   const redirect = getAuthorization("user", req, query)
 
@@ -38,6 +40,11 @@ export const getServerSideProps = async (context) => {
     props: {
       data: data.data,
       userId: query.userId,
+      ...(await serverSideTranslations(locale, [
+        "paycheck",
+        "navbar",
+        "footer",
+      ])),
     },
   }
 }
@@ -123,6 +130,8 @@ const Checkout = (props) => {
     [router]
   )
 
+  const { t } = useTranslation("paycheck")
+
   return (
     <>
       <Formik
@@ -134,7 +143,7 @@ const Checkout = (props) => {
         <div>
           <Form>
             <div className="flex flex-col items-center mt-10 gap-y-5">
-              <h1 className="font-bold text-xl">Livraison</h1>
+              <h1 className="font-bold text-xl">{t("delivery")}</h1>
               <div className="flex flex-col flex-wrap md:flex-row w-4/5 lg:w-1/2 gap-y-5">
                 <div className="basis-full md:basis-4/5 flex">
                   <label htmlFor="addresses"></label>
@@ -143,9 +152,7 @@ const Checkout = (props) => {
                     onChange={getCardId}
                     className="bg-white border-2 border-gray-400 rounded-lg block w-full px-5 py-2"
                   >
-                    <option defaultChecked>
-                      Choisir une adresse enregistrée
-                    </option>
+                    <option defaultChecked>{t("choice")}</option>
                     {addressData.map((address) => (
                       <option
                         value={address.addressName}
@@ -167,36 +174,36 @@ const Checkout = (props) => {
 
                 <FormField
                   name="lastName"
-                  label="Prénom"
+                  label={t("labelFirstName")}
                   className="basis-full md:basis-1/2 "
                   readOnly
                 />
                 <FormField
                   name="name"
-                  label="Nom"
+                  label={t("labelLastName")}
                   className="basis-full md:basis-1/2"
                   readOnly
                 />
                 <FormField
                   name="address"
-                  label="Adresse"
+                  label={t("labelAddress")}
                   className="basis-full md:basis-1/2"
                   readOnly
                 />
                 <FormField
                   name="complete"
-                  label="Complément d'adresse"
+                  label={t("labelComp")}
                   className="basis-full md:basis-1/2"
                   readOnly
                 />
                 <FormField
                   name="city"
-                  label="Ville"
+                  label={t("labelCity")}
                   className="w-fit basis-full"
                   readOnly
                 />
               </div>
-              <Button type="submit">Passer au paiement</Button>
+              <Button type="submit">{t("next")}</Button>
             </div>
           </Form>
         </div>
