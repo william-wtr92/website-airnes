@@ -44,8 +44,8 @@ const handler = mw({
       page = parseInt(page, 10) || 1
       const offset = (page - 1) * limit
 
-      const orderColumn = order ? "price" : "id"
-      const orderBy = order || "asc"
+      const orderColumn = order ? "price" : "quantity"
+      const orderBy = order || "desc"
 
       const productsQuery = ProductModel.query()
         .where("categoryId", "!=", 0)

@@ -13,7 +13,7 @@ const HomepageProducts = (props) => {
         >
           <div className="h-64 w-80 hover:scale-105">
             <Image
-              src={product.image}
+              src={product.image[0].url}
               alt={product.name}
               className="object-cover h-52"
               width={500}

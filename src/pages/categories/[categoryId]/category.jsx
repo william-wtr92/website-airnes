@@ -81,7 +81,7 @@ const Category = (props) => {
                 <ProductThumbnail
                   key={product.id}
                   alt={product.name}
-                  image={product.image}
+                  image={product.image[0].url}
                   productId={product.id}
                   productName={product.name}
                   productPrice={product.price}

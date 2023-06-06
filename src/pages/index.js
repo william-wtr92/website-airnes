@@ -95,7 +95,7 @@ const Main = (props) => {
                     className="flex-none w-full md:w-1/2 lg:w-1/3"
                   >
                     <SlideProducts
-                      image={product.image}
+                      image={product.image[0].url}
                       productId={product.id}
                       productName={product.name}
                       productPrice={product.price}
