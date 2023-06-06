@@ -36,7 +36,7 @@ const insertSelectedCategories = async (db, categories) => {
     selectedCategories.map((category, index) => ({
       id: index + 1,
       category_id: category.id,
-      order: index + 1
+      order: index + 1,
     }))
   )
 }
@@ -48,23 +48,86 @@ const insertSelectedProducts = async (db, products) => {
     selectedProducts.map((product, index) => ({
       id: index + 1,
       product_id: product.id,
-      order: index + 1
+      order: index + 1,
     }))
   )
 }
 
 const insertProducts = async (db) => {
-  const products = Array.from({ length: 20 }, (_, index) => ({
-    id: index + 1,
-    name: faker.commerce.productName(),
-    description: faker.lorem.sentence(),
-    image: faker.image.imageUrl(),
-    price: faker.datatype.number({ min: 100, max: 1000 }),
-    promotion: faker.datatype.number({ min: 0, max: 100 }),
-    quantity: faker.datatype.number({ min: 0, max: 100 }),
-    categoryId: faker.datatype.number({ min: 1, max: 10 }),
-    materialId: faker.datatype.number({ min: 1, max: 10 })
-  }))
+  const products = [
+    {
+      id: 1,
+      name: "Armoire Coloniale en Bois Blanc",
+      description:
+        "Une armoire coloniale conçue en bois blanc, idéale pour ranger vos vêtements et autres objets personnels.",
+      image: "",
+      price: 500,
+      promotion: 10,
+      quantity: 50,
+      categoryId: 1,
+      materialId: 1,
+    },
+    {
+      id: 2,
+      name: "Armoire Rustique en Chêne Massif",
+      description:
+        "Cette armoire rustique en chêne massif offre un espace de rangement généreux et un design intemporel.",
+      image: "",
+      price: 1000,
+      promotion: 20,
+      quantity: 100,
+      categoryId: 2,
+      materialId: 2,
+    },
+    {
+      id: 3,
+      name: "Armoire Luxueuse avec Vitrine",
+      description:
+        "Armoire luxueuse dotée d'une vitrine en verre, parfaite pour exposer vos objets précieux tout en les gardant en sécurité.",
+      image: "",
+      price: 1000,
+      promotion: 20,
+      quantity: 100,
+      categoryId: 2,
+      materialId: 2,
+    },
+    {
+      id: 4,
+      name: "Dressing Moderne en Noyer",
+      description:
+        "Un dressing moderne en noyer pour un rangement optimal de votre garde-robe. Comprend plusieurs compartiments pour une organisation facile.",
+      image: "",
+      price: 1000,
+      promotion: 20,
+      quantity: 100,
+      categoryId: 2,
+      materialId: 2,
+    },
+    {
+      id: 5,
+      name: "Armoire Scandinave avec Miroir Intégré",
+      description:
+        "Une armoire scandinave épurée avec miroir intégré, conçue pour les espaces modernes et minimalistes.",
+      image: "",
+      price: 1000,
+      promotion: 20,
+      quantity: 100,
+      categoryId: 2,
+      materialId: 2,
+    },
+    {
+      id: 6,
+      name: "Penderie Élégante avec Portes en Verre",
+      description:
+        "Penderie élégante avec portes en verre, permettant une vision claire de vos vêtements tout en les protégeant de la poussière.",
+      image: "",
+      price: 1000,
+      promotion: 20,
+      quantity: 100,
+      categoryId: 2,
+      materialId: 2,
+    },
+  ]
 
   await db("product").insert(products)
 
@@ -73,27 +136,29 @@ const insertProducts = async (db) => {
 
 const insertCategories = async (db) => {
   const categoryNames = [
-    "canapé",
-    "chaise",
+    "table basse",
     "table",
-    "commode",
     "armoire",
     "bureau",
-    "étagère",
     "lit",
-    "meuble TV",
-    "buffet"
+    "lampe",
+    "chaise",
+    "chevet",
+    "buffet",
   ]
 
   const getRandomCategoryName = () =>
     categoryNames[Math.floor(Math.random() * categoryNames.length)]
 
-  const categories = Array.from({ length: 10 }, (_, index) => ({
-    id: index + 1,
-    name: getRandomCategoryName(),
-    description: faker.lorem.sentence(),
-    image: faker.image.imageUrl()
-  }))
+  const categories = Array.from(
+    { length: categoryNames.length },
+    (_, index) => ({
+      id: index + 1,
+      name: getRandomCategoryName(),
+      description: faker.lorem.sentence(),
+      image: faker.image.imageUrl(),
+    })
+  )
 
   await db("category").insert({
     id: 0,
@@ -101,7 +166,7 @@ const insertCategories = async (db) => {
     description: "No categories",
     // needs to be changed once the db and image link handler are set up
     image:
-      "https://images.unsplash.com/photo-1630699144339-420f59b4747b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+      "https://images.unsplash.com/photo-1630699144339-420f59b4747b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
   })
 
   await db("category").insert(categories)
@@ -115,36 +180,47 @@ const insertMaterials = async (db) => {
     "bois",
     "métal",
     "aluminium",
-    "cuivre",
     "acier",
     "plastique",
     "verre",
-    "pierre",
-    "béton"
   ]
 
   const getRandomMaterialName = () =>
     materialNames[Math.floor(Math.random() * materialNames.length)]
 
-  const materials = Array.from({ length: 10 }, (_, index) => ({
+  const materials = Array.from({ length: 7 }, (_, index) => ({
     id: index + 1,
-    name: getRandomMaterialName()
+    name: getRandomMaterialName(),
   }))
 
   await db("material").insert(materials)
 }
 
 const insertCarousel = async (db) => {
-  const images = Array.from({ length: 3 }, (_, index) => ({
-    id: index + 1,
-    label: faker.commerce.productName(),
-    url: faker.image.imageUrl(),
-    order: index + 1
-  }))
+  const images = [
+    {
+      id: 1,
+      label: "Produit 1",
+      url: "https://example.com/image1.jpg",
+      order: 1,
+    },
+    {
+      id: 2,
+      label: "Produit 2",
+      url: "https://example.com/image2.jpg",
+      order: 2,
+    },
+    {
+      id: 3,
+      label: "Produit 3",
+      url: "https://example.com/image3.jpg",
+      order: 3,
+    },
+  ]
 
   await db("carousel_image").insert(images)
 }
 
 module.exports = {
-  seed
+  seed,
 }
