@@ -1,4 +1,4 @@
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import { FunnelIcon, AdjustmentsVerticalIcon } from "@heroicons/react/24/solid"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
@@ -78,6 +78,7 @@ const SearchPage = (props) => {
   const [order, setOrder] = useState("asc")
   const [stock, setStock] = useState(false)
   const [promo, setPromo] = useState(false)
+  const [isNearBottom, setIsNearBottom] = useState(false)
 
   const router = useRouter()
 
@@ -120,6 +121,20 @@ const SearchPage = (props) => {
     setPromo(false)
   }
 
+  useEffect(() => {
+    function handleScroll() {
+      const scrollPosition = window.innerHeight + document.documentElement.scrollTop
+      const scrollThreshold = document.documentElement.offsetHeight * 0.985
+      setIsNearBottom(scrollPosition >= scrollThreshold)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [])
+
   const { t } = useTranslation("search")
 
   return (
@@ -129,7 +144,7 @@ const SearchPage = (props) => {
           <div
             className={`${
               filterShow ? `block` : `hidden`
-            } flex flex-col border-r-2 p-8 absolute inset-0 top-[3.8125rem] left-[max(0px,calc(50%-45rem))] right-auto w-full h-full md:w-[36%] overflow-y-auto`}
+            } flex flex-col border-r-2 p-4 fixed inset-x-0 ${isNearBottom? `bottom-14` : `bottom-0`} top-[3.8125rem] left-[max(0px,calc(50%-45rem))] right-auto w-full md:w-[36%] pb-10 overflow-y-scroll bg-white`}
           >
             <div className="flex justify-between pb-4">
               <button
@@ -173,7 +188,7 @@ const SearchPage = (props) => {
             </div>
             <div
               id={"filtres"}
-              className="flex flex-col gap-6 relative leading-6"
+              className="flex flex-col gap-6 relative leading-6 lg:pr-20"
             >
               <section className="filters" aria-labelledby="filters-header">
                 <header
@@ -218,9 +233,9 @@ const SearchPage = (props) => {
           <div
             className={`${
               filterShow
-                ? `hidden md:ml-[36%] md:block w-full `
-                : `block mx-auto w-full`
-            } gap-4 flex flex-col justify-center mx-6 mt-20 pb-10 px-6  lg:mt-8`}
+                ? `md:ml-[36%] md:block w-full mr-0`
+                : `mx-auto w-full`
+            } gap-4 flex flex-col justify-center mx-6 mt-20 pb-10 px-6 lg:mt-8 overflow-y-auto`}
           >
             <div className="text-center text-3xl text-black font-bold pb-6">
               {t("search")}
@@ -236,7 +251,7 @@ const SearchPage = (props) => {
                 </div>
                 <div className="flex-1">
                   <input
-                    className={`pl-6 md:pr-[35%] border border-gray-500 bg-transparent text-black placeholder-[#443021] py-2`}
+                    className={`pl-6 lg:pr-[35%] border border-gray-500 bg-transparent text-black placeholder-[#443021] py-2`}
                     type="search"
                     placeholder={t("searchPlaceholder")}
                     onChange={(e) => filterEvent(e.target.value, "searchQuery")}
@@ -259,8 +274,8 @@ const SearchPage = (props) => {
             <div className="flex flex-col items-center">
               <div
                 className={`${
-                  filterShow ? `lg:grid-cols-2` : `lg:grid-cols-3`
-                } w-5/6 grid gap-8 grid-cols-1 md:grid-cols-2 mb-20 mt-10 `}
+                  filterShow ? `lg:grid-cols-2 md:grid-cols-1` : `lg:grid-cols-3`
+                } md:w-5/6 w-[90%] grid gap-8 grid-cols-1 md:grid-cols-2 mb-20 mt-10 `}
               >
                 {products.map((product) => (
                   <ProductTemplate key={product.id} product={product} />
