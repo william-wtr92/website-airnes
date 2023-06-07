@@ -78,6 +78,7 @@ const SearchPage = (props) => {
   const [order, setOrder] = useState("asc")
   const [stock, setStock] = useState(false)
   const [promo, setPromo] = useState(false)
+  const [isNearBottom, setIsNearBottom] = useState(false)
 
   const router = useRouter()
 
@@ -120,12 +121,11 @@ const SearchPage = (props) => {
     setPromo(false)
   }
 
-  const [isBottom, setIsBottom] = useState(false)
-
   useEffect(() => {
     function handleScroll() {
-      const isBottom = window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight
-      setIsBottom(isBottom)
+      const scrollPosition = window.innerHeight + document.documentElement.scrollTop
+      const scrollThreshold = document.documentElement.offsetHeight * 0.985
+      setIsNearBottom(scrollPosition >= scrollThreshold)
     }
 
     window.addEventListener("scroll", handleScroll)
@@ -144,7 +144,7 @@ const SearchPage = (props) => {
           <div
             className={`${
               filterShow ? `block` : `hidden`
-            } flex flex-col border-r-2 p-4 fixed inset-x-0 ${isBottom? `bottom-14` : `bottom-O`} top-[3.8125rem] left-[max(0px,calc(50%-45rem))] right-auto w-full md:w-[36%] pb-10 overflow-y-auto z-10`}
+            } flex flex-col border-r-2 p-4 fixed inset-x-0 ${isNearBottom? `bottom-14` : `bottom-0`} top-[3.8125rem] left-[max(0px,calc(50%-45rem))] right-auto w-full md:w-[36%] pb-10 overflow-y-scroll bg-white`}
           >
             <div className="flex justify-between pb-4">
               <button
@@ -188,7 +188,7 @@ const SearchPage = (props) => {
             </div>
             <div
               id={"filtres"}
-              className="flex flex-col gap-6 relative leading-6"
+              className="flex flex-col gap-6 relative leading-6 lg:pr-20"
             >
               <section className="filters" aria-labelledby="filters-header">
                 <header
@@ -251,7 +251,7 @@ const SearchPage = (props) => {
                 </div>
                 <div className="flex-1">
                   <input
-                    className={`pl-6 md:pr-[35%] border border-gray-500 bg-transparent text-black placeholder-[#443021] py-2`}
+                    className={`pl-6 lg:pr-[35%] border border-gray-500 bg-transparent text-black placeholder-[#443021] py-2`}
                     type="search"
                     placeholder={t("searchPlaceholder")}
                     onChange={(e) => filterEvent(e.target.value, "searchQuery")}
@@ -274,7 +274,7 @@ const SearchPage = (props) => {
             <div className="flex flex-col items-center">
               <div
                 className={`${
-                  filterShow ? `lg:grid-cols-2` : `lg:grid-cols-3`
+                  filterShow ? `lg:grid-cols-2 md:grid-cols-1` : `lg:grid-cols-3`
                 } w-5/6 grid gap-8 grid-cols-1 md:grid-cols-2 mb-20 mt-10 `}
               >
                 {products.map((product) => (
