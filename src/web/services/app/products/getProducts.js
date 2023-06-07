@@ -2,9 +2,12 @@ import routes from "@/web/routes"
 
 const getProducts =
   ({ api }) =>
-  async () => {
+  async (sale, page) => {
     try {
-      const { data } = await api.get(routes.api.app.products.getProducts())
+      const { data } = await api.get(routes.api.app.products.getProducts()
+        + `?sale=${sale}`
+        + `&page=${page}`
+      )
 
       return [null, data]
     } catch (err) {
