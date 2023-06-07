@@ -34,6 +34,7 @@ const handler = mw({
             .where("id", "!=", product.id)
             .where("categoryId", "=", product.categoryId)
             .where("quantity", ">", 0)
+            .orderBy("quantity", "desc")
             .limit(10)
         : null
 

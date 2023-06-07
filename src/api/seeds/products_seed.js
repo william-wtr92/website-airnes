@@ -127,6 +127,103 @@ const insertProducts = async (db) => {
       categoryId: 2,
       materialId: 2,
     },
+
+    {
+      id: 7,
+      name: "Buffet Elegance Chêne",
+      description:
+        "Le raffinement naturel du bois de chêne se mêle à une conception robuste pour offrir un espace de rangement de style rustique. Parfait pour ajouter une touche d'élégance à tout espace de vie.",
+      image: "",
+      price: 1000,
+      promotion: 20,
+      quantity: 100,
+      categoryId: 2,
+      materialId: 2,
+    },
+    {
+      id: 8,
+      name: "Buffet Contemporain",
+      description:
+        "Le Buffet Contemporain allie design moderne et fonctionnalité, offrant un espace de rangement idéal tout en rehaussant le style de votre intérieur. La finition épurée s'harmonise avec tout type de décoration.",
+      image: "",
+      price: 1000,
+      promotion: 20,
+      quantity: 100,
+      categoryId: 2,
+      materialId: 2,
+    },
+    {
+      id: 9,
+      name: "Buffet Panorama Vitré",
+      description:
+        "Avec ses portes vitrées, le Buffet Panorama Vitré permet de mettre en valeur vos objets préférés tout en les gardant à l'abri de la poussière. Il est idéal pour exposer vos plus belles pièces de vaisselle ou vos objets de collection.",
+      image: "",
+      price: 1000,
+      promotion: 20,
+      quantity: 100,
+      categoryId: 2,
+      materialId: 2,
+    },
+    {
+      id: 10,
+      name: "Buffet Étagère Ouverte",
+      description:
+        "Le Buffet Étagère Ouverte offre un espace de rangement ouvert pour un accès facile à vos objets du quotidien. Sa conception simple et efficace le rend parfait pour n'importe quel espace.",
+      image: "",
+      price: 1000,
+      promotion: 20,
+      quantity: 100,
+      categoryId: 2,
+      materialId: 2,
+    },
+    {
+      id: 11,
+      name: "Buffet Marbre Majestueux",
+      description:
+        "Faites une déclaration audacieuse avec le Buffet Marbre Majestueux. Avec sa finition en marbre, ce buffet ajoute une touche de luxe et de sophistication à n'importe quelle pièce.",
+      image: "",
+      price: 1000,
+      promotion: 20,
+      quantity: 100,
+      categoryId: 2,
+      materialId: 2,
+    },
+    {
+      id: 12,
+      name: "Buffet Minimaliste",
+      description:
+        "Pour ceux qui préfèrent la simplicité, le Buffet Minimaliste offre un design épuré sans compromettre l'espace de rangement. Idéal pour un intérieur moderne et minimaliste.",
+      image: "",
+      price: 1000,
+      promotion: 20,
+      quantity: 100,
+      categoryId: 2,
+      materialId: 2,
+    },
+    {
+      id: 13,
+      name: "Buffet Multimédia",
+      description:
+        "Le Buffet Multimédia est conçu pour être le centre de votre divertissement à domicile, avec suffisamment d'espace pour ranger tous vos appareils multimédia. Il combine style et fonctionnalité pour une utilisation quotidienne.",
+      image: "",
+      price: 1000,
+      promotion: 20,
+      quantity: 100,
+      categoryId: 2,
+      materialId: 2,
+    },
+    {
+      id: 14,
+      name: "Buffet Charme du Bois",
+      description:
+        "Le Buffet Charme du Bois allie le charme du bois naturel à une conception solide pour offrir un espace de rangement durable. Sa polyvalence en fait un choix parfait pour tout espace de vie.",
+      image: "",
+      price: 1000,
+      promotion: 20,
+      quantity: 100,
+      categoryId: 2,
+      materialId: 2,
+    },
   ]
 
   await db("product").insert(products)

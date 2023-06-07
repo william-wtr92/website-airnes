@@ -2,7 +2,7 @@ import ProductModel from "@/api/db/models/ProductModel"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import {
-  linkValidator,
+  arrayValidator,
   numberValidator,
   queryPageValidator,
   stringValidator,
@@ -10,50 +10,60 @@ import {
 import { NotFoundError } from "objection"
 import config from "@/api/config"
 import auth from "@/api/middlewares/auth"
+import {InvalidArgumentError} from "@/api/errors"
 
 const handler = mw({
   POST: [
     auth("admin"),
     validate({
       body: {
-        image: linkValidator.required(),
+        image: arrayValidator.required(),
         category: numberValidator.required(),
         name: stringValidator.required(),
         price: numberValidator.required(),
         promotion: numberValidator.required(),
         quantity: numberValidator.required(),
         description: stringValidator.required(),
-        material: stringValidator.required(),
+        material: numberValidator.required(),
       },
     }),
     async ({
-      locals: {
-        body: {
-          image,
-          name,
-          description,
-          category,
-          price,
-          promotion,
-          quantity,
-          material,
-        },
-      },
-      res,
-    }) => {
+             locals: {
+               body: {
+                 image,
+                 name,
+                 description,
+                 category,
+                 price,
+                 promotion,
+                 quantity,
+                 material,
+               },
+             },
+             res,
+           }) => {
       const categoryId = parseInt(category)
       const materialId = parseInt(material)
 
-      await ProductModel.query().insertAndFetch({
-        name,
-        description,
-        image,
-        price,
-        promotion,
-        quantity,
-        categoryId,
-        materialId,
-      })
+      try {
+        const product = await ProductModel.query().insertAndFetch({
+          name,
+          description,
+          price,
+          image: JSON.stringify([]),
+          promotion,
+          quantity,
+          categoryId,
+          materialId,
+        })
+
+        await ProductModel.query().patchAndFetchById(product.id, {
+          image: JSON.stringify(image),
+        })
+      } catch {
+        throw new InvalidArgumentError()
+      }
+
 
       res.send({ result: true })
     },
