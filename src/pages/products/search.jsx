@@ -275,7 +275,7 @@ const SearchPage = (props) => {
               <div
                 className={`${
                   filterShow ? `lg:grid-cols-2 md:grid-cols-1` : `lg:grid-cols-3`
-                } w-5/6 grid gap-8 grid-cols-1 md:grid-cols-2 mb-20 mt-10 `}
+                } md:w-5/6 w-[90%] grid gap-8 grid-cols-1 md:grid-cols-2 mb-20 mt-10 `}
               >
                 {products.map((product) => (
                   <ProductTemplate key={product.id} product={product} />

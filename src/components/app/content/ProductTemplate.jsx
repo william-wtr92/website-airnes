@@ -26,7 +26,7 @@ const ProductTemplate = (props) => {
                 key={product.id}
                 href={`/products/${product.id}/product`}
             >
-                <div className="h-64 w-80 hover:scale-105">
+                <div className="h-64 w-64 md:w-80 hover:scale-105">
                     <Image
                         src={product.image[0].url}
                         alt={product.name}
