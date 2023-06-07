@@ -1,5 +1,7 @@
 # Airneis Project
 
+![Website peek](public/images/peek_airneis.png)
+
 ## Context
 ÀIRNEIS ("furniture" in Scottish Gaelic) is a Scottish company that resells furniture designed by Scottish designers.
 They have expressed their desire to move into the digital age and wish to create their own e-commerce solution to reach
