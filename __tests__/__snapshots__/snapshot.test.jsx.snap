@@ -37,17 +37,8 @@ exports[`Main page renders correctly 1`] = `
               class="flex flex-wrap justify-center lg:justify-between"
             >
               <div
-                class="flex flex-col gap-6 justify-center items-center h-72 lg:h-96"
-              >
-                <div
-                  class="animate-spin w-8 h-8 border-t-2 border-transparent border-primary rounded-full"
-                />
-                <p
-                  class="font-bold"
-                >
-                  No categories available !
-                </p>
-              </div>
+                class="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-8"
+              />
             </div>
           </div>
         </div>
@@ -68,17 +59,8 @@ exports[`Main page renders correctly 1`] = `
               class="flex flex-wrap justify-center lg:justify-between"
             >
               <div
-                class="flex flex-col gap-6 justify-center items-center h-72 lg:h-96"
-              >
-                <div
-                  class="animate-spin w-8 h-8 border-t-2 border-transparent border-primary rounded-full"
-                />
-                <p
-                  class="font-bold"
-                >
-                  No products available !
-                </p>
-              </div>
+                class="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-8"
+              />
             </div>
           </div>
         </div>
@@ -118,17 +100,8 @@ exports[`Main page renders correctly 1`] = `
             class="flex flex-wrap justify-center lg:justify-between"
           >
             <div
-              class="flex flex-col gap-6 justify-center items-center h-72 lg:h-96"
-            >
-              <div
-                class="animate-spin w-8 h-8 border-t-2 border-transparent border-primary rounded-full"
-              />
-              <p
-                class="font-bold"
-              >
-                No categories available !
-              </p>
-            </div>
+              class="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-8"
+            />
           </div>
         </div>
       </div>
@@ -149,17 +122,8 @@ exports[`Main page renders correctly 1`] = `
             class="flex flex-wrap justify-center lg:justify-between"
           >
             <div
-              class="flex flex-col gap-6 justify-center items-center h-72 lg:h-96"
-            >
-              <div
-                class="animate-spin w-8 h-8 border-t-2 border-transparent border-primary rounded-full"
-              />
-              <p
-                class="font-bold"
-              >
-                No products available !
-              </p>
-            </div>
+              class="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-8"
+            />
           </div>
         </div>
       </div>
