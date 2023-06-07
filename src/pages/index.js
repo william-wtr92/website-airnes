@@ -24,7 +24,7 @@ export const getServerSideProps = async (context) => {
   const [errCarouselQuery, carouselQuery] = await getImage()
   const [errCategoryQuery, categoryQuery] = await getSelectCategory()
   const [errProductQuery, productQuery] = await getSelectProducts()
-  const [errSaleQuery, saleQuery] = await getProducts()
+  const [errSaleQuery, saleQuery] = await getProducts(true, 1)
 
   if (errCarouselQuery || errCategoryQuery || errProductQuery || errSaleQuery) {
     return {
