@@ -108,14 +108,16 @@ export const AppContextProvider = (props) => {
   }, [])
 
   useEffect(() => {
-    const hasAcceptedCookie = localStorage.getItem(config.acknowledgeCookie.localStorageKey)
+    const hasAcceptedCookie = localStorage.getItem(
+      config.acknowledgeCookie.localStorageKey
+    )
 
     if (!hasAcceptedCookie) {
       return
     }
 
     setReadCookie(true)
-  })
+  }, [])
 
   useEffect(() => {
     const storedCart = localStorage.getItem("cart")
