@@ -43,6 +43,7 @@ const AppContext = createContext()
 export const AppContextProvider = (props) => {
   const { cartItems: initialCartItems, ...otherProps } = props
 
+  const [readCookie, setReadCookie] = useState(false)
   const [session, setSession] = useState(null)
   const [jwt, setJWT] = useState(null)
   const api = createAPIClient({ jwt, baseURL: config.api.baseURL })
@@ -107,6 +108,16 @@ export const AppContextProvider = (props) => {
   }, [])
 
   useEffect(() => {
+    const hasAcceptedCookie = localStorage.getItem(config.acknowledgeCookie.localStorageKey)
+
+    if (!hasAcceptedCookie) {
+      return
+    }
+
+    setReadCookie(true)
+  })
+
+  useEffect(() => {
     const storedCart = localStorage.getItem("cart")
 
     if (storedCart) {
@@ -114,6 +125,12 @@ export const AppContextProvider = (props) => {
       setCartItems(parsedCart)
     }
   }, [])
+
+  const acceptCookies = () => {
+    localStorage.setItem(config.acknowledgeCookie.localStorageKey, "true")
+
+    setReadCookie(true)
+  }
 
   const clearCart = () => {
     setCartItems([])
@@ -186,6 +203,7 @@ export const AppContextProvider = (props) => {
       {...otherProps}
       value={{
         actions: {
+          acceptCookies,
           signUp,
           signIn,
           logout,
@@ -225,6 +243,7 @@ export const AppContextProvider = (props) => {
           getAddress,
         },
         state: {
+          readCookie,
           session,
           cartItems,
           language,
