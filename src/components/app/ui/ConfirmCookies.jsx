@@ -2,7 +2,7 @@ import classNames from "classnames"
 import Button from "./Button"
 import { useTranslation } from "next-i18next"
 
-const Confirm = (props) => {
+const ConfirmCookies = (props) => {
   const { className, display, action, params, textValue, useCase } = props
 
   const handleYes = () => {
@@ -24,7 +24,7 @@ const Confirm = (props) => {
   return (
     <div
       className={classNames(
-        "md:w-1/2 w-full md:h-1/3 h-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white border border-gray-300 shadow-md rounded-md absolute lg:w-full",
+        "md:w-1/2 w-full md:h-1/3 h-[300px] top-1/2 lg:top-32 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white border border-gray-300 shadow-md rounded-md fixed lg:w-1/2",
         className
       )}
     >
@@ -33,9 +33,11 @@ const Confirm = (props) => {
           {textValue}
         </h1>
         <div className="flex justify-around">
-          <Button variant="reverse"
-                  className={classNames("w-2/5", useCase === "cookie" && "hidden")}
-                  onClick={handleFalse}>
+          <Button
+            variant="reverse"
+            className={classNames("w-2/5", useCase === "cookie" && "hidden")}
+            onClick={handleFalse}
+          >
             {t(`no`)}
           </Button>
           <Button className="w-2/5" onClick={handleYes}>
@@ -47,4 +49,4 @@ const Confirm = (props) => {
   )
 }
 
-export default Confirm
+export default ConfirmCookies

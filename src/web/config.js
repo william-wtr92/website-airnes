@@ -5,6 +5,9 @@ const config = {
   session: {
     localStorageKey: "session",
   },
+  acknowledgeCookie: {
+    localStorageKey: "cookieAccepted",
+  }
 }
 
 export default config
