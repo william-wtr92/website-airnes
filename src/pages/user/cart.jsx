@@ -113,7 +113,7 @@ const Cart = () => {
                   <div className="flex shadow-xl bg-[#fff] mx-auto w-[300px] justify-start px-4 py-2 lg:w-[550px] lg:mx-36">
                     <div className="flex mt-2 lg:items-center lg:mt-0">
                       <Image
-                        src={item.image[0].image}
+                        src={item.image[0].url}
                         alt={item.name}
                         width={100}
                         height={1}
@@ -166,6 +166,7 @@ const Cart = () => {
                           <TrashIcon
                             className="h-6 hover:cursor-pointer hover:text-[#927864]"
                             onClick={() => handleRemoveFromCart(item.id)}
+                            data-testid={`trash-button-${item.id}`}
                           />
                         </div>
                       </div>

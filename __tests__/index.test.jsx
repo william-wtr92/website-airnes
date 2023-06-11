@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react"
 import Main, { getServerSideProps } from "@/pages/index"
 import axios from "axios"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 jest.mock("next/router", () => ({
   useRouter: () => ({
@@ -23,12 +22,11 @@ jest.mock("next-i18next", () => ({
 }))
 
 describe("MainPage", () => {
-  it("display component's", async () => {
+  it("display components", async () => {
     const carousel = [{ id: 1, image: "/image1" }]
     const categories = [
       {
-        id: 1,
-        user: {
+        category: {
           id: 1,
           name: "category1",
           image: "/image1",
@@ -38,41 +36,31 @@ describe("MainPage", () => {
 
     const products = [
       {
-        id: 1,
-        name: "product1",
-        image: "/image1",
-        price: 100,
-        promotion: true,
-      },
-    ]
-    const selectedProduct = [
-      {
-        id: 2,
-        user: {
-          id: 2,
-          name: "selectedProduct1",
-          image: "/image2",
-          price: 200,
-          promotion: false,
+        product: {
+          id: 1,
+          name: "product1",
+          image: [{ url: "/image1" }],
+          price: 100,
+          promotion: true,
         },
       },
     ]
-
-    const mockResponseData = {
-      data: { result: [] },
-    }
-    axios.get
-      .mockResolvedValueOnce(mockResponseData)
-      .mockResolvedValueOnce(mockResponseData)
-      .mockResolvedValueOnce(mockResponseData)
-      .mockResolvedValueOnce(mockResponseData)
+    const sales = [
+      {
+        id: 2,
+        name: "salesProduct1",
+        image: [{ url: "/image2" }],
+        price: 200,
+        promotion: false,
+      },
+    ]
 
     render(
       <Main
         carousel={carousel}
         categories={categories}
-        selectedProduct={selectedProduct}
         products={products}
+        sales={sales}
       />
     )
 
@@ -82,24 +70,27 @@ describe("MainPage", () => {
     expect(screen.getByText(/promotions/i)).toBeInTheDocument()
 
     expect(screen.getAllByAltText(/product1/i)).toHaveLength(2)
-    expect(screen.getByAltText(/selectedProduct1$/i)).toBeInTheDocument()
+    expect(screen.getByAltText(/salesProduct1/i)).toBeInTheDocument()
     expect(screen.getByAltText(/category1$/i)).toBeInTheDocument()
   })
 
-  it("serverSideProps", async () => {
-    const mockResponseData = {
-      data: { result: [] },
-    }
-    axios.get.mockResolvedValueOnce(mockResponseData)
+  it("redirect", async () => {
+    axios.get.mockRejectedValueOnce(new Error("Network error"))
 
-    const response = await getServerSideProps({ locale: "en" })
+    const context = {
+      req: {
+        cookies: {
+          session: "",
+        },
+      },
+      locale: "en",
+    }
+
+    const response = await getServerSideProps(context)
+
     expect(response).toEqual({
-      props: {
-        carousel: [],
-        categories: [],
-        selectedProduct: [],
-        products: [],
-        ...(await serverSideTranslations("en", ["common", "footer", "navbar"])),
+      redirect: {
+        destination: "/categories/all",
       },
     })
   })
