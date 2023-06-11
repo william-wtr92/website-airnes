@@ -35,11 +35,11 @@ const HomepageCategories = () => {
 
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.categoryContainer}>
-      <Text style={styles.categoryText}>{item.user.name}</Text>
+      <Text style={styles.categoryText}>{item.category.name}</Text>
       <Image
-        source={{ uri: item.user.image }}
+        source={{ uri: item.category.image }}
         style={styles.categoryImage}
-        alt={item.user.name}
+        alt={item.category.name}
       />
     </TouchableOpacity>
   )
@@ -58,7 +58,7 @@ const HomepageCategories = () => {
       <FlatList
         data={categories}
         renderItem={renderItem}
-        keyExtractor={(item) => item.user.id.toString()}
+        keyExtractor={(item) => item.category.id}
       />
     </View>
   )
