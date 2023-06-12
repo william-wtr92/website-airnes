@@ -59,7 +59,7 @@ const handler = mw({
 
           if (product && product.quantity > 0) {
             await ProductModel.query().updateAndFetchById(element.id, {
-              quantity: product.quantity - 1,
+              quantity: product.quantity - element.product_quantity,
             })
           }
         })
