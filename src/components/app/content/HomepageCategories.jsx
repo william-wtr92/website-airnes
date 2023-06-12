@@ -7,10 +7,7 @@ const HomepageCategories = (props) => {
   return (
     <div className="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-8">
       {categories.map(({ category }) => (
-        <NavLink
-          key={category.id}
-          href={`/categories/${category.id}/category`}
-        >
+        <NavLink key={category.id} href={`/categories/${category.id}/category`}>
           <div className="h-64 w-80 hover:scale-105">
             <p className="flex justify-center relative top-1/2 font-bold tracking-widest text-lg text-black">
               {category.name}

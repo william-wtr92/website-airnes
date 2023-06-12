@@ -40,18 +40,21 @@ const UserFooter = () => {
             <FontAwesomeIcon
               icon={faLinkedin}
               className="h-6 text-primary hover:scale-110"
+              data-testid="icon"
             />
           </NavLink>
           <NavLink href="/">
             <FontAwesomeIcon
               icon={faInstagram}
               className="h-6 text-primary hover:scale-110"
+              data-testid="icon"
             />
           </NavLink>
           <NavLink href="/">
             <FontAwesomeIcon
               icon={faFacebookF}
               className="h-6 text-primary hover:scale-110"
+              data-testid="icon"
             />
           </NavLink>
         </div>
