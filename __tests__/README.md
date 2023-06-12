@@ -16,10 +16,12 @@
 <h2>Creating a Test</h2>
 <p>To create a test, generate a new file called [pagename].test.jsx and import the page to be tested directly into its code.</p>
 
-<p><code>
-import { render, screen } from "@testing-library/react"<br>
-import Main, { getServerSideProps } from "@/pages/index"
-</code></p>
+<p>
+  <code>
+    import { render, screen } from "@testing-library/react"<br>
+    import Main, { getServerSideProps } from "@/pages/index"
+  </code>
+</p>
 
 <p>In this file I'm testing the index.js page, so I've named the test file index.test.js</p>
 
@@ -28,14 +30,16 @@ import Main, { getServerSideProps } from "@/pages/index"
 <p><code>screen</code> is used to test DOM elements. For example, <code>screen.getByText('Hello')</code> will allow you to select an element containing the text 'Hello'.</p>
 
 <h2>Jest functions</h2>
-<p><code>
-describe("jest functions", () => {<br>
-  it("should equal 1000", () => {<br>
-const values = 500 + 500<br>
-expect(values).toBe(1000)<br>
-  })<br>
-})
-</code></p>
+<p>
+  <code>
+    describe("jest functions", () => {<br>
+      it("should equal 1000", () => {<br>
+    const values = 500 + 500<br>
+    expect(values).toBe(1000)<br>
+      })<br>
+    })
+  </code>
+</p>
 
 <p><code>describe</code> is a jest function which can encompass several tests. It takes a string as an argument, which allows you to describe what you want to test, and secondly the test functions.</p>
 
