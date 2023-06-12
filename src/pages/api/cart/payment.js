@@ -20,7 +20,7 @@ const handler = mw({
     }) => {
       const calculateOrderAmount = (items) => {
         const totalPrice = items.reduce((accumulator, element) => {
-          return accumulator + element.price * element.product_quantity
+          return accumulator + (element.promotion || element.price) * element.product_quantity
         }, 0)
 
         return totalPrice
