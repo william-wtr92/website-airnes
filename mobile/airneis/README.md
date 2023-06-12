@@ -1,6 +1,6 @@
 # Airneis Project
 
-![Website peek](public/images/peek_airneis.png)
+![Website peek](../../public/images/peek_airneis.png)
 
 ## Context
 
