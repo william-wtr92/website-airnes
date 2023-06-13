@@ -79,6 +79,7 @@ const SearchPage = (props) => {
   const [stock, setStock] = useState(false)
   const [promo, setPromo] = useState(false)
   const [isNearBottom, setIsNearBottom] = useState(false)
+  const nbMaxProduct = 18
 
   const router = useRouter()
 
@@ -283,7 +284,7 @@ const SearchPage = (props) => {
               </div>
               {products.length === 0 && <div>{t("noresult")}</div>}
               {query.pageQuery === "1" ? (
-                products.length === 18 && (
+                products.length === nbMaxProduct && (
                   <Pagination
                     totalPages={pagination.totalPages}
                     currentPage={pagination.page}
