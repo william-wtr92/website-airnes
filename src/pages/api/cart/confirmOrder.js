@@ -34,7 +34,7 @@ const handler = mw({
       const id = sessionFromCookies.user.id
 
       const price = cartItems.reduce((accumulator, element) => {
-        return accumulator + element.price * element.product_quantity
+        return accumulator + (element.promotion || element.price) * element.product_quantity
       }, 0)
 
       const order = await OrderModel.query().insertAndFetch({

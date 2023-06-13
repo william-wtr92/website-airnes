@@ -4,5 +4,6 @@
   "total": "TOTAL",
   "tva": "VAT",
   "delivery": "Delivery address",
-  "payment": "Payment method"
+  "payment": "Payment method",
+  "noOrder": "You have no orders yet"
 }
