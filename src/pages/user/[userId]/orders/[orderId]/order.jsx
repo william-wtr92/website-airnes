@@ -60,7 +60,7 @@ const Order = (props) => {
               {productData.map((val) => (
                 <ProductOrder
                   key={val.productData.id}
-                  image={val.productData.image}
+                  image={val.productData.image[0].url}
                   name={val.productData.name}
                   price={val.productData.price}
                   quantity={val.product_quantity}
