@@ -18,7 +18,7 @@ const handler = mw({
       },
       res,
     }) => {
-      const query = await OrderModel.query().where({ user_id: userId })
+      const query = await OrderModel.query().where({ user_id: userId }).orderBy("created_at", "desc")
 
       if (!query) {
         res.send({ result: null })

@@ -198,7 +198,7 @@ const Cart = () => {
               </div>
               <div className="my-6">
                 <Button
-                  className="bg-[#615043] hover:bg-[#927864] hover:cursor-pointer
+                  className="bg-primary hover:bg-secondary hover:cursor-pointer
            active:bg-[#615043] border border-black px-10 lg:px-24 py-4 font-semibold rounded-md text-[#fff]"
                 >
                   <NavLink
