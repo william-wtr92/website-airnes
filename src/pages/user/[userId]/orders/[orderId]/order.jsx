@@ -52,7 +52,6 @@ const Order = (props) => {
         </h1>
         <div>{formatDate} - {data.status}</div>
       </div>
-
       <div className="flex flex-col gap-5 md:w-1/2 py-5">
         {productData.map((val) => (
           <ProductOrder
