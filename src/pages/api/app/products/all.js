@@ -37,6 +37,7 @@ const handler = mw({
       const checkLimit = await productsQuery.clone().orderBy("quantity", "asc").limit(limit).offset(offset)
 
       let products = await productsQuery
+          .orderBy("priority", "desc")
           .orderBy("quantity", "asc")
           .limit(limit)
           .offset(offset)
