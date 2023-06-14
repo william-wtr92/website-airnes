@@ -15,6 +15,7 @@ export const productValidationSchema = yup.object().shape({
   material: yup.number().required("At least 1 material required").label("material"),
   quantity: yup.number().required("Quantity required").label("quantity"),
   description: yup.string().required("Description required").label("description"),
+  priority: yup.boolean().notRequired().label("priority")
 })
 
 
@@ -27,6 +28,7 @@ export const productInitialValues = {
   category: "",
   material: "",
   quantity: "",
+  priority: false
 }
 
 export const editProductValidationSchema = yup.object().shape({
@@ -50,6 +52,7 @@ export const editProductValidationSchema = yup.object().shape({
     .string()
     .required("Description required")
     .label("description"),
+  priority: yup.boolean().notRequired().label("priority")
 })
 
 export const selectedProductValidationSchema = yup.object().shape({

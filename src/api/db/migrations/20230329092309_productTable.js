@@ -15,6 +15,7 @@ export const up = async (knex) => {
       table.integer("quantity").notNullable()
       table.integer("categoryId").references("id").inTable("category")
       table.integer("materialId").references("id").inTable("material")
+      table.boolean("priority").notNullable().defaultTo(false)
     })
     .then(() => {
       return knex.schema.raw(

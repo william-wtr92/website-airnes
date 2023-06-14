@@ -11,6 +11,7 @@ const addProduct =
     promotion,
     material,
     quantity,
+    priority
   }) => {
     try {
       const { data } = await api.post(
@@ -24,6 +25,7 @@ const addProduct =
           promotion,
           material,
           quantity,
+          priority,
         }
       )
 

@@ -1,7 +1,7 @@
 import mw from "@/api/mw"
 import validate from "@/api/middlewares/validate"
 import {
-  arrayValidator,
+  arrayValidator, booleanValidator,
   numberValidator,
   stringValidator,
 } from "@/components/validation/validation"
@@ -52,6 +52,7 @@ const handler = mw({
         quantity: numberValidator.required(),
         description: stringValidator.required(),
         materialId: numberValidator.required(),
+        priority: booleanValidator.notRequired()
       },
     }),
     async ({
@@ -66,6 +67,7 @@ const handler = mw({
                  promotion,
                  quantity,
                  materialId,
+                 priority,
                },
              },
              res,
@@ -82,6 +84,7 @@ const handler = mw({
           ...(product.promotion !== promotion ? { promotion } : {}),
           ...(product.quantity !== quantity ? { quantity } : {}),
           ...(product.materialId !== materialId ? { materialId } : {}),
+          ...(product.priority !== priority ? { priority } : {}),
         })
 
         if(JSON.stringify(product.image) !== JSON.stringify(image)) {

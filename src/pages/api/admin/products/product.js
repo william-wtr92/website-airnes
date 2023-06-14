@@ -2,7 +2,7 @@ import ProductModel from "@/api/db/models/ProductModel"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import {
-  arrayValidator,
+  arrayValidator, booleanValidator,
   numberValidator,
   queryPageValidator,
   stringValidator,
@@ -25,6 +25,7 @@ const handler = mw({
         quantity: numberValidator.required(),
         description: stringValidator.required(),
         material: numberValidator.required(),
+        priority: booleanValidator.notRequired(),
       },
     }),
     async ({
@@ -38,6 +39,7 @@ const handler = mw({
                  promotion,
                  quantity,
                  material,
+                 priority,
                },
              },
              res,
@@ -55,6 +57,7 @@ const handler = mw({
           quantity,
           categoryId,
           materialId,
+          priority,
         })
 
         await ProductModel.query().patchAndFetchById(product.id, {
