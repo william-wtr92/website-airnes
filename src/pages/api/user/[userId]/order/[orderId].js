@@ -61,7 +61,7 @@ const handler = mw({
 
       const order = await OrderModel.query()
         .where({ id })
-        .whereIn("status", ["pending", "delivering"])
+        .where({ status: "pending" })
         .withGraphFetched("products")
 
       if (!order) {

@@ -74,7 +74,7 @@ const Orders = (props) => {
                       </p>
                     </NavLink>
                     <p className="flex justify-end font-bold text-xl">
-                      {data.status}
+                      {t(`${data.status}`)}
                     </p>
                     <p className=" font-bold">{data.price} €</p>
                   </div>

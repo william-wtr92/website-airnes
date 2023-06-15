@@ -8,6 +8,8 @@ import { useTranslation } from "next-i18next"
 import Button from "@/components/app/ui/Button"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback, useState } from "react"
+import Confirm from "@/components/app/ui/Confirm"
+import classNames from "classnames"
 
 export const getServerSideProps = async (context) => {
   const { req, query, locale } = context
@@ -43,8 +45,9 @@ export const getServerSideProps = async (context) => {
 const Order = (props) => {
   const { data, productData } = props
 
-  const [canBeCanceled, setCanBeCanceled] = useState(["pending", "delivering"].includes(data.status))
+  const [canBeCanceled, setCanBeCanceled] = useState(data.status === "pending")
   const [status, setStatus] = useState(data.status)
+  const [confirm, setConfirm] = useState(false)
 
   const {
     actions: { cancelOrder }
@@ -61,6 +64,10 @@ const Order = (props) => {
       setCanBeCanceled(false)
       setStatus("canceled")
     }, [cancelOrder])
+
+  const handleConfirm = useCallback(async () => {
+    setConfirm(true)
+  }, [setConfirm])
 
   return (
     <div className="flex flex-col md:justify-center md:items-center gap-10 p-10">
@@ -81,7 +88,7 @@ const Order = (props) => {
           <div className="flex justify-end">
             <Button
               variant="danger"
-              onClick={handleCancel(data.user_id, data.id)}
+              onClick={handleConfirm}
             >
               {t("cancelOrder")}
             </Button>
@@ -138,6 +145,14 @@ const Order = (props) => {
           </div>
         </div>
       </div>
+      <Confirm
+        className={classNames(confirm ? "block" : "hidden")}
+        show={setConfirm}
+        action={handleCancel}
+        params={[data.user_id, data.id]}
+        textValue={t("cancelOrder")}
+        display={setConfirm}
+      />
     </div>
   )
 }
