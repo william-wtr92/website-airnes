@@ -8,13 +8,9 @@ const cancelOrder =
         `${routes.api.user.order.cancelOrder(userId, orderId)}`
       )
 
-      console.log("Data Service: ", data)
-
       return [null, data]
     } catch (err) {
       const error = err.response?.data?.error || "Oops. Something went wrong"
-
-      console.log("Erreur Service: ", err)
 
       return [error]
     }
