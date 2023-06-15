@@ -44,7 +44,6 @@ const handler = mw({
         payment_intent,
         payment_method: "CARD",
         price,
-        status: "en attente",
       })
 
       await Promise.all(

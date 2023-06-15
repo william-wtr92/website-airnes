@@ -5,5 +5,10 @@
   "tva": "VAT",
   "delivery": "Delivery address",
   "payment": "Payment method",
-  "noOrder": "You have no orders yet"
+  "noOrder": "You have no orders yet",
+  "cancelOrder": "Cancel the order",
+  "canceled": "Canceled",
+  "pending": "In process",
+  "delivering": "In delivery",
+  "delivered": "Delivered"
 }

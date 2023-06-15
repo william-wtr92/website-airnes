@@ -4,6 +4,7 @@ import auth from "@/api/middlewares/auth"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import { numberValidator } from "@/components/validation/validation"
+import ProductModel from "@/api/db/models/ProductModel"
 
 const handler = mw({
   GET: [
@@ -11,15 +12,15 @@ const handler = mw({
     validate({
       query: {
         userId: numberValidator.required(),
-        orderId: numberValidator.required(),
-      },
+        orderId: numberValidator.required()
+      }
     }),
     async ({
-      locals: {
-        query: { userId, orderId },
-      },
-      res,
-    }) => {
+             locals: {
+               query: { userId, orderId }
+             },
+             res
+           }) => {
       const orderQuery = await OrderModel.query()
         .where({ user_id: userId })
         .where({ id: orderId })
@@ -29,20 +30,60 @@ const handler = mw({
         res.send({ result: null })
       }
 
-      const productQuery = await OrderProductModel.query()
+      const product = await OrderProductModel.query()
         .where({ order_id: orderId })
         .withGraphFetched("productData")
 
-      if (!productQuery) {
+      if (!product) {
         res.send({ result: orderQuery })
       }
 
       res.send({
         result: orderQuery,
-        product: productQuery,
+        product
       })
-    },
+    }
   ],
+  PATCH: [
+    auth("user"),
+    validate({
+      query: {
+        orderId: numberValidator.required()
+      }
+    }),
+    async ({
+             locals: {
+               query: { orderId }
+             }
+           },
+           res) => {
+      const id = orderId
+
+      const order = await OrderModel.query()
+        .where({ id })
+        .whereIn("status", ["pending", "delivering"])
+        .withGraphFetched("products")
+
+      if (!order) {
+        res.send({ result: null })
+      }
+
+      const [{ products }] = order
+
+      products.map(async (product) => {
+        const currentProduct = await ProductModel.query().where({ id: product.product_id }).first()
+        const quantity = currentProduct.quantity + product.product_quantity
+
+        await ProductModel.query().updateAndFetchById(product.product_id, { quantity })
+      })
+
+      await OrderModel.query().updateAndFetchById(id, {
+        status: "canceled"
+      })
+
+      res.send({ result: true })
+    }
+  ]
 })
 
 export default handler

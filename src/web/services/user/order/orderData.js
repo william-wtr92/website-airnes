@@ -5,7 +5,7 @@ const orderData =
   async (userId, orderId) => {
     try {
       const { data } = await api.get(
-        `${routes.api.user.orderData(userId, orderId)}`
+        `${routes.api.user.order.orderData(userId, orderId)}`
       )
 
       return [null, data]
