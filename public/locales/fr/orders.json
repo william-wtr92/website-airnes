@@ -5,5 +5,10 @@
   "tva": "TVA",
   "delivery": "Adresse de livraison",
   "payment": "Méthode de paiement",
-  "noOrder": "Vous n'avez pas encore de commandes"
+  "noOrder": "Vous n'avez pas encore de commandes",
+  "cancelOrder": "Annuler la commande",
+  "canceled": "Annulée",
+  "pending": "En cours de traitement",
+  "delivering": "En cours de livraison",
+  "delivered": "Livrée"
 }

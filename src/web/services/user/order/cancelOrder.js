@@ -1,11 +1,11 @@
 import routes from "@/web/routes"
 
-const orderData =
+const cancelOrder =
   ({ api }) =>
   async (userId, orderId) => {
     try {
-      const { data } = await api.get(
-        `${routes.api.user.order.orderData(userId, orderId)}`
+      const { data } = await api.patch(
+        `${routes.api.user.order.cancelOrder(userId, orderId)}`
       )
 
       return [null, data]
@@ -16,4 +16,4 @@ const orderData =
     }
   }
 
-export default orderData
+export default cancelOrder
