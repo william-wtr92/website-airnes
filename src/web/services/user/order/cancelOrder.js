@@ -2,18 +2,22 @@ import routes from "@/web/routes"
 
 const cancelOrder =
   ({ api }) =>
-    async (userId, orderId) => {
-      try {
-        const { data } = await api.patch(
-          `${routes.api.user.order.cancelOrder(userId, orderId)}`
-        )
+  async (userId, orderId) => {
+    try {
+      const { data } = await api.patch(
+        `${routes.api.user.order.cancelOrder(userId, orderId)}`
+      )
 
-        return [null, data]
-      } catch (err) {
-        const error = err.response?.data?.error || "Oops. Something went wrong"
+      console.log("Data Service: ", data)
 
-        return [error]
-      }
+      return [null, data]
+    } catch (err) {
+      const error = err.response?.data?.error || "Oops. Something went wrong"
+
+      console.log("Erreur Service: ", err)
+
+      return [error]
     }
+  }
 
 export default cancelOrder

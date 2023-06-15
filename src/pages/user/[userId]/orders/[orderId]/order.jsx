@@ -28,8 +28,8 @@ export const getServerSideProps = async (context) => {
   if (err) {
     return {
       redirect: {
-        destination: "/"
-      }
+        destination: "/",
+      },
     }
   }
 
@@ -37,8 +37,8 @@ export const getServerSideProps = async (context) => {
     props: {
       data: data.result[0],
       productData: data.product,
-      ...(await serverSideTranslations(locale, ["orders", "navbar", "footer"]))
-    }
+      ...(await serverSideTranslations(locale, ["orders", "navbar", "footer"])),
+    },
   }
 }
 
@@ -50,7 +50,7 @@ const Order = (props) => {
   const [confirm, setConfirm] = useState(false)
 
   const {
-    actions: { cancelOrder }
+    actions: { cancelOrder },
   } = useAppContext()
 
   const formatDate = format(new Date(data.created_at), "yyyy-MM-dd")
@@ -63,7 +63,9 @@ const Order = (props) => {
 
       setCanBeCanceled(false)
       setStatus("canceled")
-    }, [cancelOrder])
+    },
+    [cancelOrder]
+  )
 
   const handleConfirm = useCallback(async () => {
     setConfirm(true)
@@ -75,21 +77,17 @@ const Order = (props) => {
         <h1 className="font-bold text-xl">
           {t("order")} {data.payment_intent.substring(3)}
         </h1>
-        <div>{formatDate} - {t(`${status}`)}</div>
+        <div>
+          {formatDate} - {t(`${status}`)}
+        </div>
       </div>
       <div className="flex flex-col gap-5 md:w-1/2 py-5">
         {productData.map((val) => (
-          <ProductOrder
-            key={val.productData.id}
-            product={val}
-          />
+          <ProductOrder key={val.productData.id} product={val} />
         ))}
         {canBeCanceled && (
           <div className="flex justify-end">
-            <Button
-              variant="danger"
-              onClick={handleConfirm}
-            >
+            <Button variant="danger" onClick={handleConfirm}>
               {t("cancelOrder")}
             </Button>
           </div>
@@ -97,51 +95,33 @@ const Order = (props) => {
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-2">
             <div className="flex place-content-between">
-              <p className="font-bold text-md">
-                {t("total")}
-              </p>
-              <p className="font-bold text-md">
-                {data.price} €
-              </p>
+              <p className="font-bold text-md">{t("total")}</p>
+              <p className="font-bold text-md">{data.price} €</p>
             </div>
             <div className="flex place-content-between">
-              <p className="text-gray-500 text-md">
-                {t("tva")}
-              </p>
+              <p className="text-gray-500 text-md">{t("tva")}</p>
               <p className="text-gray-500 text-md">
                 {(data.price * 0.2).toFixed(2)} €
               </p>
             </div>
           </div>
-          <div
-            className="border-b-black border-b"
-          ></div>
+          <div className="border-b-black border-b"></div>
           <div>
             <div className="flex flex-col gap-3">
-              <p className="font-bold text-md">
-                {t("delivery")}
-              </p>
+              <p className="font-bold text-md">{t("delivery")}</p>
               <p className="text-gray-500">
                 {data.addressData.lastName} {data.addressData.name}
               </p>
-              <p className="text-gray-500">
-                {data.addressData.address}
-              </p>
+              <p className="text-gray-500">{data.addressData.address}</p>
               <p className="text-gray-500">
                 {data.addressData.postal_code} {data.addressData.city}
               </p>
             </div>
           </div>
-          <div
-            className="border-b border-b-black"
-          ></div>
+          <div className="border-b border-b-black"></div>
           <div>
-            <p className="font-bold text-md">
-              {t("payment")}
-            </p>
-            <p className="text-gray-500">
-              {data.payment_method}
-            </p>
+            <p className="font-bold text-md">{t("payment")}</p>
+            <p className="text-gray-500">{data.payment_method}</p>
           </div>
         </div>
       </div>

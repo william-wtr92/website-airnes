@@ -12,15 +12,15 @@ const handler = mw({
     validate({
       query: {
         userId: numberValidator.required(),
-        orderId: numberValidator.required()
-      }
+        orderId: numberValidator.required(),
+      },
     }),
     async ({
-             locals: {
-               query: { userId, orderId }
-             },
-             res
-           }) => {
+      locals: {
+        query: { userId, orderId },
+      },
+      res,
+    }) => {
       const orderQuery = await OrderModel.query()
         .where({ user_id: userId })
         .where({ id: orderId })
@@ -40,23 +40,25 @@ const handler = mw({
 
       res.send({
         result: orderQuery,
-        product
+        product,
       })
-    }
+    },
   ],
   PATCH: [
     auth("user"),
     validate({
       query: {
-        orderId: numberValidator.required()
-      }
+        orderId: numberValidator.required(),
+      },
     }),
-    async ({
-             locals: {
-               query: { orderId }
-             }
-           },
-           res) => {
+    async (ctx) => {
+      const {
+        locals: {
+          query: { orderId },
+        },
+        res,
+      } = ctx
+
       const id = orderId
 
       const order = await OrderModel.query()
@@ -66,24 +68,30 @@ const handler = mw({
 
       if (!order) {
         res.send({ result: null })
+
+        return
       }
 
       const [{ products }] = order
 
-      products.map(async (product) => {
-        const currentProduct = await ProductModel.query().where({ id: product.product_id }).first()
+      for (const product of products) {
+        const currentProduct = await ProductModel.query()
+          .where({ id: product.product_id })
+          .first()
         const quantity = currentProduct.quantity + product.product_quantity
 
-        await ProductModel.query().updateAndFetchById(product.product_id, { quantity })
-      })
+        await ProductModel.query().updateAndFetchById(product.product_id, {
+          quantity,
+        })
+      }
 
       await OrderModel.query().updateAndFetchById(id, {
-        status: "canceled"
+        status: "canceled",
       })
 
       res.send({ result: true })
-    }
-  ]
+    },
+  ],
 })
 
 export default handler
