@@ -5,6 +5,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 import ReturnForm from "@/components/app/content/ReturnForm"
 import useAppContext from "@/web/hooks/useAppContext"
+import { useRouter } from "next/router"
 
 export const getServerSideProps = async (context) => {
   const { req, query, locale } = context
@@ -46,6 +47,8 @@ const Return = (props) => {
     actions: { returnProduct }
   } = useAppContext()
 
+  const router = useRouter()
+
   const handlePost = (returnData) => {
     returnData.products.map((item) => {
       item.selected && returnProduct({
@@ -55,6 +58,8 @@ const Return = (props) => {
         userId: data.user_id
       })
     })
+
+    router.push(`/user/${data.user_id}/orders/${data.id}/order`)
   }
 
   return (
