@@ -1,6 +1,6 @@
 import routes from "@/web/routes"
 
-const orderData =
+const returnProduct =
   ({ api }) =>
     async ({ orderId, product_id, reason, userId }) => {
       try {
@@ -21,4 +21,4 @@ const orderData =
       }
     }
 
-export default orderData
+export default returnProduct
