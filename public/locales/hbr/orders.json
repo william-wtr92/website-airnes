@@ -10,5 +10,8 @@
   "canceled": "מבוטל",
   "pending": "להיות מעובד",
   "delivering": "במהלך המשלוח",
-  "delivered": "ההזמנה נמסרה"
+  "delivered": "ההזמנה נמסרה",
+  "returnOrder": "להחזיר את ההזמנה",
+  "submitReturn": "להגיש את ההחזרה",
+  "reasonPlaceholder": "סיבה להחזרה"
 }

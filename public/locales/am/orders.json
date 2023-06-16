@@ -10,5 +10,8 @@
   "canceled": "Չեղարկված է",
   "pending": "Ընթացքում է",
   "delivering": "Առաքման ընթացքում",
-  "delivered": "Առաքված է"
+  "delivered": "Առաքված է",
+  "returnOrder": "Վերադարձնել պատվերը",
+  "submitReturn": "Վերադարձնել պատվերը",
+  "reasonPlaceholder": "Նշեք պատճառը"
 }

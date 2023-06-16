@@ -32,6 +32,7 @@ import patchRoleService from "@/web/services/admin/users/updateRole"
 import paymentService from "@/web/services/cart/payment"
 import confirmOrderService from "@/web/services/cart/confirmOrder"
 import cancelOrderService from "@/web/services/user/order/cancelOrder"
+import returnProductService from "@/web/services/user/order/returnProduct"
 import getAddressServices from "@/web/services/cart/getAddress"
 
 import config from "@/web/config"
@@ -96,6 +97,7 @@ export const AppContextProvider = (props) => {
   const getAddress = getAddressServices({ api })
 
   const cancelOrder = cancelOrderService({ api })
+  const returnProduct = returnProductService({ api })
 
   useEffect(() => {
     const jwt = localStorage.getItem(config.session.localStorageKey)
@@ -246,6 +248,7 @@ export const AppContextProvider = (props) => {
           payment,
           confirmOrder,
           cancelOrder,
+          returnProduct,
           getAddress,
         },
         state: {

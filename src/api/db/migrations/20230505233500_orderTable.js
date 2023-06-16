@@ -16,6 +16,7 @@ export const up = async (knex) => {
     table.integer("order_id").references("id").inTable("order")
     table.integer("product_id").references("id").inTable("product")
     table.integer("product_quantity").notNullable()
+    table.text("return").nullable()
   })
 }
 

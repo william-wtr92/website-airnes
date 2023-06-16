@@ -10,7 +10,7 @@ const ProductOrder = (props) => {
     <div className="flex">
       <Image
         src={productData.image[0].url}
-        alt="meuble"
+        alt={productData.name}
         width={100}
         height={1}
         className="w-20 h-20 md:h-24 md:w-28 hover:cursor-pointer"

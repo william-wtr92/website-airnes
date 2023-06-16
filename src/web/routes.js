@@ -87,7 +87,8 @@ const routes = {
       order: {
         getOrder: (userId) => `/user/${userId}/getOrder`,
         orderData: (userId, orderId) => `/user/${userId}/order/${orderId}`,
-        cancelOrder: (userId, orderId) => `/user/${userId}/order/${orderId}`
+        cancelOrder: (userId, orderId) => `/user/${userId}/order/${orderId}`,
+        returnProduct: (userId, orderId) => `/user/${userId}/order/${orderId}/return`
       },
       address: {
         addressData: (userId, addressId) => `/user/${userId}/${addressId}`,
