@@ -55,9 +55,11 @@ All the fields are required. Here is an example of body for the request:
 
 - `POST /api/reset_password` - Sends a password reset email
 
+```json
 {
-"mail": "john@doe.com"
+  "mail": "john@doe.com"
 }
+```
 
 This route generates a token to authenticate the user when they click on the link in the email.
 
@@ -437,5 +439,34 @@ This route create an order and associate that order to the products in the cart
     "item 1",
     "item 2"
   ]
+}
+```
+
+- `GET /api/user/{userId}/order/{orderId}` - Returns a specific order for a user
+
+```json
+{
+  "userId": 1,
+  "orderId": 3
+}
+```
+
+- `PATCH /api/user/{userId}/order/{orderId}` - Cancel the order
+
+```json
+{
+  "orderId": 3
+}
+```
+
+- `PATCH /api/user/{userId}/order/{orderId}/return` - Update the comment of a product returned
+
+This is route allows a user to return a product and add a comment to it.
+
+```json
+{
+  "orderId": 3,
+  "productId": 1,
+  "comment": "I don't like it"
 }
 ```
