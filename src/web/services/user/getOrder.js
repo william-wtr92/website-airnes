@@ -4,7 +4,7 @@ const getOrder =
   ({ api }) =>
   async (userId) => {
     try {
-      const { data } = await api.get(`${routes.api.user.getOrder(userId)}`)
+      const { data } = await api.get(`${routes.api.user.order.getOrder(userId)}`)
 
       return [null, data]
     } catch (err) {

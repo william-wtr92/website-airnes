@@ -1,5 +1,6 @@
 import BaseModel from "@/api/db/models/BaseModel"
 import AddressModel from "./AddressModel"
+import OrderProductModel from "@/api/db/models/OrderProductModel"
 
 class OrderModel extends BaseModel {
   static tableName = "order"
@@ -14,6 +15,14 @@ class OrderModel extends BaseModel {
           to: "address.id",
         },
       },
+      products: {
+        relation: BaseModel.HasManyRelation,
+        modelClass: OrderProductModel,
+        join: {
+          from: "order.id",
+          to: "order_product.order_id",
+        }
+      }
     }
   }
 }

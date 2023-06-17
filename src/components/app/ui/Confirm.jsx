@@ -9,11 +9,12 @@ const Confirm = (props) => {
     display(false)
 
     if (params) {
-      action(params)
+      action(...params)()
     } else {
       action()
     }
   }
+
 
   const handleFalse = () => {
     display(false)
