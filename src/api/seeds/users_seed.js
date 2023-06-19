@@ -15,7 +15,6 @@ const seed = async () => {
     "LesDmByAvetis99?"
   )
   const predefinedUser = {
-    id: 1,
     name: "Wil",
     mail: "william@quoicoubeh.fr",
     passwordHash: predefinedPasswordHash,
@@ -26,13 +25,12 @@ const seed = async () => {
   const users = [
     predefinedUser,
     ...(await Promise.all(
-      Array.from({ length: 39 }, async (_, index) => {
+      Array.from({ length: 39 }, async () => {
         const [passwordHash, passwordSalt] = await hashPassword(
           faker.internet.password()
         )
 
         return {
-          id: index + 2,
           name: faker.name.findName(),
           mail: faker.internet.email(),
           passwordHash,

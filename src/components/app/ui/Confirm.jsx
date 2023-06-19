@@ -8,13 +8,12 @@ const Confirm = (props) => {
   const handleYes = () => {
     display(false)
 
-    if (params) {
-      action(...params)()
+    if (Array.isArray(params)) {
+      action(...params)
     } else {
       action()
     }
   }
-
 
   const handleFalse = () => {
     display(false)
@@ -34,9 +33,11 @@ const Confirm = (props) => {
           {textValue}
         </h1>
         <div className="flex justify-around">
-          <Button variant="reverse"
-                  className={classNames("w-2/5", useCase === "cookie" && "hidden")}
-                  onClick={handleFalse}>
+          <Button
+            variant="reverse"
+            className={classNames("w-2/5", useCase === "cookie" && "hidden")}
+            onClick={handleFalse}
+          >
             {t(`no`)}
           </Button>
           <Button className="w-2/5" onClick={handleYes}>
