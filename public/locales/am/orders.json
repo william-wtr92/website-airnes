@@ -13,5 +13,6 @@
   "delivered": "Առաքված է",
   "returnOrder": "Վերադարձնել պատվերը",
   "submitReturn": "Վերադարձնել պատվերը",
-  "reasonPlaceholder": "Նշեք պատճառը"
+  "reasonPlaceholder": "Նշեք պատճառը",
+  "returned": "Վերադարձված է"
 }

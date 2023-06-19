@@ -65,6 +65,7 @@ const handler = mw({
         .where({ id })
         .where({ status: "pending" })
         .withGraphFetched("products")
+        .orderBy("order_product.id", "asc")
 
       if (!order) {
         res.send({ result: null })

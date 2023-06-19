@@ -6,6 +6,7 @@ import { useTranslation } from "next-i18next"
 import ReturnForm from "@/components/app/content/ReturnForm"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useRouter } from "next/router"
+import ReturnPage from "@/components/app/content/ReturnPage"
 
 export const getServerSideProps = async (context) => {
   const { req, query, locale } = context
@@ -62,17 +63,23 @@ const Return = (props) => {
     router.push(`/user/${data.user_id}/orders/${data.id}/order`)
   }
 
+  const isReturned = data.status === "returned"
+
   return (
     <div className="py-20 flex flex-col items-center gap-10">
       <div className="flex flex-col gap-5 items-center">
         <h1 className="text-bold text-xl">{t("order")} #{data.id}</h1>
         <h2 className="text-">{t(`${data.status}`)}</h2>
       </div>
-      <ReturnForm
-        onSubmit={handlePost}
-        products={productData}
-        t={t}
-      />
+      {isReturned ?
+        <ReturnPage
+          products={productData}
+        /> : <ReturnForm
+          onSubmit={handlePost}
+          products={productData}
+          t={t}
+        />
+      }
     </div>
   )
 }

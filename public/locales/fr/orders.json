@@ -13,5 +13,6 @@
   "delivered": "Livrée",
   "returnOrder": "Retourner la commande",
   "submitReturn": "Confirmer le retour",
-  "reasonPlaceholder": "Raison du retour"
+  "reasonPlaceholder": "Raison du retour",
+  "returned": "Retournée"
 }

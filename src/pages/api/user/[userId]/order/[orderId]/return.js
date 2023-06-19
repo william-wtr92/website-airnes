@@ -20,19 +20,19 @@ const handler = mw({
              },
              res
            }) => {
-      const orderProduct = await OrderProductModel.query()
+      const product = await OrderProductModel.query()
         .where({ order_id: orderId })
         .where({ product_id: productId })
         .first()
 
-      if (!orderProduct) {
+      if (!product) {
         res.send({ result: null })
       }
 
-      const { id } = orderProduct
+      const { id } = product
 
       await OrderProductModel.query().patchAndFetchById(id, {
-        return: reason
+        ...(product.return !== reason ? { return: reason } : {})
       })
 
       res.send({ result: true })

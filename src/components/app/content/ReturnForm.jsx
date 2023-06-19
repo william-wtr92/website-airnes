@@ -9,7 +9,7 @@ const ReturnForm = (props) => {
   const initialValues = {
     products: products.map((product) => ({
       product_id: product.product_id,
-      selected: product.return,
+      selected: Boolean(product.return),
       reason: product.return || ""
     }))
   }
@@ -25,12 +25,13 @@ const ReturnForm = (props) => {
           <Form className="flex flex-col gap-5">
             {values.products.map((product, index) => (
               <div key={index} className="flex flex-col gap-5">
-                <div className="flex gap-5">
+                <div className="flex flex-col xs:flow-row gap-5">
                   <Field
                     name={`products[${index}].selected`}
                     type="checkbox"
                     id={`checkbox-${index}`}
                     className="h-4 w-4 appearance-none hover:cursor-pointer border-2 checked:bg-primary duration-500"
+                    disabled={Boolean(product.reason)}
                   />
                   <label htmlFor={`checkbox-${index}`}>
                     <Image
@@ -38,7 +39,7 @@ const ReturnForm = (props) => {
                       alt={products[index].productData.name}
                       width={100}
                       height={100}
-                      className="h-40 w-40 object-cover"
+                      className="h-50 w-50 object-cover"
                     />
                   </label>
                   <div className="flex flex-col gap-5">
@@ -53,6 +54,7 @@ const ReturnForm = (props) => {
                     rows="4"
                     placeholder={t("reasonPlaceholder")}
                     className="border rounded-md p-2"
+                    disabled={Boolean(product.reason)}
                   />
                 )}
               </div>

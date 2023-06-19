@@ -7,7 +7,7 @@ export const up = async (knex) => {
     table.text("payment_intent").notNullable()
     table.float("price").notNullable()
     table.timestamps(true, true)
-    table.enu("status", ["pending", "delivering", "delivered", "canceled"]).notNullable().defaultTo("pending")
+    table.enu("status", ["pending", "delivering", "delivered", "canceled", "returned"]).notNullable().defaultTo("pending")
     table.text("payment_method").notNullable()
   })
 

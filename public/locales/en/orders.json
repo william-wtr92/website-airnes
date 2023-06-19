@@ -13,5 +13,6 @@
   "delivered": "Delivered",
   "returnOrder": "Return the order",
   "submitReturn": "Submit the return",
-  "reasonPlaceholder": "Reason for return"
+  "reasonPlaceholder": "Reason for return",
+  "returned": "Returned"
 }

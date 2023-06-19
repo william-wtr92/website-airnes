@@ -13,5 +13,6 @@
   "delivered": "ההזמנה נמסרה",
   "returnOrder": "להחזיר את ההזמנה",
   "submitReturn": "להגיש את ההחזרה",
-  "reasonPlaceholder": "סיבה להחזרה"
+  "reasonPlaceholder": "סיבה להחזרה",
+  "returned": "ההזמנה חזרה"
 }
