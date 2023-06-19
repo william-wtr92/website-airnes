@@ -66,7 +66,7 @@ export const getServerSideProps = async (context) => {
       pagination: products.pagination,
       categories: filter.categories,
       materials: filter.materials,
-      query: { search, pageQuery, promoQuery, stockQuery, minPriceQ, maxPriceQ },
+      query: { search, pageQuery, promoQuery, stockQuery, minPriceQ, maxPriceQ, categoryQ, materialQ },
     },
   }
 }
@@ -220,12 +220,14 @@ const SearchPage = (props) => {
                 </label>
               </section>
               <Filters
+                  defaultValue={query.categoryQ}
                 data={categories}
                 name={t("categories")}
                 handleClick={filterEvent}
                 query={"category"}
               />
               <Filters
+                  defaultValue={query.materialQ}
                 data={materials}
                 name={t("materials")}
                 handleClick={filterEvent}

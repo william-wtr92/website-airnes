@@ -13,6 +13,10 @@ const ProductForm = (props) => {
   const defaultValueMaterial = materials.find(({ id }) => id === initialValues.materialId)
   const filteredEditDefaultMaterials = materials.filter((item) => item.id !== initialValues.materialId)
 
+    if (initialValues.promotion === null) {
+        initialValues.promotion = 0
+    }
+
   const initialCategories = initialValues.categoryId ? filteredEditDefaultCategories : categories
   const initialMaterials = initialValues.materialId ? filteredEditDefaultMaterials : materials
 
