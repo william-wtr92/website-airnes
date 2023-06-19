@@ -13,6 +13,10 @@ const ProductForm = (props) => {
   const defaultValueMaterial = materials.find(({ id }) => id === initialValues.materialId)
   const filteredEditDefaultMaterials = materials.filter((item) => item.id !== initialValues.materialId)
 
+    if (initialValues.promotion === null) {
+        initialValues.promotion = 0
+    }
+
   const initialCategories = initialValues.categoryId ? filteredEditDefaultCategories : categories
   const initialMaterials = initialValues.materialId ? filteredEditDefaultMaterials : materials
 
@@ -68,6 +72,10 @@ const ProductForm = (props) => {
                 name="quantity"
                 label="Quantity"
             />
+            <div className="flex items-left">
+                  <Field type="checkbox" name="priority" className="text-2xl h-6 w-6 mr-2"/>
+                  <label className="text-md font-semibold">Priority</label>
+            </div>
             <FormField
                 type="text"
                 tag="textarea"

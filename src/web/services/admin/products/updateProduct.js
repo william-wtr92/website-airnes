@@ -12,6 +12,7 @@ const updateProduct =
     promotion,
     materialId,
     quantity,
+             priority
   }) => {
     try {
       const { data } = await api.patch(
@@ -25,6 +26,7 @@ const updateProduct =
           promotion,
           materialId,
           quantity,
+          priority,
         }
       )
 

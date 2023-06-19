@@ -80,7 +80,7 @@ const ShowProduct = (props) => {
       ) : (
         <div className="p-10 flex flex-col gap-10 absolute top-10 left-0 z-0 lg:top-0 lg:left-64">
           <Return name="products" back={"/admin/products/all"} />
-          <ProductCarousel images={product.image}/>
+          <div className="w-full lg:w-1/2 lg:border-2 lg:border-black"><ProductCarousel images={product.image}/></div>
           <div className="font-bold py-1">{product.name}</div>
           <div className="py-1">
             <div className="font-bold pb-1">Category :</div>
