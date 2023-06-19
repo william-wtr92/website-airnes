@@ -20,6 +20,7 @@ const handler = mw({
       res,
     }) => {
       const category = await CategoryModel.query()
+        .where("name", "!=", "No category")
         .findOne({ id: categoryId })
         .withGraphFetched("products")
 

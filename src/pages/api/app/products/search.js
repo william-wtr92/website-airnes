@@ -8,6 +8,7 @@ import {
   stringValidator,
 } from "@/components/validation/validation"
 import { NotFoundError } from "objection"
+import CategoryModel from "@/api/db/models/CategoryModel"
 
 const handler = mw({
   GET: [
@@ -47,8 +48,10 @@ const handler = mw({
       const orderColumn = order ? "price" : "quantity"
       const orderBy = order || "asc"
 
+      const [noCategory] = await CategoryModel.query().where("name", "=", "No category")
+
       const productsQuery = ProductModel.query()
-          .where("categoryId", "!=", 0)
+          .where("categoryId", "!=", noCategory.id)
 
       const applyFilters = (query) => {
         if (search || search !== "") {

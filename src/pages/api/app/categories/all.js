@@ -6,7 +6,7 @@ const handler = mw({
     async ({
              res
            }) => {
-      const categories = await CategoryModel.query().where("id", "!=", 0).orderBy("name", "asc")
+      const categories = await CategoryModel.query().where("name", "!=", "No category").orderBy("name", "asc")
 
       res.send({
         data: categories,
