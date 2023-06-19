@@ -27,16 +27,35 @@ const handler = mw({
       const offset = (page - 1) * limit
 
       const productsQuery = ProductModel.query()
-        .where("categoryId", "!=", 0)
-        .orderBy("quantity", "desc")
-        .limit(limit)
-        .offset(offset)
+          .where("categoryId", "!=", 0)
+          .where("quantity", ">", 0)
 
       if (sale) {
-        productsQuery.andWhere("promotion", ">", 0)
+        productsQuery.where("promotion", ">", 0)
       }
 
-      const products = await productsQuery
+      const checkLimit = await productsQuery.clone().orderBy("quantity", "asc").limit(limit).offset(offset)
+
+      let products = await productsQuery
+          .orderBy("priority", "desc")
+          .orderBy("quantity", "asc")
+          .limit(limit)
+          .offset(offset)
+
+      if (checkLimit.length < limit) {
+        const zeroQuantityProductsQuery = ProductModel.query()
+            .where("categoryId", "!=", 0)
+            .where("quantity", "=", 0)
+            .limit(limit - products.length)
+            .offset(offset)
+
+        if (sale) {
+          zeroQuantityProductsQuery.where("promotion", ">", 0)
+        }
+
+        const zeroQuantityProducts = await zeroQuantityProductsQuery
+        products = products.concat(zeroQuantityProducts)
+      }
 
       const totalCount = await ProductModel.query().count().first()
 

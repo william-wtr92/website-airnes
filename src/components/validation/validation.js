@@ -13,6 +13,7 @@ export const stringValidator = yup.string()
 export const linkValidator = yup.string().url()
 export const numberValidator = yup.number()
 export const arrayValidator = yup.array()
+export const booleanValidator = yup.boolean()
 
 // users
 export const NameValidator = yup.string().min(1).label("name")

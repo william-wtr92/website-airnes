@@ -1,5 +1,11 @@
 const Filters = (props) => {
-  const { data, name, handleClick, query } = props
+  const { data, name, handleClick, query, defaultValue } = props
+
+    const isChecked = (id) => {
+        const checkedItem = parseInt(defaultValue, 10)
+
+        return checkedItem === id
+    }
 
   return (
     <section className="filters" aria-labelledby="filters-header">
@@ -17,6 +23,7 @@ const Filters = (props) => {
                 value={val.id}
                 name={name}
                 onClick={(e) => handleClick(e.target.value, query)}
+                checked={isChecked(val.id)}
               />
               {val.name}
             </label>

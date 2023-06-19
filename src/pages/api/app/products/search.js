@@ -45,57 +45,77 @@ const handler = mw({
       const offset = (page - 1) * limit
 
       const orderColumn = order ? "price" : "quantity"
-      const orderBy = order || "desc"
+      const orderBy = order || "asc"
 
       const productsQuery = ProductModel.query()
-        .where("categoryId", "!=", 0)
-        .orderBy(orderColumn, orderBy)
-        .limit(limit)
-        .offset(offset)
+          .where("categoryId", "!=", 0)
 
-      if (search || search !== "") {
-        productsQuery.andWhere(function () {
-          this.where("name", "like", `%${search}%`).orWhere(
-            "description",
-            "like",
-            `%${search}%`
-          )
-        })
+      const applyFilters = (query) => {
+        if (search || search !== "") {
+          query.andWhere(function () {
+            this.where("name", "like", `%${search}%`).orWhere(
+                "description",
+                "like",
+                `%${search}%`
+            )
+          })
+        }
+
+        if (promo === true) {
+          query.where("promotion", "!=", 0)
+        }
+
+        if (category && category !== 0) {
+          query.where("categoryId", "=", category)
+        }
+
+        if (material && material !== 0) {
+          query.where("materialId", "=", material)
+        }
+
+        if (minPrice && minPrice !== 0) {
+          query.where("price", ">=", minPrice)
+        }
+
+        if (maxPrice && maxPrice !== 0) {
+          query.where("price", "<=", maxPrice)
+        }
       }
 
-      if (promo === true) {
-        productsQuery.where("promotion", "!=", 0)
-      }
+      applyFilters(productsQuery)
 
       if (stock === true) {
-        productsQuery.where("quantity", "!=", 0)
+        productsQuery.where("quantity", ">", 0)
       }
 
-      if (category && category !== 0) {
-        productsQuery.where("categoryId", "=", category)
+      const totalCount = await productsQuery.clone().count("id as total").first()
+      const total = parseInt(totalCount.total, 10)
+
+      let products = await productsQuery
+          .orderBy("priority", "desc")
+          .orderBy(orderColumn, orderBy)
+          .limit(limit)
+          .offset(offset)
+
+      if (products.length < limit && stock !== true) {
+        const zeroQuantityProductsQuery = ProductModel.query()
+            .where("categoryId", "!=", 0)
+            .where("quantity", "=", 0)
+            .limit(limit - products.length)
+            .offset(offset)
+
+        applyFilters(zeroQuantityProductsQuery)
+
+        const zeroQuantityProducts = await zeroQuantityProductsQuery
+
+        products = products.concat(zeroQuantityProducts)
       }
-
-      if (material && material !== 0) {
-        productsQuery.where("materialId", "=", material)
-      }
-
-      if (minPrice && minPrice !== 0) {
-        productsQuery.where("price", ">=", minPrice)
-      }
-
-      if (maxPrice && maxPrice !== 0) {
-        productsQuery.where("price", "<=", maxPrice)
-      }
-
-      const products = await productsQuery
-
-      const totalCount = await ProductModel.query().count().first()
 
       const pagination = {
         page,
         limit,
-        totalItems: parseInt(totalCount.count, 10),
-        totalPages: Math.ceil(totalCount.count / limit),
+        totalItems: total,
+        totalPages: Math.ceil(total / limit),
       }
 
       if (!products) {
@@ -106,7 +126,7 @@ const handler = mw({
         result: products,
         pagination: pagination,
       })
-    },
+    }
   ],
 })
 
