@@ -5,6 +5,11 @@ import orderDataServices from "@/web/services/user/order/orderData"
 import { format } from "date-fns"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
+import Button from "@/components/app/ui/Button"
+import useAppContext from "@/web/hooks/useAppContext"
+import { useCallback, useState } from "react"
+import Confirm from "@/components/app/ui/Confirm"
+import classNames from "classnames"
 
 export const getServerSideProps = async (context) => {
   const { req, query, locale } = context
@@ -40,93 +45,95 @@ export const getServerSideProps = async (context) => {
 const Order = (props) => {
   const { data, productData } = props
 
+  const [canBeCanceled, setCanBeCanceled] = useState(data.status === "pending")
+  const [status, setStatus] = useState(data.status)
+  const [confirm, setConfirm] = useState(false)
+
+  const {
+    actions: { cancelOrder },
+  } = useAppContext()
+
   const formatDate = format(new Date(data.created_at), "yyyy-MM-dd")
 
   const { t } = useTranslation("orders")
 
-  return (
-    <>
-      <main>
-        <div>
-          <div className="flex justify-center mx-6 my-8 lg:my-16">
-            <h1 className="font-bold text-2xl hover:cursor-pointer hover:text-[#615043] lg:mr-14 lg:text-4xl">
-              {t("order")} {data.payment_intent.substring(3)} - {formatDate} -{" "}
-              {data.status}
-            </h1>
-          </div>
+  const handleCancel = useCallback(
+    (userId, orderId) => async () => {
+      await cancelOrder(userId, orderId)
 
-          <div className="grid lg:grid-cols-2 mb-10 ">
-            <div className="flex flex-col w-full md:px-[30%] lg:px-[20%] gap-6 mb-10">
-              {productData.map((val) => (
-                <ProductOrder
-                  key={val.productData.id}
-                  image={val.productData.image}
-                  name={val.productData.name}
-                  price={val.productData.price}
-                  quantity={val.product_quantity}
-                />
-              ))}
+      setCanBeCanceled(false)
+      setStatus("canceled")
+    },
+    [cancelOrder]
+  )
+
+  const handleConfirm = useCallback(async () => {
+    setConfirm(true)
+  }, [setConfirm])
+
+  return (
+    <div className="flex flex-col md:justify-center md:items-center gap-10 p-10">
+      <div className="flex flex-col justify-center items-center gap-3">
+        <h1 className="font-bold text-xl">
+          {t("order")} {data.payment_intent.substring(3)}
+        </h1>
+        <div>
+          {formatDate} - {t(`${status}`)}
+        </div>
+      </div>
+      <div className="flex flex-col gap-5 md:w-1/2 py-5">
+        {productData.map((val) => (
+          <ProductOrder key={val.productData.id} product={val} />
+        ))}
+        {canBeCanceled && (
+          <div className="flex justify-end">
+            <Button variant="danger" onClick={handleConfirm}>
+              {t("cancelOrder")}
+            </Button>
+          </div>
+        )}
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
+            <div className="flex place-content-between">
+              <p className="font-bold text-md">{t("total")}</p>
+              <p className="font-bold text-md">{data.price} €</p>
             </div>
-            <div className="px-[20%] flex flex-col w-full ">
-              <div id={"prix"}>
-                <div className="flex flex-col">
-                  <div className="flex place-content-between">
-                    <p className="font-bold text-md lg:text-2xl">
-                      {" "}
-                      {t("total")}
-                    </p>
-                    <p className="font-bold text-md lg:text-2xl ">
-                      {data.price} €
-                    </p>
-                  </div>
-                  <div className="flex place-content-between">
-                    <p className="text-gray-500 text-md lg:text-xl">
-                      {" "}
-                      {t("tva")}
-                    </p>
-                    <p className="text-gray-500 text-md lg:text-xl">
-                      {(data.price * 0.2).toFixed(2)} €
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div
-                id={"divider"}
-                className="border-b-black border-b my-10"
-              ></div>
-              <div id={"Adresse Livraison"}>
-                <div className="flex flex-col">
-                  <p className="font-bold text-md lg:text-2xl mb-3">
-                    {t("delivery")}
-                  </p>
-                  <p className="lg:text-xl text-gray-500">
-                    {data.addressData.lastName} {data.addressData.name}
-                  </p>
-                  <p className="lg:text-xl text-gray-500">
-                    {data.addressData.address}
-                  </p>
-                  <p className="lg:text-xl text-gray-500">
-                    {data.addressData.postal_code} {data.addressData.city}
-                  </p>
-                </div>
-              </div>
-              <div
-                id={"divider"}
-                className="border-b-black border-b my-5"
-              ></div>
-              <div id={"Méthode de payments"}>
-                <p className="font-bold text-md lg:text-2xl mb-3">
-                  {t("payment")}
-                </p>
-                <p className="lg:text-xl text-gray-500">
-                  {data.payment_method}
-                </p>
-              </div>
+            <div className="flex place-content-between">
+              <p className="text-gray-500 text-md">{t("tva")}</p>
+              <p className="text-gray-500 text-md">
+                {(data.price * 0.2).toFixed(2)} €
+              </p>
             </div>
+          </div>
+          <div className="border-b-black border-b"></div>
+          <div>
+            <div className="flex flex-col gap-3">
+              <p className="font-bold text-md">{t("delivery")}</p>
+              <p className="text-gray-500">
+                {data.addressData.lastName} {data.addressData.name}
+              </p>
+              <p className="text-gray-500">{data.addressData.address}</p>
+              <p className="text-gray-500">
+                {data.addressData.postal_code} {data.addressData.city}
+              </p>
+            </div>
+          </div>
+          <div className="border-b border-b-black"></div>
+          <div>
+            <p className="font-bold text-md">{t("payment")}</p>
+            <p className="text-gray-500">{data.payment_method}</p>
           </div>
         </div>
-      </main>
-    </>
+      </div>
+      <Confirm
+        className={classNames(confirm ? "block" : "hidden")}
+        show={setConfirm}
+        action={handleCancel}
+        params={[data.user_id, data.id]}
+        textValue={t("cancelOrder")}
+        display={setConfirm}
+      />
+    </div>
   )
 }
 

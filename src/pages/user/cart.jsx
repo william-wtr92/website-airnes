@@ -26,11 +26,11 @@ const Cart = () => {
     actions: { removeFromCart, updateCartQuantity },
   } = useAppContext()
 
-  const total =
-    cartItems?.reduce(
-      (acc, item) => acc + item.price * item.product_quantity,
-      0
-    ) || 0
+  const total = cartItems?.reduce(
+    (acc, item) => acc + (item.promotion || item.price) * item.product_quantity,
+    0
+  ) || 0
+
 
   const tax = total * 0.2
 
@@ -132,7 +132,16 @@ const Cart = () => {
                       </p>
                     </div>
                     <div className="flex flex-col relative left-5 lg:left-12">
-                      <p className="font-bold mb-2 lg:mb-2">{item.price} €</p>
+                      <div className="font-bold mb-2 lg:mb-2">
+                        {item.promotion ? (
+                          <div>
+                            <p className="line-through">{item.price} €</p>
+                            <p className="text-red-600 text-xl">{item.promotion} €</p>
+                          </div>
+                        ) : (
+                          <p>{item.price} €</p>
+                        )}
+                      </div>
                       <input
                         type="number"
                         min="1"
@@ -189,7 +198,7 @@ const Cart = () => {
               </div>
               <div className="my-6">
                 <Button
-                  className="bg-[#615043] hover:bg-[#927864] hover:cursor-pointer
+                  className="bg-primary hover:bg-secondary hover:cursor-pointer
            active:bg-[#615043] border border-black px-10 lg:px-24 py-4 font-semibold rounded-md text-[#fff]"
                 >
                   <NavLink

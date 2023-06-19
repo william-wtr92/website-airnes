@@ -21,8 +21,8 @@ export const getServerSideProps = async (context) => {
   if (err) {
     return {
       props: {
-        err: err,
-      },
+        err: err
+      }
     }
   }
 
@@ -31,14 +31,14 @@ export const getServerSideProps = async (context) => {
   const translations = await serverSideTranslations(locale, [
     "categories",
     "navbar",
-    "footer",
+    "footer"
   ])
 
   return {
     props: {
       category: categoryData,
-      ...translations,
-    },
+      ...translations
+    }
   }
 }
 
@@ -77,25 +77,10 @@ const Category = (props) => {
         ) : (
           <div className="w-5/6 grid gap-16 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {products.map((product) =>
-              product.quantity > 0 ? (
-                <ProductThumbnail
-                  key={product.id}
-                  alt={product.name}
-                  image={product.image[0].url}
-                  productId={product.id}
-                  productName={product.name}
-                  productPrice={product.price}
-                />
-              ) : (
-                <>
-                  <div className="flex flex-col gap-5 absolute md:left-[40%]">
-                    <p className="text-center">{t(`notfound2`)}</p>
-                    <NavLink href="/categories/all">
-                      <Button>{t(`buttonText`)}</Button>
-                    </NavLink>
-                  </div>
-                </>
-              )
+              <ProductThumbnail
+                key={product.id}
+                product={product}
+              />
             )}
           </div>
         )}

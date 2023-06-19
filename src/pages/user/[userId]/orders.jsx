@@ -23,8 +23,8 @@ export const getServerSideProps = async (context) => {
   if (err) {
     return {
       redirect: {
-        destination: "/",
-      },
+        destination: "/"
+      }
     }
   }
 
@@ -32,8 +32,8 @@ export const getServerSideProps = async (context) => {
     props: {
       data: data.result,
       userId: query.userId,
-      ...(await serverSideTranslations(locale, ["orders", "navbar", "footer"])),
-    },
+      ...(await serverSideTranslations(locale, ["orders", "navbar", "footer"]))
+    }
   }
 }
 
@@ -46,14 +46,18 @@ const Orders = (props) => {
     <>
       <main>
         <div>
-          <div className="flex justify-center my-12 lg:my-16">
-            <h1 className="font-bold text-2xl hover:cursor-pointer hover:text-[#615043] lg:mr-14 lg:text-4xl">
+          <div className="flex justify-center gap-5 p-20">
+            <h1 className="font-bold text-2xl uppercase hover:cursor-pointer hover:text-primary">
               {t("orders")}
             </h1>
           </div>
-          <div>
-            <div className="flex items-center flex-col my-6">
-              {data.map((data, i) => {
+          <div className="flex flex-col items-center gap-10">
+            {data.length === 0 ? (
+              <p className="text-xl">
+                {t("noOrder")}.
+              </p>
+            ) : (
+              data.map((data, i) => {
                 const formatDate = format(
                   new Date(data.created_at),
                   "yyyy-MM-dd"
@@ -65,18 +69,18 @@ const Orders = (props) => {
                     key={i}
                   >
                     <NavLink href={`/user/${userId}/orders/${data.id}/order`}>
-                      <p className="flex justify-start font-bold  hover:text-[#b3825c] lg:text-xl">
+                      <p className="flex justify-start font-bold hover:text-primary lg:text-xl">
                         {formatDate} - #{data.payment_intent.substring(3)}
                       </p>
                     </NavLink>
                     <p className="flex justify-end font-bold text-xl">
-                      {data.status}
+                      {t(`${data.status}`)}
                     </p>
                     <p className=" font-bold">{data.price} €</p>
                   </div>
                 )
-              })}
-            </div>
+              })
+            )}
           </div>
         </div>
       </main>

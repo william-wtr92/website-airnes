@@ -9,6 +9,7 @@ import {
 } from "@/components/validation/validation"
 import { getSessionFromCookiesServ } from "@/web/helper/getSessionFromCookiesServ"
 import auth from "@/api/middlewares/auth"
+import ProductModel from "@/api/db/models/ProductModel"
 
 const handler = mw({
   POST: [
@@ -33,7 +34,7 @@ const handler = mw({
       const id = sessionFromCookies.user.id
 
       const price = cartItems.reduce((accumulator, element) => {
-        return accumulator + element.price * element.product_quantity
+        return accumulator + (element.promotion || element.price) * element.product_quantity
       }, 0)
 
       const order = await OrderModel.query().insertAndFetch({
@@ -43,16 +44,25 @@ const handler = mw({
         payment_intent,
         payment_method: "CARD",
         price,
-        status: "en attente",
       })
 
-      cartItems.forEach(async (element) => {
-        await OrderProductModel.query().insertAndFetch({
-          order_id: order.id,
-          product_id: element.id,
-          product_quantity: element.product_quantity,
+      await Promise.all(
+        cartItems.map(async (element) => {
+          await OrderProductModel.query().insertAndFetch({
+            order_id: order.id,
+            product_id: element.id,
+            product_quantity: element.product_quantity,
+          })
+
+          const product = await ProductModel.query().findById(element.id)
+
+          if (product && product.quantity > 0) {
+            await ProductModel.query().updateAndFetchById(element.id, {
+              quantity: product.quantity - element.product_quantity,
+            })
+          }
         })
-      })
+      )
 
       res.send({
         result: order.id,

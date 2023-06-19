@@ -4,6 +4,7 @@ import auth from "@/api/middlewares/auth"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import { numberValidator } from "@/components/validation/validation"
+import ProductModel from "@/api/db/models/ProductModel"
 
 const handler = mw({
   GET: [
@@ -29,18 +30,66 @@ const handler = mw({
         res.send({ result: null })
       }
 
-      const productQuery = await OrderProductModel.query()
+      const product = await OrderProductModel.query()
         .where({ order_id: orderId })
         .withGraphFetched("productData")
 
-      if (!productQuery) {
+      if (!product) {
         res.send({ result: orderQuery })
       }
 
       res.send({
         result: orderQuery,
-        product: productQuery,
+        product,
       })
+    },
+  ],
+  PATCH: [
+    auth("user"),
+    validate({
+      query: {
+        orderId: numberValidator.required(),
+      },
+    }),
+    async (ctx) => {
+      const {
+        locals: {
+          query: { orderId },
+        },
+        res,
+      } = ctx
+
+      const id = orderId
+
+      const order = await OrderModel.query()
+        .where({ id })
+        .where({ status: "pending" })
+        .withGraphFetched("products")
+
+      if (!order) {
+        res.send({ result: null })
+
+        return
+      }
+
+      const [{ products }] = order
+
+      for (const product of products) {
+        const currentProduct = await ProductModel.query()
+          .where({ id: product.product_id })
+          .first()
+        const quantity = currentProduct.quantity + product.product_quantity
+
+        await ProductModel.query().updateAndFetchById(product.product_id, {
+          quantity,
+        })
+      }
+
+      await OrderModel.query().updateAndFetchById(id, {
+        status: "canceled",
+      })
+
+      res.send({ result: true })
     },
   ],
 })

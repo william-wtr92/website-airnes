@@ -198,28 +198,26 @@ const Dashboard = (props) => {
               </thead>
               <tbody className="overflow-y-auto">
                 {topSell.map((item) => (
-                  <>
-                    <tr
-                      key={item.id}
-                      className="text-black border-b bg-gray-100 hover:bg-gray-200 hover:cursor-pointer"
-                    >
-                      <td className="px-4 py-2">
-                        <NavLink href="/productid/product">
-                          <Image
-                            src={item.image}
-                            alt="meuble"
-                            width={100}
-                            height={1}
-                            className="w-12 h-12 lg:h-16 lg:w-16 hover:cursor-pointer"
-                          />
-                        </NavLink>
-                      </td>
-                      <td className="px-6 whitespace-nowrap">{item.name}</td>
-                      <td className="flex justify-center px-6 pt-8">
-                        {item.sales}
-                      </td>
-                    </tr>
-                  </>
+                  <tr
+                    key={item.id}
+                    className="text-black border-b bg-gray-100 hover:bg-gray-200 hover:cursor-pointer"
+                  >
+                    <td className="px-4 py-2">
+                      <NavLink href="/productid/product">
+                        <Image
+                          src={item.image[0].url}
+                          alt="meuble"
+                          width={100}
+                          height={1}
+                          className="w-12 h-12 lg:h-16 lg:w-16 hover:cursor-pointer"
+                        />
+                      </NavLink>
+                    </td>
+                    <td className="px-6 whitespace-nowrap">{item.name}</td>
+                    <td className="flex justify-center px-6 pt-8">
+                      {item.sales}
+                    </td>
+                  </tr>
                 ))}
               </tbody>
             </table>

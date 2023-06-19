@@ -88,15 +88,15 @@ const ProductPage = (props) => {
               <ProductCarousel images={product.image} />
             </div>
             <div className="w-4/5 lg:w-2/5 flex flex-col gap-8 h-[500px] mt-10  justify-center">
-              <div className="flex justify-between font-semibold">
-                {product.promotion ? (
-                    <div className="text-right">
+              <div className="flex flex-col items-end font-semibold">
+                  {product.promotion ? (
+                    <div>
                       <p className="line-through">{product.price} €</p>
-                      <p className="text-red-600 text-lg">{product.promotion} €</p>
+                      <p className="text-red-600 text-xl">{product.promotion} €</p>
                     </div>
-                ) : (
-                    <p>{product.price} €</p>
-                )}
+                  ) : (
+                    <div>{product.price} €</div>
+                  )}
                 <span className="flex flex-col items-end">
                   <h1 className="font-extrabold text-md lg:text-2xl">
                     {product.name}

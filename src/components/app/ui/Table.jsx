@@ -15,10 +15,11 @@ const Table = (props) => {
     deleteRoute,
     fields,
     page,
-    lastorder
+    lastorder,
   } = props
 
   const [itemToDelete, setItemToDelete] = useState(false)
+  const [idToDelete, setIdToDelete] = useState(null)
   const [massDeletionList, setMassDeletionList] = useState([])
   const [lastcolumn, setLastcolumn] = useState("id")
   const [order, setOrder] = useState(lastorder)
@@ -28,17 +29,17 @@ const Table = (props) => {
   }
 
   const onDeleteClick = (id) => {
-    setItemToDelete(id)
+    setItemToDelete(true)
+    setIdToDelete(id)
   }
 
-  const handleDeletion = useCallback(
-    async (id) => {
-      await deleteRoute(id)
+  const handleDeletion = useCallback(async () => {
+    if (idToDelete !== null) {
+      await deleteRoute(idToDelete)
       setItemToDelete(false)
-    },
-    [deleteRoute]
-  )
-
+      setIdToDelete(null)
+    }
+  }, [deleteRoute, idToDelete])
   const router = useRouter()
 
   const handlePageChange = useCallback(
@@ -49,7 +50,7 @@ const Table = (props) => {
       setLastcolumn(column)
 
       await router.push({
-        query: { column, order: newOrder, page }
+        query: { column, order: newOrder, page },
       })
     },
     [order, lastcolumn, setOrder, setLastcolumn, router, page]
@@ -73,95 +74,102 @@ const Table = (props) => {
 
   const selectMassDeletion = (id) => {
     setMassDeletionList(
-      massDeletionList.includes(id) ?
-        massDeletionList.filter(item => item !== id) : [...massDeletionList, id]
+      massDeletionList.includes(id)
+        ? massDeletionList.filter((item) => item !== id)
+        : [...massDeletionList, id]
     )
   }
 
-  const handleMassDeletion = () => {
-    massDeletionList.map((id) => {
-      deleteRoute(id)
-    })
+  const handleMassDeletion = useCallback(async () => {
+    await Promise.all(massDeletionList.map((id) => deleteRoute(id)))
     setItemToDelete(false)
-  }
+    setIdToDelete(null)
+    setMassDeletionList([])
+  }, [deleteRoute, massDeletionList])
 
   return (
     <div className="flex flex-col gap-5">
       <table className="table-fixed">
         <thead className="bg-white border-b">
-        <tr>
-          <th/>
-          {columns.map((column, id) => {
-            return (
-              <th
-                onClick={() => handlePageChange(fields[id])}
-                className="text-sm font-medium text-gray-900 p-4 text-left uppercase"
-                key={column}
-              >
-                <div className="flex">
-                  {column}
-                  {lastcolumn === fields[id] && (
-                    order === "asc" ? (
-                      <ChevronDownIcon className="w-6"/>
-                    ) : (
-                      <ChevronUpIcon className="w-6"/>
-                    ))}
-                </div>
-              </th>
-            )
-          })}
-          <th className="opacity-0">Actions</th>
-        </tr>
+          <tr>
+            <th />
+            {columns.map((column, id) => {
+              return (
+                <th
+                  onClick={() => handlePageChange(fields[id])}
+                  className="text-sm font-medium text-gray-900 p-4 text-left uppercase"
+                  key={column}
+                >
+                  <div className="flex">
+                    {column}
+                    {lastcolumn === fields[id] &&
+                      (order === "asc" ? (
+                        <ChevronDownIcon className="w-6" />
+                      ) : (
+                        <ChevronUpIcon className="w-6" />
+                      ))}
+                  </div>
+                </th>
+              )
+            })}
+            <th className="opacity-0">Actions</th>
+          </tr>
         </thead>
         <tbody>
-        {contents.map((content) => {
-          return (
-            <tr className="border-b" key={content.id}>
-              <td>
-                {!isNoCategory(content) && (
-                  <input type="checkbox"
-                         value=""
-                         className="h-4 w-4 appearance-none hover:cursor-pointer border-2 checked:bg-primary duration-1000"
-                         onChange={() => selectMassDeletion(content.id)}
-                         checked={massDeletionList.includes(content.id)}
-                  />
-                )}
-              </td>
-              {fields.map((field) => {
-                return (
-                  <td
-                    className="p-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                    key={`${content.id}-${field}`}
-                  >
-                    {renderFieldContent(field, content, section)}
-                  </td>
-                )
-              })}
-              <td className="flex flex-row gap-5 text-sm text-gray-900 font-light py-4">
-                {canEdit && !isNoCategory(content) && (
-                  <NavLink href={`/admin/${section}/${content.id}/edit`}>
-                    <PencilSquareIcon className="h-6 w-6"/>
-                  </NavLink>
-                )}
-                {!isNoCategory(content) && (
-                  <>
-                    <TrashIcon
-                      className="h-6 w-6"
-                      onClick={() => onDeleteClick(content.id)}
+          {contents.map((content) => {
+            return (
+              <tr className="border-b" key={content.id}>
+                <td>
+                  {!isNoCategory(content) && (
+                    <input
+                      type="checkbox"
+                      value=""
+                      className="h-4 w-4 appearance-none hover:cursor-pointer border-2 checked:bg-primary duration-1000"
+                      onChange={() => selectMassDeletion(content.id)}
+                      checked={massDeletionList.includes(content.id)}
                     />
-                    <Confirm
-                      className={classNames(itemToDelete ? "block" : "hidden")}
-                      display={setItemToDelete}
-                      action={massDeletionList.length > 0 ? handleMassDeletion : handleDeletion}
-                      textValue="Are you sure you want to delete this item?"
-                      params={itemToDelete}
-                    />
-                  </>
-                )}
-              </td>
-            </tr>
-          )
-        })}
+                  )}
+                </td>
+                {fields.map((field) => {
+                  return (
+                    <td
+                      className="p-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                      key={`${content.id}-${field}`}
+                    >
+                      {renderFieldContent(field, content, section)}
+                    </td>
+                  )
+                })}
+                <td className="flex flex-row gap-5 text-sm text-gray-900 font-light py-4">
+                  {canEdit && !isNoCategory(content) && (
+                    <NavLink href={`/admin/${section}/${content.id}/edit`}>
+                      <PencilSquareIcon className="h-6 w-6" />
+                    </NavLink>
+                  )}
+                  {!isNoCategory(content) && (
+                    <>
+                      <TrashIcon
+                        className="h-6 w-6"
+                        onClick={() => onDeleteClick(content.id)}
+                      />
+                      <Confirm
+                        className={classNames(
+                          itemToDelete ? "block" : "hidden"
+                        )}
+                        display={setItemToDelete}
+                        action={
+                          massDeletionList.length > 0
+                            ? handleMassDeletion
+                            : handleDeletion
+                        }
+                        textValue="Are you sure you want to delete this item?"
+                      />
+                    </>
+                  )}
+                </td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
       {massDeletionList.length !== 0 && (

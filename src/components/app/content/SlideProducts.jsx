@@ -19,7 +19,7 @@ const SlideProducts = (props) => {
           {promotion ? (
             <div className="text-right">
               <p className="line-through">{productPrice} €</p>
-              <p className="text-red-600 text-lg">{promotion} €</p>
+              <p className="text-red-600 text-xl">{promotion} €</p>
             </div>
           ) : (
             <p>{productPrice} €</p>

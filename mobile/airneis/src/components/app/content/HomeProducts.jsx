@@ -36,11 +36,11 @@ const HomepageProducts = () => {
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.productContainer}>
       <Image
-        source={{ uri: item.user.image }}
+        source={{ uri: item.product.image[0].url }}
         style={styles.productImage}
-        alt={item.user.name}
+        alt={item.product.name}
       />
-      <Text style={styles.productText}>{item.user.name}</Text>
+      <Text style={styles.productText}>{item.product.name}</Text>
     </TouchableOpacity>
   )
 
@@ -58,7 +58,7 @@ const HomepageProducts = () => {
       <FlatList
         data={products}
         renderItem={renderItem}
-        keyExtractor={(item) => item.user.id.toString()}
+        keyExtractor={(item) => item.product.id.toString()}
       />
     </View>
   )
@@ -72,9 +72,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   productContainer: {
-    alignSelf: "flex-start",
+    alignItems: "center",
     marginBottom: 20,
-    flexDirection: "column",
   },
   productText: {
     textTransform: "uppercase",
