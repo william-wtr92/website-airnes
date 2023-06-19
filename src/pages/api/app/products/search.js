@@ -92,7 +92,7 @@ const handler = mw({
       const total = parseInt(totalCount.total, 10)
 
       let products = await productsQuery
-          .orderBy("priority", "desc") // assuming priority is a boolean, "desc" will put "true" values first.
+          .orderBy("priority", "desc")
           .orderBy(orderColumn, orderBy)
           .limit(limit)
           .offset(offset)

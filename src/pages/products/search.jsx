@@ -66,7 +66,7 @@ export const getServerSideProps = async (context) => {
       pagination: products.pagination,
       categories: filter.categories,
       materials: filter.materials,
-      query: { search, pageQuery },
+      query: { search, pageQuery, promoQuery, stockQuery, minPriceQ, maxPriceQ },
     },
   }
 }
@@ -76,8 +76,8 @@ const SearchPage = (props) => {
 
   const [filterShow, setFilterShow] = useState(false)
   const [order, setOrder] = useState("asc")
-  const [stock, setStock] = useState(false)
-  const [promo, setPromo] = useState(false)
+  const [stock, setStock] = useState(query.stockQuery)
+  const [promo, setPromo] = useState(query.promoQuery)
   const [isNearBottom, setIsNearBottom] = useState(false)
   const nbMaxProduct = 18
 
@@ -172,6 +172,7 @@ const SearchPage = (props) => {
                   className={` border rounded-full border-black bg-[#EDE5E0] text-black placeholder-[#443021] p-4 px-4 md:px-2 md:p-2 lg:px-4 lg:p-4`}
                   type="number"
                   placeholder={t("minPlaceholder")}
+                  defaultValue={query.minPriceQ}
                   onChange={(e) => filterEvent(e.target.value, "minPrice")}
                 />
               </div>
@@ -183,6 +184,7 @@ const SearchPage = (props) => {
                   className={` border rounded-full border-black bg-[#EDE5E0] text-black placeholder-[#443021] p-4 px-4 md:px-2 md:p-2 lg:px-4 lg:p-4`}
                   type="number"
                   placeholder={t("maxPlaceholder")}
+                  defaultValue={query.maxPriceQ}
                   onChange={(e) => filterEvent(e.target.value, "maxPrice")}
                 />
               </div>
@@ -255,6 +257,7 @@ const SearchPage = (props) => {
                     className={`pl-6 lg:pr-[35%] border border-gray-500 bg-transparent text-black placeholder-[#443021] py-2`}
                     type="search"
                     placeholder={t("searchPlaceholder")}
+                    defaultValue={query.search}
                     onChange={(e) => filterEvent(e.target.value, "searchQuery")}
                   />
                 </div>

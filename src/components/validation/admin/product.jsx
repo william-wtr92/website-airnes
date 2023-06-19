@@ -9,7 +9,7 @@ export const productValidationSchema = yup.object().shape({
   name: yup.string().required("Name required").label("name"),
   price: yup.number().required("Price required").positive().label("price"),
   promotion: yup.number().label("promotion").when("price", (price, schema) => {
-    return price ? schema.max(price, "Promotion can't be higher than price") : schema
+    return (price !== null && price !== undefined) ? schema.max(price, "Promotion can't be higher than price") : schema.min(0)
   }).notRequired(),
   category: yup.number().required("Category required").label("category"),
   material: yup.number().required("At least 1 material required").label("material"),
@@ -24,7 +24,7 @@ export const productInitialValues = {
   name: "",
   description: "",
   price: "",
-  promotion: "",
+  promotion: 0,
   category: "",
   material: "",
   quantity: "",
@@ -40,7 +40,7 @@ export const editProductValidationSchema = yup.object().shape({
   name: yup.string().required("Name required").label("name"),
   price: yup.number().required("Price required").label("price"),
   promotion: yup.number().label("promotion").when("price", (price, schema) => {
-    return price ? schema.max(price, "Promotion can't be higher than price") : schema
+    return (price !== null && price !== undefined) ? schema.max(price, "Promotion can't be higher than price") : schema.min(0)
   }).notRequired(),
   categoryId: yup.number().required("Category required").label("category"),
   materialId: yup
