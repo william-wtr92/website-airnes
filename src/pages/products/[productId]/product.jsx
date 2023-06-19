@@ -89,7 +89,14 @@ const ProductPage = (props) => {
             </div>
             <div className="w-4/5 lg:w-2/5 flex flex-col gap-8 h-[500px] mt-10  justify-center">
               <div className="flex justify-between font-semibold">
-                <p className="text-xl">{product.price} $</p>
+                {product.promotion ? (
+                    <div className="text-right">
+                      <p className="line-through">{product.price} €</p>
+                      <p className="text-red-600 text-lg">{product.promotion} €</p>
+                    </div>
+                ) : (
+                    <p>{product.price} €</p>
+                )}
                 <span className="flex flex-col items-end">
                   <h1 className="font-extrabold text-md lg:text-2xl">
                     {product.name}

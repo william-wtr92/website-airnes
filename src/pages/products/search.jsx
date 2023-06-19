@@ -66,7 +66,7 @@ export const getServerSideProps = async (context) => {
       pagination: products.pagination,
       categories: filter.categories,
       materials: filter.materials,
-      query: { search, pageQuery, promoQuery, stockQuery, minPriceQ, maxPriceQ, categoryQ, materialQ },
+      query: { search, pageQuery, promoQuery, stockQuery, minPriceQ, maxPriceQ, categoryQ, materialQ, orderQ },
     },
   }
 }
@@ -75,7 +75,7 @@ const SearchPage = (props) => {
   const { products, categories, materials, pagination, query } = props
 
   const [filterShow, setFilterShow] = useState(false)
-  const [order, setOrder] = useState("asc")
+  const [order, setOrder] = useState(query.orderQ)
   const [stock, setStock] = useState(query.stockQuery)
   const [promo, setPromo] = useState(query.promoQuery)
   const [isNearBottom, setIsNearBottom] = useState(false)
@@ -275,7 +275,7 @@ const SearchPage = (props) => {
                 }flex-none h-10 w-10 color-[#615043]`}
                 onClick={changePriceOrder}
               />
-              {t("asc")} ({order})
+              {t("asc")} / ({order? order : "desc"})
             </div>
             <div className="flex flex-col items-center">
               <div
