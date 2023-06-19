@@ -5,7 +5,7 @@ import {
   boolValidator,
   numberValidator,
   queryPageValidator,
-  stringValidator,
+  stringValidator
 } from "@/components/validation/validation"
 import { NotFoundError } from "objection"
 import CategoryModel from "@/api/db/models/CategoryModel"
@@ -22,25 +22,25 @@ const handler = mw({
         material: numberValidator.optional(),
         order: stringValidator.optional(),
         minPrice: numberValidator.optional(),
-        maxPrice: numberValidator.optional(),
-      },
+        maxPrice: numberValidator.optional()
+      }
     }),
     async ({
-      locals: {
-        query: {
-          search,
-          page,
-          promo,
-          stock,
-          category,
-          material,
-          order,
-          minPrice,
-          maxPrice,
-        },
-      },
-      res,
-    }) => {
+             locals: {
+               query: {
+                 search,
+                 page,
+                 promo,
+                 stock,
+                 category,
+                 material,
+                 order,
+                 minPrice,
+                 maxPrice
+               }
+             },
+             res
+           }) => {
       const limit = 18
       page = parseInt(page, 10) || 1
       const offset = (page - 1) * limit
@@ -51,15 +51,15 @@ const handler = mw({
       const [noCategory] = await CategoryModel.query().where("name", "=", "No category")
 
       const productsQuery = ProductModel.query()
-          .where("categoryId", "!=", noCategory.id)
+        .where("categoryId", "!=", noCategory.id)
 
       const applyFilters = (query) => {
         if (search || search !== "") {
           query.andWhere(function () {
             this.where("name", "like", `%${search}%`).orWhere(
-                "description",
-                "like",
-                `%${search}%`
+              "description",
+              "like",
+              `%${search}%`
             )
           })
         }
@@ -95,17 +95,17 @@ const handler = mw({
       const total = parseInt(totalCount.total, 10)
 
       let products = await productsQuery
-          .orderBy("priority", "desc")
-          .orderBy(orderColumn, orderBy)
-          .limit(limit)
-          .offset(offset)
+        .orderBy("priority", "desc")
+        .orderBy(orderColumn, orderBy)
+        .limit(limit)
+        .offset(offset)
 
       if (products.length < limit && stock !== true) {
         const zeroQuantityProductsQuery = ProductModel.query()
-            .where("categoryId", "!=", 0)
-            .where("quantity", "=", 0)
-            .limit(limit - products.length)
-            .offset(offset)
+          .where("categoryId", "!=", 0)
+          .where("quantity", "=", 0)
+          .limit(limit - products.length)
+          .offset(offset)
 
         applyFilters(zeroQuantityProductsQuery)
 
@@ -118,7 +118,7 @@ const handler = mw({
         page,
         limit,
         totalItems: total,
-        totalPages: Math.ceil(total / limit),
+        totalPages: Math.ceil(total / limit)
       }
 
       if (!products) {
@@ -127,10 +127,10 @@ const handler = mw({
 
       res.send({
         result: products,
-        pagination: pagination,
+        pagination: pagination
       })
     }
-  ],
+  ]
 })
 
 export default handler

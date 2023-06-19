@@ -20,7 +20,7 @@ const ProductThumbnail = (props) => {
             className="lg:hidden lg:group-hover:block text-2xl font-bold text-gray-800 lg:mt-auto lg:mb-2 lg:group-hover:text-white text-center">
             {product.name}
           </div>
-          <div className="lg:hidden lg:group-hover:block text-xl font-bold text-gray-800 lg:mb-auto lg:mt-2 lg:group-hover:text-white">
+          <div className="lg:hidden lg:group-hover:block lg:text-xl font-bold text-gray-800 lg:mb-auto lg:mt-2 lg:group-hover:text-white">
             {product.promotion ? (
               <>
                 <p className="line-through">{product.price} €</p>
