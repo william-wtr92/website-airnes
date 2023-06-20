@@ -31,7 +31,7 @@ const ReturnForm = (props) => {
                     type="checkbox"
                     id={`checkbox-${index}`}
                     className="h-4 w-4 appearance-none hover:cursor-pointer border-2 checked:bg-primary duration-500"
-                    disabled={Boolean(product.reason)}
+                    disabled={initialValues.products[index].reason}
                   />
                   <label htmlFor={`checkbox-${index}`}>
                     <Image
@@ -54,7 +54,8 @@ const ReturnForm = (props) => {
                     rows="4"
                     placeholder={t("reasonPlaceholder")}
                     className="border rounded-md p-2"
-                    disabled={Boolean(product.reason)}
+                    required={product.selected}
+                    disabled={initialValues.products[index].reason}
                   />
                 )}
               </div>

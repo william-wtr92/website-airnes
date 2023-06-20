@@ -9,7 +9,7 @@ const Confirm = (props) => {
     display(false)
 
     if (Array.isArray(params)) {
-      action(...params)
+      action(...params)()
     } else {
       action()
     }

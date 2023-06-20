@@ -58,14 +58,12 @@ const handler = mw({
         },
         res,
       } = ctx
-
       const id = orderId
 
       const order = await OrderModel.query()
         .where({ id })
         .where({ status: "pending" })
         .withGraphFetched("products")
-        .orderBy("order_product.id", "asc")
 
       if (!order) {
         res.send({ result: null })
