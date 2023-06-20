@@ -10,5 +10,9 @@
   "canceled": "Annulée",
   "pending": "En cours de traitement",
   "delivering": "En cours de livraison",
-  "delivered": "Livrée"
+  "delivered": "Livrée",
+  "returnOrder": "Retourner la commande",
+  "submitReturn": "Confirmer le retour",
+  "reasonPlaceholder": "Raison du retour",
+  "returned": "Retournée"
 }

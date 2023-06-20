@@ -10,6 +10,7 @@ import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback, useState } from "react"
 import Confirm from "@/components/app/ui/Confirm"
 import classNames from "classnames"
+import { NavLink } from "@/components/utils/NavLink"
 
 export const getServerSideProps = async (context) => {
   const { req, query, locale } = context
@@ -75,7 +76,7 @@ const Order = (props) => {
     <div className="flex flex-col md:justify-center md:items-center gap-10 p-10">
       <div className="flex flex-col justify-center items-center gap-3">
         <h1 className="font-bold text-xl">
-          {t("order")} {data.payment_intent.substring(3)}
+          {t("order")} #{data.id}
         </h1>
         <div>
           {formatDate} - {t(`${status}`)}
@@ -90,6 +91,15 @@ const Order = (props) => {
             <Button variant="danger" onClick={handleConfirm}>
               {t("cancelOrder")}
             </Button>
+          </div>
+        )}
+        {status === "delivered" && (
+          <div className="flex justify-end">
+            <NavLink href={`/user/${data.user_id}/orders/${data.id}/return`}>
+              <Button variant="danger">
+                {t("returnOrder")}
+              </Button>
+            </NavLink>
           </div>
         )}
         <div className="flex flex-col gap-2">

@@ -1,5 +1,7 @@
 {
   "addCart": "Ajouter au panier",
+  "inStock": "En stock",
+  "outOfStock": "Stock épuisé",
   "similarProducts": "Produits similaires",
   "productAddToCart": "Produit ajouté au panier",
   "wantToContinue": "Voulez vous poursuivre vos achats ?",

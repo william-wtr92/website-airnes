@@ -10,27 +10,27 @@ const ProductOrder = (props) => {
     <div className="flex">
       <Image
         src={productData.image[0].url}
-        alt="meuble"
+        alt={productData.name}
         width={100}
         height={1}
-        className="w-20 h-20 md:h-24 md:w-28 hover:cursor-pointer"
+        className="w-20 h-20 md:h-24 md:w-28 hover:cursor-pointer object-cover"
       />
       <div className="flex flex-col px-4 gap-3">
         <NavLink href={`/products/${productData.id}/product`}>
-          <p className="text-sm mt-2 font-bold hover:text-primary text-xl">
+          <div className="text-sm mt-2 font-bold hover:text-primary text-xl">
             {productData.name}
-          </p>
+          </div>
         </NavLink>
         <div className="flex">
-          <p className="border-2 rounded-md px-2">{product.product_quantity}</p>
+          <div className="border-2 rounded-md px-2">{product.product_quantity}</div>
         </div>
         {productData.promotion ? (
           <div className="flex gap-3 items-center">
-            <p className="line-through">{productData.price} €</p>
-            <p className="text-red-600 text-xl">{productData.promotion} €</p>
+            <div className="line-through">{productData.price} €</div>
+            <div className="text-red-600 text-xl">{productData.promotion} €</div>
           </div>
         ) : (
-          <p>{productData.price} €</p>
+          <div>{productData.price} €</div>
         )}
       </div>
     </div>

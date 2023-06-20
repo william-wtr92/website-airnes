@@ -6,8 +6,10 @@ import CategoryModel from "@/api/db/models/CategoryModel"
 const handler = mw({
   GET: [
     async ({ res }) => {
+      const [noCategory] = await CategoryModel.query().where("name", "=", "No category")
+
       const [categories, materials] = await Promise.all([
-        CategoryModel.query().where("id", "!=", 0).orderBy("id"),
+        CategoryModel.query().where("id", "!=", noCategory.id).orderBy("id"),
         MaterialModel.query().orderBy("id"),
       ])
 

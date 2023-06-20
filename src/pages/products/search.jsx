@@ -9,6 +9,7 @@ import Pagination from "@/components/app/ui/Pagination"
 import getApi from "@/web/getAPI"
 import searchProductsServices from "@/web/services/app/products/searchProducts"
 import getFilterServices from "@/web/services/app/products/getFilter"
+import Button from "@/components/app/ui/Button"
 
 export const getServerSideProps = async (context) => {
   const { locale } = context
@@ -147,21 +148,22 @@ const SearchPage = (props) => {
               filterShow ? `block` : `hidden`
             } flex flex-col border-r-2 p-4 fixed inset-x-0 ${isNearBottom? `bottom-14` : `bottom-0`} top-[3.8125rem] left-[max(0px,calc(50%-45rem))] right-auto w-full md:w-[36%] pb-10 overflow-y-scroll bg-white`}
           >
-            <div className="flex justify-between pb-4">
-              <button
+            <div className="flex justify-between">
+              <Button
                 className="underline text-xl"
                 onClick={resetFilter}
                 type={"reset"}
+                variant={"reverse"}
               >
                 {t("reset")}
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
                 className="underline text-xl"
                 onClick={handleShowFilter}
               >
                 {t("close")}
-              </button>
+              </Button>
             </div>
             <div className={`flex flex-col lg:flex-row justify-between mt-2`}>
               <div className="flex flex-col">

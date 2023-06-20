@@ -85,7 +85,7 @@ const Contact = () => {
                 placeholder={t(`placeholderContent`)}
                 rows="4"
                 label={t(`labelContent`)}
-                className=" mb-8 "
+                className="mb-8"
               />
               <Button type="submit">{t(`send`)}</Button>
             </Form>

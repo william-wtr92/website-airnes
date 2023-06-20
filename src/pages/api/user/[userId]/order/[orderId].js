@@ -58,7 +58,6 @@ const handler = mw({
         },
         res,
       } = ctx
-
       const id = orderId
 
       const order = await OrderModel.query()

@@ -10,5 +10,9 @@
   "canceled": "Canceled",
   "pending": "In process",
   "delivering": "In delivery",
-  "delivered": "Delivered"
+  "delivered": "Delivered",
+  "returnOrder": "Return the order",
+  "submitReturn": "Submit the return",
+  "reasonPlaceholder": "Reason for return",
+  "returned": "Returned"
 }

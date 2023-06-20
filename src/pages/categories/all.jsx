@@ -1,5 +1,5 @@
 import getApi from "@/web/getAPI"
-import Category from "@/components/app/content/Category"
+import CategoryThumbnail from "@/components/app/content/CategoryThumbnail"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 import getCategoriesServices from "@/web/services/app/categories/getCategories"
@@ -47,14 +47,14 @@ const AllCategories = (props) => {
       <h1 className="flex justify-center font-bold tracking-wide text-xl my-10 uppercase">
         {t(`all`)}
       </h1>
-      <div className="flex flex-wrap justify-center gap-10">
+      <div className="flex flex-wrap justify-center gap-10 p-5">
         {categories.length === 0 || err ? (
           <div>
             <p className="text-center">{t(`notfound`)}</p>
           </div>
         ) : (
-          <div className="grid gap-2 grid-cols-1 lg:grid-cols-3">
-            <Category categories={categories.data} />
+          <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <CategoryThumbnail categories={categories.data} />
           </div>
         )}
       </div>

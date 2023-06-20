@@ -3,32 +3,35 @@ import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import {
   boolValidator,
-  queryPageValidator,
+  queryPageValidator
 } from "@/components/validation/validation"
 import { NotFoundError } from "objection"
 import config from "@/api/config"
+import CategoryModel from "@/api/db/models/CategoryModel"
 
 const handler = mw({
   GET: [
     validate({
       query: {
         sale: boolValidator.optional(),
-        page: queryPageValidator.required(),
-      },
+        page: queryPageValidator.required()
+      }
     }),
     async ({
-      locals: {
-        query: { sale, page },
-      },
-      res,
-    }) => {
+             locals: {
+               query: { sale, page }
+             },
+             res
+           }) => {
       const limit = config.pagination.limit.default
       page = parseInt(page, 10) || 1
       const offset = (page - 1) * limit
 
+      const [noCategory] = await CategoryModel.query().where("name", "=", "No category")
+
       const productsQuery = ProductModel.query()
-          .where("categoryId", "!=", 0)
-          .where("quantity", ">", 0)
+        .where("categoryId", "!=", noCategory.id)
+        .where("quantity", ">", 0)
 
       if (sale) {
         productsQuery.where("promotion", ">", 0)
@@ -37,17 +40,17 @@ const handler = mw({
       const checkLimit = await productsQuery.clone().orderBy("quantity", "asc").limit(limit).offset(offset)
 
       let products = await productsQuery
-          .orderBy("priority", "desc")
-          .orderBy("quantity", "asc")
-          .limit(limit)
-          .offset(offset)
+        .orderBy("priority", "desc")
+        .orderBy("quantity", "asc")
+        .limit(limit)
+        .offset(offset)
 
       if (checkLimit.length < limit) {
         const zeroQuantityProductsQuery = ProductModel.query()
-            .where("categoryId", "!=", 0)
-            .where("quantity", "=", 0)
-            .limit(limit - products.length)
-            .offset(offset)
+          .where("categoryId", "!=", 0)
+          .where("quantity", "=", 0)
+          .limit(limit - products.length)
+          .offset(offset)
 
         if (sale) {
           zeroQuantityProductsQuery.where("promotion", ">", 0)
@@ -63,7 +66,7 @@ const handler = mw({
         page,
         limit,
         totalItems: parseInt(totalCount.count, 10),
-        totalPages: Math.ceil(totalCount.count / limit),
+        totalPages: Math.ceil(totalCount.count / limit)
       }
 
       if (!products) {
@@ -72,10 +75,10 @@ const handler = mw({
 
       res.send({
         result: products,
-        pagination: pagination,
+        pagination: pagination
       })
-    },
-  ],
+    }
+  ]
 })
 
 export default handler
