@@ -43,6 +43,10 @@ const seed = async () => {
 
   await db("user").insert(users)
 
+  const [{ id: userId }] = await db("user")
+    .select("id")
+    .where("mail", "william@quoicoubeh.fr")
+
   const predefinedUserAddress = {
     lastName: faker.name.lastName(),
     name: faker.name.firstName(),
@@ -51,7 +55,7 @@ const seed = async () => {
     city: faker.address.city(),
     address: faker.address.streetAddress(),
     complete: faker.name.lastName(),
-    userid: predefinedUser.id,
+    userid: userId,
   }
 
   await db("address").insert(predefinedUserAddress)

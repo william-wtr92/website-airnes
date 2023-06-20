@@ -1,5 +1,7 @@
 {
   "addCart": "Add to cart",
+  "inStock": "In stock",
+  "outOfStock": "Out of stock",
   "similarProducts": "Similar Products",
   "productAddToCart": "Product add to Cart",
   "wantToContinue": "Do you want to continue shopping?",

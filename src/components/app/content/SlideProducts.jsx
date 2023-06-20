@@ -10,7 +10,7 @@ const SlideProducts = (props) => {
         <Image
           src={image}
           alt={productName}
-          className="border-2 border-black w-full h-60 object-cover"
+          className="border border-black w-full h-60 object-cover"
           width={500}
           height={500}
         />

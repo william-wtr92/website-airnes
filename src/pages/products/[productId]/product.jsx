@@ -1,6 +1,6 @@
 import Button from "@/components/app/ui/Button"
 import ProductCarousel from "@/components/app/ui/ProductCarrousel"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import { NavLink } from "@/components/utils/NavLink"
 import classNames from "classnames"
 import SlideProducts from "@/components/app/content/SlideProducts"
@@ -49,18 +49,13 @@ const ProductPage = (props) => {
   const [showError, setShowError] = useState(false)
 
   const { t } = useTranslation("product")
-  const [addToCartText, setAddToCartText] = useState("")
-  const [similarText, setSimilarText] = useState("")
-
-  useEffect(() => {
-    setAddToCartText(t("addCart"))
-    setSimilarText(t("similarProducts"))
-  }, [t])
 
   const {
     actions: { addToCart },
     state: { cartItems },
   } = useAppContext()
+
+  const inStock = product.quantity > 0
 
   const handleAddToCart = useCallback(() => {
     const item = cartItems.find(
@@ -88,34 +83,34 @@ const ProductPage = (props) => {
               <ProductCarousel images={product.image} />
             </div>
             <div className="w-4/5 lg:w-2/5 flex flex-col gap-8 h-[500px] mt-10  justify-center">
-              <div className="flex flex-col items-end font-semibold">
+              <div className="flex flex-col items-center lg:items-end font-semibold gap-5">
+                <span className="flex flex-col items-center lg:items-end gap-3">
+                  <h1 className="font-extrabold text-md lg:text-2xl">
+                    {product.name}
+                  </h1>
                   {product.promotion ? (
-                    <div>
+                    <div className="flex gap-3 text-xl">
                       <p className="line-through">{product.price} €</p>
-                      <p className="text-red-600 text-xl">{product.promotion} €</p>
+                      <p className="text-red-600">{product.promotion} €</p>
                     </div>
                   ) : (
                     <div>{product.price} €</div>
                   )}
-                <span className="flex flex-col items-end">
-                  <h1 className="font-extrabold text-md lg:text-2xl">
-                    {product.name}
-                  </h1>
                   <p className="text-xs">
-                    {product.quantity > 0 ? "En stock" : "Rupture de Stock"}{" "}
+                    {inStock && t("inStock")}
                   </p>
                 </span>
               </div>
               <p>{product.description}</p>
-              <Button onClick={handleAddToCart}>
-                <p>{addToCartText}</p>
+              <Button onClick={inStock && handleAddToCart} disabled={!inStock} variant={inStock ? "primary" : "disabled"}>
+                <p>{inStock ? t("addCart") : t("outOfStock")}</p>
               </Button>
             </div>
           </div>
           {similarProducts.length > 0 && (
             <div className="flex flex-col items-center space-y-3">
               <h2 className="uppercase font-extrabold text-xl">
-                {similarText}
+                {t("similarProducts")}
               </h2>
               <div
                 className={classNames(
