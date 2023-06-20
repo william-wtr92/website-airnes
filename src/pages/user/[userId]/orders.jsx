@@ -49,7 +49,7 @@ const Orders = (props) => {
   return (
     <>
       <div className="flex flex-col items-center gap-10 pt-10">
-        <h1 className="font-bold text-2xl uppercase hover:cursor-pointer hover:text-primary">
+        <h1 className="font-bold text-2xl uppercase">
           {t("orders")}
         </h1>
         <div className="flex flex-col items-center md:w-3/4 lg:w-3/5">
@@ -67,15 +67,15 @@ const Orders = (props) => {
                   {formatDate(data.created_at)}
                 </p>
                 <NavLink href={`/user/${userId}/orders/${data.id}/order`}>
-                  <p>
+                  <div className="hover:cursor-pointer hover:text-primary">
                     #{data.payment_intent.substring(3)}
-                  </p>
+                  </div>
                 </NavLink>
               </div>
               <div className="flex flex-col justify-start lg:items-end">
-                <p className="font-bold text-xl">
+                <div className="font-bold text-xl">
                   {t(`${data.status}`)}
-                </p>
+                </div>
                 <p className="font-bold">{data.price} €</p>
               </div>
             </div>

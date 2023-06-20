@@ -4,9 +4,8 @@ const cancelOrder =
   ({ api }) =>
   async (userId, orderId) => {
     try {
-      console.log(orderId)
       const { data } = await api.patch(
-        `${routes.api.user.order.cancelOrder(userId, orderId)}`
+        routes.api.user.order.cancelOrder(userId, orderId)
       )
 
       return [null, data]

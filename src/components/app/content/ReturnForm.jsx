@@ -25,7 +25,7 @@ const ReturnForm = (props) => {
           <Form className="flex flex-col gap-5">
             {values.products.map((product, index) => (
               <div key={index} className="flex flex-col gap-5">
-                <div className="flex flex-col xs:flow-row gap-5">
+                <div className="flex gap-5">
                   <Field
                     name={`products[${index}].selected`}
                     type="checkbox"
@@ -39,12 +39,12 @@ const ReturnForm = (props) => {
                       alt={products[index].productData.name}
                       width={100}
                       height={100}
-                      className="h-50 w-50 object-cover"
+                      className="h-28 w-28 object-cover"
                     />
                   </label>
                   <div className="flex flex-col gap-5">
-                    <h1 className="text-xl">{products[index].productData.name}</h1>
-                    <h2 className="text-lg">{products[index].productData.price} €</h2>
+                    <div className="text-xl">{products[index].productData.name}</div>
+                    <div className="text-lg">{products[index].productData.price} €</div>
                   </div>
                 </div>
                 {values.products[index].selected && (
