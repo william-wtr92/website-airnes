@@ -28,8 +28,9 @@ const Admin = () => {
     { name: "homepage", icon: HomeIcon },
     { name: "contacts", icon: EnvelopeIcon },
     { name: "categories", icon: FolderIcon },
+    { name: "materials", icon: FolderIcon },
     { name: "products", icon: ClipboardDocumentCheckIcon },
-    { name: "users", icon: UsersIcon }
+    { name: "users", icon: UsersIcon },
   ]
 
   const handleBodyScroll = (disable) => {

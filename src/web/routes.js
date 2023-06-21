@@ -28,6 +28,7 @@ const routes = {
         getImages: () => "/admin/carousel/images",
         getProducts: () => "/admin/carousel/products",
         getCategories: () => "/admin/carousel/categories",
+        getMaterials: () => "/admin/carousel/materials",
         deleteImage: (imageId) => `/admin/carousel/${imageId}`,
         changeOrder: (imageId) => `/admin/carousel/${imageId}`
       },
@@ -47,6 +48,14 @@ const routes = {
         getSelectProducts: () => "/admin/products/homepage/selected",
         addSelectedProduct: () => "/admin/products/homepage/selected"
       },
+      selectMaterial: {
+        getSelectMaterial: () => "/admin/materials/homepage/selected",
+        deleteSelectMaterial: (materialId) =>
+            `/admin/materials/homepage/${materialId}`,
+        orderSelectedMaterial: (materialId) =>
+            `/admin/materials/homepage/${materialId}`,
+        addSelectedMaterial: () => "/admin/materials/homepage/selected"
+      },
       contacts: {
         getContacts: () => "/admin/contacts/contacts",
         contactData: (contactId) => `/admin/contacts/${contactId}`,
@@ -61,7 +70,12 @@ const routes = {
         categoryData: (categoryId) => `/admin/categories/${categoryId}`
       },
       materials: {
-        getMaterialsAndCategory: () => "/admin/materials/material"
+        getMaterialsAndCategory: () => "/admin/materials/materialsAndCategories",
+        createMaterial: () => "admin/materials/material",
+        getMaterials: () => "/admin/materials/material",
+        deleteMaterial: (materialId) => `/admin/materials/${materialId}`,
+        updateMaterial: (materialId) => `/admin/materials/${materialId}`,
+        materialData: (materialId) => `/admin/materials/${materialId}`
       },
       products: {
         createProduct: () => "/admin/products/product",

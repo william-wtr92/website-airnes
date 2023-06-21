@@ -20,7 +20,7 @@ const DisplayMain = (props) => {
   } = props
 
   const path =
-    renderContent === "category" || renderContent === "products"
+    renderContent === "category" || renderContent === "products" || renderContent === "material"
       ? "/add"
       : "/create"
 
@@ -47,6 +47,7 @@ const DisplayMain = (props) => {
                     {renderContent === "carousel" && content.label}
                     {renderContent === "category" && content.category.name}
                     {renderContent === "products" && content.product.name}
+                    {renderContent === "material" && content.material.name}
                   </p>
                   <div className="ml-auto flex gap-6 items-center">
                     <div className="flex flex-row">

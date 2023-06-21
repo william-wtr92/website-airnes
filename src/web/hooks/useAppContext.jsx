@@ -33,6 +33,12 @@ import paymentService from "@/web/services/cart/payment"
 import confirmOrderService from "@/web/services/cart/confirmOrder"
 import cancelOrderService from "@/web/services/user/order/cancelOrder"
 import getAddressServices from "@/web/services/cart/getAddress"
+import createMaterialService from "@/web/services/admin/materials/addMaterial"
+import updateMaterialService from "@/web/services/admin/materials/updateMaterial"
+import deleteMaterialService from "@/web/services/admin/materials/deleteMaterial"
+import deleteSelectedMaterialService from "@/web/services/admin/homepage/deleteSelectedMaterial"
+import orderSelectedMaterialService from "@/web/services/admin/homepage/orderSelectedMaterial"
+import addSelectedMaterialService from "@/web/services/admin/homepage/addSelectedMaterial"
 
 import config from "@/web/config"
 import { i18n } from "next-i18next"
@@ -65,6 +71,10 @@ export const AppContextProvider = (props) => {
   const updateProduct = updateProductService({ api })
   const deleteProduct = deleteProductService({ api })
 
+  const addMaterial = createMaterialService({ api })
+  const updateMaterial = updateMaterialService({ api })
+  const deleteMaterial = deleteMaterialService({ api })
+
   const updateContact = updateContactService({ api })
   const deleteContact = deleteContactService({ api })
 
@@ -90,6 +100,10 @@ export const AppContextProvider = (props) => {
   const deleteSelectedProduct = deleteSelectedProductService({ api })
   const orderSelectedProduct = orderSelectedProductService({ api })
   const addSelectedProduct = addSelectedProductService({ api })
+
+  const deleteSelectedMaterial = deleteSelectedMaterialService({ api })
+  const orderSelectedMaterial = orderSelectedMaterialService({ api })
+  const addSelectedMaterial = addSelectedMaterialService({ api })
 
   const payment = paymentService({ api })
   const confirmOrder = confirmOrderService({ api })
@@ -247,6 +261,13 @@ export const AppContextProvider = (props) => {
           confirmOrder,
           cancelOrder,
           getAddress,
+          addMaterial,
+          updateMaterial,
+          deleteMaterial,
+          deleteSelectedMaterial,
+          orderSelectedMaterial,
+          addSelectedMaterial,
+
         },
         state: {
           readCookie,

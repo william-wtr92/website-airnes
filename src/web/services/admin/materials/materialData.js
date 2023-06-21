@@ -1,11 +1,11 @@
 import routes from "@/web/routes"
 
-const getMaterialsAndCategory =
+const materialData =
   ({ api }) =>
-  async () => {
+  async (materialId) => {
     try {
       const { data } = await api.get(
-        routes.api.admin.materials.getMaterialsAndCategory()
+        routes.api.admin.materials.materialData(materialId)
       )
 
       return [null, data]
@@ -16,4 +16,4 @@ const getMaterialsAndCategory =
     }
   }
 
-export default getMaterialsAndCategory
+export default materialData
