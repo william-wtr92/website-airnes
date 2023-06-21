@@ -11,6 +11,12 @@ const categoryId = async (db, name) => {
   return category.id
 }
 
+const materialId = async (db, name) => {
+  const material = await db("material").select("id").where("name", name).first()
+
+  return material.id
+}
+
 const seed = async () => {
   await db("selected_category").del()
   await db("selected_product").del()
@@ -41,7 +47,7 @@ const seed = async () => {
       ]),
       price: 758,
       quantity: 50,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Armoire Rustique en Chêne Massif",
@@ -60,7 +66,7 @@ const seed = async () => {
       ]),
       price: 2800,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Armoire Luxueuse avec Vitrine",
@@ -79,7 +85,7 @@ const seed = async () => {
       ]),
       price: 5200,
       quantity: 100,
-      materialId: 7,
+      materialId: await materialId(db, "Verre"),
     },
     {
       name: "Dressing Moderne en Noyer",
@@ -99,7 +105,7 @@ const seed = async () => {
       price: 900,
       promotion: 800,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Armoire Scandinave avec Miroir Intégré",
@@ -119,7 +125,7 @@ const seed = async () => {
       price: 2050,
       promotion: 1980,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Penderie Élégante avec Portes en Verre",
@@ -139,7 +145,7 @@ const seed = async () => {
       price: 600,
       promotion: 541,
       quantity: 100,
-      materialId: 7,
+      materialId: await materialId(db, "Verre"),
     },
   ]
 
@@ -163,7 +169,7 @@ const seed = async () => {
       ]),
       price: 200,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Buffet Contemporain",
@@ -182,7 +188,7 @@ const seed = async () => {
       ]),
       price: 320,
       quantity: 100,
-      materialId: 3,
+      materialId: await materialId(db, "Métal"),
     },
     {
       name: "Buffet Panorama Vitré",
@@ -202,7 +208,7 @@ const seed = async () => {
       price: 160,
       promotion: 140,
       quantity: 100,
-      materialId: 7,
+      materialId: await materialId(db, "Verre"),
     },
     {
       name: "Buffet Étagère Ouverte",
@@ -221,7 +227,7 @@ const seed = async () => {
       ]),
       price: 470,
       quantity: 100,
-      materialId: 4,
+      materialId: await materialId(db, "Aluminium"),
     },
     {
       name: "Buffet Marbre Majestueux",
@@ -241,7 +247,7 @@ const seed = async () => {
       price: 1300,
       promotion: 1200,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Buffet Minimaliste",
@@ -260,7 +266,7 @@ const seed = async () => {
       ]),
       price: 90,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Buffet Multimédia",
@@ -279,7 +285,7 @@ const seed = async () => {
       ]),
       price: 209,
       quantity: 100,
-      materialId: 3,
+      materialId: await materialId(db, "Métal"),
     },
     {
       name: "Buffet Charme du Bois",
@@ -299,7 +305,7 @@ const seed = async () => {
       price: 140,
       promotion: 125,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
   ]
 
@@ -323,7 +329,7 @@ const seed = async () => {
       ]),
       price: 400,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Bureau Angle Aiguisé",
@@ -342,7 +348,7 @@ const seed = async () => {
       ]),
       price: 230,
       quantity: 100,
-      materialId: 5,
+      materialId: await materialId(db, "Acier"),
     },
     {
       name: "Bureau Épuré",
@@ -361,7 +367,7 @@ const seed = async () => {
       ]),
       price: 100,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Bureau Blanc Multifonction",
@@ -381,7 +387,7 @@ const seed = async () => {
       price: 190,
       promotion: 170,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Bureau Bois Nature",
@@ -400,7 +406,7 @@ const seed = async () => {
       ]),
       price: 200,
       quantity: 100,
-      materialId: 5,
+      materialId: await materialId(db, "Acier"),
     },
   ]
 
@@ -424,7 +430,7 @@ const seed = async () => {
       ]),
       price: 50,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Chevet Blanc Elégant",
@@ -443,7 +449,7 @@ const seed = async () => {
       ]),
       price: 75,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Chevet Gris Fonctionnel",
@@ -463,7 +469,7 @@ const seed = async () => {
       price: 123,
       promotion: 110,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Chevet Luxe Marbre",
@@ -483,7 +489,7 @@ const seed = async () => {
       price: 400,
       promotion: 370,
       quantity: 100,
-      materialId: 3,
+      materialId: await materialId(db, "Métal"),
     },
   ]
 
@@ -507,7 +513,7 @@ const seed = async () => {
       ]),
       price: 35,
       quantity: 100,
-      materialId: 6,
+      materialId: await materialId(db, "Plastique"),
     },
     {
       name: "Lampe Sphère Contemporaine",
@@ -526,7 +532,7 @@ const seed = async () => {
       ]),
       price: 20,
       quantity: 100,
-      materialId: 6,
+      materialId: await materialId(db, "Plastique"),
     },
     {
       name: "Lampe Bulles Fantaisie",
@@ -546,7 +552,7 @@ const seed = async () => {
       price: 100,
       promotion: 90,
       quantity: 100,
-      materialId: 3,
+      materialId: await materialId(db, "Métal"),
     },
     {
       name: "Lampe de Bureau Focalisée",
@@ -566,7 +572,7 @@ const seed = async () => {
       price: 40,
       promotion: 35,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Lampe Éclat Moderne",
@@ -585,7 +591,7 @@ const seed = async () => {
       ]),
       price: 100,
       quantity: 100,
-      materialId: 7,
+      materialId: await materialId(db, "Verre"),
     },
     {
       name: "Lampe Formes Géométriques",
@@ -605,7 +611,7 @@ const seed = async () => {
       price: 95,
       promotion: 90,
       quantity: 100,
-      materialId: 4,
+      materialId: await materialId(db, "Aluminium"),
     },
     {
       name: "Lampe Style Industriel",
@@ -624,7 +630,7 @@ const seed = async () => {
       ]),
       price: 20,
       quantity: 100,
-      materialId: 4,
+      materialId: await materialId(db, "Aluminium"),
     },
     {
       name: "Lampe Métal Rose Charmante",
@@ -643,7 +649,7 @@ const seed = async () => {
       ]),
       price: 30,
       quantity: 100,
-      materialId: 5,
+      materialId: await materialId(db, "Acier"),
     },
     {
       name: "Lampe Néon Futuriste",
@@ -663,7 +669,7 @@ const seed = async () => {
       price: 60,
       promotion: 55,
       quantity: 100,
-      materialId: 7,
+      materialId: await materialId(db, "Verre"),
     },
   ]
 
@@ -688,7 +694,7 @@ const seed = async () => {
       price: 200,
       promotion: 190,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Lit Double en Métal Noir",
@@ -707,7 +713,7 @@ const seed = async () => {
       ]),
       price: 430,
       quantity: 100,
-      materialId: 3,
+      materialId: await materialId(db, "Métal"),
     },
     {
       name: "Lit Spacieux en Bois",
@@ -727,7 +733,7 @@ const seed = async () => {
       price: 710,
       promotion: 690,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Lit Luxueux",
@@ -746,7 +752,7 @@ const seed = async () => {
       ]),
       price: 900,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
   ]
 
@@ -771,7 +777,7 @@ const seed = async () => {
       price: 400,
       promotion: 380,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Table Basse Douceur Coussin",
@@ -790,7 +796,7 @@ const seed = async () => {
       ]),
       price: 60,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Table Basse Concept Design",
@@ -809,7 +815,7 @@ const seed = async () => {
       ]),
       price: 50,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Table Basse Classique Élégante",
@@ -829,7 +835,7 @@ const seed = async () => {
       price: 300,
       promotion: 280,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Table Basse Géométrique Audacieuse",
@@ -848,7 +854,7 @@ const seed = async () => {
       ]),
       price: 100,
       quantity: 100,
-      materialId: 3,
+      materialId: await materialId(db, "Métal"),
     },
     {
       name: "Table Basse Malle Vintage",
@@ -868,7 +874,7 @@ const seed = async () => {
       price: 115,
       promotion: 110,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Table Basse Métal Urbain",
@@ -887,7 +893,7 @@ const seed = async () => {
       ]),
       price: 25,
       quantity: 100,
-      materialId: 3,
+      materialId: await materialId(db, "Métal"),
     },
     {
       name: "Table Basse Ronde Harmonie",
@@ -906,7 +912,7 @@ const seed = async () => {
       ]),
       price: 90,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Table Basse Noir Sophistiquée",
@@ -925,7 +931,7 @@ const seed = async () => {
       ]),
       price: 28,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Table Basse Vitrage Élégante",
@@ -945,7 +951,7 @@ const seed = async () => {
       price: 100,
       promotion: 70,
       quantity: 100,
-      materialId: 7,
+      materialId: await materialId(db, "Verre"),
     },
   ]
 
@@ -970,7 +976,7 @@ const seed = async () => {
       price: 460,
       promotion: 350,
       quantity: 100,
-      materialId: 6,
+      materialId: await materialId(db, "Plastique"),
     },
     {
       name: "Table Longue Élégante en Bois",
@@ -989,7 +995,7 @@ const seed = async () => {
       ]),
       price: 1600,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Table de Salon Avant-gardiste",
@@ -1008,7 +1014,7 @@ const seed = async () => {
       ]),
       price: 1000,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Table Noire Simple Sophistiquée",
@@ -1027,7 +1033,7 @@ const seed = async () => {
       ]),
       price: 400,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Table Haute de Salon Majestueuse",
@@ -1046,7 +1052,7 @@ const seed = async () => {
       ]),
       price: 3200,
       quantity: 100,
-      materialId: 5,
+      materialId: await materialId(db, "Acier"),
     },
     {
       name: "Table Éclatante en Verre",
@@ -1066,7 +1072,7 @@ const seed = async () => {
       price: 1780,
       promotion: 1600,
       quantity: 100,
-      materialId: 7,
+      materialId: await materialId(db, "Verre"),
     },
     {
       name: "Table Simple Essentielle",
@@ -1085,7 +1091,7 @@ const seed = async () => {
       ]),
       price: 520,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Table à Pieds Fins Élégante",
@@ -1104,7 +1110,7 @@ const seed = async () => {
       ]),
       price: 960,
       quantity: 100,
-      materialId: 5,
+      materialId: await materialId(db, "Acier"),
     },
     {
       name: "Table Large Spacieuse",
@@ -1123,7 +1129,7 @@ const seed = async () => {
       ]),
       price: 3900,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Table Ronde Blanche Harmonieuse",
@@ -1142,7 +1148,7 @@ const seed = async () => {
       ]),
       price: 700,
       quantity: 100,
-      materialId: 4,
+      materialId: await materialId(db, "Aluminium"),
     },
   ]
 
@@ -1166,7 +1172,7 @@ const seed = async () => {
       ]),
       price: 70,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Chaise Ancienne Charmante",
@@ -1185,7 +1191,7 @@ const seed = async () => {
       ]),
       price: 140,
       quantity: 100,
-      materialId: 3,
+      materialId: await materialId(db, "Métal"),
     },
     {
       name: "Chaise Haute Majestueuse",
@@ -1204,7 +1210,7 @@ const seed = async () => {
       ]),
       price: 90,
       quantity: 100,
-      materialId: 1,
+      materialId: await materialId(db, "Fer"),
     },
     {
       name: "Chaise Moderne Minimaliste",
@@ -1223,7 +1229,7 @@ const seed = async () => {
       ]),
       price: 95,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Chaise Rose Élégante",
@@ -1242,7 +1248,7 @@ const seed = async () => {
       ]),
       price: 60,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
     {
       name: "Chaise Rustique en Bois",
@@ -1261,7 +1267,7 @@ const seed = async () => {
       ]),
       price: 100,
       quantity: 100,
-      materialId: 2,
+      materialId: await materialId(db, "Bois"),
     },
   ]
 
@@ -1396,39 +1402,32 @@ const insertCategories = async (db) => {
 const insertMaterials = async (db) => {
   const materials = [
     {
-      id: 1,
       name: "Fer",
       description: "Ferite",
     },
     {
-      id: 2,
       name: "Bois",
-      description: "Ferite"
+      description: "Ferite",
     },
     {
-      id: 3,
       name: "Métal",
-      description: "Ferite"
+      description: "Ferite",
     },
     {
-      id: 4,
       name: "Aluminium",
-      description: "Ferite"
+      description: "Ferite",
     },
     {
-      id: 5,
       name: "Acier",
-      description: "Ferite"
+      description: "Ferite",
     },
     {
-      id: 6,
       name: "Plastique",
-      description: "Ferite"
+      description: "Ferite",
     },
     {
-      id: 7,
       name: "Verre",
-      description: "Ferite"
+      description: "Ferite",
     },
   ]
 
