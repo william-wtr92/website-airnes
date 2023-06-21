@@ -1431,7 +1431,14 @@ const insertMaterials = async (db) => {
     },
   ]
 
+  await db("material").insert({
+    name: "No materials",
+    description: "No materials",
+  })
+
   await db("material").insert(materials)
+
+  return materials
 }
 
 const insertCarousel = async (db) => {
