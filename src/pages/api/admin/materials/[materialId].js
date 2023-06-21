@@ -99,6 +99,22 @@ const handler = mw({
             try {
                 const id = materialId
 
+                const noMaterial = await MaterialModel.query().findOne({
+                    name: "No materials",
+                })
+
+                const noMaterialId = parseInt(noMaterial.id, 10)
+
+                if (id === noMaterialId) {
+                    res.status(400).send({ error: "Can't delete this material" })
+
+                    return
+                }
+
+                await ProductModel.query()
+                    .update({ materialId: noMaterialId })
+                    .where({ materialId: id })
+
                 await MaterialModel.query().findOne({ id }).del()
 
                 res.send({ result: true })

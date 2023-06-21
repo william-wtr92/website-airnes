@@ -28,6 +28,10 @@ const Table = (props) => {
     return section === "categories" && content.name === "No category"
   }
 
+  const isNoMaterial = (content) => {
+    return section === "materials" && content.name === "No materials"
+  }
+
   const onDeleteClick = (id) => {
     setItemToDelete(true)
     setIdToDelete(id)
@@ -120,7 +124,7 @@ const Table = (props) => {
             return (
               <tr className="border-b" key={content.id}>
                 <td>
-                  {!isNoCategory(content) && (
+                  {!(isNoCategory(content) || isNoMaterial(content)) && (
                     <input
                       type="checkbox"
                       value=""
@@ -141,12 +145,12 @@ const Table = (props) => {
                   )
                 })}
                 <td className="flex flex-row gap-5 text-sm text-gray-900 font-light py-4">
-                  {canEdit && !isNoCategory(content) && (
+                  {canEdit && !(isNoCategory(content) || isNoMaterial(content)) && (
                     <NavLink href={`/admin/${section}/${content.id}/edit`}>
                       <PencilSquareIcon className="h-6 w-6" />
                     </NavLink>
                   )}
-                  {!isNoCategory(content) && (
+                  {!(isNoCategory(content) || isNoMaterial(content)) && (
                     <>
                       <TrashIcon
                         className="h-6 w-6"
