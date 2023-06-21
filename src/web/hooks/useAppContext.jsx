@@ -34,6 +34,9 @@ import confirmOrderService from "@/web/services/cart/confirmOrder"
 import cancelOrderService from "@/web/services/user/order/cancelOrder"
 import returnProductService from "@/web/services/user/order/returnProduct"
 import getAddressServices from "@/web/services/cart/getAddress"
+import createMaterialService from "@/web/services/admin/materials/addMaterial"
+import updateMaterialService from "@/web/services/admin/materials/updateMaterial"
+import deleteMaterialService from "@/web/services/admin/materials/deleteMaterial"
 
 import config from "@/web/config"
 import { i18n } from "next-i18next"
@@ -65,6 +68,10 @@ export const AppContextProvider = (props) => {
   const addProduct = createProductService({ api })
   const updateProduct = updateProductService({ api })
   const deleteProduct = deleteProductService({ api })
+
+  const addMaterial = createMaterialService({ api })
+  const updateMaterial = updateMaterialService({ api })
+  const deleteMaterial = deleteMaterialService({ api })
 
   const updateContact = updateContactService({ api })
   const deleteContact = deleteContactService({ api })
@@ -250,6 +257,9 @@ export const AppContextProvider = (props) => {
           cancelOrder,
           returnProduct,
           getAddress,
+          addMaterial,
+          updateMaterial,
+          deleteMaterial,
         },
         state: {
           readCookie,

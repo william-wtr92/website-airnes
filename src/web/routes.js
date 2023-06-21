@@ -61,7 +61,12 @@ const routes = {
         categoryData: (categoryId) => `/admin/categories/${categoryId}`
       },
       materials: {
-        getMaterialsAndCategory: () => "/admin/materials/material"
+        getMaterialsAndCategory: () => "/admin/materials/materialsAndCategories",
+        createMaterial: () => "admin/materials/material",
+        getMaterials: () => "/admin/materials/material",
+        deleteMaterial: (materialId) => `/admin/materials/${materialId}`,
+        updateMaterial: (materialId) => `/admin/materials/${materialId}`,
+        materialData: (materialId) => `/admin/materials/${materialId}`
       },
       products: {
         createProduct: () => "/admin/products/product",
