@@ -6,7 +6,8 @@ import {
   EnvelopeIcon,
   FolderIcon,
   HomeIcon,
-  Cog8ToothIcon
+  Cog8ToothIcon,
+    ClipboardIcon,
 } from "@heroicons/react/24/outline"
 import {UsersIcon} from "@heroicons/react/24/solid"
 import {useState} from "react"
@@ -28,7 +29,7 @@ const Admin = () => {
     { name: "homepage", icon: HomeIcon },
     { name: "contacts", icon: EnvelopeIcon },
     { name: "categories", icon: FolderIcon },
-    { name: "materials", icon: FolderIcon },
+    { name: "materials", icon: ClipboardIcon },
     { name: "products", icon: ClipboardDocumentCheckIcon },
     { name: "users", icon: UsersIcon },
   ]
