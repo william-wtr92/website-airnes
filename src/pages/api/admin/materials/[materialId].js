@@ -4,7 +4,7 @@ import {
     numberValidator,
     stringValidator,
 } from "@/components/validation/validation"
-import { NotFoundError } from "@/api/errors"
+import {InvalidArgumentError, NotFoundError} from "@/api/errors"
 import ProductModel from "@/api/db/models/ProductModel"
 import { boolean } from "yup"
 import auth from "@/api/middlewares/auth"
@@ -67,28 +67,20 @@ const handler = mw({
                    },
                    res,
                }) => {
-            const id = materialId
+            try {
+                const id = materialId
 
-            const noMaterial = await MaterialModel.query().findOne({
-                name: "No material",
-            })
+                const material = await MaterialModel.query().findOne({ id })
 
-            const noMaterialId = parseInt(noMaterial.id, 10)
+                await MaterialModel.query().updateAndFetchById(id, {
+                    ...(material.name !== name ? { name } : {}),
+                    ...(material.description !== description ? { description } : {}),
+                })
 
-            if (id === noMaterialId) {
-                res.status(400).send({ error: "Can't delete this material" })
-
-                return
+                res.send({ result: true })
+            } catch {
+                throw new InvalidArgumentError
             }
-
-            const material = await MaterialModel.query().findOne({ id })
-
-            await MaterialModel.query().updateAndFetchById(id, {
-                ...(material.name !== name ? { name } : {}),
-                ...(material.description !== description ? { description } : {}),
-            })
-
-            res.send({ result: true })
         },
     ],
     DELETE: [
@@ -104,27 +96,15 @@ const handler = mw({
                    },
                    res,
                }) => {
-            const id = materialId
+            try {
+                const id = materialId
 
-            const noMaterial = await MaterialModel.query().findOne({
-                name: "No material",
-            })
+                await MaterialModel.query().findOne({ id }).del()
 
-            const noMaterialId = parseInt(noMaterial.id, 10)
-
-            if (id === noMaterialId) {
-                res.status(400).send({ error: "Can't delete this material" })
-
-                return
+                res.send({ result: true })
+            } catch {
+                throw new InvalidArgumentError
             }
-
-            await ProductModel.query()
-                .update({ materialId: noMaterialId })
-                .where({ materialId: id })
-
-            await MaterialModel.query().findOne({ id }).del()
-
-            res.send({ result: true })
         },
     ],
 })
