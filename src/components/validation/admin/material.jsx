@@ -12,10 +12,3 @@ export const materialInitialValues = {
     name: "",
     description: "",
 }
-
-export const selectedMaterialValidationSchema = yup.object().shape({
-    material: yup.string().required("Category required").label("Category"),
-})
-export const selectedMaterialInitialValues = {
-    material: "",
-}

@@ -9,7 +9,6 @@ import ProductModel from "@/api/db/models/ProductModel"
 import { boolean } from "yup"
 import auth from "@/api/middlewares/auth"
 import MaterialModel from "@/api/db/models/MaterialModel"
-import SelectedMaterialModel from "@/api/db/models/SelectedMaterialModel"
 
 const handler = mw({
     GET: [
@@ -122,10 +121,6 @@ const handler = mw({
             await ProductModel.query()
                 .update({ materialId: noMaterialId })
                 .where({ materialId: id })
-
-            await SelectedMaterialModel.query()
-                .where({ material_id: id })
-                .del()
 
             await MaterialModel.query().findOne({ id }).del()
 

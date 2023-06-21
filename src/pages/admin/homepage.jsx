@@ -7,7 +7,6 @@ import {getAuthorization} from "@/web/helper/getAuthorization"
 import getImageServices from "@/web/services/admin/homepage/getImages"
 import getSelectCategoryServices from "@/web/services/admin/homepage/getSelectCategory"
 import getSelectProductsServices from "@/web/services/admin/homepage/getSelectProducts"
-import getSelectMaterialServices from "@/web/services/admin/homepage/getSelectMaterial"
 import AdminErrorMessage from "@/components/utils/AdminErrorMessage"
 
 export const getServerSideProps = async (context) => {
@@ -21,7 +20,6 @@ export const getServerSideProps = async (context) => {
   const getImage = getImageServices({ api })
   const getSelectCategory = getSelectCategoryServices({ api })
   const getSelectProducts = getSelectProductsServices({ api })
-    const getSelectMaterial = getSelectMaterialServices({ api })
 
   const [errImagesRes, imagesRes] = await getImage()
 
@@ -29,18 +27,14 @@ export const getServerSideProps = async (context) => {
 
   const [errProductsRes, productsRes] = await getSelectProducts()
 
-  const [errMaterialsRes, materialsRes] = await getSelectMaterial()
-
   return {
     props: {
       images: errImagesRes ? null : imagesRes.result,
       categories: errCategoriesRes ? null : categoriesRes.result,
       products: errProductsRes ? null : productsRes.result,
-      materials: errMaterialsRes ? null : materialsRes.result,
       errorMessageImages: errImagesRes || null,
       errorMessageCategories: errCategoriesRes || null,
       errorMessageProducts: errProductsRes || null,
-      errorMessageMaterials: errMaterialsRes || null,
     },
   }
 }
@@ -50,11 +44,9 @@ const Homepage = (props) => {
     images,
     categories,
     products,
-    materials,
     errorMessageImages,
     errorMessageCategories,
-    errorMessageProducts,
-    errorMessageMaterials
+    errorMessageProducts
   } = props
 
   const [error, setError] = useState(null)
@@ -71,16 +63,11 @@ const Homepage = (props) => {
     [...products].sort((a, b) => a.order - b.order)
   )
 
-  const [sortedMaterials, setSortedMaterials] = useState(
-    [...materials].sort((a, b) => a.order - b.order)
-  )
-
   useEffect(() => {
     setSortedImages([...images].sort((a, b) => a.order - b.order))
     setSortedCategories([...categories].sort((a, b) => a.order - b.order))
     setSortedProducts([...products].sort((a, b) => a.order - b.order))
-      setSortedMaterials([...materials].sort((a,b) => a.order - b.order))
-  }, [images, categories, products, materials])
+  }, [images, categories, products])
 
   const router = useRouter()
 
@@ -91,9 +78,7 @@ const Homepage = (props) => {
       deleteSelectedCategory,
       orderSelectedCategory,
       deleteSelectedProduct,
-      orderSelectedProduct,
-      deleteSelectedMaterial,
-      orderSelectedMaterial,
+      orderSelectedProduct
     }
   } = useAppContext()
 
@@ -147,23 +132,6 @@ const Homepage = (props) => {
     },
     [deleteSelectedProduct, router]
   )
-
-  const handleDeleteMaterial = useCallback(
-        async (materialId) => {
-            setError(false)
-
-            const [err] = await deleteSelectedMaterial(materialId)
-
-            if (err) {
-                setError(materialId)
-
-                return
-            }
-
-            router.push(`/admin/homepage?deletedMaterialId=${materialId}`)
-        },
-        [deleteSelectedMaterial, router]
-    )
 
   const handleMoveCarousel = useCallback(
     async (imageId, direction) => {
@@ -256,39 +224,6 @@ const Homepage = (props) => {
     [orderSelectedProduct, sortedProducts]
   )
 
-    const handleMoveMaterial = useCallback(
-        async (materialId, direction) => {
-            setError(false)
-            const [err] = await orderSelectedMaterial(
-                materialId,
-                direction === "up" ? -1 : 1
-            )
-
-            if (err) {
-                setError(err)
-
-                return
-            }
-
-            const updatedMaterials = [...sortedMaterials]
-
-            const currentIndex = updatedMaterials.findIndex(
-                (cat) => cat.id === materialId
-            )
-            const newIndex = currentIndex + (direction === "up" ? -1 : 1)
-
-            if (newIndex >= 0 && newIndex < updatedMaterials.length) {
-                const temp = updatedMaterials[currentIndex].order
-                updatedMaterials[currentIndex].order =
-                    updatedMaterials[newIndex].order
-                updatedMaterials[newIndex].order = temp
-
-                setSortedCategories(updatedMaterials.sort((a, b) => a.order - b.order))
-            }
-        },
-        [orderSelectedMaterial, sortedMaterials]
-    )
-
   return (
     <div className="lg:absolute lg:top-0 lg:left-[20%]">
       {error && (
@@ -339,21 +274,6 @@ const Homepage = (props) => {
           />
         )}
       </>
-        <>
-            {errorMessageMaterials ? (
-                <AdminErrorMessage errorMessage={errorMessageMaterials} />
-            ) : (
-                <DisplayMain
-                    sectionName={"Materials"}
-                    sectionLink={"materials"}
-                    contents={sortedMaterials}
-                    onDelete={handleDeleteMaterial}
-                    onMove={handleMoveMaterial}
-                    renderContent={"material"}
-                    className={"mt-28 mb-6"}
-                />
-            )}
-        </>
     </div>
   )
 }

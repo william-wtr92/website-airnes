@@ -14,7 +14,6 @@ const categoryId = async (db, name) => {
 const seed = async () => {
   await db("selected_category").del()
   await db("selected_product").del()
-  await db("selected_material").del()
   await db("product").del()
   await db("category").del()
   await db("material").del()
@@ -1272,11 +1271,7 @@ const seed = async () => {
 
   const category = await db("category").select("*")
 
-  const material = await db("material").select("*")
-
   await insertSelectedCategories(db, category)
-
-  await insertSelectedMaterials(db, material)
 
   await insertSelectedProducts(db, products)
 
@@ -1306,20 +1301,6 @@ const insertSelectedProducts = async (db, products) => {
     }))
   )
 }
-
-const insertSelectedMaterials = async (db, materials) => {
-  const selectedMaterials = materials
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 3)
-
-  await db("selected_material").insert(
-      selectedMaterials.map((material, index) => ({
-        material_id: material.id,
-        order: index + 1,
-      }))
-  )
-}
-
 
 const insertProducts = async (db, categoryName, productData) => {
   const categoryIdVal = await categoryId(db, categoryName)
