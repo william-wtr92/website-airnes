@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react"
+import { useEffect, useState } from "react"
 import { FunnelIcon, AdjustmentsVerticalIcon } from "@heroicons/react/24/solid"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
@@ -10,6 +10,7 @@ import getApi from "@/web/getAPI"
 import searchProductsServices from "@/web/services/app/products/searchProducts"
 import getFilterServices from "@/web/services/app/products/getFilter"
 import Button from "@/components/app/ui/Button"
+import classNames from "classnames"
 
 export const getServerSideProps = async (context) => {
   const { locale } = context
@@ -22,7 +23,7 @@ export const getServerSideProps = async (context) => {
     material,
     order,
     minPrice,
-    maxPrice,
+    maxPrice
   } = context.query
   const search = searchQuery || ""
   const pageQuery = page || 1
@@ -55,8 +56,8 @@ export const getServerSideProps = async (context) => {
   if (errProducts || errFilter) {
     return {
       redirect: {
-        destination: "/",
-      },
+        destination: "/"
+      }
     }
   }
 
@@ -67,8 +68,8 @@ export const getServerSideProps = async (context) => {
       pagination: products.pagination,
       categories: filter.categories,
       materials: filter.materials,
-      query: { search, pageQuery, promoQuery, stockQuery, minPriceQ, maxPriceQ, categoryQ, materialQ, orderQ },
-    },
+      query: { search, pageQuery, promoQuery, stockQuery, minPriceQ, maxPriceQ, categoryQ, materialQ, orderQ }
+    }
   }
 }
 
@@ -80,7 +81,6 @@ const SearchPage = (props) => {
   const [stock, setStock] = useState(query.stockQuery)
   const [promo, setPromo] = useState(query.promoQuery)
   const [isNearBottom, setIsNearBottom] = useState(false)
-  const nbMaxProduct = 18
 
   const router = useRouter()
 
@@ -88,27 +88,29 @@ const SearchPage = (props) => {
     setOrder(order === "asc" ? "desc" : "asc")
     router.push({
       pathname: router.pathname,
-      query: { ...router.query, order: order, page: 1 },
+      query: { ...router.query, order: order, page: 1 }
     })
   }
+
   const filterEvent = (value, query) => {
     router.push({
       pathname: router.pathname,
-      query: { ...router.query, [query]: value, page: 1 },
+      query: { ...router.query, [query]: value, page: 1 }
     })
   }
 
   const filterStock = () => {
     router.push({
       pathname: router.pathname,
-      query: { ...router.query, stock: !stock, page: 1 },
+      query: { ...router.query, stock: !stock, page: 1 }
     })
     setStock(!stock)
   }
+
   const filterPromo = () => {
     router.push({
       pathname: router.pathname,
-      query: { ...router.query, promo: !promo, page: 1 },
+      query: { ...router.query, promo: !promo, page: 1 }
     })
     setPromo(!promo)
   }
@@ -142,15 +144,17 @@ const SearchPage = (props) => {
   return (
     <>
       <form>
-        <div className="flex flex-rows">
+        <div className="flex">
           <div
-            className={`${
-              filterShow ? `block` : `hidden`
-            } flex flex-col border-r-2 p-4 fixed inset-x-0 ${isNearBottom? `bottom-14` : `bottom-0`} top-[3.8125rem] left-[max(0px,calc(50%-45rem))] right-auto w-full md:w-[36%] pb-10 overflow-y-scroll bg-white`}
+            className={classNames(
+              filterShow ? "block" : "hidden",
+              isNearBottom ? "bottom-14" : "bottom-0",
+              "flex flex-col border-r-2 p-4 fixed inset-x-0 top-[3.8125rem] right-auto w-full md:w-[36%] gap-5 pb-10 overflow-y-scroll bg-white"
+            )}
           >
             <div className="flex justify-between">
               <Button
-                className="underline text-xl"
+                className="underline"
                 onClick={resetFilter}
                 type={"reset"}
                 variant={"reverse"}
@@ -159,19 +163,19 @@ const SearchPage = (props) => {
               </Button>
               <Button
                 type="button"
-                className="underline text-xl"
+                className="underline"
                 onClick={handleShowFilter}
               >
                 {t("close")}
               </Button>
             </div>
-            <div className={`flex flex-col lg:flex-row justify-between mt-2`}>
+            <div className="flex flex-col gap-5 lg:flex-row">
               <div className="flex flex-col">
-                <div className="font-bold pb-2 text-2xl text-black">
+                <div className="font-bold pb-2 text-xl text-black">
                   {t("min")}
                 </div>
                 <input
-                  className={` border rounded-full border-black bg-[#EDE5E0] text-black placeholder-[#443021] p-4 px-4 md:px-2 md:p-2 lg:px-4 lg:p-4`}
+                  className="w-full focus:outline-none bg-none border rounded-md px-5 py-3 cursor-pointer"
                   type="number"
                   placeholder={t("minPlaceholder")}
                   defaultValue={query.minPriceQ}
@@ -179,11 +183,11 @@ const SearchPage = (props) => {
                 />
               </div>
               <div className="flex flex-col">
-                <div className="font-bold pb-2 text-2xl text-black">
+                <div className="font-bold pb-2 text-xl text-black">
                   {t("max")}
                 </div>
                 <input
-                  className={` border rounded-full border-black bg-[#EDE5E0] text-black placeholder-[#443021] p-4 px-4 md:px-2 md:p-2 lg:px-4 lg:p-4`}
+                  className="w-full focus:outline-none bg-none border rounded-md px-5 py-3 cursor-pointer"
                   type="number"
                   placeholder={t("maxPlaceholder")}
                   defaultValue={query.maxPriceQ}
@@ -192,44 +196,43 @@ const SearchPage = (props) => {
               </div>
             </div>
             <div
-              id={"filtres"}
               className="flex flex-col gap-6 relative leading-6 lg:pr-20"
             >
               <section className="filters" aria-labelledby="filters-header">
                 <header
                   id="filters-header"
-                  className=" font-bold text-black text-xl py-6"
+                  className="font-bold text-black text-xl py-6"
                 >
                   {t("option")}
                 </header>
-                <label className="text-black font-bold text-md flex content-center gap-4 text-xl pb-4 pl-4">
+                <label className="text-black text-md flex content-center gap-4 text-xl pb-4 pl-4">
                   <input
                     type="checkbox"
                     checked={stock}
-                    className="border border-black w-[25px] h-[25px]"
+                    className="border border-black w-5 h-5"
                     onChange={filterStock}
                   />
                   {t("stock")}
                 </label>
-                <label className="text-black font-bold text-md flex content-center gap-4 text-xl pb-4 pl-4">
+                <label className="text-black text-md flex content-center gap-4 text-xl pb-4 pl-4">
                   <input
                     type="checkbox"
                     checked={promo}
-                    className="border border-black w-[25px] h-[25px]"
+                    className="border border-black w-5 h-5"
                     onChange={filterPromo}
                   />
                   {t("promo")}
                 </label>
               </section>
               <Filters
-                  defaultValue={query.categoryQ}
+                defaultValue={query.categoryQ}
                 data={categories}
                 name={t("categories")}
                 handleClick={filterEvent}
                 query={"category"}
               />
               <Filters
-                  defaultValue={query.materialQ}
+                defaultValue={query.materialQ}
                 data={materials}
                 name={t("materials")}
                 handleClick={filterEvent}
@@ -238,11 +241,10 @@ const SearchPage = (props) => {
             </div>
           </div>
           <div
-            className={`${
-              filterShow
-                ? `md:ml-[36%] md:block w-full mr-0`
-                : `mx-auto w-full`
-            } gap-4 flex flex-col justify-center mx-6 mt-20 pb-10 px-6 lg:mt-8 overflow-y-auto`}
+            className={classNames(
+              filterShow ? "md:ml-[36%] md:block w-full mr-0" : "mx-auto w-full",
+              "gap-4 flex flex-col justify-center mx-6 mt-20 pb-10 px-6 lg:mt-8 overflow-y-auto"
+            )}
           >
             <div className="text-center text-3xl text-black font-bold pb-6">
               {t("search")}
@@ -258,7 +260,7 @@ const SearchPage = (props) => {
                 </div>
                 <div className="flex-1">
                   <input
-                    className={`pl-6 lg:pr-[35%] border border-gray-500 bg-transparent text-black placeholder-[#443021] py-2`}
+                    className={"pl-6 lg:pr-[35%] border border-gray-500 bg-transparent text-black placeholder-[#443021] py-2"}
                     type="search"
                     placeholder={t("searchPlaceholder")}
                     defaultValue={query.search}
@@ -277,32 +279,26 @@ const SearchPage = (props) => {
                 }flex-none h-10 w-10 color-[#615043]`}
                 onClick={changePriceOrder}
               />
-              {t("asc")} / ({order? order : "desc"})
+              {t("asc")} / ({order ? order : "desc"})
             </div>
             <div className="flex flex-col items-center">
               <div
-                className={`${
-                  filterShow ? `lg:grid-cols-2 md:grid-cols-1` : `lg:grid-cols-3`
-                } md:w-5/6 w-[90%] grid gap-8 grid-cols-1 md:grid-cols-2 mb-20 mt-10 `}
+                className={classNames(
+                  filterShow ? "lg:grid-cols-2 grid-cols-1" : "grid-cols-1 lg:grid-cols-3",
+                  "md:w-5/6 w-[90%] grid gap-8 grid-cols-1 md:grid-cols-2 mb-20 mt-10"
+                )}
               >
                 {products.map((product) => (
-                  <ProductTemplate key={product.id} product={product} />
+                  <ProductTemplate key={product.id} product={product}/>
                 ))}
               </div>
               {products.length === 0 && <div>{t("noresult")}</div>}
-              {query.pageQuery === "1" ? (
-                products.length === nbMaxProduct && (
-                  <Pagination
-                    totalPages={pagination.totalPages}
-                    currentPage={pagination.page}
-                  />
-                )
-              ) : (
+              {pagination.totalPages >= 1 &&
                 <Pagination
                   totalPages={pagination.totalPages}
                   currentPage={pagination.page}
                 />
-              )}
+              }
             </div>
           </div>
         </div>
