@@ -24,8 +24,8 @@ export const getServerSideProps = async (context) => {
   if (err) {
     return {
       redirect: {
-        destination: "/",
-      },
+        destination: "/"
+      }
     }
   }
 
@@ -36,9 +36,9 @@ export const getServerSideProps = async (context) => {
       ...(await serverSideTranslations(locale, [
         "product",
         "footer",
-        "navbar",
-      ])),
-    },
+        "navbar"
+      ]))
+    }
   }
 }
 
@@ -52,7 +52,7 @@ const ProductPage = (props) => {
 
   const {
     actions: { addToCart },
-    state: { cartItems },
+    state: { cartItems }
   } = useAppContext()
 
   const inStock = product.quantity > 0
@@ -76,63 +76,46 @@ const ProductPage = (props) => {
 
   return (
     <>
-      <div className="flex justify-center">
-        <div className="w-full lg:w-3/5 ">
+      <div className="flex justify-center pb-10">
+        <div className="w-full lg:w-3/5 flex flex-col gap-10">
           <div className="flex flex-col lg:flex-row lg:justify-between items-center">
-            <div className="w-full mt-7 lg:w-1/2 flex justify-center lg:mt-0 lg:border-2 lg:border-black">
-              <ProductCarousel images={product.image} />
+            <div className="w-full lg:w-1/2 flex justify-center lg:border-2 lg:border-black">
+              <ProductCarousel images={product.image}/>
             </div>
-            <div className="w-4/5 lg:w-2/5 flex flex-col gap-8 h-[500px] mt-10  justify-center">
+            <div className="w-4/5 lg:w-2/5 flex flex-col gap-8 mt-10  justify-center">
               <div className="flex flex-col items-center lg:items-end font-semibold gap-5">
                 <span className="flex flex-col items-center lg:items-end gap-3">
                   <h1 className="font-extrabold text-md lg:text-2xl">
                     {product.name}
                   </h1>
-                  {product.promotion ? (
-                    <div className="flex gap-3 text-xl">
-                      <p className="line-through">{product.price} €</p>
-                      <p className="text-red-600">{product.promotion} €</p>
-                    </div>
-                  ) : (
-                    <div>{product.price} €</div>
-                  )}
+                  <div
+                    className={classNames(
+                      product.promotion && "flex-row-reverse", "align-center items-end flex gap-3"
+                    )}
+                  >
+                    <p className={product.promotion && "line-through"}>{product.price} €</p>
+                    {product.promotion &&
+                      <p className="text-red-600 text-xl">{product.promotion} €</p>
+                    }
+                  </div>
                   <p className="text-xs">
                     {inStock && t("inStock")}
                   </p>
                 </span>
               </div>
               <p>{product.description}</p>
-              <Button onClick={inStock && handleAddToCart} disabled={!inStock} variant={inStock ? "primary" : "disabled"}>
+              <Button onClick={inStock && handleAddToCart} disabled={!inStock}
+                      variant={inStock ? "primary" : "disabled"}>
                 <p>{inStock ? t("addCart") : t("outOfStock")}</p>
               </Button>
             </div>
           </div>
           {similarProducts.length > 0 && (
-            <div className="flex flex-col items-center space-y-3">
+            <div className="flex flex-col items-center gap-5">
               <h2 className="uppercase font-extrabold text-xl">
                 {t("similarProducts")}
               </h2>
-              <div
-                className={classNames(
-                  "overflow-x-auto scrollbar w-full flex gap-10 p-4",
-                  similarProducts.length < 3 && "justify-center"
-                )}
-              >
-                {similarProducts.map((product) => (
-                  <div
-                    key={product.id}
-                    className="flex-none w-full md:w-1/2 lg:w-1/3"
-                  >
-                    <SlideProducts
-                      image={product.image[0].url}
-                      productId={product.id}
-                      productName={product.name}
-                      productPrice={product.price}
-                      promotion={product.promotion}
-                    />
-                  </div>
-                ))}
-              </div>
+              <SlideProducts products={similarProducts}/>
             </div>
           )}
         </div>

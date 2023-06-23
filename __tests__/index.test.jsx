@@ -45,6 +45,7 @@ describe("MainPage", () => {
         },
       },
     ]
+
     const sales = [
       {
         id: 2,

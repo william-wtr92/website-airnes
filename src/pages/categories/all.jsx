@@ -1,8 +1,8 @@
 import getApi from "@/web/getAPI"
-import CategoryThumbnail from "@/components/app/content/CategoryThumbnail"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 import getCategoriesServices from "@/web/services/app/categories/getCategories"
+import CategoriesThumbnail from "@/components/app/content/CategoryThumbnail"
 
 export const getServerSideProps = async (context) => {
   const { locale } = context
@@ -54,7 +54,7 @@ const AllCategories = (props) => {
           </div>
         ) : (
           <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            <CategoryThumbnail categories={categories.data} />
+            <CategoriesThumbnail categories={categories.data} />
           </div>
         )}
       </div>

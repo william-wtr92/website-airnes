@@ -13,13 +13,13 @@ const Filters = (props) => {
         {name}
       </header>
 
-      <ul className="container overflow-y-scroll w-full h-52">
+      <ul className="container overflow-y-scroll w-full">
         {data.map((val) => (
           <li key={val.id}>
-            <label className="text-black font-bold text-md flex content-center gap-4 text-xl pb-4 pl-4">
+            <label className="text-black text-md flex content-center gap-4 pb-4 pl-4">
               <input
                 type="radio"
-                className="border border-black w-[25px] h-[25px]"
+                className="border border-black h-4 w-4"
                 value={val.id}
                 name={name}
                 onClick={(e) => handleClick(e.target.value, query)}

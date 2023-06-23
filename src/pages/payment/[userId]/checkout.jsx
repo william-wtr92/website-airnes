@@ -42,6 +42,7 @@ export const getServerSideProps = async (context) => {
       userId: query.userId,
       ...(await serverSideTranslations(locale, [
         "paycheck",
+        "address_form",
         "navbar",
         "footer",
       ])),
@@ -64,6 +65,7 @@ const defaultInitialValues = {
   name: "",
   address: "",
   complete: "",
+  postal_code: "",
   city: "",
 }
 
@@ -103,6 +105,7 @@ const Checkout = (props) => {
       name: chosen.name,
       address: chosen.address,
       complete: chosen.complete,
+      postal_code: chosen.postal_code,
       city: chosen.city,
     }))
   }, [data, selectedId, addressData])
@@ -130,7 +133,7 @@ const Checkout = (props) => {
     [router]
   )
 
-  const { t } = useTranslation("paycheck")
+  const { t } = useTranslation(["paycheck", "address_form"])
 
   return (
     <>
@@ -172,36 +175,46 @@ const Checkout = (props) => {
                   </Button>
                 </div>
 
-                <FormField
-                  name="lastName"
-                  label={t("labelFirstName")}
-                  className="basis-full md:basis-1/2 "
-                  readOnly
-                />
-                <FormField
-                  name="name"
-                  label={t("labelLastName")}
-                  className="basis-full md:basis-1/2"
-                  readOnly
-                />
-                <FormField
-                  name="address"
-                  label={t("labelAddress")}
-                  className="basis-full md:basis-1/2"
-                  readOnly
-                />
-                <FormField
-                  name="complete"
-                  label={t("labelComp")}
-                  className="basis-full md:basis-1/2"
-                  readOnly
-                />
-                <FormField
-                  name="city"
-                  label={t("labelCity")}
-                  className="w-fit basis-full"
-                  readOnly
-                />
+                <div className="grid md:grid-cols-2 gap-5 w-full">
+                  <FormField
+                    name="name"
+                    placeholder={t(`firstnamePlaceholder`, { ns: "address_form" })}
+                    label={t(`firstnameLabel`, { ns: "address_form" })}
+                    readOnly
+                  />
+                  <FormField
+                    name="lastName"
+                    placeholder={t(`lastnamePlaceholder`, { ns: "address_form" })}
+                    label={t(`lastnameLabel`, { ns: "address_form" })}
+                    readOnly
+                  />
+                  <FormField
+                    name="address"
+                    placeholder={t(`addressFullPlaceholder`, { ns: "address_form" })}
+                    label={t(`addressFullLabel`, { ns: "address_form" })}
+                    className="md:col-span-2"
+                    readOnly
+                  />
+                  <FormField
+                    name="complete"
+                    placeholder={t(`addressComplementPlaceholder`, { ns: "address_form" })}
+                    label={t(`addressComplementLabel`, { ns: "address_form" })}
+                    readOnly
+                  />
+                  <FormField
+                    name="postal_code"
+                    placeholder={t(`postalPlaceholder`, { ns: "address_form" })}
+                    label={t(`postalLabel`, { ns: "address_form" })}
+                    className="md:col-start-1"
+                    readOnly
+                  />
+                  <FormField
+                    name="city"
+                    placeholder={t(`cityPlaceholder`, { ns: "address_form" })}
+                    label={t(`cityLabel`, { ns: "address_form" })}
+                    readOnly
+                  />
+                </div>
               </div>
               <Button type="submit">{t("next")}</Button>
             </div>
@@ -212,10 +225,13 @@ const Checkout = (props) => {
         className={classNames(popupDisplay ? "block" : "hidden")}
         display={setPopupDisplay}
       >
-        <AddAddressForm
-          setDisplay={setPopupDisplay}
-          refreshData={refreshData}
-        />
+        <div className="p-5">
+          <AddAddressForm
+            setDisplay={setPopupDisplay}
+            refreshData={refreshData}
+          />
+        </div>
+
       </Popup>
     </>
   )

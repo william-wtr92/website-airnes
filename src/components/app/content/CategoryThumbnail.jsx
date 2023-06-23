@@ -1,7 +1,7 @@
 import Image from "next/image"
 import { NavLink } from "@/components/utils/NavLink"
 
-const CategoryThumbnail = (props) => {
+const CategoriesThumbnail = (props) => {
   const { categories } = props
 
   return categories.map((category) => (
@@ -26,4 +26,4 @@ const CategoryThumbnail = (props) => {
   ))
 }
 
-export default CategoryThumbnail
+export default CategoriesThumbnail

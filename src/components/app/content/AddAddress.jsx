@@ -66,7 +66,7 @@ const AddAddressForm = (props) => {
     [addAddress, router, session, redirect, setDisplay, refreshData]
   )
 
-  const { t } = useTranslation("addaddress")
+  const { t } = useTranslation("address_form")
 
   return (
     <>
@@ -77,61 +77,53 @@ const AddAddressForm = (props) => {
         error={error}
       >
         <Form>
-          <div className="flex flex-col my-10 items-center ">
+          <div className="flex flex-col gap-10 items-center">
             <div className="w-4/5 lg:w-2/5">
-              <h1 className="font-bold text-xl my-8 text-center">
-                {t("addText")}
-              </h1>
-              <div className="flex flex-col lg:flex-row mb-4  gap-4 lg:gap-12">
+              <div className="grid md:grid-cols-2 gap-5">
+                <h1 className="font-bold text-xl my-8 text-center col-span-2">
+                  {t("addText")}
+                </h1>
                 <FormField
                   name="name"
-                  placeholder={t("firstnamePlaceholder")}
-                  label={t("firstnameLabel")}
-                  className="lg:w-2/5"
+                  placeholder={t(`firstnamePlaceholder`)}
+                  label={t(`firstnameLabel`)}
                 />
                 <FormField
                   name="lastName"
-                  placeholder={t("lastnamePlaceholder")}
-                  label={t("lastnameLabel")}
-                  className="lg:w-2/5"
+                  placeholder={t(`lastnamePlaceholder`)}
+                  label={t(`lastnameLabel`)}
                 />
-              </div>
-              <FormField
-                name="addressName"
-                placeholder={t("addressNamePlaceholder")}
-                label={t("addressNameLabel")}
-                className="w-3/5 mb-4"
-              />
-              <div className="flex flex-col lg:flex-row mb-4 gap-4 lg:gap-12">
+                <FormField
+                  name="addressName"
+                  placeholder={t(`addressNamePlaceholder`)}
+                  label={t(`addressNameLabel`)}
+                  className="md:col-span-2"
+                />
                 <FormField
                   name="address"
-                  placeholder={t("addressFullPlaceholder")}
-                  label={t("addressFullLabel")}
-                  className="lg:w-2/5"
+                  placeholder={t(`addressFullPlaceholder`)}
+                  label={t(`addressFullLabel`)}
+                  className="md:col-span-2"
                 />
                 <FormField
                   name="complete"
-                  placeholder={t("addressComplementPlaceholder")}
-                  label={t("addressComplementLabel")}
-                  className="lg:w-2/5"
+                  placeholder={t(`addressComplementPlaceholder`)}
+                  label={t(`addressComplementLabel`)}
                 />
-              </div>
-              <div className="flex flex-col lg:flex-row mb-4 lg:mb-12 gap-4 lg:gap-12">
                 <FormField
                   name="postal_code"
-                  placeholder={t("postalPlaceholder")}
-                  label={t("postalLabel")}
-                  className="lg:w-2/5"
+                  placeholder={t(`postalPlaceholder`)}
+                  label={t(`postalLabel`)}
+                  className="md:col-start-1"
                 />
                 <FormField
                   name="city"
-                  placeholder={t("cityPlaceholder")}
-                  label={t("cityLabel")}
-                  className="lg:w-2/5"
+                  placeholder={t(`cityPlaceholder`)}
+                  label={t(`cityLabel`)}
                 />
               </div>
             </div>
-            <Button className="lg:w-1/5">{t("buttonText")}</Button>
+            <Button>{t(`buttonText`)}</Button>
           </div>
         </Form>
       </Formik>

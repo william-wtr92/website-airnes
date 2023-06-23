@@ -1,5 +1,6 @@
 {
-  "addText": "Ajouter une address",
+  "addText": "Ajouter une adresse",
+  "editText": "Modifier l'adresse",
   "firstnameLabel": "Prénom",
   "firstnamePlaceholder": "Entrez votre prénom",
   "lastnameLabel": "Nom",

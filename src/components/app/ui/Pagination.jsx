@@ -1,5 +1,6 @@
 import { useRouter } from "next/router"
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid"
+import classNames from "classnames"
 
 const Pagination = (props) => {
   const { totalPages, currentPage } = props
@@ -31,7 +32,7 @@ const Pagination = (props) => {
   }
 
   return (
-    <div className="flex items-center justify-center mt-6">
+    <div className={classNames(totalPages <= 1 && "hidden", "flex items-center justify-center mt-6")}>
       {currentPage > 1 && (
         <button
           onClick={() => handlePageChange(previousPage)}

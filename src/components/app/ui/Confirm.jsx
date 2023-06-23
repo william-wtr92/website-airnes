@@ -11,7 +11,7 @@ const Confirm = (props) => {
     if (Array.isArray(params)) {
       action(...params)()
     } else {
-      action()
+      action(params)
     }
   }
 

@@ -5,7 +5,7 @@ const HomepageProducts = (props) => {
   const { products } = props
 
   return (
-    <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+    <div className="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-8">
       {products.map(({ product }) => (
         <NavLink
           key={product.id}
@@ -15,7 +15,7 @@ const HomepageProducts = (props) => {
             <Image
               src={product.image[0].url}
               alt={product.name}
-              className="object-cover h-52"
+              className="object-cover h-52 rounded-lg"
               width={500}
               height={500}
             />

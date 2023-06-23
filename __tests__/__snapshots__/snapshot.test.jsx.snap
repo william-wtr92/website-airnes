@@ -7,60 +7,30 @@ exports[`Main page renders correctly 1`] = `
     <div>
       <main>
         <div
-          class="flex flex-col gap-6 justify-center items-center h-72 lg:h-96"
+          class="flex flex-col gap-10 py-5"
         >
           <div
-            class="animate-spin w-8 h-8 border-t-2 border-transparent border-primary rounded-full"
-          />
-          <p
-            class="font-bold"
-          >
-            No images available !
-          </p>
-        </div>
-        <div
-          class="flex flex-col gap-8"
-        >
-          <div
-            class="text-center text-[13px] font-bold lg:py-6 lg:text-xl"
-          >
-            <p>
-              highlands
-              <br />
-              ourFurniture
-            </p>
-          </div>
-          <div
-            class="flex flex-wrap justify-center"
+            class="flex flex-col gap-8"
           >
             <div
-              class="flex flex-wrap justify-center lg:justify-between"
+              class="text-center text-[13px] font-bold lg:text-xl"
             >
-              <div
-                class="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-8"
-              />
+              <p>
+                highlands
+                <br />
+                ourFurniture
+              </p>
             </div>
           </div>
-        </div>
-        <div
-          class="flex flex-col gap-8"
-        >
           <div
-            class="text-center text-[13px] font-bold lg:py-6 lg:text-xl"
-          >
-            <p>
-              popularProducts
-            </p>
-          </div>
-          <div
-            class="flex flex-wrap justify-center"
+            class="flex flex-col gap-8"
           >
             <div
-              class="flex flex-wrap justify-center lg:justify-between"
+              class="text-center text-[13px] font-bold lg:text-xl"
             >
-              <div
-                class="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-8"
-              />
+              <p>
+                popularProducts
+              </p>
             </div>
           </div>
         </div>
@@ -70,60 +40,30 @@ exports[`Main page renders correctly 1`] = `
   "container": <div>
     <main>
       <div
-        class="flex flex-col gap-6 justify-center items-center h-72 lg:h-96"
+        class="flex flex-col gap-10 py-5"
       >
         <div
-          class="animate-spin w-8 h-8 border-t-2 border-transparent border-primary rounded-full"
-        />
-        <p
-          class="font-bold"
-        >
-          No images available !
-        </p>
-      </div>
-      <div
-        class="flex flex-col gap-8"
-      >
-        <div
-          class="text-center text-[13px] font-bold lg:py-6 lg:text-xl"
-        >
-          <p>
-            highlands
-            <br />
-            ourFurniture
-          </p>
-        </div>
-        <div
-          class="flex flex-wrap justify-center"
+          class="flex flex-col gap-8"
         >
           <div
-            class="flex flex-wrap justify-center lg:justify-between"
+            class="text-center text-[13px] font-bold lg:text-xl"
           >
-            <div
-              class="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-8"
-            />
+            <p>
+              highlands
+              <br />
+              ourFurniture
+            </p>
           </div>
         </div>
-      </div>
-      <div
-        class="flex flex-col gap-8"
-      >
         <div
-          class="text-center text-[13px] font-bold lg:py-6 lg:text-xl"
-        >
-          <p>
-            popularProducts
-          </p>
-        </div>
-        <div
-          class="flex flex-wrap justify-center"
+          class="flex flex-col gap-8"
         >
           <div
-            class="flex flex-wrap justify-center lg:justify-between"
+            class="text-center text-[13px] font-bold lg:text-xl"
           >
-            <div
-              class="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-8"
-            />
+            <p>
+              popularProducts
+            </p>
           </div>
         </div>
       </div>
