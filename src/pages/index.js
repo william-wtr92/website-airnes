@@ -28,8 +28,8 @@ export const getServerSideProps = async (context) => {
   if (errCarouselQuery || errCategoryQuery || errProductQuery || errSaleQuery) {
     return {
       redirect: {
-        destination: "/categories/all"
-      }
+        destination: "/categories/all",
+      },
     }
   }
 
@@ -39,34 +39,32 @@ export const getServerSideProps = async (context) => {
       products: productQuery.result,
       categories: categoryQuery.result,
       sales: saleQuery.result,
-      ...(await serverSideTranslations(locale, ["common", "footer", "navbar"]))
-    }
+      ...(await serverSideTranslations(locale, ["common", "footer", "navbar"])),
+    },
   }
 }
 
 const Main = (props) => {
-  const { carousel, products, categories, sales } = props
+  const { carousel, products, categories, sales = [] } = props
   const { t } = useTranslation("common")
 
   return (
     <>
       <main>
-        {carousel.length > 0 && (
-          <Carousel data={carousel}/>
-        )}
+        {carousel.length > 0 && <Carousel data={carousel} />}
         <div className="flex flex-col gap-10 py-5">
           <div className="flex flex-col gap-8">
             <div className="text-center text-[13px] font-bold lg:text-xl">
               <p>
                 {t("highlands")}
-                <br/>
+                <br />
                 {t("ourFurniture")}
               </p>
             </div>
             {categories.length > 0 && (
               <div className="flex flex-wrap justify-center">
                 <div className="flex flex-wrap justify-center lg:justify-between">
-                  <HomepageCategories categories={categories}/>
+                  <HomepageCategories categories={categories} />
                 </div>
               </div>
             )}
@@ -78,7 +76,7 @@ const Main = (props) => {
             {products.length > 0 && (
               <div className="flex flex-wrap justify-center">
                 <div className="flex flex-wrap justify-center lg:justify-between">
-                  <HomepageProducts products={products}/>
+                  <HomepageProducts products={products} />
                 </div>
               </div>
             )}
@@ -89,7 +87,7 @@ const Main = (props) => {
                 <h3 className="uppercase font-bold text-xl tracking-widest">
                   {t("promotions")}
                 </h3>
-                <SlideProducts products={sales}/>
+                <SlideProducts products={sales} />
               </div>
             </div>
           )}
