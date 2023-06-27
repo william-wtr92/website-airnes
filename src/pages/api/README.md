@@ -65,12 +65,12 @@ This route generates a token to authenticate the user when they click on the lin
 
 - `PATCH /api/reset_password` - Resets the password
 
-````json
+```json
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
   "password": "f349OQAv!kIS"
 }
-````
+```
 
 ### Products
 
@@ -82,23 +82,23 @@ to the admin products route if you want to display all the products.
 This route allows an optional parameters: “sale”, a boolean indicating whether you only want sales products or all of
 them. You also have to specify the page index:
 
-````json
+```json
 {
   "sale": true,
   "page": 1
 }
-````
+```
 
 - `GET /api/app/products/{productId}` - Returns a specific product
 
 This route allows an optional parameters: “withSimilarProducts”, indicating whether you want to see similar products (
 from the same category) or not.
 
-````json
+```json
 {
   "withSimilarProducts": true
 }
-````
+```
 
 - `GET /api/app/products/filter` - Returns all the public products and the materials available
 
@@ -116,7 +116,7 @@ This route is a bit more complicated. Here is a list of all the available parame
 - minPrice: the smallest price;
 - maxPrice: the biggest price.
 
-````json
+```json
 {
   "page": 1,
   "search": "little table",
@@ -128,7 +128,7 @@ This route is a bit more complicated. Here is a list of all the available parame
   "minPrice": 10,
   "maxPrice": 200
 }
-````
+```
 
 ### Categories
 
@@ -183,7 +183,7 @@ Only admin can use these routes. They are all used in the backoffice.
 }
 ```
 
-- `DELETE /api/admin/categories/homepage/{categoryId}` - Deletes a category to the homepage
+- `DELETE /api/admin/categories/homepage/{categoryId}` - Deletes a category from the homepage
 
 ### Homepage selected products
 
@@ -209,7 +209,8 @@ Only admin can use these routes. They are all used in the backoffice.
 
 ### Dashboard
 
-- `GET /api/admin/dashboard` - Gets statistics: the number of users, products, recent sells, top sells and sells per day.
+- `GET /api/admin/dashboard` - Gets statistics: the number of users, products, recent sells, top sells and sells per
+  day.
 
 ### Contact requests
 
@@ -283,6 +284,28 @@ This route has 3 optional parameters, the same as GET /api/admin/contacts/contac
 
 - `GET /api/admin/materials/material` - Returns all the materials
 
+- `GET /api/admin/materials/{materialId}` - Returns a given material
+
+- `POST /api/admin/materials/material` - Adds a material
+
+```json
+{
+  "name": "Wood",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+}
+```
+
+- `PATCH /api/admin/materials/{materialId}` - Modifies a given material
+
+```json
+{
+  "name": "Steel",
+  "description": "Lorem ipsum dolor sit amet"
+}
+```
+
+- `DELETE /api/admin/materials/{materialId}` - Deletes a given material
+
 ### Products
 
 - `GET /api/admin/products/product` - Returns all the products
@@ -317,7 +340,8 @@ This route has one optional parameters, the “promotion”. It should be less t
   "promotion": 100,
   "quantity": 423,
   "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
-  "material": "Wood"
+  "material": "Wood",
+  "priority": true
 }
 ```
 
@@ -433,8 +457,8 @@ This route create an order and associate that order to the products in the cart
 
 ```json
 {
-  "payment_intent": "...",
-  "redirect_status": "...",
+  "payment_intent": "pi_3NNXdhIACBtQSJSw1hyxE3Jr",
+  "redirect_status": "succeeded",
   "cartItems": [
     "item 1",
     "item 2"
