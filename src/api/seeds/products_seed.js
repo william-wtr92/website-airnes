@@ -18,6 +18,8 @@ const materialId = async (db, name) => {
 }
 
 const seed = async () => {
+  await db("order_product").del()
+  await db("order").del()
   await db("selected_category").del()
   await db("selected_product").del()
   await db("product").del()
