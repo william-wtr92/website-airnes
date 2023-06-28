@@ -91,7 +91,9 @@ const handler = mw({
     }) => {
       const id = userId
 
-      await UserModel.query().deleteById(id)
+      await UserModel.query().updateAndFetchById(id, {
+        disabled: true,
+      })
 
       res.send({ result: true })
     },

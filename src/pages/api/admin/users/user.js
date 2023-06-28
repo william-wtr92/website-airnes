@@ -39,6 +39,7 @@ const handler = mw({
 
       const newUser = user.map((item) => ({
         ...item,
+        disabled: item.disabled ? "true" : "false",
         right: item.roleData.right,
       }))
 

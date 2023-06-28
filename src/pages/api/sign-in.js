@@ -24,11 +24,13 @@ const handler = mw({
       },
       res,
     }) => {
-      const user = await UserModel.query().findOne({ mail }).withGraphFetched("roleData")
+      const user = await UserModel.query()
+        .findOne({ mail })
+        .withGraphFetched("roleData")
 
       const validity = await user.checkPassword(password)
 
-      if (!user || !validity) {
+      if (!user || !validity || user.disabled) {
         throw new InvalidCredentialsError()
       }
 
