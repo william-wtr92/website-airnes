@@ -32,7 +32,7 @@ class UserModel extends BaseModel {
   static get modifiers() {
     return {
       sanitize(builder) {
-        builder.select("id", "mail", "name")
+        builder.select("id", "mail", "name", "disabled")
       },
     }
   }

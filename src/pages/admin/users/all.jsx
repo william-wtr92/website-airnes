@@ -70,8 +70,8 @@ const AllUsers = (props) => {
           canAdd={false}
           canEdit={true}
           deleteRoute={handleDelete}
-          columns={["id", "Name", "Mail", "Right"]}
-          fields={["id", "name", "mail", "right"]}
+          columns={["id", "Name", "Mail", "disabled", "Right"]}
+          fields={["id", "name", "mail", "disabled", "right"]}
           query={query}
         />
       )}

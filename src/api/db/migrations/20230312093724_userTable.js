@@ -16,6 +16,7 @@ export const up = async (knex) => {
     table.text("passwordSalt").notNullable()
     table.timestamps(true, true, true)
     table.integer("roleid").references("id").inTable("role").defaultTo(2)
+    table.boolean("disabled").defaultTo(false)
   })
 }
 
