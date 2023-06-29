@@ -44,8 +44,8 @@ export const getServerSideProps = async (context) => {
 
 export const userAdminValidationschema = yup.object().shape({
   roleId: yup.number(),
-  name: yup.string(),
-  mail: yup.string().email(),
+  name: yup.string().required(),
+  mail: yup.string().email().required(),
 })
 
 const EditUser = (props) => {

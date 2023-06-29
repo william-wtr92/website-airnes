@@ -48,8 +48,8 @@ const handler = mw({
       },
       body: {
         roleid: numberValidator,
-        name: stringValidator,
-        mail: mailValidator,
+        name: stringValidator.required(),
+        mail: mailValidator.required(),
       },
     }),
     async ({
