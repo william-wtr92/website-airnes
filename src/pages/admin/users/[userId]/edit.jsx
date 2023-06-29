@@ -9,6 +9,7 @@ import getApi from "@/web/getAPI"
 import { getAuthorization } from "@/web/helper/getAuthorization"
 import UserDataServices from "@/web/services/admin/users/userData"
 import AdminErrorMessage from "@/components/utils/AdminErrorMessage"
+import FormField from "@/components/utils/FormField"
 
 export const getServerSideProps = async (context) => {
   const redirect = getAuthorization("admin", context.req)
@@ -42,7 +43,9 @@ export const getServerSideProps = async (context) => {
 }
 
 export const userAdminValidationschema = yup.object().shape({
-  roleId: yup.number().required(),
+  roleId: yup.number(),
+  name: yup.string(),
+  mail: yup.string().email(),
 })
 
 const EditUser = (props) => {
@@ -65,7 +68,7 @@ const EditUser = (props) => {
     async (values) => {
       setError(null)
 
-      const [err] = await patchRole({ userId, roleid: values.roleId })
+      const [err] = await patchRole({ userId, roleid: values.roleId, values })
 
       if (err) {
         setError(err)
@@ -92,6 +95,18 @@ const EditUser = (props) => {
             error={error}
           >
             <Form className="flex flex-col gap-5">
+              <FormField
+                type="text"
+                name="mail"
+                placeholder="Mail"
+                label="Mail"
+              />
+              <FormField
+                type="text"
+                name="name"
+                placeholder="Name"
+                label="Name"
+              />
               <span className="text-md font-semibold">Role</span>
               <Field
                 as="select"
