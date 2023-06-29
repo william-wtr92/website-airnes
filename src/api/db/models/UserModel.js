@@ -34,6 +34,9 @@ class UserModel extends BaseModel {
       sanitize(builder) {
         builder.select("id", "mail", "name", "disabled")
       },
+      sanitizeEditAdmin(builder) {
+        builder.select("mail", "name", "roleid")
+      },
     }
   }
 

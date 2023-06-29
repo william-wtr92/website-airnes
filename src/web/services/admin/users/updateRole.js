@@ -2,12 +2,14 @@ import routes from "@/web/routes"
 
 const patchRole =
   ({ api }) =>
-  async ({ userId, roleid }) => {
+  async ({ userId, roleid, values }) => {
     try {
       const { data } = await api.patch(
         routes.api.admin.users.patchRole(userId),
         {
           roleid,
+          name: values.name,
+          mail: values.mail,
         }
       )
 

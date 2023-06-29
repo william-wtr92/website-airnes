@@ -1,10 +1,14 @@
 import mw from "@/api/mw"
 import validate from "@/api/middlewares/validate"
-import { numberValidator } from "@/components/validation/validation"
+import {
+  numberValidator,
+  stringValidator,
+} from "@/components/validation/validation"
 import { NotFoundError } from "@/api/errors"
 import UserModel from "@/api/db/models/UserModel"
 import RoleModel from "@/api/db/models/RoleModel"
 import auth from "@/api/middlewares/auth"
+import { mailValidator } from "@/components/validation/contact"
 
 const handler = mw({
   GET: [
@@ -21,7 +25,9 @@ const handler = mw({
       res,
     }) => {
       const id = userId
-      const user = await UserModel.query().findOne({ id }).select("roleid")
+      const user = await UserModel.query()
+        .findOne({ id })
+        .modify("sanitizeEditAdmin")
       const role = await RoleModel.query()
 
       if (!user) {
@@ -41,13 +47,15 @@ const handler = mw({
         userId: numberValidator.required(),
       },
       body: {
-        roleid: numberValidator.required(),
+        roleid: numberValidator,
+        name: stringValidator.required(),
+        mail: mailValidator.required(),
       },
     }),
     async ({
       locals: {
         query: { userId },
-        body: { roleid },
+        body: { roleid, name, mail },
       },
       res,
     }) => {
@@ -58,6 +66,8 @@ const handler = mw({
       try {
         await UserModel.query().updateAndFetchById(id, {
           ...(user.roleid !== roleid ? { roleid } : {}),
+          ...(user.mail !== mail ? { mail } : {}),
+          ...(user.name !== name ? { name } : {}),
         })
       } catch {
         res.status(500).send({ error: "Oops. Something went wrong." })

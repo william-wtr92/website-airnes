@@ -377,7 +377,9 @@ Reminder: the only roles available are
 
 ```json
 {
-  "roleid": 2
+  "roleid": 2,
+  "name": "John Doe",
+  "mail": "john@doe.com"
 }
 ```
 
@@ -444,10 +446,7 @@ This route is a requisite for the api/cart/confirmOrder one.
 
 ```json
 {
-  "items": [
-    "item 1",
-    "item 2"
-  ]
+  "items": ["item 1", "item 2"]
 }
 ```
 
@@ -459,10 +458,7 @@ This route create an order and associate that order to the products in the cart
 {
   "payment_intent": "pi_3NNXdhIACBtQSJSw1hyxE3Jr",
   "redirect_status": "succeeded",
-  "cartItems": [
-    "item 1",
-    "item 2"
-  ]
+  "cartItems": ["item 1", "item 2"]
 }
 ```
 
