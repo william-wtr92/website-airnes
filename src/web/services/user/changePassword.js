@@ -2,11 +2,12 @@ import routes from "@/web/routes"
 
 const changePassword =
   ({ api }) =>
-  async ({ userId, password }) => {
+  async ({ userId, oldPassword, password }) => {
     try {
       const { data } = await api.patch(
         routes.api.user.changePasswordUser(userId),
         {
+          oldPassword,
           password,
         }
       )

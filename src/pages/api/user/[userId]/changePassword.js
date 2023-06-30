@@ -17,19 +17,27 @@ const handler = mw({
         userId: numberValidator.required(),
       },
       body: {
+        oldPassword: stringValidator.required(),
         password: stringValidator.required(),
       },
     }),
     async ({
       locals: {
         query: { userId },
-        body: { password },
+        body: { oldPassword, password },
       },
       res,
     }) => {
       const id = userId
 
       const user = await UserModel.query().findOne({ id })
+
+      const checkPassword = await user.checkPassword(oldPassword)
+
+      if (!checkPassword) {
+        throw new InvalidCredentialsError()
+      }
+
       const samePassword = await user.checkPassword(password)
 
       if (samePassword) {

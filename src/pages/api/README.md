@@ -405,6 +405,7 @@ Only corresponding users (connected and in the query) and admin can use them
 ```json
 {
   "userId": 1,
+  "oldPassword": "oldpassword&123",
   "password": "Azerty&123"
 }
 ```

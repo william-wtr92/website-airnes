@@ -1,0 +1,10 @@
+{
+  "title": "Գաղտնաբառի փոփոխություն",
+  "oldPwdPlaceholder": "Հին գաղտնաբառ",
+  "oldPwd": "Մուտքագրեք ձեր հին գաղտնաբառը",
+  "newPwdPlaceholder": "Նոր գաղտնաբառ",
+  "newPwd": "Մուտքագրեք ձեր նոր գաղտնաբառը",
+  "confirmNewPwdPlaceholder": "Գաղտնաբառի հաստատում",
+  "confirmNewPwd": "Հաստատեք ձեր գաղտնաբառը",
+  "buttonText": "Հաստատել"
+}

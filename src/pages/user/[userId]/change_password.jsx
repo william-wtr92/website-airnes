@@ -4,13 +4,13 @@ import Button from "@/components/app/ui/Button"
 import useAppContext from "@/web/hooks/useAppContext"
 import { useCallback, useState } from "react"
 import { useRouter } from "next/router"
-import {
-  resetpwdInitialValues,
-  resetpwdValidationSchema,
-} from "@/components/validation/reset_password"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { getAuthorization } from "@/web/helper/getAuthorization"
+import {
+  changepwdInitialValues,
+  changepwdValidationSchema,
+} from "@/components/validation/changePassword"
 
 export const getServerSideProps = async (context) => {
   const { req, query, locale } = context
@@ -22,7 +22,7 @@ export const getServerSideProps = async (context) => {
   }
 
   const translations = await serverSideTranslations(locale, [
-    "resetpwd",
+    "changepwd",
     "navbar",
     "footer",
   ])
@@ -49,6 +49,7 @@ const ChangePassword = (props) => {
     async (values) => {
       const [error] = await ChangePassword({
         userId,
+        oldPassword: values.oldPassword,
         password: values.password,
       })
 
@@ -63,31 +64,38 @@ const ChangePassword = (props) => {
     [ChangePassword, router, userId]
   )
 
-  const { t } = useTranslation("resetpwd")
+  const { t } = useTranslation("changepwd")
 
   return (
     <>
       <Formik
         onSubmit={handlepost}
-        initialValues={resetpwdInitialValues}
-        validationSchema={resetpwdValidationSchema}
+        initialValues={changepwdInitialValues}
+        validationSchema={changepwdValidationSchema}
         error={error}
       >
         <div className="gap-10 flex flex-col justify-center mx-6 mt-20 py-10 px-10 lg:w-[450px] lg:py-16 lg:mx-auto  lg:mt-28">
-          <div className="text-center text-3xl text-black">{t(`lostText`)}</div>
+          <div className="text-center text-3xl text-black">{t(`title`)}</div>
           <Form className="flex flex-col">
             <Formfield
               type="password"
+              name="oldPassword"
+              placeholder={t(`oldPwdPlaceholder`)}
+              label={t(`oldPwd`)}
+              className="mb-2 pb-10"
+            />
+            <Formfield
+              type="password"
               name="password"
-              placeholder={t(`enterPlaceholder`)}
-              label={t(`enterLabel`)}
+              placeholder={t(`newPwdPlaceholder`)}
+              label={t(`newPwd`)}
               className="mb-2 pb-10"
             />
             <Formfield
               type="password"
               name="passwordConfirmation"
-              placeholder={t(`confirmPlaceholder`)}
-              label={t(`confirmLabel`)}
+              placeholder={t(`confirmNewPwdPlaceholder`)}
+              label={t(`confirmNewPwd`)}
               className="mb-2 pb-10"
             />
             {error && <span className="text-red-700">{error}</span>}
