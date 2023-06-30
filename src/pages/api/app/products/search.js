@@ -107,7 +107,7 @@ const handler = mw({
 
       if (order) {
         products = await productsQuery
-            .orderByRaw("priority DESC, CASE WHEN promotion > 0 THEN promotion ELSE price END " + order)
+            .orderByRaw("CASE WHEN promotion > 0 THEN promotion ELSE price END " + order)
             .limit(limit)
             .offset(offset)
       } else {
