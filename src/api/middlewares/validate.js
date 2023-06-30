@@ -1,5 +1,5 @@
 import * as yup from "yup"
-import { NotFoundError } from "../errors"
+import { InvalidNewPasswordError, NotFoundError } from "../errors"
 
 const validate = ({ body, params, query }) => {
   const validator = yup.object().shape({
@@ -37,6 +37,12 @@ const validate = ({ body, params, query }) => {
 
       if (err instanceof NotFoundError) {
         res.status(404).send({ error: err.errors[0] })
+
+        return
+      }
+
+      if (err instanceof InvalidNewPasswordError) {
+        res.status(422).send({ error: err.errors[0] })
 
         return
       }

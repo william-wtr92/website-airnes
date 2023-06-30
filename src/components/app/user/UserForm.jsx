@@ -6,7 +6,7 @@ import Button from "@/components/app/ui/Button"
 import { useTranslation } from "next-i18next"
 
 const UserForm = (props) => {
-  const { onSubmit, initialValues, error } = props
+  const { onSubmit, initialValues, error, userId } = props
 
   const { t } = useTranslation("settingsAccount")
 
@@ -33,13 +33,11 @@ const UserForm = (props) => {
           className=" mb-2"
         />
         <div className="my-4">
-          <NavLink href={`/user/reset_password`}>
+          <NavLink href={`/user/${userId}/change_password`}>
             <Button className="py-2">{t(`changePwd`)}</Button>
           </NavLink>
         </div>
-        <Button type="submit">
-          {t(`btnModify`)}
-        </Button>
+        <Button type="submit">{t(`btnModify`)}</Button>
       </Form>
     </Formik>
   )

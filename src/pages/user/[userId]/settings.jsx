@@ -5,7 +5,7 @@ import {
   ChevronRightIcon,
   TrashIcon,
   PencilIcon,
-  PlusIcon
+  PlusIcon,
 } from "@heroicons/react/24/solid"
 import { NavLink } from "@/components/utils/NavLink"
 import classNames from "classnames"
@@ -36,8 +36,8 @@ export const getServerSideProps = async (context) => {
   if (err) {
     return {
       redirect: {
-        destination: "/"
-      }
+        destination: "/",
+      },
     }
   }
 
@@ -48,9 +48,9 @@ export const getServerSideProps = async (context) => {
       ...(await serverSideTranslations(locale, [
         "settingsAccount",
         "navbar",
-        "footer"
-      ]))
-    }
+        "footer",
+      ])),
+    },
   }
 }
 
@@ -58,7 +58,7 @@ const Settings = (props) => {
   const { data, userId } = props
 
   const {
-    actions: { patchUser, deleteAddress, deleteUser, logout }
+    actions: { patchUser, deleteAddress, deleteUser, logout },
   } = useAppContext()
 
   const [viewAddressL, setViewAddressL] = useState(false)
@@ -70,7 +70,7 @@ const Settings = (props) => {
 
   const accountSettingsInitialValues = {
     name: data.result.name,
-    mail: data.result.mail
+    mail: data.result.mail,
   }
 
   const handleAddL = () => {
@@ -105,21 +105,20 @@ const Settings = (props) => {
     },
     [deleteAddress, userId]
   )
-  const handleDeleteUser = useCallback(
-    async () => {
-      setError(null)
-      const [err] = await deleteUser(userId)
+  const handleDeleteUser = useCallback(async () => {
+    setError(null)
+    const [err] = await deleteUser(userId)
 
-      if (err) {
-        setError(err)
+    if (err) {
+      setError(err)
 
-        return
-      }
+      return
+    }
 
-      localStorage.clear()
-      logout()
-      router.push("/")
-    }, [deleteUser, userId, router, logout])
+    localStorage.clear()
+    logout()
+    router.push("/")
+  }, [deleteUser, userId, router, logout])
 
   const handleConfirmAddress = useCallback(async () => {
     setConfirmDelAddress(true)
@@ -144,8 +143,8 @@ const Settings = (props) => {
               onSubmit={handleModify}
               initialValues={accountSettingsInitialValues}
               error={error}
-            >
-            </UserForm>
+              userId={userId}
+            ></UserForm>
           </div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3">
@@ -154,19 +153,26 @@ const Settings = (props) => {
           </h2>
           <div className="lg:col-span-2">
             <div>
-                <span className="flex justify-between">
-                  <span onClick={handleAddL} className="flex cursor-pointer">
-                    {viewAddressL ? <ChevronDownIcon className="w-6"/> : <ChevronRightIcon className="w-6"/>}
-                    {t(`orderAddress`)}
-                  </span>
-                  <div
-                    className={classNames(viewAddressL ? "block" : "hidden", "px-10")}
-                  >
-                    <NavLink href={`/user/${userId}/address/add`}>
-                      <PlusIcon className="w-6"/>
-                    </NavLink>
-                  </div>
+              <span className="flex justify-between">
+                <span onClick={handleAddL} className="flex cursor-pointer">
+                  {viewAddressL ? (
+                    <ChevronDownIcon className="w-6" />
+                  ) : (
+                    <ChevronRightIcon className="w-6" />
+                  )}
+                  {t(`orderAddress`)}
                 </span>
+                <div
+                  className={classNames(
+                    viewAddressL ? "block" : "hidden",
+                    "px-10"
+                  )}
+                >
+                  <NavLink href={`/user/${userId}/address/add`}>
+                    <PlusIcon className="w-6" />
+                  </NavLink>
+                </div>
+              </span>
               {data.result.allData.map((data) => (
                 <div
                   key={data.id}
@@ -178,23 +184,21 @@ const Settings = (props) => {
                   <div className="flex flex-col gap-2 w-full">
                     <span className="font-bold">{data.addressName}:</span>
                     <span>{data.address}</span>
+                    <span>{data.complete}</span>
                     <span>
-                        {data.complete}
-                      </span>
-                    <span>
-                        {data.postal_code}, {data.city}
-                      </span>
+                      {data.postal_code}, {data.city}
+                    </span>
                   </div>
                   <div className="flex flex-col gap-2 ml-auto group/edit lg:invisible group-hover/item:visible">
                     <NavLink href={`/user/${userId}/address/${data.id}/edit`}>
-                      <PencilIcon className="w-5 h-5"/>
+                      <PencilIcon className="w-5 h-5" />
                     </NavLink>
                     <button
                       key={data.id}
                       className="text-red-600"
                       onClick={() => handleConfirmAddress()}
                     >
-                      <TrashIcon className="w-5 h-5"/>
+                      <TrashIcon className="w-5 h-5" />
                     </button>
                   </div>
                   <Confirm
@@ -213,10 +217,7 @@ const Settings = (props) => {
           </div>
         </div>
         <div className="flex justify-end">
-          <Button
-            variant="danger"
-            onClick={() => handleConfirmUser()}
-          >
+          <Button variant="danger" onClick={() => handleConfirmUser()}>
             {t(`dltAccount`)}
           </Button>
           <Confirm

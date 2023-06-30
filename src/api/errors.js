@@ -40,6 +40,14 @@ export class InvalidArgumentError extends AppError {
   }
 }
 
+export class InvalidNewPasswordError extends AppError {
+  constructor(
+    errors = ["The new password must be different from the current one"]
+  ) {
+    super(errors, 422, "error.app.InvalidArgumentError")
+  }
+}
+
 export class InvalidCredentialsError extends AppError {
   constructor(errors = ["Invalid credentials"]) {
     super(errors, 401, "error.app.InvalidCredentialsError")
