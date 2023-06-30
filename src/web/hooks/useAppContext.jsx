@@ -37,6 +37,7 @@ import getAddressServices from "@/web/services/cart/getAddress"
 import createMaterialService from "@/web/services/admin/materials/addMaterial"
 import updateMaterialService from "@/web/services/admin/materials/updateMaterial"
 import deleteMaterialService from "@/web/services/admin/materials/deleteMaterial"
+import ChangePasswordService from "@/web/services/user/changePassword"
 
 import config from "@/web/config"
 import { i18n } from "next-i18next"
@@ -81,6 +82,7 @@ export const AppContextProvider = (props) => {
 
   const addAddress = addAddressService({ api })
   const patchUser = patchUserService({ api })
+  const ChangePassword = ChangePasswordService({ api })
   const patchRole = patchRoleService({ api })
   const patchAddress = patchAddressService({ api })
 
@@ -260,6 +262,7 @@ export const AppContextProvider = (props) => {
           addMaterial,
           updateMaterial,
           deleteMaterial,
+          ChangePassword,
         },
         state: {
           readCookie,

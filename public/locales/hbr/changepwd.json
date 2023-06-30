@@ -1,0 +1,10 @@
+{
+  "title": "שינוי סיסמא",
+  "oldPwdPlaceholder": "סיסמא ישנה",
+  "oldPwd": "הזן את הסיסמה הישנה שלך",
+  "newPwdPlaceholder": "סיסמא חדשה",
+  "newPwd": "הזן את הסיסמה החדשה שלך",
+  "confirmNewPwdPlaceholder": "אישור סיסמא",
+  "confirmNewPwd": "אשר את הסיסמה שלך",
+  "buttonText": "אשר"
+}

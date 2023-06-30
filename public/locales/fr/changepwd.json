@@ -1,0 +1,10 @@
+{
+  "title": "Changement de Mot de Passe",
+  "oldPwdPlaceholder": "Ancien Mot de Passe",
+  "oldPwd": "Entrez votre ancien mot de passe",
+  "newPwdPlaceholder": "Nouveau Mot de Passe",
+  "newPwd": "Entrez votre nouveau mot de passe",
+  "confirmNewPwdPlaceholder": "Comfirmation du Mot de Passe",
+  "confirmNewPwd": "Confirmez votre mot de passe",
+  "buttonText": "Confirmer"
+}

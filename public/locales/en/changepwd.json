@@ -1,0 +1,10 @@
+{
+  "title": "Change Password",
+  "oldPwdPlaceholder": "Old Password",
+  "oldPwd": "Enter your old password",
+  "newPwdPlaceholder": "New Password",
+  "newPwd": "Enter your new password",
+  "confirmNewPwdPlaceholder": "Password Confirmation",
+  "confirmNewPwd": "Confirm your password",
+  "buttonText": "Confirm"
+}

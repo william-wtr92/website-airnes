@@ -400,6 +400,16 @@ Only corresponding users (connected and in the query) and admin can use them
 }
 ```
 
+- `PATCH /api/user/{userId}/changePassword` - Updates a given user’s password
+
+```json
+{
+  "userId": 1,
+  "oldPassword": "oldpassword&123",
+  "password": "Azerty&123"
+}
+```
+
 - `DELETE /api/user/{userId}` - Deletes a given user
 
 ### Addresses
