@@ -45,9 +45,6 @@ const handler = mw({
       page = parseInt(page, 10) || 1
       const offset = (page - 1) * limit
 
-      const orderColumn = order ? "price" : "quantity"
-      const orderBy = order || "asc"
-
       const [noCategory] = await CategoryModel.query().where("name", "=", "No category")
 
       const productsQuery = ProductModel.query()
@@ -77,11 +74,23 @@ const handler = mw({
         }
 
         if (minPrice && minPrice !== 0) {
-          query.where("price", ">=", minPrice)
+          query.where(function() {
+            this.where("promotion", ">=", minPrice)
+                .andWhere("promotion", ">", 0)
+                .orWhere(function() {
+                  this.where("price", ">=", minPrice)
+                })
+          })
         }
 
         if (maxPrice && maxPrice !== 0) {
-          query.where("price", "<=", maxPrice)
+          query.where(function() {
+            this.where("promotion", ">=", maxPrice)
+                .andWhere("promotion", ">", 0)
+                .orWhere(function() {
+                  this.where("price", ">=", maxPrice)
+                })
+          })
         }
       }
 
@@ -94,11 +103,20 @@ const handler = mw({
       const totalCount = await productsQuery.clone().count("id as total").first()
       const total = parseInt(totalCount.total, 10)
 
-      let products = await productsQuery
-        .orderBy("priority", "desc")
-        .orderBy(orderColumn, orderBy)
-        .limit(limit)
-        .offset(offset)
+      let products
+
+      if (order) {
+        products = await productsQuery
+            .orderByRaw("CASE WHEN promotion > 0 THEN promotion ELSE price END " + order)
+            .limit(limit)
+            .offset(offset)
+      } else {
+        products = await productsQuery
+            .orderBy("priority", "desc")
+            .orderBy("quantity", "asc")
+            .limit(limit)
+            .offset(offset)
+      }
 
       if (products.length < limit && stock !== true) {
         const zeroQuantityProductsQuery = ProductModel.query()
